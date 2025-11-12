@@ -1,3 +1,5 @@
-# rukunin
+# Rukun.in App
 
-A new Flutter project.
+## System Architecture
+
+![architectural-diagram](docs/img/architectural-diagram.jpg)
