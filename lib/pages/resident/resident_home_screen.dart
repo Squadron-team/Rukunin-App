@@ -1,43 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
+import 'package:rukunin/pages/resident/resident_layout.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/event_card.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class ResidentHomeScreen extends StatelessWidget {
+  const ResidentHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'Selamat pagi, Pak Eko!',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined, color: Colors.black),
-            onPressed: () {
-              // Navigate to notifications
-            },
-          ),
-        ],
-      ),
+    return ResidentLayout(
+      title: 'Selamat pagi, Pak Eko!',
+      currentIndex: 0,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Upcoming Events Section
+              // Upcoming Events
               const Text(
                 'Kegiatan mendatang',
                 style: TextStyle(
@@ -48,7 +30,6 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // Events Carousel
               SizedBox(
                 height: 250,
                 child: PageView(
@@ -78,8 +59,9 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
 
-              // Dots Indicator
               const SizedBox(height: 12),
+
+              // Dots Indicator
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
@@ -100,7 +82,7 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 32),
 
-              // Quick Access Section
+              // Quick Access
               const Text(
                 'Menu Cepat',
                 style: TextStyle(
@@ -111,7 +93,6 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // Quick Access Grid
               GridView.count(
                 crossAxisCount: 3,
                 shrinkWrap: true,
@@ -154,26 +135,6 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: AppColors.primary,
-        unselectedItemColor: Colors.grey,
-        currentIndex: 0,
-        selectedLabelStyle: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-        ),
-        unselectedLabelStyle: const TextStyle(fontSize: 12),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-          BottomNavigationBarItem(icon: Icon(Icons.store), label: 'Pasar'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt_long),
-            label: 'Iuran',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Akun'),
-        ],
       ),
     );
   }
