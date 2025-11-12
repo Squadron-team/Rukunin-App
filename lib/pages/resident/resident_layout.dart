@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/pages/resident/account_screen.dart';
 import 'package:rukunin/pages/resident/marketplace_screen.dart';
 import 'package:rukunin/pages/resident/resident_home_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
@@ -89,10 +90,7 @@ class ResidentLayout extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.red,
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 1.5,
-                      ),
+                      border: Border.all(color: Colors.white, width: 1.5),
                     ),
                   ),
                 ),
@@ -189,7 +187,10 @@ class ResidentLayout extends StatelessWidget {
             Navigator.pushReplacementNamed(context, '/iuran');
             break;
           case 3:
-            Navigator.pushReplacementNamed(context, '/profile');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AccountScreen()),
+            );
             break;
         }
       },
@@ -207,9 +208,7 @@ class ResidentLayout extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: isSelected
-                    ? AppColors.primary
-                    : Colors.transparent,
+                color: isSelected ? AppColors.primary : Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
