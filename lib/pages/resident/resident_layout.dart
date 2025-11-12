@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/pages/resident/marketplace_screen.dart';
+import 'package:rukunin/pages/resident/resident_home_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class ResidentLayout extends StatelessWidget {
@@ -44,11 +46,25 @@ class ResidentLayout extends StatelessWidget {
         unselectedItemColor: Colors.grey,
         currentIndex: currentIndex,
         onTap: (int index) {
+          if (index == currentIndex) return;
+
           switch (index) {
             case 0:
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ResidentHomeScreen(),
+                ),
+                (route) => false,
+              );
               break;
             case 1:
-              Navigator.pushReplacementNamed(context, '/market');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MarketplaceScreen(),
+                ),
+              );
               break;
             case 2:
               Navigator.pushReplacementNamed(context, '/iuran');
@@ -66,7 +82,10 @@ class ResidentLayout extends StatelessWidget {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
           BottomNavigationBarItem(icon: Icon(Icons.store), label: 'Pasar'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Iuran'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.receipt_long),
+            label: 'Iuran',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Akun'),
         ],
       ),

@@ -5,8 +5,8 @@ import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/event_card.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class ResidentHomeScreen extends StatelessWidget {
+  const ResidentHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:rukunin/pages/resident/home_screen.dart';
+import 'package:rukunin/pages/resident/resident_home_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/buttons/social_sign_button.dart';
 
@@ -23,7 +23,7 @@ class _SignUpState extends State<SignUp> {
     // Add validation logic here
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
+      MaterialPageRoute(builder: (context) => const ResidentHomeScreen()),
     );
   }
 
