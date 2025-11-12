@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_core: ^4.2.1
 
 dev_dependencies:
   flutter_test:
