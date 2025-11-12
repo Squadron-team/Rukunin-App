@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:rukunin/pages/resident/home_screen.dart';
+import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/buttons/social_sign_button.dart';
 
 class SignUp extends StatefulWidget {
@@ -52,7 +53,7 @@ class _SignUpState extends State<SignUp> {
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFAB00),
+                  color: AppColors.primary,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -99,7 +100,7 @@ class _SignUpState extends State<SignUp> {
                     hintStyle: TextStyle(color: Colors.grey[400]),
                     prefixIcon: const Icon(
                       Icons.person_outline,
-                      color: Color(0xFFFFAB00),
+                      color: AppColors.primary,
                     ),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(
@@ -126,7 +127,7 @@ class _SignUpState extends State<SignUp> {
                     hintStyle: TextStyle(color: Colors.grey[400]),
                     prefixIcon: const Icon(
                       Icons.email_outlined,
-                      color: Color(0xFFFFAB00),
+                      color: AppColors.primary,
                     ),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(
@@ -153,7 +154,7 @@ class _SignUpState extends State<SignUp> {
                     hintStyle: TextStyle(color: Colors.grey[400]),
                     prefixIcon: const Icon(
                       Icons.lock_outline,
-                      color: Color(0xFFFFAB00),
+                      color: AppColors.primary,
                     ),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -193,7 +194,7 @@ class _SignUpState extends State<SignUp> {
                     hintStyle: TextStyle(color: Colors.grey[400]),
                     prefixIcon: const Icon(
                       Icons.lock_outline,
-                      color: Color(0xFFFFAB00),
+                      color: AppColors.primary,
                     ),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -226,7 +227,7 @@ class _SignUpState extends State<SignUp> {
                 child: ElevatedButton(
                   onPressed: () => _signUp(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFAB00),
+                    backgroundColor: AppColors.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -262,7 +263,7 @@ class _SignUpState extends State<SignUp> {
                     Navigator.pop(context);
                   },
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFFFFAB00)),
+                    side: const BorderSide(color: AppColors.primary),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -272,7 +273,7 @@ class _SignUpState extends State<SignUp> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFFFFAB00),
+                      color: AppColors.primary,
                     ),
                   ),
                 ),
@@ -351,7 +352,7 @@ class _SignUpState extends State<SignUp> {
                     TextSpan(
                       text: 'Lembar Ketentuan',
                       style: const TextStyle(
-                        color: Color(0xFFFFAB00),
+                        color: AppColors.primary,
                         decoration: TextDecoration.underline,
                       ),
                       recognizer: TapGestureRecognizer()
@@ -363,7 +364,7 @@ class _SignUpState extends State<SignUp> {
                     TextSpan(
                       text: 'Kebijakan Privasi',
                       style: const TextStyle(
-                        color: Color(0xFFFFAB00),
+                        color: AppColors.primary,
                         decoration: TextDecoration.underline,
                       ),
                       recognizer: TapGestureRecognizer()
