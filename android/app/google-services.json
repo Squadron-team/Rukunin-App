@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1029176612701",
+    "project_id": "rukunin-app",
+    "storage_bucket": "rukunin-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029176612701:android:57d0d935ee0d3e171fbab4",
+        "android_client_info": {
+          "package_name": "com.squadronteam.rukunin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsylITH2BwLK5OBnh3NystqMSX2YSDmH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
