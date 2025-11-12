@@ -31,7 +31,7 @@ class ResidentHomeScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               SizedBox(
-                height: 250,
+                height: 300,
                 child: PageView(
                   controller: PageController(viewportFraction: 0.9),
                   children: [
