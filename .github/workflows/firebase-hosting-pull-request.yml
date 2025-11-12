@@ -37,6 +37,6 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RUKUNIN_APP }}
-          projectId: pentagram-smt5
+          projectId: rukunin-app
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
