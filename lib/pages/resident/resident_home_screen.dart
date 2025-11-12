@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
 import 'package:rukunin/pages/resident/resident_layout.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/widgets/event_card.dart';
+import 'package:rukunin/widgets/cards/event_card.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
 
 class ResidentHomeScreen extends StatelessWidget {
