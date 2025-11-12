@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/resident/home_screen.dart';
+import 'package:rukunin/pages/general/sign_in.dart';
 
 void main() {
   runApp(const MainApp());
@@ -14,7 +14,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: HomeScreen(),
+          child: SignIn(),
         ),
       ),
     );
