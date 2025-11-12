@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/pages/general/notification_screen.dart';
 import 'package:rukunin/pages/resident/account_screen.dart';
 import 'package:rukunin/pages/resident/dues_screen.dart';
 import 'package:rukunin/pages/resident/marketplace_screen.dart';
@@ -58,15 +59,15 @@ class ResidentLayout extends StatelessWidget {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColors.primary.withOpacity(0.1),
-                        AppColors.primary.withOpacity(0.05),
+                        AppColors.primary.withAlpha(26),
+                        AppColors.primary.withAlpha(13),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: AppColors.primary.withOpacity(0.2),
+                      color: AppColors.primary.withAlpha(32),
                       width: 1,
                     ),
                   ),
@@ -77,7 +78,12 @@ class ResidentLayout extends StatelessWidget {
                       size: 22,
                     ),
                     onPressed: () {
-                      // TODO: navigate to notifications
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NotificationScreen(),
+                        ),
+                      );
                     },
                     padding: EdgeInsets.zero,
                   ),
@@ -107,7 +113,7 @@ class ResidentLayout extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withAlpha(20),
               blurRadius: 12,
               offset: const Offset(0, -4),
             ),

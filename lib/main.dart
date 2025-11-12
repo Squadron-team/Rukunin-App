@@ -8,7 +8,43 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(const MainApp());
+  runApp(const MobilePreviewWrapper(child: MainApp()));
+}
+
+class MobilePreviewWrapper extends StatelessWidget {
+  final Widget child;
+
+  const MobilePreviewWrapper({required this.child, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const mobileWidth = 390.0; // iPhone 14 width in logical pixels
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: Container(
+            width: mobileWidth,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 8,
+                  spreadRadius: 2,
+                ),
+              ],
+              borderRadius: BorderRadius.circular(20),
+            ),
+            clipBehavior: Clip.hardEdge,
+            child: child,
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class MainApp extends StatelessWidget {

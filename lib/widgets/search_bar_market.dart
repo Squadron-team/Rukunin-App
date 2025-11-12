@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/pages/resident/cart_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class SearchBarMarket extends StatelessWidget {
@@ -30,50 +31,26 @@ class SearchBarMarket extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Container(
-            height: 45,
-            width: 45,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Stack(
-              children: [
-                const Center(
-                  child: Icon(
-                    Icons.notifications_outlined,
-                    color: Colors.white,
-                    size: 24,
-                  ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CartScreen()),
+              );
+            },
+            child: Container(
+              height: 45,
+              width: 45,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.shopping_cart_outlined,
+                  color: Colors.white,
+                  size: 24,
                 ),
-                Positioned(
-                  right: 8,
-                  top: 8,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-          Container(
-            height: 45,
-            width: 45,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Center(
-              child: Icon(
-                Icons.shopping_cart_outlined,
-                color: Colors.white,
-                size: 24,
               ),
             ),
           ),
