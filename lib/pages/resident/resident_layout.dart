@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/resident/account_screen.dart';
+import 'package:rukunin/pages/resident/dues_screen.dart';
 import 'package:rukunin/pages/resident/marketplace_screen.dart';
 import 'package:rukunin/pages/resident/resident_home_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
@@ -165,40 +166,31 @@ class ResidentLayout extends StatelessWidget {
       onTap: () {
         if (index == currentIndex) return;
 
-        switch (index) {
-          case 0:
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ResidentHomeScreen(),
-              ),
-              (route) => false,
-            );
-            break;
-          case 1:
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const MarketplaceScreen(),
-              ),
-            );
-            break;
-          case 2:
-            Navigator.pushReplacementNamed(context, '/iuran');
-            break;
-          case 3:
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AccountScreen()),
-            );
-            break;
+        final screens = [
+          const ResidentHomeScreen(),
+          const MarketplaceScreen(),
+          const DuesScreen(),
+          const AccountScreen(),
+        ];
+
+        if (index == 0) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => screens[index]),
+            (route) => false,
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => screens[index]),
+          );
         }
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primary.withOpacity(0.15)
+              ? AppColors.primary.withAlpha(38)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
