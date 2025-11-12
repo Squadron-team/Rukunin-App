@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/pages/resident/home_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -13,7 +14,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: Text('Hello World!'),
+          child: HomeScreen(),
         ),
       ),
     );
