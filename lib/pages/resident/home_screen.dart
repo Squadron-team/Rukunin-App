@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
+import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/event_card.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
 
@@ -70,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                         location: 'Balai Warga',
                         date: '15 November 2025',
                         time: '07.00 WIB',
-                        categoryColor: const Color(0xFFFFAB00),
+                        categoryColor: AppColors.primary,
                       ),
                     ),
                   ],
@@ -121,32 +122,32 @@ class HomeScreen extends StatelessWidget {
                   QuickAccessItem(
                     icon: Icons.payment,
                     label: 'Iuran',
-                    color: Color(0xFFFFAB00),
+                    color: AppColors.primary,
                   ),
                   QuickAccessItem(
                     icon: Icons.article_outlined,
                     label: 'Pengumuman',
-                    color: Color(0xFFFFAB00),
+                    color: AppColors.primary,
                   ),
                   QuickAccessItem(
                     icon: Icons.event,
                     label: 'Kegiatan',
-                    color: Color(0xFFFFAB00),
+                    color: AppColors.primary,
                   ),
                   QuickAccessItem(
                     icon: Icons.people_outline,
                     label: 'Warga',
-                    color: Color(0xFFFFAB00),
+                    color: AppColors.primary,
                   ),
                   QuickAccessItem(
                     icon: Icons.report_problem_outlined,
                     label: 'Laporan',
-                    color: Color(0xFFFFAB00),
+                    color: AppColors.primary,
                   ),
                   QuickAccessItem(
                     icon: Icons.more_horiz,
                     label: 'Lainnya',
-                    color: Color(0xFFFFAB00),
+                    color: AppColors.primary,
                   ),
                 ],
               ),
@@ -156,7 +157,7 @@ class HomeScreen extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xFFFFAB00),
+        selectedItemColor: AppColors.primary,
         unselectedItemColor: Colors.grey,
         currentIndex: 0,
         selectedLabelStyle: const TextStyle(

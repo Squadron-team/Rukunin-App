@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:rukunin/pages/general/sign_up.dart';
 import 'package:rukunin/pages/resident/home_screen.dart';
+import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/buttons/social_sign_button.dart';
 
 class SignIn extends StatefulWidget {
@@ -47,7 +48,7 @@ class _SignInState extends State<SignIn> {
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFAB00),
+                  color: AppColors.primary,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -94,7 +95,7 @@ class _SignInState extends State<SignIn> {
                     hintStyle: TextStyle(color: Colors.grey[400]),
                     prefixIcon: const Icon(
                       Icons.email_outlined,
-                      color: Color(0xFFFFAB00),
+                      color: AppColors.primary,
                     ),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(
@@ -121,7 +122,7 @@ class _SignInState extends State<SignIn> {
                     hintStyle: TextStyle(color: Colors.grey[400]),
                     prefixIcon: const Icon(
                       Icons.lock_outline,
-                      color: Color(0xFFFFAB00),
+                      color: AppColors.primary,
                     ),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -157,7 +158,7 @@ class _SignInState extends State<SignIn> {
                   child: const Text(
                     'Lupa kata sandi?',
                     style: TextStyle(
-                      color: Color(0xFFFFAB00),
+                      color: AppColors.primary,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
@@ -174,7 +175,7 @@ class _SignInState extends State<SignIn> {
                 child: ElevatedButton(
                   onPressed: () => _signin(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFAB00),
+                    backgroundColor: AppColors.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -213,7 +214,7 @@ class _SignInState extends State<SignIn> {
                     );
                   },
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFFFFAB00)),
+                    side: const BorderSide(color: AppColors.primary),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -223,7 +224,7 @@ class _SignInState extends State<SignIn> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFFFFAB00),
+                      color: AppColors.primary,
                     ),
                   ),
                 ),
@@ -280,7 +281,7 @@ class _SignInState extends State<SignIn> {
                     TextSpan(
                       text: 'Lembar Ketentuan',
                       style: const TextStyle(
-                        color: Color(0xFFFFAB00),
+                        color: AppColors.primary,
                         decoration: TextDecoration.underline,
                       ),
                       recognizer: TapGestureRecognizer()
@@ -292,7 +293,7 @@ class _SignInState extends State<SignIn> {
                     TextSpan(
                       text: 'Kebijakan Privasi',
                       style: const TextStyle(
-                        color: Color(0xFFFFAB00),
+                        color: AppColors.primary,
                         decoration: TextDecoration.underline,
                       ),
                       recognizer: TapGestureRecognizer()
