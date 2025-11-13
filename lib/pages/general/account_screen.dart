@@ -307,7 +307,7 @@ class _AccountScreenState extends State<AccountScreen> {
         return TreasurerLayout(title: 'Akun', currentIndex: 3, body: body);
       case 'resident':
       default:
-        return ResidentLayout(title: 'Akun', currentIndex: 3, body: body);
+        return ResidentLayout(title: 'Akun', currentIndex: 4, body: body);
     }
   }
 

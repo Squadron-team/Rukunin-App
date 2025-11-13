@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:rukunin/pages/general/auth_wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rukunin/firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await initializeDateFormatting('id_ID', null);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
