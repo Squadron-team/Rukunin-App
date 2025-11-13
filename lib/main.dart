@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/general/sign_in_screen.dart';
+import 'package:rukunin/pages/general/auth_wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rukunin/firebase_options.dart';
 
@@ -52,9 +52,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: Center(child: SignInScreen())),
-    );
+      title: 'Rukunin',
+      theme: ThemeData(
+        primarySwatch: Colors.yellow,
+        useMaterial3: true,
+      ),
+      home: AuthWrapper()
+      );
   }
 }
