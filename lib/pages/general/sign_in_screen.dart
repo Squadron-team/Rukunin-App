@@ -22,7 +22,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final _passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
-  
+
   bool _obscurePassword = true;
   bool _isLoading = false;
 
@@ -41,10 +41,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
     try {
       // Sign in with Firebase
-      final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
+      final UserCredential userCredential = await _auth
+          .signInWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+          );
 
       if (!mounted) return;
 
@@ -57,13 +58,22 @@ class _SignInScreenState extends State<SignInScreen> {
       if (userDoc.exists) {
         // Prepare user data for caching
         final userData = userDoc.data()!;
-        
+
+        // convert Firestore Timestamp → String
+        userData.updateAll((key, value) {
+          if (value is Timestamp) {
+            return value.toDate().toIso8601String();
+          }
+          return value;
+        });
+
         // Add email and displayName from Auth if not in Firestore
         userData['email'] = userCredential.user!.email ?? userData['email'];
-        userData['displayName'] = userCredential.user!.displayName ?? userData['name'];
+        userData['displayName'] =
+            userCredential.user!.displayName ?? userData['name'];
         userData['uid'] = userCredential.user!.uid;
         userData['photoURL'] = userCredential.user!.photoURL;
-        
+
         // Save user data to shared preferences
         await UserCacheService().saveUserData(userData);
       }
@@ -73,7 +83,9 @@ class _SignInScreenState extends State<SignInScreen> {
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Selamat datang, ${userCredential.user?.displayName ?? userCredential.user?.email ?? ""}!'),
+          content: Text(
+            'Selamat datang, ${userCredential.user?.displayName ?? userCredential.user?.email ?? ""}!',
+          ),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -121,7 +133,7 @@ class _SignInScreenState extends State<SignInScreen> {
       }
     }
   }
-  
+
   Future<void> _resetPassword() async {
     final email = _emailController.text.trim();
 
@@ -146,7 +158,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Email reset kata sandi telah dikirim. Periksa inbox Anda.'),
+          content: const Text(
+            'Email reset kata sandi telah dikirim. Periksa inbox Anda.',
+          ),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -255,7 +269,11 @@ class _SignInScreenState extends State<SignInScreen> {
                 const Text(
                   'Untuk masuk ke akun di aplikasi,\nmasukkan email dan kata sandi Anda',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: Colors.grey, height: 1.5),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                    height: 1.5,
+                  ),
                 ),
 
                 const SizedBox(height: 32),
@@ -281,11 +299,17 @@ class _SignInScreenState extends State<SignInScreen> {
                       border: InputBorder.none,
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 1),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                        ),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -333,11 +357,17 @@ class _SignInScreenState extends State<SignInScreen> {
                       border: InputBorder.none,
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 1),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                        ),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -455,7 +485,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           // TODO: Implement Apple sign in
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text('Apple sign in belum tersedia'),
+                              content: const Text(
+                                'Apple sign in belum tersedia',
+                              ),
                               backgroundColor: Colors.orange,
                               behavior: SnackBarBehavior.floating,
                               shape: RoundedRectangleBorder(
@@ -489,7 +521,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           // TODO: Implement Google sign in
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text('Google sign in belum tersedia'),
+                              content: const Text(
+                                'Google sign in belum tersedia',
+                              ),
                               backgroundColor: Colors.orange,
                               behavior: SnackBarBehavior.floating,
                               shape: RoundedRectangleBorder(
