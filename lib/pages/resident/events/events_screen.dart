@@ -3,6 +3,7 @@ import 'package:rukunin/models/event.dart';
 import 'package:rukunin/pages/resident/resident_layout.dart';
 import 'package:rukunin/pages/resident/events/event_detail_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/utils/icon_mapper.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -174,7 +175,7 @@ class _EventsScreenState extends State<EventsScreen> {
           ),
           outsideDaysVisible: false,
           markersMaxCount: 1,
-          markerDecoration: BoxDecoration(
+          markerDecoration: const BoxDecoration(
             color: AppColors.primary,
             shape: BoxShape.circle,
           ),
@@ -379,7 +380,7 @@ class _EventsScreenState extends State<EventsScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Icon(
-                          _getCategoryIcon(event.category),
+                          IconMapper.getCategoryIcon(event.category),
                           size: 20,
                           color: event.categoryColor,
                         ),
@@ -587,22 +588,5 @@ class _EventsScreenState extends State<EventsScreen> {
         ],
       ),
     );
-  }
-
-  IconData _getCategoryIcon(String category) {
-    switch (category.toLowerCase()) {
-      case 'pendidikan':
-        return Icons.school;
-      case 'sosial':
-        return Icons.people;
-      case 'olahraga':
-        return Icons.sports_soccer;
-      case 'seni':
-        return Icons.palette;
-      case 'rapat':
-        return Icons.meeting_room;
-      default:
-        return Icons.event;
-    }
   }
 }
