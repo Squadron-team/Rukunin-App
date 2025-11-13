@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
-import 'package:rukunin/pages/resident/event_detail_screen.dart';
+import 'package:rukunin/pages/resident/events/event_detail_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class EventCard extends StatelessWidget {

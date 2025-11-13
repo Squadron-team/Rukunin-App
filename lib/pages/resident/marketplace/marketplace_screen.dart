@@ -105,11 +105,11 @@ class MarketplaceScreen extends StatelessWidget {
                           ),
                       itemCount: 6,
                       itemBuilder: (context, index) {
-                        return const ProductCard(
+                        return ProductCard(
                           product: Product(
                             name: 'Pisang sehat wenak',
                             seller: 'Ibu Wijaya',
-                            price: 'Rp 14.500',
+                            price: 14.500,
                             badge: 'Buah-buahan',
                             description: 'Buah pisang enak, bergizi, yahut dah pokoknya!'
                           ),

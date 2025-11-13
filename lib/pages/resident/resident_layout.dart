@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/general/notification_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
-import 'package:rukunin/pages/resident/dues_screen.dart';
-import 'package:rukunin/pages/resident/marketplace_screen.dart';
+import 'package:rukunin/pages/resident/dues/dues_screen.dart';
+import 'package:rukunin/pages/resident/marketplace/marketplace_screen.dart';
 import 'package:rukunin/pages/resident/resident_home_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 

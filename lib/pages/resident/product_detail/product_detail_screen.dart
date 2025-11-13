@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/product.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/utils/format_currency.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -216,7 +217,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             Row(
                               children: [
                                 Text(
-                                  widget.product.price,
+                                  FormatCurrency.formatRupiah(widget.product.price),
                                   style: const TextStyle(
                                     fontSize: 28,
                                     fontWeight: FontWeight.w700,
@@ -226,7 +227,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 const SizedBox(width: 12),
                                 if (widget.product.isDiscount)
                                   Text(
-                                    widget.product.price,
+                                    FormatCurrency.formatRupiah(widget.product.price),
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.grey[400],
