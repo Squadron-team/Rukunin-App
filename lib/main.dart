@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/general/auth_wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,7 +10,21 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(const MobilePreviewWrapper(child: MainApp()));
+  runApp(
+    _shouldUseMobilePreview()
+        ? const MobilePreviewWrapper(child: MainApp())
+        : const MainApp(),
+  );
+}
+
+bool _shouldUseMobilePreview() {
+  if (kIsWeb) return true; // Always force preview on web
+
+  // Force preview only on desktop apps
+  if (!Platform.isAndroid && !Platform.isIOS) return true;
+
+  // Running on a real mobile device → don't wrap
+  return false;
 }
 
 class MobilePreviewWrapper extends StatelessWidget {
@@ -55,11 +71,8 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Rukunin',
-      theme: ThemeData(
-        primarySwatch: Colors.yellow,
-        useMaterial3: true,
-      ),
-      home: AuthWrapper()
-      );
+      theme: ThemeData(primarySwatch: Colors.yellow, useMaterial3: true),
+      home: AuthWrapper(),
+    );
   }
 }
