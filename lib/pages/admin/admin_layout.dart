@@ -206,9 +206,6 @@ class AdminLayout extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primary.withOpacity(0.15)
-              : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(

@@ -15,7 +15,7 @@ class DuesScreen extends StatelessWidget {
 
     return const ResidentLayout(
       title: 'Iuran Warga',
-      currentIndex: 2,
+      currentIndex: 3,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

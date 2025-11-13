@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/general/notification_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
-import 'package:rukunin/pages/resident/dues_screen.dart';
-import 'package:rukunin/pages/resident/marketplace_screen.dart';
+import 'package:rukunin/pages/resident/dues/dues_screen.dart';
+import 'package:rukunin/pages/resident/events/events_screen.dart';
+import 'package:rukunin/pages/resident/marketplace/marketplace_screen.dart';
 import 'package:rukunin/pages/resident/resident_home_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class ResidentLayout extends StatelessWidget {
-  final Widget body;
-  final int currentIndex;
   final String title;
+  final int currentIndex;
+  final Widget body;
 
   const ResidentLayout({
-    required this.body,
-    required this.currentIndex,
     required this.title,
+    required this.currentIndex,
+    required this.body,
     super.key,
   });
 
@@ -125,33 +126,50 @@ class ResidentLayout extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildNavItem(
-                  context,
-                  icon: Icons.home_rounded,
-                  label: 'Beranda',
-                  index: 0,
-                  isSelected: currentIndex == 0,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.home_rounded,
+                    label: 'Beranda',
+                    index: 0,
+                    isSelected: currentIndex == 0,
+                  ),
                 ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.store_rounded,
-                  label: 'Pasar',
-                  index: 1,
-                  isSelected: currentIndex == 1,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.store_rounded,
+                    label: 'Pasar',
+                    index: 1,
+                    isSelected: currentIndex == 1,
+                  ),
                 ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.receipt_long_rounded,
-                  label: 'Iuran',
-                  index: 2,
-                  isSelected: currentIndex == 2,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.event_rounded,
+                    label: 'Kegiatan',
+                    index: 2,
+                    isSelected: currentIndex == 2,
+                  ),
                 ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.person_rounded,
-                  label: 'Akun',
-                  index: 3,
-                  isSelected: currentIndex == 3,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.receipt_long_rounded,
+                    label: 'Iuran',
+                    index: 3,
+                    isSelected: currentIndex == 3,
+                  ),
+                ),
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.person_rounded,
+                    label: 'Akun',
+                    index: 4,
+                    isSelected: currentIndex == 4,
+                  ),
                 ),
               ],
             ),
@@ -175,6 +193,7 @@ class ResidentLayout extends StatelessWidget {
         final screens = [
           const ResidentHomeScreen(),
           const MarketplaceScreen(),
+          const EventsScreen(),
           const DuesScreen(),
           const AccountScreen(),
         ];
@@ -193,13 +212,8 @@ class ResidentLayout extends StatelessWidget {
         }
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primary.withAlpha(38)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

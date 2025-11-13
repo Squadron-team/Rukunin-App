@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/pages/resident/carts/widgets/cart_item.dart';
+import 'package:rukunin/repositories/cart_items.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class CartScreen extends StatefulWidget {
@@ -14,33 +16,6 @@ class _CartScreenState extends State<CartScreen> {
   bool _isCouponApplied = false;
   double _discountAmount = 0;
 
-  final List<Map<String, dynamic>> _cartItems = [
-    {
-      'id': 1,
-      'name': 'Pisang sehat wenak',
-      'seller': 'Ibu Wijaya',
-      'price': 14500,
-      'quantity': 2,
-      'image': null,
-    },
-    {
-      'id': 2,
-      'name': 'Telur Ayam Kampung',
-      'seller': 'Pak Ahmad',
-      'price': 25000,
-      'quantity': 1,
-      'image': null,
-    },
-    {
-      'id': 3,
-      'name': 'Minyak Goreng 1L',
-      'seller': 'Toko Makmur',
-      'price': 18000,
-      'quantity': 3,
-      'image': null,
-    },
-  ];
-
   @override
   void dispose() {
     _couponController.dispose();
@@ -48,7 +23,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   double get _subtotal {
-    return _cartItems.fold(0, (sum, item) => sum + (item['price'] * item['quantity']));
+    return cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
   }
 
   double get _deliveryFee => 5000;
@@ -57,16 +32,16 @@ class _CartScreenState extends State<CartScreen> {
 
   void _updateQuantity(int index, int change) {
     setState(() {
-      final newQuantity = _cartItems[index]['quantity'] + change;
+      final newQuantity = cartItems[index].quantity + change;
       if (newQuantity > 0) {
-        _cartItems[index]['quantity'] = newQuantity;
+        cartItems[index].quantity = newQuantity;
       }
     });
   }
 
   void _removeItem(int index) {
     setState(() {
-      _cartItems.removeAt(index);
+      cartItems.removeAt(index);
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -132,8 +107,8 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       ),
-      body: _cartItems.isEmpty ? _buildEmptyState() : _buildCartContent(),
-      bottomNavigationBar: _cartItems.isEmpty ? null : _buildCheckoutButton(),
+      body: cartItems.isEmpty ? _buildEmptyState() : _buildCartContent(),
+      bottomNavigationBar: cartItems.isEmpty ? null : _buildCheckoutButton(),
     );
   }
 
@@ -166,9 +141,14 @@ class _CartScreenState extends State<CartScreen> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _cartItems.length,
+                  itemCount: cartItems.length,
                   itemBuilder: (context, index) {
-                    return _buildCartItem(_cartItems[index], index);
+                    return CartItem(
+                      product: cartItems[index],
+                      onUpdateQuantity: _updateQuantity,
+                      onRemoveItem: _removeItem,
+                      index: index,
+                    );
                   },
                 ),
               ],
@@ -198,10 +178,10 @@ class _CartScreenState extends State<CartScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+        border: Border.all(color: AppColors.primary.withAlpha(51)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withAlpha(10),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -213,7 +193,7 @@ class _CartScreenState extends State<CartScreen> {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withAlpha(26),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(
@@ -247,153 +227,7 @@ class _CartScreenState extends State<CartScreen> {
               ],
             ),
           ),
-          Icon(
-            Icons.arrow_forward_ios,
-            size: 16,
-            color: Colors.grey[400],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCartItem(Map<String, dynamic> item, int index) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[200]!),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          // Product Image
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              Icons.image_outlined,
-              size: 32,
-              color: Colors.grey[400],
-            ),
-          ),
-
-          const SizedBox(width: 12),
-
-          // Product Info
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item['name'],
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  item['seller'],
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Rp ${item['price'].toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(width: 8),
-
-          // Quantity Control & Remove
-          Column(
-            children: [
-              GestureDetector(
-                onTap: () => _removeItem(index),
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(
-                    Icons.delete_outline,
-                    size: 20,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () => _updateQuantity(index, -1),
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        child: const Icon(
-                          Icons.remove,
-                          size: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text(
-                        '${item['quantity']}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => _updateQuantity(index, 1),
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        child: const Icon(
-                          Icons.add,
-                          size: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
         ],
       ),
     );
@@ -409,7 +243,7 @@ class _CartScreenState extends State<CartScreen> {
         border: Border.all(color: Colors.grey[200]!),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withAlpha(10),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -423,7 +257,7 @@ class _CartScreenState extends State<CartScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: AppColors.primary.withAlpha(26),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -486,10 +320,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 child: const Text(
                   'Terapkan',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                 ),
               ),
             ],
@@ -517,14 +348,14 @@ class _CartScreenState extends State<CartScreen> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primary.withOpacity(0.1),
-            AppColors.primary.withOpacity(0.05),
+            AppColors.primary.withAlpha(26),
+            AppColors.primary.withAlpha(13),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+        border: Border.all(color: AppColors.primary.withAlpha(51)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -584,7 +415,11 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildSummaryRow(String label, String value, {bool isDiscount = false}) {
+  Widget _buildSummaryRow(
+    String label,
+    String value, {
+    bool isDiscount = false,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -615,7 +450,7 @@ class _CartScreenState extends State<CartScreen> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withAlpha(20),
             blurRadius: 12,
             offset: const Offset(0, -4),
           ),
@@ -631,10 +466,7 @@ class _CartScreenState extends State<CartScreen> {
                 children: [
                   Text(
                     'Total Pembayaran',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -715,10 +547,7 @@ class _CartScreenState extends State<CartScreen> {
           const SizedBox(height: 8),
           Text(
             'Belum ada produk di keranjang Anda',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
           ),
           const SizedBox(height: 24),
           ElevatedButton(
@@ -728,20 +557,14 @@ class _CartScreenState extends State<CartScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 32,
-                vertical: 16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
             child: const Text(
               'Belanja Sekarang',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
             ),
           ),
         ],
