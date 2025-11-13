@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rukunin/pages/general/sign_in_screen.dart';
+import 'package:rukunin/pages/admin/admin_layout.dart';
+import 'package:rukunin/pages/community_head/community_head_layout.dart';
+import 'package:rukunin/pages/block_leader/block_leader_layout.dart';
 import 'package:rukunin/pages/resident/resident_layout.dart';
+import 'package:rukunin/pages/secretary/secretary_layout.dart';
+import 'package:rukunin/pages/treasurer/treasurer_layout.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:intl/intl.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -10,10 +19,250 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  final _nameController = TextEditingController(text: 'Budi Budiman');
-  final _nicknameController = TextEditingController(text: 'Budi');
-  final _birthdateController = TextEditingController(text: '12 Maret 1967');
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+  
+  final _nameController = TextEditingController();
+  final _nicknameController = TextEditingController();
+  final _birthdateController = TextEditingController();
   String _selectedGender = 'Laki-laki';
+  
+  bool _isLoading = true;
+  bool _isSaving = false;
+  String _userRole = 'resident';
+  String _displayName = '';
+  String _email = '';
+  DateTime? _selectedBirthdate;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) return;
+
+      // Get user data from Firestore
+      final doc = await _firestore.collection('users').doc(user.uid).get();
+      
+      if (doc.exists) {
+        final data = doc.data()!;
+        setState(() {
+          _displayName = data['name'] ?? user.displayName ?? '';
+          _email = user.email ?? '';
+          _userRole = data['role'] ?? 'resident';
+          _nameController.text = data['name'] ?? '';
+          _nicknameController.text = data['nickname'] ?? '';
+          _selectedGender = data['gender'] ?? 'Laki-laki';
+          
+          if (data['birthdate'] != null) {
+            if (data['birthdate'] is Timestamp) {
+              _selectedBirthdate = (data['birthdate'] as Timestamp).toDate();
+              _birthdateController.text = DateFormat('dd MMMM yyyy', 'id_ID')
+                  .format(_selectedBirthdate!);
+            } else if (data['birthdate'] is String) {
+              _birthdateController.text = data['birthdate'];
+            }
+          }
+          
+          _isLoading = false;
+        });
+      } else {
+        setState(() {
+          _displayName = user.displayName ?? '';
+          _email = user.email ?? '';
+          _nameController.text = user.displayName ?? '';
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error loading user data: $e');
+      setState(() {
+        _isLoading = false;
+      });
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Gagal memuat data: $e'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _saveUserData() async {
+    if (_nameController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Nama lengkap tidak boleh kosong'),
+          backgroundColor: Colors.orange,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _isSaving = true;
+    });
+
+    try {
+      final user = _auth.currentUser;
+      if (user == null) return;
+
+      // Update display name in Firebase Auth
+      await user.updateDisplayName(_nameController.text.trim());
+
+      // Update user data in Firestore
+      await _firestore.collection('users').doc(user.uid).update({
+        'name': _nameController.text.trim(),
+        'nickname': _nicknameController.text.trim(),
+        'gender': _selectedGender,
+        'birthdate': _selectedBirthdate != null 
+            ? Timestamp.fromDate(_selectedBirthdate!)
+            : null,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Profil berhasil diperbarui'),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      }
+
+      // Reload user data
+      await _loadUserData();
+    } catch (e) {
+      debugPrint('Error saving user data: $e');
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Gagal menyimpan data: $e'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSaving = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _logout() async {
+    try {
+      await _auth.signOut();
+      
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const SignInScreen()),
+          (route) => false,
+        );
+      }
+    } catch (e) {
+      debugPrint('Error logging out: $e');
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Gagal keluar: $e'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  String _getRoleDisplayName(String role) {
+    switch (role) {
+      case 'admin':
+        return 'Admin';
+      case 'community_head':
+        return 'Ketua RT';
+      case 'block_leader':
+        return 'Ketua RW';
+      case 'secretary':
+        return 'Sekretaris';
+      case 'treasurer':
+        return 'Bendahara';
+      case 'resident':
+      default:
+        return 'Warga';
+    }
+  }
+
+  Widget _buildRoleBasedLayout(Widget body) {
+    switch (_userRole) {
+      case 'admin':
+        return AdminLayout(
+          title: 'Akun',
+          currentIndex: 3,
+          body: body,
+        );
+      case 'community_head':
+        return CommunityHeadLayout(
+          title: 'Akun',
+          currentIndex: 3,
+          body: body,
+        );
+      case 'block_leader':
+        return BlockLeaderLayout(
+          title: 'Akun',
+          currentIndex: 3,
+          body: body,
+        );
+      case 'secretary':
+        return SecretaryLayout(
+          title: 'Akun',
+          currentIndex: 3,
+          body: body,
+        );
+      case 'treasurer':
+        return TreasurerLayout(
+          title: 'Akun',
+          currentIndex: 3,
+          body: body,
+        );
+      case 'resident':
+      default:
+        return ResidentLayout(
+          title: 'Akun',
+          currentIndex: 3,
+          body: body,
+        );
+    }
+  }
 
   @override
   void dispose() {
@@ -25,10 +274,16 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ResidentLayout(
-      title: 'Akun',
-      currentIndex: 3,
-      body: SingleChildScrollView(
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    return _buildRoleBasedLayout(
+      SingleChildScrollView(
         child: Column(
           children: [
             // Profile Header
@@ -70,11 +325,23 @@ class _AccountScreenState extends State<AccountScreen> {
                           ],
                         ),
                         child: ClipOval(
-                          child: Icon(
-                            Icons.person,
-                            size: 60,
-                            color: Colors.grey[500],
-                          ),
+                          child: _auth.currentUser?.photoURL != null
+                              ? Image.network(
+                                  _auth.currentUser!.photoURL!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Icon(
+                                      Icons.person,
+                                      size: 60,
+                                      color: Colors.grey[500],
+                                    );
+                                  },
+                                )
+                              : Icon(
+                                  Icons.person,
+                                  size: 60,
+                                  color: Colors.grey[500],
+                                ),
                         ),
                       ),
                       Positioned(
@@ -82,7 +349,17 @@ class _AccountScreenState extends State<AccountScreen> {
                         right: 0,
                         child: GestureDetector(
                           onTap: () {
-                            // TODO: Change profile picture
+                            // TODO: Implement change profile picture
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text('Fitur ubah foto profil akan segera tersedia'),
+                                backgroundColor: Colors.orange,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            );
                           },
                           child: Container(
                             width: 36,
@@ -116,17 +393,30 @@ class _AccountScreenState extends State<AccountScreen> {
                   const SizedBox(height: 16),
                   
                   // Name
-                  const Text(
-                    'BUDI BUDIMAN',
-                    style: TextStyle(
+                  Text(
+                    _displayName.toUpperCase(),
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w800,
                       color: Colors.black,
                       letterSpacing: 0.5,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                   
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
+                  
+                  // Email
+                  Text(
+                    _email,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 12),
                   
                   // Role Badge
                   Container(
@@ -141,9 +431,9 @@ class _AccountScreenState extends State<AccountScreen> {
                         color: AppColors.primary.withOpacity(0.3),
                       ),
                     ),
-                    child: const Text(
-                      'Warga',
-                      style: TextStyle(
+                    child: Text(
+                      _getRoleDisplayName(_userRole),
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                         color: AppColors.primary,
@@ -196,6 +486,41 @@ class _AccountScreenState extends State<AccountScreen> {
                   
                   const SizedBox(height: 32),
                   
+                  // Save Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _isSaving ? null : _saveUserData,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 2,
+                      ),
+                      child: _isSaving
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Text(
+                              'Simpan Perubahan',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 32),
+                  
                   // Settings Section
                   const Text(
                     'Pengaturan',
@@ -214,6 +539,16 @@ class _AccountScreenState extends State<AccountScreen> {
                     title: 'Ubah Password',
                     onTap: () {
                       // TODO: Navigate to change password
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Fitur ubah password akan segera tersedia'),
+                          backgroundColor: Colors.orange,
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      );
                     },
                   ),
                   
@@ -222,6 +557,16 @@ class _AccountScreenState extends State<AccountScreen> {
                     title: 'Notifikasi',
                     onTap: () {
                       // TODO: Navigate to notification settings
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Fitur pengaturan notifikasi akan segera tersedia'),
+                          backgroundColor: Colors.orange,
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      );
                     },
                   ),
                   
@@ -230,6 +575,16 @@ class _AccountScreenState extends State<AccountScreen> {
                     title: 'Bantuan & Dukungan',
                     onTap: () {
                       // TODO: Navigate to help
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Fitur bantuan akan segera tersedia'),
+                          backgroundColor: Colors.orange,
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      );
                     },
                   ),
                   
@@ -237,7 +592,52 @@ class _AccountScreenState extends State<AccountScreen> {
                     icon: Icons.info_outline,
                     title: 'Tentang Aplikasi',
                     onTap: () {
-                      // TODO: Navigate to about
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          title: const Text(
+                            'Tentang Aplikasi',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          content: const Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Rukunin',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text('Versi 1.0.0'),
+                              SizedBox(height: 16),
+                              Text(
+                                'Aplikasi manajemen komunitas untuk memudahkan administrasi RT/RW.',
+                                style: TextStyle(height: 1.5),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text(
+                                'Tutup',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     },
                   ),
                   
@@ -383,7 +783,7 @@ class _AccountScreenState extends State<AccountScreen> {
       onTap: () async {
         final DateTime? picked = await showDatePicker(
           context: context,
-          initialDate: DateTime(1967, 3, 12),
+          initialDate: _selectedBirthdate ?? DateTime(2000, 1, 1),
           firstDate: DateTime(1900),
           lastDate: DateTime.now(),
           builder: (context, child) {
@@ -397,8 +797,13 @@ class _AccountScreenState extends State<AccountScreen> {
             );
           },
         );
+        
         if (picked != null) {
-          // TODO: Update birthdate
+          setState(() {
+            _selectedBirthdate = picked;
+            _birthdateController.text = DateFormat('dd MMMM yyyy', 'id_ID')
+                .format(picked);
+          });
         }
       },
       child: Container(
@@ -417,10 +822,14 @@ class _AccountScreenState extends State<AccountScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              _birthdateController.text,
-              style: const TextStyle(
+              _birthdateController.text.isEmpty 
+                  ? 'Pilih tanggal lahir'
+                  : _birthdateController.text,
+              style: TextStyle(
                 fontSize: 16,
-                color: Colors.black,
+                color: _birthdateController.text.isEmpty 
+                    ? Colors.grey[400]
+                    : Colors.black,
               ),
             ),
             const Icon(
@@ -527,8 +936,8 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                // TODO: Logout logic
-                Navigator.pop(context);
+                Navigator.pop(context); // Close dialog
+                _logout(); // Perform logout
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
@@ -540,6 +949,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 'Keluar',
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
+                  color: Colors.white,
                 ),
               ),
             ),

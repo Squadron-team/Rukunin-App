@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/general/notification_screen.dart';
+import 'package:rukunin/pages/secretary/secretary_home_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
-import 'package:rukunin/pages/resident/dues_screen.dart';
-import 'package:rukunin/pages/resident/marketplace_screen.dart';
-import 'package:rukunin/pages/resident/resident_home_screen.dart';
+import 'package:rukunin/pages/general/notification_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
-class ResidentLayout extends StatelessWidget {
+class SecretaryLayout extends StatelessWidget {
   final Widget body;
   final int currentIndex;
   final String title;
 
-  const ResidentLayout({
+  const SecretaryLayout({
     required this.body,
     required this.currentIndex,
     required this.title,
@@ -59,15 +57,15 @@ class ResidentLayout extends StatelessWidget {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColors.primary.withAlpha(26),
-                        AppColors.primary.withAlpha(13),
+                        AppColors.primary.withOpacity(0.1),
+                        AppColors.primary.withOpacity(0.05),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: AppColors.primary.withAlpha(32),
+                      color: AppColors.primary.withOpacity(0.2),
                       width: 1,
                     ),
                   ),
@@ -113,7 +111,7 @@ class ResidentLayout extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(20),
+              color: Colors.black.withOpacity(0.08),
               blurRadius: 12,
               offset: const Offset(0, -4),
             ),
@@ -127,22 +125,22 @@ class ResidentLayout extends StatelessWidget {
               children: [
                 _buildNavItem(
                   context,
-                  icon: Icons.home_rounded,
-                  label: 'Beranda',
+                  icon: Icons.dashboard_rounded,
+                  label: 'Dashboard',
                   index: 0,
                   isSelected: currentIndex == 0,
                 ),
                 _buildNavItem(
                   context,
-                  icon: Icons.store_rounded,
-                  label: 'Pasar',
+                  icon: Icons.assignment_rounded,
+                  label: 'Tugas',
                   index: 1,
                   isSelected: currentIndex == 1,
                 ),
                 _buildNavItem(
                   context,
-                  icon: Icons.receipt_long_rounded,
-                  label: 'Iuran',
+                  icon: Icons.folder_rounded,
+                  label: 'Dokumen',
                   index: 2,
                   isSelected: currentIndex == 2,
                 ),
@@ -172,23 +170,36 @@ class ResidentLayout extends StatelessWidget {
       onTap: () {
         if (index == currentIndex) return;
 
+        // TODO: Add proper navigation for index 1 and 2 when screens are created
+        if (index == 1 || index == 2) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Menu $label belum tersedia'),
+              backgroundColor: Colors.orange,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          );
+          return;
+        }
+
         final screens = [
-          const ResidentHomeScreen(),
-          const MarketplaceScreen(),
-          const DuesScreen(),
+          const SecretaryHomeScreen(),
           const AccountScreen(),
         ];
 
         if (index == 0) {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (_) => screens[index]),
+            MaterialPageRoute(builder: (_) => screens[0]),
             (route) => false,
           );
-        } else {
+        } else if (index == 3) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => screens[index]),
+            MaterialPageRoute(builder: (_) => screens[1]),
           );
         }
       },
@@ -196,7 +207,7 @@ class ResidentLayout extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primary.withAlpha(38)
+              ? AppColors.primary.withOpacity(0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
