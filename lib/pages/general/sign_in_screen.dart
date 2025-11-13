@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/pages/general/sign_up_screen.dart';
+import 'package:rukunin/services/user_cache_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/firebase_auth_helper.dart';
 import 'package:rukunin/utils/role_based_navigator.dart';
@@ -19,6 +21,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
   
   bool _obscurePassword = true;
   bool _isLoading = false;
@@ -42,6 +45,28 @@ class _SignInScreenState extends State<SignInScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
+
+      if (!mounted) return;
+
+      // Fetch user data from Firestore
+      final userDoc = await _firestore
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .get();
+
+      if (userDoc.exists) {
+        // Prepare user data for caching
+        final userData = userDoc.data()!;
+        
+        // Add email and displayName from Auth if not in Firestore
+        userData['email'] = userCredential.user!.email ?? userData['email'];
+        userData['displayName'] = userCredential.user!.displayName ?? userData['name'];
+        userData['uid'] = userCredential.user!.uid;
+        userData['photoURL'] = userCredential.user!.photoURL;
+        
+        // Save user data to shared preferences
+        await UserCacheService().saveUserData(userData);
+      }
 
       if (!mounted) return;
 

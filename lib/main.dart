@@ -72,7 +72,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Rukunin',
       theme: ThemeData(primarySwatch: Colors.yellow, useMaterial3: true),
-      home: AuthWrapper(),
+      home: const AuthWrapper(),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rukunin/services/user_cache_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/firebase_auth_helper.dart';
 import 'package:rukunin/utils/role_based_navigator.dart';
@@ -42,23 +43,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     try {
       // Create user with Firebase Authentication
-      final UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
+      final UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+          );
 
       // Update display name
       await userCredential.user?.updateDisplayName(_nameController.text.trim());
 
-      // Save additional user data to Firestore
-      await _firestore.collection('users').doc(userCredential.user?.uid).set({
+      // Prepare user data for Firestore
+      final firestoreData = {
         'name': _nameController.text.trim(),
         'email': _emailController.text.trim(),
         'role': 'resident', // Default role
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
-      });
+      };
+
+      // Save additional user data to Firestore
+      await _firestore
+          .collection('users')
+          .doc(userCredential.user?.uid)
+          .set(firestoreData);
+
+      // Prepare user data for caching (with additional Auth data)
+      final cachedData = {
+        'name': _nameController.text.trim(),
+        'email': _emailController.text.trim(),
+        'role': 'resident',
+        'uid': userCredential.user!.uid,
+        'displayName': _nameController.text.trim(),
+        'photoURL': userCredential.user?.photoURL,
+        'createdAt': DateTime.now().toIso8601String(),
+        'updatedAt': DateTime.now().toIso8601String(),
+      };
+
+      // Save user data to shared preferences
+      await UserCacheService().saveUserData(cachedData);
 
       if (!mounted) return;
 
@@ -115,7 +137,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     }
   }
-
 
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
@@ -230,7 +251,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const Text(
                   'Buat akun baru untuk menggunakan\naplikasi Rukunin',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: Colors.grey, height: 1.5),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                    height: 1.5,
+                  ),
                 ),
 
                 const SizedBox(height: 32),
@@ -257,11 +282,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       border: InputBorder.none,
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 1),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                        ),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -294,11 +325,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       border: InputBorder.none,
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 1),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                        ),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -346,11 +383,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       border: InputBorder.none,
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 1),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                        ),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -364,7 +407,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                 // Password Requirements
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -424,11 +470,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       border: InputBorder.none,
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 1),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1,
+                        ),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -448,7 +500,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     onPressed: _isLoading ? null : _signUp,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      disabledBackgroundColor: AppColors.primary.withOpacity(0.5),
+                      disabledBackgroundColor: AppColors.primary.withOpacity(
+                        0.5,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -517,7 +571,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: Container(height: 1, color: const Color(0xFFE0E0E0)),
+                      child: Container(
+                        height: 1,
+                        color: const Color(0xFFE0E0E0),
+                      ),
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -527,7 +584,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     Expanded(
-                      child: Container(height: 1, color: const Color(0xFFE0E0E0)),
+                      child: Container(
+                        height: 1,
+                        color: const Color(0xFFE0E0E0),
+                      ),
                     ),
                   ],
                 ),
@@ -544,7 +604,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           // TODO: Implement Apple sign up
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text('Apple sign up belum tersedia'),
+                              content: const Text(
+                                'Apple sign up belum tersedia',
+                              ),
                               backgroundColor: Colors.orange,
                               behavior: SnackBarBehavior.floating,
                               shape: RoundedRectangleBorder(
@@ -578,7 +640,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           // TODO: Implement Google sign up
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text('Google sign up belum tersedia'),
+                              content: const Text(
+                                'Google sign up belum tersedia',
+                              ),
                               backgroundColor: Colors.orange,
                               behavior: SnackBarBehavior.floating,
                               shape: RoundedRectangleBorder(
@@ -646,19 +710,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       padding: const EdgeInsets.only(bottom: 2),
       child: Row(
         children: [
-          Icon(
-            Icons.check_circle_outline,
-            size: 14,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.check_circle_outline, size: 14, color: Colors.grey[400]),
           const SizedBox(width: 6),
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 11,
-              color: Colors.grey[600],
-            ),
-          ),
+          Text(text, style: TextStyle(fontSize: 11, color: Colors.grey[600])),
         ],
       ),
     );
