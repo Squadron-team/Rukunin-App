@@ -15,6 +15,7 @@ dependencies:
   intl: ^0.20.2
   shared_preferences: ^2.5.3
   table_calendar: ^3.2.0
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -23,3 +24,24 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/
+
+flutter_launcher_icons:
+  android: "app_icon"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    background_color: "#ffffff"
+    theme_color: "#ffffff"
+  windows:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
