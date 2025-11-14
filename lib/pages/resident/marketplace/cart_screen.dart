@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/resident/carts/widgets/cart_item.dart';
+import 'package:rukunin/pages/resident/marketplace/payment_screen.dart';
+import 'package:rukunin/pages/resident/marketplace/widgets/cart_item.dart';
 import 'package:rukunin/repositories/cart_items.dart';
 import 'package:rukunin/style/app_colors.dart';
 
@@ -484,7 +485,17 @@ class _CartScreenState extends State<CartScreen> {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO: Navigate to checkout screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PaymentScreen(
+                        products: List.from(cartItems),
+                        fromCart: true,
+                        appliedDiscount: _discountAmount,
+                        deliveryFee: _deliveryFee,
+                      ),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
