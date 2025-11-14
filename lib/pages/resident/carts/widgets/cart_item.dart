@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/product.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/utils/format_currency.dart';
+import 'package:rukunin/utils/currency_formatter.dart';
 
 class CartItem extends StatelessWidget {
   final Product product;
@@ -75,7 +75,7 @@ class CartItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  FormatCurrency.formatRupiah(product.price),
+                  CurrencyFormatter.format(product.price),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,

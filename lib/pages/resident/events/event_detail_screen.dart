@@ -238,7 +238,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
               ),
               child: const Icon(Icons.calendar_today, color: AppColors.primary),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 16),
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
