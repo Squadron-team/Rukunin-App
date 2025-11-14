@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/product.dart';
+import 'package:rukunin/pages/resident/marketplace/widgets/my_shop_banner.dart';
 import 'package:rukunin/pages/resident/resident_layout.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/cards/category_chip.dart';
@@ -25,6 +26,11 @@ class MarketplaceScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 8),
+
+                  // Shop Banner/CTA
+                  const MyShopBanner(isHaveShop: true),
+
+                  const SizedBox(height: 16),
 
                   // Promo Banners (horizontal scroll only for this section)
                   const SingleChildScrollView(
@@ -111,7 +117,8 @@ class MarketplaceScreen extends StatelessWidget {
                             seller: 'Ibu Wijaya',
                             price: 14.500,
                             badge: 'Buah-buahan',
-                            description: 'Buah pisang enak, bergizi, yahut dah pokoknya!'
+                            description:
+                                'Buah pisang enak, bergizi, yahut dah pokoknya!',
                           ),
                         );
                       },
