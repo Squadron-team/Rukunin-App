@@ -333,12 +333,12 @@ class _EventsScreenState extends State<EventsScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: event.categoryColor.withOpacity(0.3),
+            color: event.categoryColor.withAlpha(78),
             width: 2,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withAlpha(10),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -357,8 +357,8 @@ class _EventsScreenState extends State<EventsScreen> {
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      event.categoryColor.withOpacity(0.15),
-                      event.categoryColor.withOpacity(0),
+                      event.categoryColor.withAlpha(38),
+                      event.categoryColor.withAlpha(0),
                     ],
                   ),
                 ),
@@ -376,7 +376,7 @@ class _EventsScreenState extends State<EventsScreen> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: event.categoryColor.withOpacity(0.15),
+                          color: event.categoryColor.withAlpha(38),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Icon(
@@ -448,7 +448,7 @@ class _EventsScreenState extends State<EventsScreen> {
                       gradient: LinearGradient(
                         colors: [
                           event.categoryColor,
-                          event.categoryColor.withOpacity(0.8),
+                          event.categoryColor.withAlpha(204),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(12),
@@ -488,7 +488,7 @@ class _EventsScreenState extends State<EventsScreen> {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withAlpha(26),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(icon, size: 18, color: color),
