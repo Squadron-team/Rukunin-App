@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
+import 'package:rukunin/pages/resident/events/widgets/event_detail_screen_appbar.dart';
+import 'package:rukunin/pages/resident/events/widgets/event_organizer_card.dart';
+import 'package:rukunin/pages/resident/events/widgets/small_event_detail_card.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class EventDetailScreen extends StatefulWidget {
@@ -21,123 +24,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
       backgroundColor: Colors.grey[50],
       body: CustomScrollView(
         slivers: [
-          // App Bar with Image
-          SliverAppBar(
-            expandedHeight: 250,
-            pinned: true,
-            backgroundColor: widget.event.categoryColor,
-            leading: IconButton(
-              icon: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: const Icon(Icons.arrow_back, color: Colors.black),
-              ),
-              onPressed: () => Navigator.pop(context),
-            ),
-            actions: [
-              IconButton(
-                icon: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(Icons.share, color: Colors.black),
-                ),
-                onPressed: () {
-                  // TODO: Share event
-                },
-              ),
-            ],
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                fit: StackFit.expand,
-                children: [
-                  // Background gradient
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          widget.event.categoryColor,
-                          widget.event.categoryColor.withOpacity(0.7),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
-                  ),
-                  // Pattern overlay
-                  Positioned(
-                    right: -50,
-                    bottom: -50,
-                    child: Icon(
-                      _getCategoryIcon(widget.event.category),
-                      size: 200,
-                      color: Colors.white.withOpacity(0.1),
-                    ),
-                  ),
-                  // Category badge
-                  Positioned(
-                    top: 100,
-                    left: 20,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            _getCategoryIcon(widget.event.category),
-                            size: 16,
-                            color: widget.event.categoryColor,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            widget.event.category,
-                            style: TextStyle(
-                              color: widget.event.categoryColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          EventDetailScreenAppbar(event: widget.event),
 
           // Content
           SliverToBoxAdapter(
@@ -155,7 +42,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.04),
+                        color: Colors.black.withAlpha(10),
                         blurRadius: 8,
                         offset: const Offset(0, -2),
                       ),
@@ -224,21 +111,21 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                 const SizedBox(height: 16),
 
                 // Event Details Cards
-                _buildDetailsCard(
+                SmallEventDetailCard(
                   icon: Icons.calendar_today,
                   title: 'Tanggal',
                   subtitle: widget.event.date,
                   color: Colors.blue,
                 ),
 
-                _buildDetailsCard(
+                SmallEventDetailCard(
                   icon: Icons.access_time,
                   title: 'Waktu',
                   subtitle: widget.event.time,
                   color: Colors.green,
                 ),
 
-                _buildDetailsCard(
+                SmallEventDetailCard(
                   icon: Icons.location_on,
                   title: 'Lokasi',
                   subtitle: widget.event.location,
@@ -257,7 +144,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.04),
+                        color: Colors.black.withAlpha(10),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -271,7 +158,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withOpacity(0.1),
+                              color: AppColors.primary.withAlpha(26),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Icon(
@@ -293,7 +180,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Mari bergotong royong membersihkan lingkungan warga untuk menciptakan lingkungan yang bersih dan nyaman. Kegiatan ini akan dilaksanakan di area taman warga dan sekitarnya.\n\nYang perlu dibawa:\n• Sapu\n• Cangkul\n• Sarung tangan\n• Kantong sampah\n\nAkan disediakan konsumsi untuk seluruh peserta.',
+                        widget.event.description,
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey[700],
@@ -307,94 +194,9 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                 const SizedBox(height: 16),
 
                 // Organizer Section
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.primary.withOpacity(0.1),
-                        AppColors.primary.withOpacity(0.05),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: AppColors.primary.withOpacity(0.2),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Penyelenggara',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppColors.primary,
-                                width: 2,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.person,
-                              size: 24,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Pak RT 03',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Ketua RT 03 RW 05',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: AppColors.primary,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Icon(
-                              Icons.phone,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                const EventOrganizerCard(
+                  name: 'Pak RT 03',
+                  position: 'Ketua RT 03 RW 05',
                 ),
 
                 const SizedBox(height: 100),
@@ -407,71 +209,6 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
     );
   }
 
-  Widget _buildDetailsCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required Color color,
-    bool hasAction = false,
-  }) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withAlpha(36)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(10),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: color.withAlpha(26),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: color, size: 24),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey[600],
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          if (hasAction)
-            Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
-        ],
-      ),
-    );
-  }
-
   Widget _buildActionButtons() {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -479,7 +216,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withAlpha(20),
             blurRadius: 12,
             offset: const Offset(0, -4),
           ),
@@ -494,14 +231,14 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
               },
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.all(16),
-                side: BorderSide(color: AppColors.primary, width: 2),
+                side: const BorderSide(color: AppColors.primary, width: 2),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
               child: const Icon(Icons.calendar_today, color: AppColors.primary),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 16),
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
@@ -559,22 +296,5 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
         ),
       ),
     );
-  }
-
-  IconData _getCategoryIcon(String category) {
-    switch (category.toLowerCase()) {
-      case 'pendidikan':
-        return Icons.school;
-      case 'sosial':
-        return Icons.people;
-      case 'olahraga':
-        return Icons.sports_soccer;
-      case 'seni':
-        return Icons.palette;
-      case 'rapat':
-        return Icons.meeting_room;
-      default:
-        return Icons.event;
-    }
   }
 }

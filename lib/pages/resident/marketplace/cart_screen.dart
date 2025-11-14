@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/resident/carts/widgets/cart_item.dart';
+import 'package:rukunin/models/order.dart';
+import 'package:rukunin/models/product.dart';
+import 'package:rukunin/pages/resident/marketplace/payment_screen.dart';
+import 'package:rukunin/pages/resident/marketplace/widgets/cart_item.dart';
 import 'package:rukunin/repositories/cart_items.dart';
 import 'package:rukunin/style/app_colors.dart';
 
@@ -10,14 +13,23 @@ class CartScreen extends StatefulWidget {
   State<CartScreen> createState() => _CartScreenState();
 }
 
-class _CartScreenState extends State<CartScreen> {
+class _CartScreenState extends State<CartScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   final TextEditingController _couponController = TextEditingController();
   String _couponStatus = '';
   bool _isCouponApplied = false;
   double _discountAmount = 0;
 
   @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
   void dispose() {
+    _tabController.dispose();
     _couponController.dispose();
     super.dispose();
   }
@@ -96,7 +108,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
             const SizedBox(width: 12),
             const Text(
-              'Keranjang',
+              'Keranjang & Pesanan',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
@@ -106,66 +118,396 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ],
         ),
-      ),
-      body: cartItems.isEmpty ? _buildEmptyState() : _buildCartContent(),
-      bottomNavigationBar: cartItems.isEmpty ? null : _buildCheckoutButton(),
-    );
-  }
-
-  Widget _buildCartContent() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 16),
-
-          // Shipping Information
-          _buildShippingInfo(),
-
-          const SizedBox(height: 16),
-
-          // Cart Items
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Produk Belanja',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(56),
+          child: Container(
+            color: Colors.white,
+            child: TabBar(
+              controller: _tabController,
+              labelColor: AppColors.primary,
+              unselectedLabelColor: Colors.grey[600],
+              indicatorColor: AppColors.primary,
+              indicatorWeight: 3,
+              labelStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+              tabs: const [
+                Tab(
+                  icon: Icon(Icons.shopping_cart, size: 20),
+                  text: 'Keranjang',
                 ),
-                const SizedBox(height: 12),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: cartItems.length,
-                  itemBuilder: (context, index) {
-                    return CartItem(
-                      product: cartItems[index],
-                      onUpdateQuantity: _updateQuantity,
-                      onRemoveItem: _removeItem,
-                      index: index,
-                    );
-                  },
+                Tab(
+                  icon: Icon(Icons.local_shipping, size: 20),
+                  text: 'Diproses',
+                ),
+                Tab(
+                  icon: Icon(Icons.check_circle, size: 20),
+                  text: 'Selesai',
                 ),
               ],
             ),
           ),
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          _buildCartTab(),
+          _buildOrderList(isCompleted: false),
+          _buildOrderList(isCompleted: true),
+        ],
+      ),
+    );
+  }
 
-          const SizedBox(height: 16),
+  Widget _buildCartTab() {
+    if (cartItems.isEmpty) {
+      return _buildEmptyState();
+    }
 
-          // Coupon Section
-          _buildCouponSection(),
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 16),
+                _buildShippingInfo(),
+                const SizedBox(height: 16),
+                _buildCartItems(),
+                const SizedBox(height: 16),
+                _buildCouponSection(),
+                const SizedBox(height: 16),
+                _buildPaymentSummary(),
+                const SizedBox(height: 16),
+              ],
+            ),
+          ),
+        ),
+        _buildCheckoutButton(),
+      ],
+    );
+  }
 
-          const SizedBox(height: 16),
+  Widget _buildOrderList({required bool isCompleted}) {
+    // Mock data - replace with actual orders from Firebase/state management
+    final List<Order> mockOrders = [];
 
-          // Payment Summary
-          _buildPaymentSummary(),
+    if (mockOrders.isEmpty) {
+      return _buildEmptyOrderState(isCompleted);
+    }
 
-          const SizedBox(height: 100),
+    return RefreshIndicator(
+      onRefresh: () async {
+        await Future.delayed(const Duration(seconds: 1));
+        setState(() {});
+      },
+      child: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: mockOrders.length,
+        itemBuilder: (context, index) {
+          return _buildOrderCard(mockOrders[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildEmptyOrderState(bool isCompleted) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withAlpha(26),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              isCompleted ? Icons.check_circle_outline : Icons.local_shipping_outlined,
+              size: 60,
+              color: AppColors.primary,
+            ),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            isCompleted ? 'Belum ada pesanan selesai' : 'Belum ada pesanan diproses',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Pesanan akan muncul di sini',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[600],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOrderCard(Order order) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(10),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: _getStatusColor(order.status).withAlpha(26),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        _getStatusIcon(order.status),
+                        size: 16,
+                        color: _getStatusColor(order.status),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Order #${order.id}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          order.createdAt.toString().split(' ')[0],
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: _getStatusColor(order.status),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    order.statusText,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(height: 24, color: Colors.grey[200]),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(
+                      Icons.shopping_bag,
+                      color: Colors.grey[400],
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          order.product.name,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${order.quantity} item',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    'Rp ${order.totalAmount.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (order.status != OrderStatus.completed && order.status != OrderStatus.cancelled) ...[
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () {
+                        // TODO: Contact seller
+                      },
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.primary,
+                        side: const BorderSide(color: AppColors.primary),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        'Hubungi Penjual',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // TODO: Track order
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: const Text(
+                        'Lacak Pesanan',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Color _getStatusColor(OrderStatus status) {
+    switch (status) {
+      case OrderStatus.pending:
+        return Colors.orange;
+      case OrderStatus.confirmed:
+        return Colors.blue;
+      case OrderStatus.inDelivery:
+        return Colors.purple;
+      case OrderStatus.completed:
+        return Colors.green;
+      case OrderStatus.cancelled:
+        return Colors.red;
+    }
+  }
+
+  IconData _getStatusIcon(OrderStatus status) {
+    switch (status) {
+      case OrderStatus.pending:
+        return Icons.pending_actions;
+      case OrderStatus.confirmed:
+        return Icons.thumb_up;
+      case OrderStatus.inDelivery:
+        return Icons.local_shipping;
+      case OrderStatus.completed:
+        return Icons.check_circle;
+      case OrderStatus.cancelled:
+        return Icons.cancel;
+    }
+  }
+
+  Widget _buildCartItems() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Produk Belanja',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 12),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: cartItems.length,
+            itemBuilder: (context, index) {
+              return CartItem(
+                product: cartItems[index],
+                onUpdateQuantity: _updateQuantity,
+                onRemoveItem: _removeItem,
+                index: index,
+              );
+            },
+          ),
         ],
       ),
     );
@@ -484,7 +826,17 @@ class _CartScreenState extends State<CartScreen> {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO: Navigate to checkout screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PaymentScreen(
+                        products: List.from(cartItems),
+                        fromCart: true,
+                        appliedDiscount: _discountAmount,
+                        deliveryFee: _deliveryFee,
+                      ),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/models/product.dart';
 import 'package:rukunin/pages/resident/marketplace/widgets/my_shop_banner.dart';
 import 'package:rukunin/pages/resident/resident_layout.dart';
+import 'package:rukunin/repositories/products.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/cards/category_chip.dart';
 import 'package:rukunin/widgets/cards/market_promo_card.dart';
-import 'package:rukunin/widgets/cards/product_card.dart';
-import 'package:rukunin/widgets/search_bar_market.dart';
+import 'package:rukunin/pages/resident/marketplace/widgets/product_card.dart';
+import 'package:rukunin/pages/resident/marketplace/widgets/search_bar_market.dart';
 
 class MarketplaceScreen extends StatelessWidget {
   const MarketplaceScreen({super.key});
@@ -105,22 +105,14 @@ class MarketplaceScreen extends StatelessWidget {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 0.6,
+                            childAspectRatio: 0.55,
                             crossAxisSpacing: 16,
                             mainAxisSpacing: 16,
                           ),
-                      itemCount: 6,
+                      itemCount: products.length,
                       itemBuilder: (context, index) {
-                        return ProductCard(
-                          product: Product(
-                            name: 'Pisang sehat wenak',
-                            seller: 'Ibu Wijaya',
-                            price: 14.500,
-                            badge: 'Buah-buahan',
-                            description:
-                                'Buah pisang enak, bergizi, yahut dah pokoknya!',
-                          ),
-                        );
+                        final product = products[index];
+                        return ProductCard(product: product);
                       },
                     ),
                   ),
