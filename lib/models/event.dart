@@ -7,6 +7,7 @@ class Event {
   final String date;
   final String time;
   final Color categoryColor;
+  final String description;
 
   Event({
     required this.category,
@@ -15,5 +16,6 @@ class Event {
     required this.date,
     required this.time,
     required this.categoryColor,
+    required this.description,
   });
 }
