@@ -1,5 +1,5 @@
-# rukunin
+# Rukun.in App
 
-A new Flutter project.
+## System Architecture
 
-Tes Branch Naditya
+![architectural-diagram](docs/img/architectural-diagram.jpg)
