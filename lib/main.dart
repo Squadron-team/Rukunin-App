@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:rukunin/pages/general/auth_wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rukunin/firebase_options.dart';
 import 'package:rukunin/utils/mobile_preview_wrapper_helper.dart';
+import 'package:rukunin/routes/routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,11 +60,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Rukunin',
       theme: ThemeData(primarySwatch: Colors.yellow, useMaterial3: true),
-      home: const AuthWrapper(),
+      routerConfig: router,
     );
   }
 }
