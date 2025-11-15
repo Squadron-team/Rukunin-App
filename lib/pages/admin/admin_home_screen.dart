@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/pages/admin/admin_layout.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
+import 'package:rukunin/pages/admin/administrasi/role_management_page.dart';
+import 'package:rukunin/pages/admin/administrasi/akun_admin_list_page.dart';
+import 'package:rukunin/pages/admin/warga/warga_list_page.dart';
+import 'package:rukunin/pages/admin/iuran/keuangan_dashboard_page.dart';
+import 'package:rukunin/pages/admin/marketplace/marketplace_list_page.dart';
 
 class AdminHomeScreen extends StatelessWidget {
   const AdminHomeScreen({super.key});
@@ -17,7 +22,7 @@ class AdminHomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Welcome Card
+              // Welcome Card -------------------------------------------------------
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
@@ -39,49 +44,45 @@ class AdminHomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Column(
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(12),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.admin_panel_settings,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Selamat datang kembali!',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.admin_panel_settings,
-                            color: Colors.white,
-                            size: 28,
+                          SizedBox(height: 4),
+                          Text(
+                            'Super Admin',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Selamat datang kembali!',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                'Super Admin',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -89,7 +90,7 @@ class AdminHomeScreen extends StatelessWidget {
 
               const SizedBox(height: 24),
 
-              // Statistics Overview
+              // Statistik -----------------------------------------------------------
               const Text(
                 'Statistik Sistem',
                 style: TextStyle(
@@ -148,7 +149,7 @@ class AdminHomeScreen extends StatelessWidget {
 
               const SizedBox(height: 32),
 
-              // Quick Actions
+              // Menu Admin ---------------------------------------------------------
               const Text(
                 'Menu Admin',
                 style: TextStyle(
@@ -163,60 +164,111 @@ class AdminHomeScreen extends StatelessWidget {
                 crossAxisCount: 3,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
-                children: const [
+                mainAxisSpacing: 16,
+                childAspectRatio: 0.80,
+                children: [
                   QuickAccessItem(
-                    icon: Icons.person_add,
-                    label: 'Tambah Warga',
+                    icon: Icons.manage_accounts,
+                    label: 'Kelola Akun',
                     color: AppColors.primary,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const AkunAdminListPage(),
+                        ),
+                      );
+                    },
+                  ),
+                                    QuickAccessItem(
+                    icon: Icons.settings,
+                    label: 'Manajemen Role Akun',
+                    color: AppColors.primary,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const RoleManagementPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  QuickAccessItem(
+                    icon: Icons.group,
+                    label: 'Data Warga',
+                    color: AppColors.primary, 
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const WargaListPage(),
+                        ),
+                      );
+                    },
                   ),
                   QuickAccessItem(
                     icon: Icons.article,
                     label: 'Pengumuman',
                     color: AppColors.primary,
+                    onTap: () {},
                   ),
                   QuickAccessItem(
                     icon: Icons.event_note,
                     label: 'Kegiatan',
                     color: AppColors.primary,
+                    onTap: () {},
                   ),
                   QuickAccessItem(
                     icon: Icons.assignment,
                     label: 'Laporan',
                     color: AppColors.primary,
+                    onTap: () {},
                   ),
                   QuickAccessItem(
                     icon: Icons.account_balance_wallet,
                     label: 'Iuran',
                     color: AppColors.primary,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const KeuanganDashboardPage(),
+                        ),
+                      );
+                    },
                   ),
                   QuickAccessItem(
                     icon: Icons.store,
                     label: 'Marketplace',
                     color: AppColors.primary,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const MarketplaceListPage(),
+                        ),
+                      );
+                    },
                   ),
                   QuickAccessItem(
                     icon: Icons.verified_user,
                     label: 'Verifikasi',
                     color: AppColors.primary,
+                    onTap: () {},
                   ),
                   QuickAccessItem(
                     icon: Icons.analytics,
                     label: 'Analitik',
                     color: AppColors.primary,
-                  ),
-                  QuickAccessItem(
-                    icon: Icons.settings,
-                    label: 'Pengaturan',
-                    color: AppColors.primary,
+                    onTap: () {},
                   ),
                 ],
               ),
 
               const SizedBox(height: 32),
 
-              // Recent Activities
+              // Aktifitas ----------------------------------------------------------
               const Text(
                 'Aktivitas Terbaru',
                 style: TextStyle(
@@ -227,107 +279,40 @@ class AdminHomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              _buildActivityCard(
+              _buildActivityItem(
+                context,
                 icon: Icons.person_add,
                 title: 'Warga Baru Terdaftar',
                 subtitle: 'Budi Santoso telah terdaftar sebagai warga baru',
                 time: '5 menit yang lalu',
                 color: Colors.green,
               ),
-
-              _buildActivityCard(
+              _buildActivityItem(
+                context,
                 icon: Icons.report,
                 title: 'Laporan Baru',
                 subtitle: 'Laporan kerusakan jalan di Gang 5',
                 time: '15 menit yang lalu',
                 color: Colors.orange,
               ),
-
-              _buildActivityCard(
+              _buildActivityItem(
+                context,
                 icon: Icons.payment,
                 title: 'Pembayaran Iuran',
                 subtitle: 'Ibu Siti telah membayar iuran bulan November',
                 time: '1 jam yang lalu',
                 color: Colors.blue,
               ),
-
-              _buildActivityCard(
+              _buildActivityItem(
+                context,
                 icon: Icons.event,
                 title: 'Kegiatan Baru',
-                subtitle: 'Kerja bakti dijadwalkan untuk minggu depan',
+                subtitle: 'Kerja bakti dijadwalkan minggu depan',
                 time: '2 jam yang lalu',
                 color: Colors.purple,
               ),
 
               const SizedBox(height: 32),
-
-              // System Status
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.green.withOpacity(0.1),
-                      Colors.green.withOpacity(0.05),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.green.withOpacity(0.2),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.green.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                        size: 32,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Status Sistem',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Semua sistem berjalan normal',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                      color: Colors.grey[400],
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -335,6 +320,7 @@ class AdminHomeScreen extends StatelessWidget {
     );
   }
 
+  // CARD Statistik -----------------------------------------------------------
   Widget _buildStatCard({
     required IconData icon,
     required String label,
@@ -389,90 +375,93 @@ class AdminHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActivityCard({
+  // CARD Aktivitas -----------------------------------------------------------
+  Widget _buildActivityItem(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
     required String time,
     required Color color,
   }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[200]!),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
+    return InkWell(
+      onTap: () {
+        // Navigate ke detail activity jika diperlukan
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey[200]!),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
-            child: Icon(icon, color: color, size: 24),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.access_time,
-                      size: 12,
-                      color: Colors.grey[400],
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, color: color, size: 24),
+            ),
+            const SizedBox(width: 16),
+
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
                     ),
-                    const SizedBox(width: 4),
-                    Text(
-                      time,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.grey[500],
-                        fontWeight: FontWeight.w500,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey[600],
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      Icon(Icons.access_time, size: 12, color: Colors.grey[400]),
+                      const SizedBox(width: 4),
+                      Text(
+                        time,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey[500],
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          Icon(
-            Icons.arrow_forward_ios,
-            size: 14,
-            color: Colors.grey[400],
-          ),
-        ],
+
+            const SizedBox(width: 6),
+            Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey[400]),
+          ],
+        ),
       ),
     );
   }
