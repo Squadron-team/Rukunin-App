@@ -39,8 +39,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text('Tambah Produk'),
+        title: const Text(
+          'Tambah Produk',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
       ),
       body: Form(
         key: _formKey,
@@ -49,32 +56,129 @@ class _AddProductScreenState extends State<AddProductScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Header Info
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.primary.withOpacity(0.1),
+                      AppColors.primary.withOpacity(0.05),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: AppColors.primary.withOpacity(0.2),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.store,
+                        color: AppColors.primary,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Tambah ke Toko',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            widget.shop.name,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
               // Image Upload Section
-              Center(
-                child: GestureDetector(
-                  onTap: () {
-                    // Handle image upload
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.grey[400]!),
+              _buildSectionTitle('Foto Produk'),
+              const SizedBox(height: 12),
+              GestureDetector(
+                onTap: () {
+                  // Handle image upload
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: AppColors.primary.withOpacity(0.3),
+                      width: 2,
+                      style: BorderStyle.solid,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.add_photo_alternate,
-                            size: 48, color: Colors.grey[600]),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Tambah Foto Produk',
-                          style: TextStyle(color: Colors.grey[600]),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 64,
+                        height: 64,
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                      ],
-                    ),
+                        child: const Icon(
+                          Icons.add_photo_alternate,
+                          size: 32,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Tambah Foto Produk',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Maks. 5MB (JPG, PNG)',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[500],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -82,13 +186,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
               const SizedBox(height: 24),
 
               // Product Name
-              TextFormField(
+              _buildSectionTitle('Informasi Produk'),
+              const SizedBox(height: 12),
+              _buildTextField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Nama Produk',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.shopping_basket),
-                ),
+                label: 'Nama Produk',
+                hint: 'Masukkan nama produk',
+                icon: Icons.shopping_basket_outlined,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Nama produk harus diisi';
@@ -100,19 +204,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
               const SizedBox(height: 16),
 
               // Category Dropdown
-              DropdownButtonFormField<String>(
+              _buildDropdownField(
                 value: _selectedCategory,
-                decoration: const InputDecoration(
-                  labelText: 'Kategori',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.category),
-                ),
-                items: _categories.map((category) {
-                  return DropdownMenuItem(
-                    value: category,
-                    child: Text(category),
-                  );
-                }).toList(),
+                label: 'Kategori',
+                hint: 'Pilih kategori',
+                icon: Icons.category_outlined,
+                items: _categories,
                 onChanged: (value) {
                   setState(() {
                     _selectedCategory = value;
@@ -126,18 +223,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 },
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
 
-              // Price
-              TextFormField(
+              // Price & Stock Section
+              _buildSectionTitle('Harga & Stok'),
+              const SizedBox(height: 12),
+              _buildTextField(
                 controller: _priceController,
+                label: 'Harga',
+                hint: 'Masukkan harga',
+                icon: Icons.payments_outlined,
+                prefixText: 'Rp ',
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Harga',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.attach_money),
-                  prefixText: 'Rp ',
-                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Harga harus diisi';
@@ -153,14 +250,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: TextFormField(
+                    child: _buildTextField(
                       controller: _stockController,
+                      label: 'Stok',
+                      hint: 'Jumlah',
+                      icon: Icons.inventory_2_outlined,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'Stok',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.inventory_2),
-                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Stok harus diisi';
@@ -172,18 +267,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     flex: 1,
-                    child: DropdownButtonFormField<String>(
+                    child: _buildDropdownField(
                       value: _selectedUnit,
-                      decoration: const InputDecoration(
-                        labelText: 'Satuan',
-                        border: OutlineInputBorder(),
-                      ),
-                      items: _units.map((unit) {
-                        return DropdownMenuItem(
-                          value: unit,
-                          child: Text(unit),
-                        );
-                      }).toList(),
+                      label: 'Satuan',
+                      hint: 'Unit',
+                      items: _units,
                       onChanged: (value) {
                         setState(() {
                           _selectedUnit = value;
@@ -200,23 +288,41 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 ],
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
 
               // Description
-              TextFormField(
-                controller: _descriptionController,
-                maxLines: 4,
-                decoration: const InputDecoration(
-                  labelText: 'Deskripsi Produk',
-                  border: OutlineInputBorder(),
-                  alignLabelWithHint: true,
+              _buildSectionTitle('Deskripsi'),
+              const SizedBox(height: 12),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey[300]!),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Deskripsi produk harus diisi';
-                  }
-                  return null;
-                },
+                child: TextFormField(
+                  controller: _descriptionController,
+                  maxLines: 5,
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    hintText: 'Jelaskan detail produk Anda...',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.all(16),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Deskripsi produk harus diisi';
+                    }
+                    return null;
+                  },
+                ),
               ),
 
               const SizedBox(height: 32),
@@ -224,15 +330,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
               // Save Button
               SizedBox(
                 width: double.infinity,
-                height: 50,
+                height: 56,
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Save product
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('✅ Produk berhasil ditambahkan!'),
+                        SnackBar(
+                          content: const Text('✅ Produk berhasil ditambahkan!'),
                           backgroundColor: Colors.green,
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       );
                       Navigator.pop(context);
@@ -243,19 +353,127 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
+                    elevation: 2,
                   ),
                   child: const Text(
                     'Simpan Produk',
                     style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
                     ),
                   ),
                 ),
               ),
+
+              const SizedBox(height: 24),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+        color: Colors.black,
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required String hint,
+    required IconData icon,
+    String? prefixText,
+    TextInputType? keyboardType,
+    String? Function(String?)? validator,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[300]!),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: TextFormField(
+        controller: controller,
+        keyboardType: keyboardType,
+        style: const TextStyle(fontSize: 14),
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          hintStyle: TextStyle(color: Colors.grey[400]),
+          prefixIcon: Icon(icon, color: AppColors.primary, size: 22),
+          prefixText: prefixText,
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
+        ),
+        validator: validator,
+      ),
+    );
+  }
+
+  Widget _buildDropdownField({
+    required String? value,
+    required String label,
+    required String hint,
+    IconData? icon,
+    required List<String> items,
+    required void Function(String?) onChanged,
+    String? Function(String?)? validator,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[300]!),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: DropdownButtonFormField<String>(
+        value: value,
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          prefixIcon: icon != null
+              ? Icon(icon, color: AppColors.primary, size: 22)
+              : null,
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: icon != null ? 16 : 16,
+            vertical: 14,
+          ),
+        ),
+        style: const TextStyle(fontSize: 14, color: Colors.black),
+        icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.primary),
+        items: items.map((item) {
+          return DropdownMenuItem(
+            value: item,
+            child: Text(item),
+          );
+        }).toList(),
+        onChanged: onChanged,
+        validator: validator,
       ),
     );
   }
