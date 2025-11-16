@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/pages/community_head/community_head_home_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/general/notification_screen.dart';
+import 'package:rukunin/pages/community_head/warga/warga_list_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class CommunityHeadLayout extends StatelessWidget {
@@ -171,7 +172,8 @@ class CommunityHeadLayout extends StatelessWidget {
         if (index == currentIndex) return;
 
         // TODO: Add proper navigation for index 1 and 2 when screens are created
-        if (index == 1 || index == 2) {
+        // index 2 (Laporan) still not available, but index 1 opens the Warga screen
+        if (index == 2) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Menu $label belum tersedia'),
@@ -185,21 +187,21 @@ class CommunityHeadLayout extends StatelessWidget {
           return;
         }
 
-        final screens = [
-          const CommunityHeadHomeScreen(),
-          const AccountScreen(),
-        ];
-
         if (index == 0) {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (_) => screens[0]),
+            MaterialPageRoute(builder: (_) => const CommunityHeadHomeScreen()),
             (route) => false,
+          );
+        } else if (index == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const WargaListScreen()),
           );
         } else if (index == 3) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => screens[1]),
+            MaterialPageRoute(builder: (_) => const AccountScreen()),
           );
         }
       },
