@@ -35,7 +35,26 @@ class RoleBasedNavigator {
         return '/treasurer';
       case 'resident':
       default:
-        return '/';
+        return '/resident';
+    }
+  }
+
+  /// Get account route path based on user role
+  static String getAccountRouteByRole(String? role) {
+    switch (role) {
+      case 'admin':
+        return '/admin/account';
+      case 'community_head':
+        return '/community-head/account';
+      case 'block_leader':
+        return '/block-leader/account';
+      case 'secretary':
+        return '/secretary/account';
+      case 'treasurer':
+        return '/treasurer/account';
+      case 'resident':
+      default:
+        return '/resident/account';
     }
   }
 
@@ -53,6 +72,23 @@ class RoleBasedNavigator {
     if (!context.mounted) return;
 
     final route = getRouteByRole(role);
+    context.go(route);
+  }
+
+  /// Navigate to account screen based on user role
+  static Future<void> navigateToAccount(BuildContext context) async {
+    final user = FirebaseAuth.instance.currentUser;
+    
+    if (user == null) {
+      debugPrint('No user logged in');
+      return;
+    }
+
+    final role = await getUserRole(user.uid);
+
+    if (!context.mounted) return;
+
+    final route = getAccountRouteByRole(role);
     context.go(route);
   }
 }
