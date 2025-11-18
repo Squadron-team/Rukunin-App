@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/rw/rw_layout.dart';
-import 'package:rukunin/pages/rw/data_warga/data_warga_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 // Halaman lain
@@ -10,12 +8,13 @@ import 'package:rukunin/pages/rw/laporan/kelola_laporan_screen.dart';
 import 'package:rukunin/pages/rw/pengumuman/pengumuman_screen.dart';
 import 'package:rukunin/pages/rw/rapat/rapat_rw_screen.dart';
 import 'package:rukunin/pages/rw/surat/surat_menyurat_screen.dart';
+import 'package:rukunin/pages/rw/data_warga/data_warga_screen.dart';
 
-class BlockLeaderHomeScreen extends StatelessWidget {
+class RwHomeScreen extends StatelessWidget {
   final int totalWarga;
   final String totalKeuangan;
 
-  const BlockLeaderHomeScreen({
+  const RwHomeScreen({
     super.key,
     this.totalWarga = 248, // Data dummy
     this.totalKeuangan = 'Rp 45.8 Jt', // Data dummy
@@ -23,35 +22,31 @@ class BlockLeaderHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlockLeaderLayout(
-      title: 'Dashboard',
-      currentIndex: 0,
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.grey[50]!,
-              Colors.white,
-            ],
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.grey[50]!,
+            Colors.white,
+          ],
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _header(),
-              const SizedBox(height: 28),
-              _quickStats(context),
-              const SizedBox(height: 28),
-              _insightSection(context),
-              const SizedBox(height: 28),
-              _menuSection(context),
-              const SizedBox(height: 28),
-              _recentActivity(),
-              const SizedBox(height: 24),
-            ],
-          ),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _header(),
+            const SizedBox(height: 28),
+            _quickStats(context),
+            const SizedBox(height: 28),
+            _insightSection(context),
+            const SizedBox(height: 28),
+            _menuSection(context),
+            const SizedBox(height: 28),
+            _recentActivity(),
+            const SizedBox(height: 24),
+          ],
         ),
       ),
     );

@@ -1,4 +1,3 @@
-// lib/laporan/kelola_laporan_screen.dart
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rw/laporan/widgets/rt_item_card.dart';
 import 'package:rukunin/pages/rw/laporan/widgets/rw_item_card.dart';
@@ -52,14 +51,14 @@ class _KelolaLaporanScreenState extends State<KelolaLaporanScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          _laporanRTView(),
-          _laporanRWView(),
+          _laporanRTView(context),
+          _laporanRWView(context),
         ],
       ),
     );
   }
 
-  Widget _laporanRTView() {
+  Widget _laporanRTView(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: DummyData.rtReports
@@ -71,7 +70,7 @@ class _KelolaLaporanScreenState extends State<KelolaLaporanScreen>
     );
   }
 
-  Widget _laporanRWView() {
+  Widget _laporanRWView(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [

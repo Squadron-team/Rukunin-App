@@ -1,29 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/rw/rw_home_screen.dart';
-import 'package:rukunin/pages/rw/data_warga/data_warga_screen.dart';
-import 'package:rukunin/pages/rw/laporan/kelola_laporan_screen.dart';
-import 'package:rukunin/pages/general/account_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/pages/general/notification_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
-class BlockLeaderLayout extends StatelessWidget {
-  final Widget body;
-  final int currentIndex;
-  final String title;
+class RwShell extends StatelessWidget {
+  final Widget child;
 
-  const BlockLeaderLayout({
-    required this.body,
-    required this.currentIndex,
-    required this.title,
+  const RwShell({
+    required this.child,
     super.key,
   });
 
+  int _getCurrentIndex(BuildContext context) {
+    final location = GoRouterState.of(context).matchedLocation;
+    if (location == '/rw') return 0;
+    if (location == '/rw/warga') return 1;
+    if (location == '/rw/laporan') return 2;
+    if (location == '/rw/account') return 3;
+    return 0;
+  }
+
+  String _getTitle(int index) {
+    switch (index) {
+      case 0:
+        return 'Dashboard';
+      case 1:
+        return 'Warga';
+      case 2:
+        return 'Laporan';
+      case 3:
+        return 'Akun';
+      default:
+        return 'Dashboard';
+    }
+  }
+
+  void _onItemTapped(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        context.go('/rw');
+        break;
+      case 1:
+        context.go('/rw/warga');
+        break;
+      case 2:
+        context.go('/rw/laporan');
+        break;
+      case 3:
+        context.go('/rw/account');
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentIndex = _getCurrentIndex(context);
+    final title = _getTitle(currentIndex);
+
     return Scaffold(
       backgroundColor: Colors.white,
-
-      //================ APP BAR ================
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -64,6 +99,8 @@ class BlockLeaderLayout extends StatelessWidget {
                         AppColors.primary.withOpacity(0.1),
                         AppColors.primary.withOpacity(0.05),
                       ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
@@ -107,109 +144,87 @@ class BlockLeaderLayout extends StatelessWidget {
           const SizedBox(width: 8),
         ],
       ),
-
-      //================ BODY ================
-      body: SafeArea(
-        child: body,
-      ),
-
-      //================ BOTTOM NAV ================
-      bottomNavigationBar: _BottomNav(
-        currentIndex: currentIndex,
-      ),
-    );
-  }
-}
-
-class _BottomNav extends StatelessWidget {
-  final int currentIndex;
-
-  const _BottomNav({required this.currentIndex});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 12,
-            offset: const Offset(0, -4),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _item(
-              context,
-              icon: Icons.dashboard_rounded,
-              label: 'Dashboard',
-              index: 0,
-              page: const BlockLeaderHomeScreen(),
-            ),
-            _item(
-              context,
-              icon: Icons.people_rounded,
-              label: 'Warga',
-              index: 1,
-              page: const DataWargaScreen(),
-            ),
-            _item(
-              context,
-              icon: Icons.analytics_rounded,
-              label: 'Laporan',
-              index: 2,
-              page: const KelolaLaporanScreen(),
-            ),
-            _item(
-              context,
-              icon: Icons.person_rounded,
-              label: 'Akun',
-              index: 3,
-              page: const AccountScreen(),
+      body: child,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 12,
+              offset: const Offset(0, -4),
             ),
           ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildNavItem(
+                  context,
+                  icon: Icons.dashboard_rounded,
+                  label: 'Dashboard',
+                  index: 0,
+                  isSelected: currentIndex == 0,
+                ),
+                _buildNavItem(
+                  context,
+                  icon: Icons.people_rounded,
+                  label: 'Warga',
+                  index: 1,
+                  isSelected: currentIndex == 1,
+                ),
+                _buildNavItem(
+                  context,
+                  icon: Icons.analytics_rounded,
+                  label: 'Laporan',
+                  index: 2,
+                  isSelected: currentIndex == 2,
+                ),
+                _buildNavItem(
+                  context,
+                  icon: Icons.person_rounded,
+                  label: 'Akun',
+                  index: 3,
+                  isSelected: currentIndex == 3,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _item(
+  Widget _buildNavItem(
     BuildContext context, {
     required IconData icon,
     required String label,
     required int index,
-    required Widget page,
+    required bool isSelected,
   }) {
-    final selected = currentIndex == index;
-
     return GestureDetector(
-      onTap: () {
-        if (!selected) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => page),
-          );
-        }
-      },
+      onTap: () => _onItemTapped(context, index),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: selected ? AppColors.primary : Colors.transparent,
-                borderRadius: BorderRadius.circular(12),
+                color: isSelected ? AppColors.primary : Colors.transparent,
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
                 icon,
+                color: isSelected ? Colors.white : Colors.grey[600],
                 size: 24,
-                color: selected ? Colors.white : Colors.grey[600],
               ),
             ),
             const SizedBox(height: 4),
@@ -217,8 +232,9 @@ class _BottomNav extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: 12,
-                color: selected ? AppColors.primary : Colors.grey[600],
-                fontWeight: selected ? FontWeight.bold : FontWeight.w500,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? AppColors.primary : Colors.grey[600],
+                letterSpacing: -0.2,
               ),
             ),
           ],

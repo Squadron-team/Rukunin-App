@@ -36,11 +36,11 @@ final router = GoRouter(
     // Admin routes
     ...adminRoutes,
 
-    // RT routes
+    // RT routes (with shell)
     rtRoutes,
     
-    // RW routes
-    ...blockLeaderRoutes,
+    // RW routes (with shell)
+    rwRoutes,
 
     // Secretary routes
     ...secretaryRoutes,

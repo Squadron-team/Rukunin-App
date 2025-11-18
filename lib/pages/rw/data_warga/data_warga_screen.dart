@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/rw/rw_layout.dart';
 import 'package:rukunin/pages/rw/data_warga/models/warga_model.dart';
 import 'package:rukunin/pages/rw/data_warga/detail_warga_screen.dart';
 import 'package:rukunin/pages/rw/data_warga/tambah_warga_screen.dart';
@@ -74,10 +73,8 @@ class _DataWargaScreenState extends State<DataWargaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlockLeaderLayout(
-      title: 'Data Warga',
-      currentIndex: 1,
-      body: RefreshIndicator(
+    return Container(
+      child: RefreshIndicator(
         onRefresh: () async {
           _loadData();
         },
@@ -428,7 +425,7 @@ class _DataWargaScreenState extends State<DataWargaScreen> {
             ),
           ),
         ),
-      ),
+      ), 
     );
   }
 
