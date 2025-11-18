@@ -7,9 +7,7 @@ class FinancialSummaryCard extends StatelessWidget {
   final bool isCurrentPeriod;
 
   const FinancialSummaryCard({
-    super.key,
-    required this.summary,
-    required this.isCurrentPeriod,
+    required this.summary, required this.isCurrentPeriod, super.key,
   });
 
   @override

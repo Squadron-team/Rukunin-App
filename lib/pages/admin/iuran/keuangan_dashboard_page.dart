@@ -110,10 +110,10 @@ class KeuanganDashboardPage extends StatelessWidget {
                     const SizedBox(height: 16),
                     const Divider(),
                     const SizedBox(height: 16),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Persentase Terkumpul',
                           style: TextStyle(
                             fontSize: 14,
@@ -137,7 +137,7 @@ class KeuanganDashboardPage extends StatelessWidget {
                         value: 0.7,
                         minHeight: 10,
                         backgroundColor: Colors.grey[200],
-                        valueColor: AlwaysStoppedAnimation<Color>(
+                        valueColor: const AlwaysStoppedAnimation<Color>(
                           AppColors.primary,
                         ),
                       ),

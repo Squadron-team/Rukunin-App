@@ -8,7 +8,7 @@ import 'package:rukunin/style/app_colors.dart';
 class ShopDashboardScreen extends StatelessWidget {
   final Shop shop;
 
-  const ShopDashboardScreen({super.key, required this.shop});
+  const ShopDashboardScreen({required this.shop, super.key});
 
   @override
   Widget build(BuildContext context) {

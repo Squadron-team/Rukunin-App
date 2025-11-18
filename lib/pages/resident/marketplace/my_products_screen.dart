@@ -7,8 +7,7 @@ class MyProductsScreen extends StatelessWidget {
   final Shop shop;
 
   const MyProductsScreen({
-    super.key,
-    required this.shop,
+    required this.shop, super.key,
   });
 
   @override

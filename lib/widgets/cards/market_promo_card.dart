@@ -11,10 +11,7 @@ class PromoBannerCard extends StatelessWidget {
   final Alignment end;
 
   const PromoBannerCard({
-    super.key,
-    required this.title,
-    required this.subtitle,
-    required this.primaryColor,
+    required this.title, required this.subtitle, required this.primaryColor, super.key,
     this.height = 140,
     this.borderRadius = 16,
     this.blurRadius = 12,

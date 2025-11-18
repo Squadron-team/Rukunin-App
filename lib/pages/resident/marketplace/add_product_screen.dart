@@ -6,8 +6,7 @@ class AddProductScreen extends StatefulWidget {
   final Shop shop;
 
   const AddProductScreen({
-    super.key,
-    required this.shop,
+    required this.shop, super.key,
   });
 
   @override
@@ -432,9 +431,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     required String? value,
     required String label,
     required String hint,
-    IconData? icon,
-    required List<String> items,
-    required void Function(String?) onChanged,
+    required List<String> items, required void Function(String?) onChanged, IconData? icon,
     String? Function(String?)? validator,
   }) {
     return Container(
@@ -451,7 +448,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         ],
       ),
       child: DropdownButtonFormField<String>(
-        value: value,
+        initialValue: value,
         decoration: InputDecoration(
           labelText: label,
           hintText: hint,

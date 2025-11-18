@@ -7,8 +7,7 @@ class OrdersScreen extends StatefulWidget {
   final Shop shop;
 
   const OrdersScreen({
-    super.key,
-    required this.shop,
+    required this.shop, super.key,
   });
 
   @override

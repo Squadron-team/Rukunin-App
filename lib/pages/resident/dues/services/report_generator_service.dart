@@ -7,7 +7,7 @@ import 'package:rukunin/pages/resident/dues/models/transaction_model.dart';
 import 'package:rukunin/pages/resident/dues/models/financial_summary_model.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:typed_data';
-import 'web_download_helper.dart';
+import 'package:rukunin/pages/resident/dues/services/web_download_helper.dart';
 
 class ReportGeneratorService {
   Future<String?> generatePDF({

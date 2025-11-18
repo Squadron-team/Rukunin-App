@@ -210,7 +210,7 @@ class MyShopBanner extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.check_circle_outline,
                           color: AppColors.primary,
                           size: 20,
@@ -231,7 +231,7 @@ class MyShopBanner extends StatelessWidget {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.check_circle_outline,
                           color: AppColors.primary,
                           size: 20,
@@ -252,7 +252,7 @@ class MyShopBanner extends StatelessWidget {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.check_circle_outline,
                           color: AppColors.primary,
                           size: 20,

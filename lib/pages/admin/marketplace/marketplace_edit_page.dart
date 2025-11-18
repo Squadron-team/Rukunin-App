@@ -66,7 +66,7 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
     }
 
     return AdminLayout(
-      title: "Edit Produk",
+      title: 'Edit Produk',
       currentIndex: 3,
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -81,7 +81,7 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        "Edit Produk/Jasa",
+                        'Edit Produk/Jasa',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
@@ -89,7 +89,7 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        "Perbarui informasi produk di marketplace",
+                        'Perbarui informasi produk di marketplace',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey.shade600,
@@ -125,27 +125,27 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                             const SizedBox(height: 16),
 
                             _input(
-                              "Nama Produk/Jasa",
+                              'Nama Produk/Jasa',
                               nameC,
                               validator: (v) => v?.isEmpty ?? true
-                                  ? "Nama tidak boleh kosong"
+                                  ? 'Nama tidak boleh kosong'
                                   : null,
                             ),
                             const SizedBox(height: 16),
 
                             DropdownButtonFormField<String>(
-                              value: category,
+                              initialValue: category,
                               items: const [
                                 DropdownMenuItem(
-                                    value: "Makanan", child: Text("Makanan")),
+                                    value: 'Makanan', child: Text('Makanan')),
                                 DropdownMenuItem(
-                                    value: "Minuman", child: Text("Minuman")),
+                                    value: 'Minuman', child: Text('Minuman')),
                                 DropdownMenuItem(
-                                    value: "Jasa", child: Text("Jasa")),
+                                    value: 'Jasa', child: Text('Jasa')),
                                 DropdownMenuItem(
-                                    value: "Lainnya", child: Text("Lainnya")),
+                                    value: 'Lainnya', child: Text('Lainnya')),
                               ],
-                              decoration: _dec("Kategori"),
+                              decoration: _dec('Kategori'),
                               onChanged: (v) {
                                 setState(() {
                                   category = v!;
@@ -158,16 +158,16 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                             const SizedBox(height: 16),
 
                             _input(
-                              "Harga",
+                              'Harga',
                               priceC,
                               keyboardType: TextInputType.number,
-                              prefixText: "Rp ",
+                              prefixText: 'Rp ',
                               validator: (v) {
                                 if (v?.isEmpty ?? true) {
-                                  return "Harga tidak boleh kosong";
+                                  return 'Harga tidak boleh kosong';
                                 }
                                 if (int.tryParse(v!) == null) {
-                                  return "Harga harus berupa angka";
+                                  return 'Harga harus berupa angka';
                                 }
                                 return null;
                               },
@@ -175,11 +175,11 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                             const SizedBox(height: 16),
 
                             _input(
-                              "Deskripsi",
+                              'Deskripsi',
                               descriptionC,
                               maxLines: 4,
                               validator: (v) => v?.isEmpty ?? true
-                                  ? "Deskripsi tidak boleh kosong"
+                                  ? 'Deskripsi tidak boleh kosong'
                                   : null,
                             ),
                             const SizedBox(height: 16),
@@ -197,24 +197,24 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                             const SizedBox(height: 16),
 
                             _input(
-                              "Nama Penjual",
+                              'Nama Penjual',
                               sellerC,
                               validator: (v) => v?.isEmpty ?? true
-                                  ? "Nama penjual tidak boleh kosong"
+                                  ? 'Nama penjual tidak boleh kosong'
                                   : null,
                             ),
                             const SizedBox(height: 16),
 
                             _input(
-                              "No. Telepon",
+                              'No. Telepon',
                               phoneC,
                               keyboardType: TextInputType.phone,
                               validator: (v) {
                                 if (v?.isEmpty ?? true) {
-                                  return "No. Telepon tidak boleh kosong";
+                                  return 'No. Telepon tidak boleh kosong';
                                 }
                                 if (v!.length < 10) {
-                                  return "No. Telepon minimal 10 digit";
+                                  return 'No. Telepon minimal 10 digit';
                                 }
                                 return null;
                               },
@@ -238,11 +238,11 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                               value: isService,
                               onChanged: (v) => setState(() => isService = v!),
                               title: const Text(
-                                "Ini adalah jasa (tidak perlu stok)",
+                                'Ini adalah jasa (tidak perlu stok)',
                                 style: TextStyle(fontSize: 14),
                               ),
                               subtitle: Text(
-                                "Centang jika ini adalah layanan/jasa",
+                                'Centang jika ini adalah layanan/jasa',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[600],
@@ -256,17 +256,17 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                             if (!isService) ...[
                               const SizedBox(height: 12),
                               _input(
-                                "Jumlah Stok",
+                                'Jumlah Stok',
                                 stockC,
                                 keyboardType: TextInputType.number,
                                 validator: (v) {
                                   if (!isService && (v?.isEmpty ?? true)) {
-                                    return "Stok tidak boleh kosong";
+                                    return 'Stok tidak boleh kosong';
                                   }
                                   if (v != null &&
                                       v.isNotEmpty &&
                                       int.tryParse(v) == null) {
-                                    return "Stok harus berupa angka";
+                                    return 'Stok harus berupa angka';
                                   }
                                   return null;
                                 },
@@ -282,7 +282,7 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                               value: isActive,
                               onChanged: (v) => setState(() => isActive = v),
                               title: const Text(
-                                "Status Aktif",
+                                'Status Aktif',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -290,15 +290,15 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                               ),
                               subtitle: Text(
                                 isActive
-                                    ? "Produk akan muncul di marketplace"
-                                    : "Produk tidak akan muncul di marketplace",
+                                    ? 'Produk akan muncul di marketplace'
+                                    : 'Produk tidak akan muncul di marketplace',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[600],
                                 ),
                               ),
                               contentPadding: EdgeInsets.zero,
-                              activeColor: AppColors.primary,
+                              activeThumbColor: AppColors.primary,
                             ),
                           ],
                         ),
@@ -323,7 +323,7 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                                 Navigator.pop(context);
                               },
                               child: Text(
-                                "Batal",
+                                'Batal',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.grey.shade700,
@@ -346,7 +346,7 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                               ),
                               onPressed: _handleSubmit,
                               child: const Text(
-                                "Simpan Perubahan",
+                                'Simpan Perubahan',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,
@@ -373,7 +373,7 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
       // Implementasi update data
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text("Produk berhasil diperbarui"),
+          content: const Text('Produk berhasil diperbarui'),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -416,7 +416,7 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: AppColors.primary, width: 2),
+        borderSide: const BorderSide(color: AppColors.primary, width: 2),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),

@@ -852,7 +852,7 @@ class _AccountScreenState extends State<AccountScreen> {
         border: Border.all(color: Colors.grey[300]!),
       ),
       child: DropdownButtonFormField<String>(
-        value: _selectedGender,
+        initialValue: _selectedGender,
         decoration: const InputDecoration(
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),

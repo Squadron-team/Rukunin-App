@@ -14,7 +14,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
   final TextEditingController alamatC = TextEditingController();
   final TextEditingController nikC = TextEditingController();
   final TextEditingController noTelpC = TextEditingController();
-  String status = "Aktif";
+  String status = 'Aktif';
   
   final _formKey = GlobalKey<FormState>();
 
@@ -30,7 +30,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
   @override
   Widget build(BuildContext context) {
     return AdminLayout(
-      title: "Tambah Warga",
+      title: 'Tambah Warga',
       currentIndex: 0,
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -47,7 +47,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        "Tambah Data Warga Baru",
+                        'Tambah Data Warga Baru',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
@@ -55,7 +55,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        "Lengkapi formulir di bawah untuk menambahkan warga baru",
+                        'Lengkapi formulir di bawah untuk menambahkan warga baru',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey.shade600,
@@ -81,24 +81,24 @@ class _WargaAddPageState extends State<WargaAddPage> {
                         child: Column(
                           children: [
                             _input(
-                              "Nama Lengkap",
+                              'Nama Lengkap',
                               nameC,
                               validator: (v) => v?.isEmpty ?? true
-                                  ? "Nama tidak boleh kosong"
+                                  ? 'Nama tidak boleh kosong'
                                   : null,
                             ),
                             const SizedBox(height: 16),
                             
                             _input(
-                              "NIK",
+                              'NIK',
                               nikC,
                               keyboardType: TextInputType.number,
                               validator: (v) {
                                 if (v?.isEmpty ?? true) {
-                                  return "NIK tidak boleh kosong";
+                                  return 'NIK tidak boleh kosong';
                                 }
                                 if (v!.length != 16) {
-                                  return "NIK harus 16 digit";
+                                  return 'NIK harus 16 digit';
                                 }
                                 return null;
                               },
@@ -106,25 +106,25 @@ class _WargaAddPageState extends State<WargaAddPage> {
                             const SizedBox(height: 16),
                             
                             _input(
-                              "Alamat",
+                              'Alamat',
                               alamatC,
                               maxLines: 3,
                               validator: (v) => v?.isEmpty ?? true
-                                  ? "Alamat tidak boleh kosong"
+                                  ? 'Alamat tidak boleh kosong'
                                   : null,
                             ),
                             const SizedBox(height: 16),
                             
                             _input(
-                              "No. Telepon",
+                              'No. Telepon',
                               noTelpC,
                               keyboardType: TextInputType.phone,
                               validator: (v) {
                                 if (v?.isEmpty ?? true) {
-                                  return "No. Telepon tidak boleh kosong";
+                                  return 'No. Telepon tidak boleh kosong';
                                 }
                                 if (v!.length < 10) {
-                                  return "No. Telepon minimal 10 digit";
+                                  return 'No. Telepon minimal 10 digit';
                                 }
                                 return null;
                               },
@@ -132,14 +132,14 @@ class _WargaAddPageState extends State<WargaAddPage> {
                             const SizedBox(height: 16),
 
                             DropdownButtonFormField<String>(
-                              value: status,
+                              initialValue: status,
                               items: const [
                                 DropdownMenuItem(
-                                    value: "Aktif", child: Text("Aktif")),
+                                    value: 'Aktif', child: Text('Aktif')),
                                 DropdownMenuItem(
-                                    value: "Nonaktif", child: Text("Nonaktif")),
+                                    value: 'Nonaktif', child: Text('Nonaktif')),
                               ],
-                              decoration: _dec("Status Warga"),
+                              decoration: _dec('Status Warga'),
                               onChanged: (v) => setState(() => status = v!),
                             ),
                           ],
@@ -164,7 +164,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
                                 Navigator.pop(context);
                               },
                               child: Text(
-                                "Batal",
+                                'Batal',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.grey.shade700,
@@ -186,7 +186,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
                               ),
                               onPressed: _handleSubmit,
                               child: const Text(
-                                "Simpan Data",
+                                'Simpan Data',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,
@@ -217,7 +217,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
       // Tampilkan snackbar sukses
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text("Data warga berhasil ditambahkan"),
+          content: const Text('Data warga berhasil ditambahkan'),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -260,7 +260,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: AppColors.primary, width: 2),
+        borderSide: const BorderSide(color: AppColors.primary, width: 2),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
