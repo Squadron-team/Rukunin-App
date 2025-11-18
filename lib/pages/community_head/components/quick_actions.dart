@@ -4,6 +4,7 @@ import 'package:rukunin/widgets/quick_access_item.dart';
 import 'package:rukunin/pages/community_head/warga/warga_list_screen.dart';
 import 'package:rukunin/pages/community_head/warga/data_kk_screen.dart';
 import 'package:rukunin/pages/community_head/events/events_screen.dart';
+import 'package:rukunin/pages/community_head/announcements/announcements_screen.dart';
 
 class QuickActionsGrid extends StatelessWidget {
   const QuickActionsGrid({super.key});
@@ -80,6 +81,12 @@ class QuickActionsGrid extends StatelessWidget {
           icon: Icons.campaign,
           label: 'Pengumuman RT',
           color: AppColors.primary,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const AnnouncementsScreen()),
+            );
+          },
         ),
         QuickAccessItem(
           icon: Icons.insert_chart,
