@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
+import 'package:rukunin/pages/community_head/warga/warga_list_screen.dart';
+import 'package:rukunin/pages/community_head/warga/data_kk_screen.dart';
+import 'package:rukunin/pages/community_head/events/events_screen.dart';
 
 class QuickActionsGrid extends StatelessWidget {
   const QuickActionsGrid({super.key});
@@ -24,21 +27,39 @@ class QuickActionsGrid extends StatelessWidget {
         crossAxisSpacing: 16,
         // increase tile height so labels (eg. "Pengumuman RT") don't get cut
         childAspectRatio: 0.8,
-        children: const [
+        children: [
         QuickAccessItem(
           icon: Icons.person_add,
           label: 'Daftar Warga',
           color: AppColors.primary,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const WargaListScreen()),
+            );
+          },
         ),
         QuickAccessItem(
           icon: Icons.list_alt,
           label: 'Data KK',
           color: AppColors.primary,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const DataKkScreen()),
+            );
+          },
         ),
         QuickAccessItem(
           icon: Icons.event_available,
           label: 'Kegiatan RT',
           color: AppColors.primary,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const CommunityHeadEventsScreen()),
+            );
+          },
         ),
         QuickAccessItem(
           icon: Icons.payment,

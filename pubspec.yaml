@@ -34,6 +34,8 @@ flutter:
 
   assets:
     - assets/
+    - assets/kk/
+    - assets/ktp/
 
 flutter_launcher_icons:
   android: "app_icon"

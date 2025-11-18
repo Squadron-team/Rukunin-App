@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/resident.dart';
 import 'package:rukunin/pages/community_head/warga/warga_edit_screen.dart';
+import 'package:rukunin/pages/community_head/warga/widgets/doc_tile.dart';
+import 'package:rukunin/pages/community_head/warga/widgets/doc_preview_dialog.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class WargaDetailScreen extends StatelessWidget {
@@ -12,16 +14,24 @@ class WargaDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail Warga'),
         backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
         elevation: 0,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        title: Row(
           children: [
+            Container(width: 4, height: 24, decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(2))),
+            const SizedBox(width: 12),
+            const Text('Detail Warga', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20, letterSpacing: -0.5)),
+          ],
+        ),
+        foregroundColor: Colors.black,
+      ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
             Row(
               children: [
                 CircleAvatar(
@@ -43,10 +53,10 @@ class WargaDetailScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: warga.isActive ? AppColors.primary.withOpacity(0.12) : Colors.red.withOpacity(0.12),
+                    color: warga.isActive ? AppColors.primary.withAlpha(30) : Colors.red.withAlpha(30),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Text(warga.isActive ? 'Aktif' : 'Non-aktif', style: TextStyle(color: warga.isActive ? AppColors.primary : Colors.red[700])),
+                  child: Text(warga.isActive ? 'Aktif' : 'Non-aktif', style: TextStyle(color: warga.isActive ? AppColors.primary : Colors.red[700], fontWeight: FontWeight.w700)),
                 ),
               ],
             ),
@@ -61,61 +71,85 @@ class WargaDetailScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Row(
               children: [
-                _docTile(context, 'KTP', warga.ktpUrl),
+                Expanded(
+                  child: DocTile(
+                    title: 'KTP',
+                    url: warga.ktpUrl,
+                    onUpload: () {},
+                    onView: () => showDocPreview(context, type: 'KTP', name: warga.name, number: warga.nik, url: warga.ktpUrl),
+                    showUpload: false,
+                    showViewButton: false,
+                    viewOnBoxTap: true,
+                  ),
+                ),
                 const SizedBox(width: 12),
-                _docTile(context, 'KK', warga.kkUrl),
+                Expanded(
+                  child: DocTile(
+                    title: 'KK',
+                    url: warga.kkUrl,
+                    onUpload: () {},
+                    onView: () => showDocPreview(context, type: 'KK', name: warga.name, number: warga.kkNumber, url: warga.kkUrl),
+                    showUpload: false,
+                    showViewButton: false,
+                    viewOnBoxTap: true,
+                  ),
+                ),
               ],
             ),
             const Spacer(),
             Row(
               children: [
                 Expanded(
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                      side: BorderSide(color: Colors.grey.shade300),
                     ),
-                    onPressed: () async {
-                      final result = await Navigator.push(context, MaterialPageRoute(builder: (_) => WargaEditScreen(warga: warga)));
-                      if (result != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: const Text('Perubahan berhasil disimpan'),
-                          backgroundColor: Colors.yellow[700],
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                        ));
-                      }
-                    },
-                    child: const Text('Edit'),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: const Text('Unduh laporan berhasil'),
                         backgroundColor: AppColors.primary,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                      ),
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: const Text('Unduh laporan berhasil'),
-                          backgroundColor: Colors.yellow[700],
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                        ));
-                      },
-                      child: const Text('Unduh', style: TextStyle(color: Colors.white)),
-                    ),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ));
+                    },
+                    icon: const Icon(Icons.file_download_outlined, color: Colors.white),
+                    label: const Text('Unduh', style: TextStyle(color: Colors.white)),
+                  ),
                 ),
               ],
             )
           ],
-        ),
+            ),
+          ),
+          // Floating edit button
+          Positioned(
+            right: 8,
+            bottom: 80,
+            child: FloatingActionButton(
+              heroTag: 'edit-warga',
+              backgroundColor: AppColors.primary,
+              child: const Icon(Icons.edit, color: Colors.white),
+              onPressed: () async {
+                final result = await Navigator.push(context, MaterialPageRoute(builder: (_) => WargaEditScreen(warga: warga)));
+                if (result != null) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: const Text('Perubahan berhasil disimpan'),
+                    backgroundColor: AppColors.primary,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ));
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
+
+  
 
   Widget _infoRow(String label, String value) {
     return Padding(
@@ -124,45 +158,6 @@ class WargaDetailScreen extends StatelessWidget {
         children: [
           SizedBox(width: 110, child: Text(label, style: TextStyle(color: Colors.grey[700]))),
           Expanded(child: Text(value, style: const TextStyle(fontWeight: FontWeight.w600))),
-        ],
-      ),
-    );
-  }
-
-  Widget _docTile(BuildContext context, String title, String url) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 110,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.grey.withOpacity(0.2)),
-              ),
-              child: Center(child: Text(url.isEmpty ? 'Belum ada $title' : 'Preview $title')),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              OutlinedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Upload $title berhasil'),
-                    backgroundColor: Colors.yellow[700],
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  ));
-                },
-                child: const Text('Upload'),
-              ),
-              const SizedBox(width: 8),
-              TextButton(onPressed: () {}, child: const Text('Lihat')),
-            ],
-          ),
         ],
       ),
     );
