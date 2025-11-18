@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/block_leader/block_leader_home_screen.dart';
+import 'package:rukunin/pages/block_leader/data_warga/data_warga_screen.dart';
+import 'package:rukunin/pages/block_leader/laporan/kelola_laporan_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/general/notification_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
@@ -20,6 +22,8 @@ class BlockLeaderLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
+      //================ APP BAR ================
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -60,8 +64,6 @@ class BlockLeaderLayout extends StatelessWidget {
                         AppColors.primary.withOpacity(0.1),
                         AppColors.primary.withOpacity(0.05),
                       ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
@@ -105,122 +107,109 @@ class BlockLeaderLayout extends StatelessWidget {
           const SizedBox(width: 8),
         ],
       ),
-      body: body,
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 12,
-              offset: const Offset(0, -4),
+
+      //================ BODY ================
+      body: SafeArea(
+        child: body,
+      ),
+
+      //================ BOTTOM NAV ================
+      bottomNavigationBar: _BottomNav(
+        currentIndex: currentIndex,
+      ),
+    );
+  }
+}
+
+class _BottomNav extends StatelessWidget {
+  final int currentIndex;
+
+  const _BottomNav({required this.currentIndex});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 12,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _item(
+              context,
+              icon: Icons.dashboard_rounded,
+              label: "Dashboard",
+              index: 0,
+              page: const BlockLeaderHomeScreen(),
+            ),
+            _item(
+              context,
+              icon: Icons.people_rounded,
+              label: "Warga",
+              index: 1,
+              page: const DataWargaScreen(),
+            ),
+            _item(
+              context,
+              icon: Icons.analytics_rounded,
+              label: "Laporan",
+              index: 2,
+              page: const KelolaLaporanScreen(),
+            ),
+            _item(
+              context,
+              icon: Icons.person_rounded,
+              label: "Akun",
+              index: 3,
+              page: const AccountScreen(),
             ),
           ],
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildNavItem(
-                  context,
-                  icon: Icons.dashboard_rounded,
-                  label: 'Dashboard',
-                  index: 0,
-                  isSelected: currentIndex == 0,
-                ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.people_rounded,
-                  label: 'Warga',
-                  index: 1,
-                  isSelected: currentIndex == 1,
-                ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.analytics_rounded,
-                  label: 'Laporan',
-                  index: 2,
-                  isSelected: currentIndex == 2,
-                ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.person_rounded,
-                  label: 'Akun',
-                  index: 3,
-                  isSelected: currentIndex == 3,
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );
   }
 
-  Widget _buildNavItem(
+  Widget _item(
     BuildContext context, {
     required IconData icon,
     required String label,
     required int index,
-    required bool isSelected,
+    required Widget page,
   }) {
+    final selected = currentIndex == index;
+
     return GestureDetector(
       onTap: () {
-        if (index == currentIndex) return;
-
-        // TODO: Add proper navigation for index 1 and 2 when screens are created
-        if (index == 1 || index == 2) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Menu $label belum tersedia'),
-              backgroundColor: Colors.orange,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          );
-          return;
-        }
-
-        final screens = [
-          const BlockLeaderHomeScreen(),
-          const AccountScreen(),
-        ];
-
-        if (index == 0) {
-          Navigator.pushAndRemoveUntil(
+        if (!selected) {
+          Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => screens[0]),
-            (route) => false,
-          );
-        } else if (index == 3) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => screens[1]),
+            MaterialPageRoute(builder: (_) => page),
           );
         }
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.primary : Colors.transparent,
-                borderRadius: BorderRadius.circular(10),
+                color: selected ? AppColors.primary : Colors.transparent,
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
-                color: isSelected ? Colors.white : Colors.grey[600],
                 size: 24,
+                color: selected ? Colors.white : Colors.grey[600],
               ),
             ),
             const SizedBox(height: 4),
@@ -228,9 +217,8 @@ class BlockLeaderLayout extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                color: isSelected ? AppColors.primary : Colors.grey[600],
-                letterSpacing: -0.2,
+                color: selected ? AppColors.primary : Colors.grey[600],
+                fontWeight: selected ? FontWeight.bold : FontWeight.w500,
               ),
             ),
           ],
