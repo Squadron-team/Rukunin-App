@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/community_head/community_head_layout.dart';
-import 'package:rukunin/pages/community_head/warga/warga_card.dart';
+import 'package:rukunin/pages/community_head/warga/widgets/warga_card.dart';
 import 'package:rukunin/pages/community_head/warga/warga_detail_screen.dart';
 import 'package:rukunin/pages/community_head/warga/warga_add_screen.dart';
 import 'package:rukunin/models/resident.dart';
 import 'package:rukunin/repositories/resident.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/pages/community_head/warga/widgets/search_bar.dart';
+import 'package:rukunin/pages/community_head/warga/widgets/download_button.dart';
 
 class WargaListScreen extends StatefulWidget {
   const WargaListScreen({super.key});
@@ -19,6 +21,7 @@ class _WargaListScreenState extends State<WargaListScreen> {
   late List<Warga> _visible;
   String query = '';
   String filter = 'Semua';
+  bool _showFilter = false;
 
   @override
   void initState() {
@@ -39,9 +42,7 @@ class _WargaListScreenState extends State<WargaListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final total = _all.length;
-    final aktif = _all.where((w) => w.isActive).length;
-    final nonaktif = total - aktif;
+    
 
     return CommunityHeadLayout(
       title: 'Warga',
@@ -55,56 +56,48 @@ class _WargaListScreenState extends State<WargaListScreen> {
                 children: [
               Row(
                 children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Cari nama atau NIK',
-                        prefixIcon: const Icon(Icons.search),
-                        isDense: true,
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: Colors.grey.shade300)),
-                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: Colors.grey.shade300)),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                      ),
-                      onChanged: (v) {
-                        query = v;
-                        _applyFilters();
-                      },
-                    ),
-                  ),
+                  Expanded(child: WargaSearchBar(onChanged: (v) { query = v; _applyFilters(); })),
                   const SizedBox(width: 12),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: const Text('Data warga berhasil diunduh'),
-                        backgroundColor: Colors.yellow[700],
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      ));
-                    },
-                    icon: const Icon(Icons.file_upload_outlined),
-                    label: const Text('Unduh'),
-                    style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                  DownloadButton(onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: const Text('Data warga berhasil diunduh'),
+                      backgroundColor: AppColors.primary,
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ));
+                  }),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    tooltip: 'Filter',
+                    icon: Icon(Icons.filter_list, color: (_showFilter || filter != 'Semua') ? AppColors.primary : Colors.grey[700]),
+                    onPressed: () => setState(() => _showFilter = !_showFilter),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(child: _buildFilterChip('Semua')),
-                  const SizedBox(width: 8),
-                  Expanded(child: _buildFilterChip('Aktif')),
-                  const SizedBox(width: 8),
-                  Expanded(child: _buildFilterChip('Non-aktif')),
-                ],
-              ),
+              if (_showFilter)
+                Row(
+                  children: [
+                    Expanded(child: _buildFilterChip('Semua')),
+                    const SizedBox(width: 8),
+                    Expanded(child: _buildFilterChip('Aktif')),
+                    const SizedBox(width: 8),
+                    Expanded(child: _buildFilterChip('Non-aktif')),
+                  ],
+                ),
               const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Total warga: $total', style: const TextStyle(fontWeight: FontWeight.w700)),
-                  Text('Aktif $aktif  •  Non-aktif $nonaktif', style: const TextStyle(color: Colors.grey)),
-                ],
-              ),
+              if (_visible.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text('Data warga RT ${_visible.first.rt} / RW ${_visible.first.rw}', style: TextStyle(color: Colors.grey[700])),
+                      ),
+                      Text('Total: ${_visible.length}', style: TextStyle(color: Colors.grey[700])),
+                    ],
+                  ),
+                ),
               const SizedBox(height: 12),
               Expanded(
                 child: _visible.isEmpty
@@ -124,14 +117,42 @@ class _WargaListScreenState extends State<WargaListScreen> {
                               child: Row(mainAxisSize: MainAxisSize.min, children: const [Icon(Icons.delete, color: Colors.white), SizedBox(width: 8), Text('Hapus', style: TextStyle(color: Colors.white))]),
                             ),
                             confirmDismiss: (dir) async {
-                              final ok = await showDialog<bool>(context: context, builder: (c) {
-                                return AlertDialog(
-                                  title: const Text('Hapus warga'),
-                                  content: Text('Yakin menghapus ${warga.name}?'),
-                                  actions: [
-                                    TextButton(onPressed: () => Navigator.pop(c, false), child: const Text('Batal')),
-                                    ElevatedButton(onPressed: () => Navigator.pop(c, true), child: const Text('Hapus')),
-                                  ],
+                                final ok = await showDialog<bool>(context: context, builder: (c) {
+                                return Dialog(
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                  child: ConstrainedBox(
+                                    constraints: const BoxConstraints(maxWidth: 360),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(Icons.warning_amber_rounded, size: 96, color: Colors.red.shade200),
+                                          const SizedBox(height: 12),
+                                          const Text('Hapus warga', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20)),
+                                          const SizedBox(height: 8),
+                                          Text('Yakin menghapus ${warga.name}?', textAlign: TextAlign.center),
+                                          const SizedBox(height: 16),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              OutlinedButton(
+                                                style: OutlinedButton.styleFrom(side: BorderSide(color: Colors.grey.shade300)),
+                                                onPressed: () => Navigator.pop(c, false),
+                                                child: Text('Batal', style: TextStyle(color: Colors.grey[700])),
+                                              ),
+                                              const SizedBox(width: 12),
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                                onPressed: () => Navigator.pop(c, true),
+                                                child: const Text('Hapus', style: TextStyle(color: Colors.white)),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 );
                               });
                               if (ok ?? false) {
@@ -141,7 +162,7 @@ class _WargaListScreenState extends State<WargaListScreen> {
                                 });
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: const Text('Warga berhasil dihapus'),
-                                  backgroundColor: Colors.yellow[700],
+                                  backgroundColor: AppColors.primary,
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                 ));
@@ -180,7 +201,7 @@ class _WargaListScreenState extends State<WargaListScreen> {
                         });
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: const Text('Warga baru berhasil ditambahkan'),
-                          backgroundColor: Colors.yellow[700],
+                          backgroundColor: AppColors.primary,
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         ));
@@ -209,7 +230,7 @@ class _WargaListScreenState extends State<WargaListScreen> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
         decoration: BoxDecoration(
           color: selected ? AppColors.primary.withOpacity(0.12) : Colors.transparent,
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: selected ? AppColors.primary : Colors.grey.shade300),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
