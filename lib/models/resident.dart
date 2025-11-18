@@ -17,11 +17,7 @@ class Warga {
     required this.nik,
     required this.kkNumber,
     required this.address,
-    this.rt = '01',
+    required this.isActive, required this.ktpUrl, required this.kkUrl, required this.createdAt, this.rt = '01',
     this.rw = '01',
-    required this.isActive,
-    required this.ktpUrl,
-    required this.kkUrl,
-    required this.createdAt,
   });
 }

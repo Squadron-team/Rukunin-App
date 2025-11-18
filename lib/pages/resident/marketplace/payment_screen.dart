@@ -10,8 +10,7 @@ class PaymentScreen extends StatefulWidget {
   final double deliveryFee;
 
   const PaymentScreen({
-    super.key,
-    required this.products,
+    required this.products, super.key,
     this.fromCart = false,
     this.appliedDiscount = 0,
     this.deliveryFee = 5000,

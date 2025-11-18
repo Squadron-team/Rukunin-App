@@ -44,7 +44,7 @@ class _IuranListPageState extends State<IuranListPage> {
                     ],
                     onChanged: (v) => setState(() => selectedFilter = v!),
                     underline: Container(),
-                    icon: Icon(Icons.filter_list, color: AppColors.primary),
+                    icon: const Icon(Icons.filter_list, color: AppColors.primary),
                   ),
                 ],
               ),
@@ -186,7 +186,7 @@ class _IuranListPageState extends State<IuranListPage> {
                   const SizedBox(height: 4),
                   Text(
                     'Rp ${_formatCurrency(amount)}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: AppColors.primary,
@@ -208,7 +208,7 @@ class _IuranListPageState extends State<IuranListPage> {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.check_circle,
                           size: 14,
                           color: Colors.green,

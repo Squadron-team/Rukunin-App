@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rukunin/pages/admin/admin_home_screen.dart';
-import 'package:rukunin/pages/community_head/community_head_home_screen.dart';
-import 'package:rukunin/pages/block_leader/block_leader_home_screen.dart';
-import 'package:rukunin/pages/resident/resident_home_screen.dart';
-import 'package:rukunin/pages/secretary/secretary_home_screen.dart';
-import 'package:rukunin/pages/treasurer/treasurer_home_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class RoleBasedNavigator {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -25,11 +20,46 @@ class RoleBasedNavigator {
     }
   }
 
+  /// Get route path based on user role
+  static String getRouteByRole(String? role) {
+    switch (role) {
+      case 'admin':
+        return '/admin';
+      case 'community_head':
+        return '/rt';
+      case 'block_leader':
+        return '/rw';
+      case 'secretary':
+        return '/secretary';
+      case 'treasurer':
+        return '/treasurer';
+      case 'resident':
+      default:
+        return '/resident';
+    }
+  }
+
+  /// Get account route path based on user role
+  static String getAccountRouteByRole(String? role) {
+    switch (role) {
+      case 'admin':
+        return '/admin/account';
+      case 'community_head':
+        return '/rt/account';
+      case 'block_leader':
+        return '/rw/account';
+      case 'secretary':
+        return '/secretary/account';
+      case 'treasurer':
+        return '/treasurer/account';
+      case 'resident':
+      default:
+        return '/resident/account';
+    }
+  }
+
   /// Navigate to home screen based on user role
-  static Future<void> navigateToRoleBasedHome(
-    BuildContext context, {
-    bool replace = true,
-  }) async {
+  static Future<void> navigateToRoleBasedHome(BuildContext context) async {
     final user = FirebaseAuth.instance.currentUser;
     
     if (user == null) {
@@ -41,61 +71,24 @@ class RoleBasedNavigator {
 
     if (!context.mounted) return;
 
-    Widget homeScreen;
-
-    switch (role) {
-      case 'admin':
-        homeScreen = const AdminHomeScreen();
-        break;
-      case 'community_head':
-        homeScreen = const CommunityHeadHomeScreen();
-        break;
-      case 'block_leader':
-        homeScreen = const BlockLeaderHomeScreen();
-        break;
-      case 'secretary':
-        homeScreen = const SecretaryHomeScreen();
-        break;
-      case 'treasurer':
-        homeScreen = const TreasurerHomeScreen();
-        break;
-      case 'resident':
-      default:
-        homeScreen = const ResidentHomeScreen();
-        break;
-    }
-
-    if (replace) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => homeScreen),
-      );
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => homeScreen),
-      );
-    }
+    final route = getRouteByRole(role);
+    context.go(route);
   }
 
-  /// Get home screen widget based on role (for initial route)
-  static Future<Widget> getHomeScreenByRole(String uid) async {
-    final role = await getUserRole(uid);
-
-    switch (role) {
-      case 'admin':
-        return const AdminHomeScreen();
-      case 'community_head':
-        return const CommunityHeadHomeScreen();
-      case 'block_leader':
-        return const BlockLeaderHomeScreen();
-      case 'secretary':
-        return const SecretaryHomeScreen();
-      case 'treasurer':
-        return const TreasurerHomeScreen();
-      case 'resident':
-      default:
-        return const ResidentHomeScreen();
+  /// Navigate to account screen based on user role
+  static Future<void> navigateToAccount(BuildContext context) async {
+    final user = FirebaseAuth.instance.currentUser;
+    
+    if (user == null) {
+      debugPrint('No user logged in');
+      return;
     }
+
+    final role = await getUserRole(user.uid);
+
+    if (!context.mounted) return;
+
+    final route = getAccountRouteByRole(role);
+    context.go(route);
   }
 }

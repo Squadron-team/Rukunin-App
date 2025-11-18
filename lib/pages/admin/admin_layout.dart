@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/pages/admin/admin_home_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/general/notification_screen.dart';
@@ -201,6 +202,9 @@ class AdminLayout extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (_) => screens[1]),
           );
+        } else {
+          // Use go_router for navigation
+          context.go('/admin/${label.toLowerCase()}');
         }
       },
       child: Container(

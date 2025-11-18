@@ -136,7 +136,7 @@ class WargaListPage extends StatelessWidget {
                 color: AppColors.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(Icons.person, color: AppColors.primary, size: 26),
+              child: const Icon(Icons.person, color: AppColors.primary, size: 26),
             ),
 
             const SizedBox(width: 16),
@@ -192,7 +192,7 @@ class WargaListPage extends StatelessWidget {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: status == "Aktif"
+                          color: status == 'Aktif'
                               ? Colors.green.withOpacity(0.1)
                               : Colors.red.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(6),
@@ -201,7 +201,7 @@ class WargaListPage extends StatelessWidget {
                           status,
                           style: TextStyle(
                             fontSize: 11,
-                            color: status == "Aktif" ? Colors.green : Colors.red,
+                            color: status == 'Aktif' ? Colors.green : Colors.red,
                             fontWeight: FontWeight.w600,
                           ),
                         ),

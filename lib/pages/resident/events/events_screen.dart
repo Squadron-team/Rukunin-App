@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
 import 'package:rukunin/pages/resident/events/widgets/event_card.dart';
-import 'package:rukunin/pages/resident/resident_layout.dart';
 import 'package:rukunin/repositories/events.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
@@ -32,9 +31,22 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ResidentLayout(
-      title: 'Kegiatan Warga',
-      currentIndex: 2,
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        title: const Text(
+          'Kegiatan Warga',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           // TODO: Implement refresh from Firebase

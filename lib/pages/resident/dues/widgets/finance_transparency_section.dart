@@ -1054,10 +1054,10 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                             if (reasonController.text.trim().isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Row(
+                                  content: const Row(
                                     children: [
                                       Icon(Icons.warning_amber_rounded, color: Colors.white),
-                                      const SizedBox(width: 12),
+                                      SizedBox(width: 12),
                                       Expanded(
                                         child: Text('Harap jelaskan alasan pelaporan Anda'),
                                       ),

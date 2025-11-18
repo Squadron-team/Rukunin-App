@@ -49,7 +49,7 @@ class MarketplaceDetailPage extends StatelessWidget {
                       ),
                       child: Text(
                         category,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColors.primary,
                           fontWeight: FontWeight.w600,

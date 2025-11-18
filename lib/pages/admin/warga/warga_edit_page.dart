@@ -8,10 +8,7 @@ class WargaEditPage extends StatefulWidget {
   final String status;
 
   const WargaEditPage({
-    super.key,
-    required this.name,
-    required this.alamat,
-    required this.status,
+    required this.name, required this.alamat, required this.status, super.key,
   });
 
   @override
@@ -34,7 +31,7 @@ class _WargaEditPageState extends State<WargaEditPage> {
   @override
   Widget build(BuildContext context) {
     return AdminLayout(
-      title: "Edit Warga",
+      title: 'Edit Warga',
       currentIndex: 0,
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -49,7 +46,7 @@ class _WargaEditPageState extends State<WargaEditPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Ubah Data Warga",
+                      'Ubah Data Warga',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
@@ -74,20 +71,20 @@ class _WargaEditPageState extends State<WargaEditPage> {
                       ),
                       child: Column(
                         children: [
-                          _input("Nama Lengkap", nameC),
+                          _input('Nama Lengkap', nameC),
                           const SizedBox(height: 16),
-                          _input("Alamat", alamatC),
+                          _input('Alamat', alamatC),
                           const SizedBox(height: 16),
 
                           DropdownButtonFormField<String>(
-                            value: status,
+                            initialValue: status,
                             items: const [
                               DropdownMenuItem(
-                                  value: "Aktif", child: Text("Aktif")),
+                                  value: 'Aktif', child: Text('Aktif')),
                               DropdownMenuItem(
-                                  value: "Nonaktif", child: Text("Nonaktif")),
+                                  value: 'Nonaktif', child: Text('Nonaktif')),
                             ],
-                            decoration: _dec("Status Warga"),
+                            decoration: _dec('Status Warga'),
                             onChanged: (v) => setState(() => status = v!),
                           ),
                         ],
@@ -112,7 +109,7 @@ class _WargaEditPageState extends State<WargaEditPage> {
                           // aksi simpan
                         },
                         child: const Text(
-                          "Simpan Perubahan",
+                          'Simpan Perubahan',
                           style: TextStyle(
                               fontSize: 16, color: Colors.white),
                         ),
@@ -148,7 +145,7 @@ class _WargaEditPageState extends State<WargaEditPage> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: AppColors.primary, width: 2),
+        borderSide: const BorderSide(color: AppColors.primary, width: 2),
       ),
       contentPadding:
           const EdgeInsets.symmetric(vertical: 14, horizontal: 16),

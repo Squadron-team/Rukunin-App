@@ -8,10 +8,7 @@ class TransactionCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const TransactionCard({
-    super.key,
-    required this.transaction,
-    required this.isIncome,
-    required this.onTap,
+    required this.transaction, required this.isIncome, required this.onTap, super.key,
   });
 
   @override
