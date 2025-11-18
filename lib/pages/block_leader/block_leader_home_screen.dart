@@ -1,495 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/block_leader/block_leader_layout.dart';
+import 'package:rukunin/pages/block_leader/data_warga/data_warga_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/widgets/quick_access_item.dart';
+
+// Halaman lain
+import 'package:rukunin/pages/block_leader/iuran/iuran_rw_screen.dart';
+import 'package:rukunin/pages/block_leader/kegiatan/kegiatan_rw_screen.dart';
+import 'package:rukunin/pages/block_leader/laporan/kelola_laporan_screen.dart';
+import 'package:rukunin/pages/block_leader/pengumuman/pengumuman_screen.dart';
+import 'package:rukunin/pages/block_leader/rapat/rapat_rw_screen.dart';
+import 'package:rukunin/pages/block_leader/surat/surat_menyurat_screen.dart';
 
 class BlockLeaderHomeScreen extends StatelessWidget {
-  const BlockLeaderHomeScreen({super.key});
+  final int totalWarga;
+  final String totalKeuangan;
+
+  const BlockLeaderHomeScreen({
+    super.key,
+    this.totalWarga = 248, // Data dummy
+    this.totalKeuangan = "Rp 45.8 Jt", // Data dummy
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlockLeaderLayout(
-      title: 'Dashboard RW',
+      title: "Dashboard",
       currentIndex: 0,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.grey[50]!,
+              Colors.white,
+            ],
+          ),
+        ),
+        child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Welcome Card with RW Info
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      AppColors.primary,
-                      AppColors.primary.withOpacity(0.8),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withOpacity(0.3),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.location_city,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Selamat datang, Pak RW',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                'RW 05 - Tegalharjo',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.groups,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                          SizedBox(width: 6),
-                          Text(
-                            'Mengelola 5 RT',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
+              _header(),
+              const SizedBox(height: 28),
+              _quickStats(context),
+              const SizedBox(height: 28),
+              _insightSection(context),
+              const SizedBox(height: 28),
+              _menuSection(context),
+              const SizedBox(height: 28),
+              _recentActivity(),
               const SizedBox(height: 24),
-
-              // Area Statistics
-              const Text(
-                'Statistik RW 05',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard(
-                      icon: Icons.home,
-                      label: 'Total KK',
-                      value: '245',
-                      color: Colors.blue,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard(
-                      icon: Icons.people,
-                      label: 'Total Warga',
-                      value: '892',
-                      color: Colors.green,
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 12),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard(
-                      icon: Icons.event,
-                      label: 'Kegiatan Bulan Ini',
-                      value: '6',
-                      color: Colors.purple,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard(
-                      icon: Icons.report_problem,
-                      label: 'Laporan Aktif',
-                      value: '8',
-                      color: Colors.orange,
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 32),
-
-              // RT Status Overview
-              const Text(
-                'Status RT',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              _buildRTStatusCard(
-                rtNumber: '01',
-                totalKK: 48,
-                paidDues: 42,
-                pendingReports: 2,
-                status: 'Baik',
-                statusColor: Colors.green,
-              ),
-
-              _buildRTStatusCard(
-                rtNumber: '02',
-                totalKK: 52,
-                paidDues: 45,
-                pendingReports: 1,
-                status: 'Baik',
-                statusColor: Colors.green,
-              ),
-
-              _buildRTStatusCard(
-                rtNumber: '03',
-                totalKK: 45,
-                paidDues: 38,
-                pendingReports: 3,
-                status: 'Perlu Perhatian',
-                statusColor: Colors.orange,
-              ),
-
-              _buildRTStatusCard(
-                rtNumber: '04',
-                totalKK: 50,
-                paidDues: 50,
-                pendingReports: 0,
-                status: 'Sangat Baik',
-                statusColor: Colors.blue,
-              ),
-
-              _buildRTStatusCard(
-                rtNumber: '05',
-                totalKK: 50,
-                paidDues: 44,
-                pendingReports: 2,
-                status: 'Baik',
-                statusColor: Colors.green,
-              ),
-
-              const SizedBox(height: 32),
-
-              // Quick Actions for Block Leader
-              const Text(
-                'Menu RW',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              GridView.count(
-                crossAxisCount: 3,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                children: const [
-                  QuickAccessItem(
-                    icon: Icons.people_alt,
-                    label: 'Data Warga',
-                    color: AppColors.primary,
-                  ),
-                  QuickAccessItem(
-                    icon: Icons.event_note,
-                    label: 'Kegiatan RW',
-                    color: AppColors.primary,
-                  ),
-                  QuickAccessItem(
-                    icon: Icons.assignment,
-                    label: 'Kelola Laporan',
-                    color: AppColors.primary,
-                  ),
-                  QuickAccessItem(
-                    icon: Icons.account_balance_wallet,
-                    label: 'Iuran RW',
-                    color: AppColors.primary,
-                  ),
-                  QuickAccessItem(
-                    icon: Icons.article,
-                    label: 'Pengumuman',
-                    color: AppColors.primary,
-                  ),
-                  QuickAccessItem(
-                    icon: Icons.admin_panel_settings,
-                    label: 'Kelola RT',
-                    color: AppColors.primary,
-                  ),
-                  QuickAccessItem(
-                    icon: Icons.description,
-                    label: 'Surat Menyurat',
-                    color: AppColors.primary,
-                  ),
-                  QuickAccessItem(
-                    icon: Icons.bar_chart,
-                    label: 'Laporan RW',
-                    color: AppColors.primary,
-                  ),
-                  QuickAccessItem(
-                    icon: Icons.handshake,
-                    label: 'Rapat RW',
-                    color: AppColors.primary,
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 32),
-
-              // Recent Activities
-              const Text(
-                'Aktivitas Terbaru',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              _buildActivityCard(
-                icon: Icons.payment,
-                title: 'Pembayaran Iuran - RT 01',
-                subtitle: 'Pak Budi (RT 01/15) membayar iuran bulan November',
-                time: '10 menit yang lalu',
-                color: Colors.blue,
-              ),
-
-              _buildActivityCard(
-                icon: Icons.report,
-                title: 'Laporan Baru - RT 03',
-                subtitle: 'Lampu jalan mati di Gang Mawar RT 03',
-                time: '25 menit yang lalu',
-                color: Colors.orange,
-              ),
-
-              _buildActivityCard(
-                icon: Icons.person_add,
-                title: 'Warga Baru - RT 02',
-                subtitle: 'Keluarga Santoso pindah ke RT 02/08',
-                time: '1 jam yang lalu',
-                color: Colors.green,
-              ),
-
-              _buildActivityCard(
-                icon: Icons.event,
-                title: 'Kegiatan Terjadwal',
-                subtitle: 'Kerja bakti RW 05 minggu depan, Sabtu pukul 07:00',
-                time: '2 jam yang lalu',
-                color: Colors.purple,
-              ),
-
-              _buildActivityCard(
-                icon: Icons.description,
-                title: 'Permohonan Surat - RT 04',
-                subtitle: 'Ibu Siti mengajukan surat pengantar RT',
-                time: '3 jam yang lalu',
-                color: Colors.teal,
-              ),
-
-              const SizedBox(height: 32),
-
-              // Financial Summary
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.blue.withOpacity(0.1),
-                      Colors.blue.withOpacity(0.05),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.blue.withOpacity(0.2),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.account_balance_wallet,
-                            color: Colors.blue,
-                            size: 24,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        const Text(
-                          'Kas RW Bulan Ini',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Total Terkumpul',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              'Rp 8.450.000',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.green,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Target',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              'Rp 10.000.000',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: LinearProgressIndicator(
-                        value: 0.845,
-                        minHeight: 8,
-                        backgroundColor: Colors.grey[300],
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          Colors.green,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '84.5% Tercapai',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          '219/245 KK Bayar',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -497,310 +57,579 @@ class BlockLeaderHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard({
-    required IconData icon,
-    required String label,
-    required String value,
-    required Color color,
-  }) {
+  // ========================= HEADER =========================
+  Widget _header() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(20, 32, 20, 28),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.2)),
+        gradient: LinearGradient(
+          colors: [
+            AppColors.primary,
+            AppColors.primary.withOpacity(0.8),
+            AppColors.primary.withOpacity(0.9),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(32),
+          bottomRight: Radius.circular(32),
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
+            color: AppColors.primary.withOpacity(0.4),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          )
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(icon, color: color, size: 24),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
-              color: Colors.black,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRTStatusCard({
-    required String rtNumber,
-    required int totalKK,
-    required int paidDues,
-    required int pendingReports,
-    required String status,
-    required Color statusColor,
-  }) {
-    final paymentPercentage = (paidDues / totalKK * 100).round();
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[200]!),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 48,
-                height: 48,
+                padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white.withOpacity(0.3), width: 2),
                 ),
-                child: Center(
-                  child: Text(
-                    rtNumber,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.primary,
-                    ),
-                  ),
+                child: const CircleAvatar(
+                  radius: 32,
+                  backgroundImage: AssetImage('assets/images/avatar.png'),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'RT $rtNumber',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
+                      "Selamat Datang! 👋",
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      '$totalKK Kepala Keluarga',
+                    const Text(
+                      "Budi Santoso",
                       style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[600],
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Text(
+                        "Ketua RW 05",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ========================= QUICK STATS =========================
+  Widget _quickStats(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          Expanded(
+            child: _quickStatCard(
+              "Laporan Baru",
+              "3",
+              Icons.report_problem_rounded,
+              Colors.orange,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: _quickStatCard(
+              "Pengumuman",
+              "5",
+              Icons.campaign_rounded,
+              Colors.red,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: _quickStatCard(
+              "Rapat Hari Ini",
+              "1",
+              Icons.event_rounded,
+              Colors.purple,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _quickStatCard(String title, String value, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: color.withOpacity(0.2), width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          )
+        ],
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: color, size: 24),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 11,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ========================= INSIGHT SECTION =========================
+  Widget _insightSection(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
+                width: 4,
+                height: 24,
                 decoration: BoxDecoration(
-                  color: statusColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(2),
                 ),
-                child: Text(
-                  status,
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: statusColor,
+              ),
+              const SizedBox(width: 12),
+              const Text(
+                "Statistik Utama",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          _insightCard(
+            context: context,
+            title: "Total RT",
+            value: "12 RT",
+            subtitle: "Di wilayah RW 05",
+            icon: Icons.home_work_rounded,
+            color: Colors.indigo,
+            trend: "+2 RT baru",
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                child: _insightCard(
+                  context: context,
+                  title: "Jumlah Warga",
+                  value: totalWarga.toString(),
+                  subtitle: "Terdaftar aktif",
+                  icon: Icons.people_rounded,
+                  color: Colors.blue,
+                  page: const DataWargaScreen(),
+                  trend: "+12 bulan ini",
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: _insightCard(
+                  context: context,
+                  title: "Total Keuangan",
+                  value: totalKeuangan,
+                  subtitle: "Saldo tersedia",
+                  icon: Icons.account_balance_wallet_rounded,
+                  color: Colors.green,
+                  page: const IuranRwScreen(),
+                  trend: "+8.5% bulan ini",
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _insightCard({
+    required BuildContext context,
+    required String title,
+    required String value,
+    required String subtitle,
+    required IconData icon,
+    required Color color,
+    String? trend,
+    Widget? page,
+  }) {
+    final bool clickable = page != null;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: clickable
+            ? () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => page!),
+                );
+              }
+            : null,
+        child: Container(
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: color.withOpacity(0.3), width: 1.5),
+            boxShadow: [
+              BoxShadow(
+                color: color.withOpacity(0.15),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              )
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: color.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Icon(icon, color: color, size: 28),
                   ),
+                  if (clickable)
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: color.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 14,
+                        color: color,
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w800,
+                  color: color,
+                  letterSpacing: -0.5,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[800],
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey[600],
+                ),
+              ),
+              if (trend != null) ...[
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    trend,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: color,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ========================= MENU GRID =========================
+  Widget _menuSection(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 4,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Text(
+                "Menu Layanan",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 3,
+            crossAxisSpacing: 14,
+            mainAxisSpacing: 14,
+            childAspectRatio: 0.9,
+            children: [
+              _menuItem(context, "Data Warga", Icons.people_rounded, AppColors.primary, const DataWargaScreen()),
+              _menuItem(context, "Iuran", Icons.payments_rounded, Colors.green, const IuranRwScreen()),
+              _menuItem(context, "Kegiatan", Icons.event_rounded, Colors.purple, const KegiatanRwScreen()),
+              _menuItem(context, "Laporan", Icons.receipt_long_rounded, Colors.orange, const KelolaLaporanScreen()),
+              _menuItem(context, "Pengumuman", Icons.campaign_rounded, Colors.red, const PengumumanScreen()),
+              _menuItem(context, "Rapat", Icons.meeting_room_rounded, Colors.teal, const RapatRwScreen()),
+              _menuItem(context, "Surat", Icons.description_rounded, Colors.brown, const SuratMenyuratScreen()),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _menuItem(BuildContext context, String label, IconData icon, Color color, Widget page) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => page)),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: color.withOpacity(0.2), width: 1.5),
+            boxShadow: [
+              BoxShadow(
+                color: color.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Icon(icon, size: 32, color: color),
+              ),
+              const SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey[800],
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ========================= RECENT ACTIVITY =========================
+  Widget _recentActivity() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 4,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Text(
+                "Aktivitas Terbaru",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.5,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _buildRTMetric(
-                  Icons.payment,
-                  'Iuran',
-                  '$paidDues/$totalKK',
-                  Colors.green,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildRTMetric(
-                  Icons.assignment,
-                  'Laporan',
-                  '$pendingReports',
-                  pendingReports > 2 ? Colors.orange : Colors.blue,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildRTMetric(
-                  Icons.show_chart,
-                  'Tingkat',
-                  '$paymentPercentage%',
-                  paymentPercentage >= 90
-                      ? Colors.green
-                      : paymentPercentage >= 75
-                          ? Colors.blue
-                          : Colors.orange,
-                ),
-              ),
-            ],
+          _activityItem(
+            "Laporan kebersihan diterima",
+            "2 jam yang lalu",
+            Icons.report_rounded,
+            Colors.orange,
+          ),
+          const SizedBox(height: 12),
+          _activityItem(
+            "Rapat RT 03 dijadwalkan",
+            "5 jam yang lalu",
+            Icons.event_rounded,
+            Colors.purple,
+          ),
+          const SizedBox(height: 12),
+          _activityItem(
+            "Iuran Agustus - 85% terkumpul",
+            "1 hari yang lalu",
+            Icons.payments_rounded,
+            Colors.green,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildRTMetric(
-    IconData icon,
-    String label,
-    String value,
-    Color color,
-  ) {
+  Widget _activityItem(String title, String time, IconData icon, Color color) {
     return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          Icon(icon, color: color, size: 20),
-          const SizedBox(height: 6),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w800,
-              color: color,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 10,
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActivityCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required String time,
-    required Color color,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[200]!),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.grey[200]!, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.grey.withOpacity(0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
-          ),
+          )
         ],
       ),
       child: Row(
         children: [
           Container(
-            width: 48,
-            height: 48,
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icon, color: color, size: 24),
+            child: Icon(icon, color: color, size: 20),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[800],
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  subtitle,
+                  time,
                   style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
+                    fontSize: 12,
+                    color: Colors.grey[500],
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.access_time,
-                      size: 12,
-                      color: Colors.grey[400],
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      time,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.grey[500],
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
           ),
           Icon(
-            Icons.arrow_forward_ios,
+            Icons.arrow_forward_ios_rounded,
             size: 14,
             color: Colors.grey[400],
           ),
