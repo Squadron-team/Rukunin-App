@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/rt/rt_layout.dart';
 import 'package:rukunin/pages/rt/warga/widgets/warga_card.dart';
 import 'package:rukunin/pages/rt/warga/warga_detail_screen.dart';
 import 'package:rukunin/pages/rt/warga/warga_add_screen.dart';
@@ -42,11 +41,22 @@ class _WargaListScreenState extends State<WargaListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
-
-    return CommunityHeadLayout(
-      title: 'Warga',
-      currentIndex: 1,
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        title: const Text(
+          'Data Warga',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

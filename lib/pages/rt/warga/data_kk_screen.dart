@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/pages/rt/rt_layout.dart';
 import 'package:rukunin/pages/rt/warga/widgets/search_bar.dart';
 import 'package:rukunin/pages/rt/warga/widgets/download_button.dart';
 import 'package:rukunin/repositories/resident.dart';
@@ -26,9 +25,22 @@ class _DataKkScreenState extends State<DataKkScreen> {
   Widget build(BuildContext context) {
     final items = _filtered;
 
-    return CommunityHeadLayout(
-      title: 'Data KK',
-      currentIndex: 0,
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        title: const Text(
+          'Data KK',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

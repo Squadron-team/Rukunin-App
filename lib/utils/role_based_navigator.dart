@@ -26,7 +26,7 @@ class RoleBasedNavigator {
       case 'admin':
         return '/admin';
       case 'community_head':
-        return '/community-head';
+        return '/rt';
       case 'block_leader':
         return '/block-leader';
       case 'secretary':
@@ -45,7 +45,7 @@ class RoleBasedNavigator {
       case 'admin':
         return '/admin/account';
       case 'community_head':
-        return '/community-head/account';
+        return '/rt/account';
       case 'block_leader':
         return '/block-leader/account';
       case 'secretary':

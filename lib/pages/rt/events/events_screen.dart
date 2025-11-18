@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
-import 'package:rukunin/pages/rt/rt_layout.dart';
 import 'package:rukunin/pages/resident/events/widgets/event_card.dart';
 import 'package:rukunin/pages/rt/events/widgets/community_event_card.dart';
 import 'package:rukunin/repositories/events.dart' as repo;
@@ -47,9 +46,22 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CommunityHeadLayout(
-      title: 'Kegiatan RT',
-      currentIndex: 0,
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        title: const Text(
+          'Kegiatan Warga',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
       body: Stack(
         children: [
           SingleChildScrollView(

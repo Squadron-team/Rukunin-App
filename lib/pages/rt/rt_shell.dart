@@ -1,24 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/rt/rt_home_screen.dart';
-import 'package:rukunin/pages/general/account_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/pages/general/notification_screen.dart';
-import 'package:rukunin/pages/rt/warga/warga_list_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
-class CommunityHeadLayout extends StatelessWidget {
-  final Widget body;
-  final int currentIndex;
-  final String title;
+class RtShell extends StatelessWidget {
+  final Widget child;
 
-  const CommunityHeadLayout({
-    required this.body,
-    required this.currentIndex,
-    required this.title,
+  const RtShell({
+    required this.child,
     super.key,
   });
 
+  int _getCurrentIndex(BuildContext context) {
+    final location = GoRouterState.of(context).matchedLocation;
+    if (location == '/rt') return 0;
+    if (location == '/rt/warga') return 1;
+    if (location == '/rt/laporan') return 2;
+    if (location == '/rt/account') return 3;
+    return 0;
+  }
+
+  String _getTitle(int index) {
+    switch (index) {
+      case 0:
+        return 'Dashboard RT';
+      case 1:
+        return 'Warga';
+      case 2:
+        return 'Laporan';
+      case 3:
+        return 'Akun';
+      default:
+        return 'Dashboard RT';
+    }
+  }
+
+  void _onItemTapped(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        context.go('/rt');
+        break;
+      case 1:
+        context.go('/rt/warga');
+        break;
+      case 2:
+        // TODO: Add proper navigation when laporan screen is created
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Menu Laporan belum tersedia'),
+            backgroundColor: Colors.orange,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+        break;
+      case 3:
+        context.go('/rt/account');
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentIndex = _getCurrentIndex(context);
+    final title = _getTitle(currentIndex);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -106,7 +154,7 @@ class CommunityHeadLayout extends StatelessWidget {
           const SizedBox(width: 8),
         ],
       ),
-      body: body,
+      body: child,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -168,43 +216,7 @@ class CommunityHeadLayout extends StatelessWidget {
     required bool isSelected,
   }) {
     return GestureDetector(
-      onTap: () {
-        if (index == currentIndex) return;
-
-        // TODO: Add proper navigation for index 1 and 2 when screens are created
-        // index 2 (Laporan) still not available, but index 1 opens the Warga screen
-        if (index == 2) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Menu $label belum tersedia'),
-              backgroundColor: Colors.orange,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          );
-          return;
-        }
-
-        if (index == 0) {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (_) => const CommunityHeadHomeScreen()),
-            (route) => false,
-          );
-        } else if (index == 1) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const WargaListScreen()),
-          );
-        } else if (index == 3) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const AccountScreen()),
-          );
-        }
-      },
+      onTap: () => _onItemTapped(context, index),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
