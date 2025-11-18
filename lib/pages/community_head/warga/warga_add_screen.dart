@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/resident.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/input_decorations.dart';
+import 'package:rukunin/pages/community_head/warga/widgets/doc_tile.dart';
 
 class WargaAddScreen extends StatefulWidget {
   const WargaAddScreen({super.key});
@@ -32,24 +34,16 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
   }
 
   InputDecoration _dec(String label) {
-    return InputDecoration(
-      labelText: label,
-      filled: true,
-      fillColor: Colors.grey.shade50,
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: Colors.grey.shade300)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: AppColors.primary, width: 2)),
-      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-    );
+    return buildInputDecoration(label);
   }
 
   Future<void> _pickKtp() async {
-    // placeholders for uploaded files
     setState(() {
       ktpPreview = 'ktp_${DateTime.now().millisecondsSinceEpoch}.jpg';
     });
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: const Text('Upload KTP berhasil'),
-      backgroundColor: Colors.yellow[700],
+      backgroundColor: AppColors.primary,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ));
@@ -61,7 +55,7 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
     });
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: const Text('Upload KK berhasil'),
-      backgroundColor: Colors.yellow[700],
+      backgroundColor: AppColors.primary,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ));
@@ -71,10 +65,26 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tambah Warga'),
         backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
         elevation: 0,
+            title: Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Tambah Warga',
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20, letterSpacing: -0.5),
+            ),
+          ],
+        ),
+        foregroundColor: Colors.black,
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -110,26 +120,30 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
                               return null;
                             }),
                             const SizedBox(height: 12),
-                            TextFormField(controller: kkC, decoration: _dec('No. KK'), keyboardType: TextInputType.number),
+                            TextFormField(controller: kkC, decoration: _dec('No. KK'), keyboardType: TextInputType.number, validator: (v) {
+                              if (v == null || v.isEmpty) return 'No. KK tidak boleh kosong';
+                              return null;
+                            }),
                             const SizedBox(height: 12),
-                            TextFormField(controller: addressC, decoration: _dec('Alamat'), maxLines: 3),
+                            TextFormField(controller: addressC, decoration: _dec('Alamat'), maxLines: 3, validator: (v) {
+                              if (v == null || v.isEmpty) return 'Alamat tidak boleh kosong';
+                              return null;
+                            }),
                             const SizedBox(height: 12),
                             Row(children: [
                               Expanded(
                                 child: TextFormField(
-                                  decoration: _dec('RT').copyWith(fillColor: Colors.grey.shade100),
+                                  decoration: _dec('RT').copyWith(fillColor: Colors.grey.shade50),
                                   initialValue: rt,
                                   readOnly: true,
-                                  enabled: false,
                                 ),
                               ),
                               const SizedBox(width: 12),
                               Expanded(
                                 child: TextFormField(
-                                  decoration: _dec('RW').copyWith(fillColor: Colors.grey.shade100),
+                                  decoration: _dec('RW').copyWith(fillColor: Colors.grey.shade50),
                                   initialValue: rw,
                                   readOnly: true,
-                                  enabled: false,
                                 ),
                               ),
                             ]),
@@ -139,60 +153,26 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
                             Row(
                               children: [
                                 Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text('KTP', style: TextStyle(fontWeight: FontWeight.w600)),
-                                      const SizedBox(height: 8),
-                                      Container(
-                                        height: 110,
-                                        decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey.shade200)),
-                                        child: Center(child: Text(ktpPreview.isEmpty ? 'Belum upload KTP' : 'Preview KTP')),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Row(children: [
-                                        OutlinedButton(
-                                          style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), minimumSize: const Size(0, 36), tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                                          onPressed: _pickKtp,
-                                          child: const Text('Upload'),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        TextButton(
-                                          style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8), minimumSize: const Size(0, 36), tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                                          onPressed: () {},
-                                          child: const Text('Lihat'),
-                                        ),
-                                      ])
-                                    ],
+                                  child: DocTile(
+                                    title: 'KTP',
+                                    url: ktpPreview,
+                                    onUpload: _pickKtp,
+                                    onView: null,
+                                    showUpload: true,
+                                    showViewButton: false,
+                                    onRemove: () => setState(() => ktpPreview = ''),
                                   ),
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text('KK', style: TextStyle(fontWeight: FontWeight.w600)),
-                                      const SizedBox(height: 8),
-                                      Container(
-                                        height: 110,
-                                        decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.grey.shade200)),
-                                        child: Center(child: Text(kkPreview.isEmpty ? 'Belum upload KK' : 'Preview KK')),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Row(children: [
-                                        OutlinedButton(
-                                          style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), minimumSize: const Size(0, 36), tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                                          onPressed: _pickKk,
-                                          child: const Text('Upload'),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        TextButton(
-                                          style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8), minimumSize: const Size(0, 36), tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                                          onPressed: () {},
-                                          child: const Text('Lihat'),
-                                        ),
-                                      ])
-                                    ],
+                                  child: DocTile(
+                                    title: 'KK',
+                                    url: kkPreview,
+                                    onUpload: _pickKk,
+                                    onView: null,
+                                    showUpload: true,
+                                    showViewButton: false,
+                                    onRemove: () => setState(() => kkPreview = ''),
                                   ),
                                 ),
                               ],
@@ -250,4 +230,7 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
       ),
     );
   }
+
+  
 }
+

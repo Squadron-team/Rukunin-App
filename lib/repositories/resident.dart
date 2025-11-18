@@ -6,6 +6,9 @@ class WargaRepository {
     final List<Warga> list = [];
       for (var i = 1; i <= count; i++) {
         final active = i % 4 != 0; // some inactive entries
+        // For first 10 entries, provide sample ktp/kk asset paths (png)
+        final ktp = i <= 10 ? 'assets/ktp/ktp_$i.png' : '';
+        final kk = i <= 10 ? 'assets/kk/kk_$i.png' : '';
         list.add(Warga(
           id: 'warga_$i',
           name: 'Warga $i',
@@ -16,8 +19,8 @@ class WargaRepository {
           rt: '03',
           rw: '05',
           isActive: active,
-          ktpUrl: '',
-          kkUrl: '',
+          ktpUrl: ktp,
+          kkUrl: kk,
           createdAt: DateTime.now().subtract(Duration(days: i * 3)),
         ));
       }
