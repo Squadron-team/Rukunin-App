@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/admin/admin_layout.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class WargaDetailPage extends StatelessWidget {
@@ -10,17 +9,26 @@ class WargaDetailPage extends StatelessWidget {
   final String status;
 
   const WargaDetailPage({
-    required this.name, required this.nik, required this.alamat, required this.noTelp, required this.status, super.key,
+    required this.name,
+    required this.nik,
+    required this.alamat,
+    required this.noTelp,
+    required this.status,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return AdminLayout(
-      title: 'Detail Warga',
-      currentIndex: 0,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Detail Warga'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          bool isWide = constraints.maxWidth > 650; // batas responsive
+          bool isWide = constraints.maxWidth > 650;
 
           return SingleChildScrollView(
             child: Center(

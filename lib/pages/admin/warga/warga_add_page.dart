@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/admin/admin_layout.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class WargaAddPage extends StatefulWidget {
@@ -29,18 +29,20 @@ class _WargaAddPageState extends State<WargaAddPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AdminLayout(
-      title: 'Tambah Warga',
-      currentIndex: 0,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tambah Warga'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
             padding: const EdgeInsets.all(20),
             child: Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 500, // biar rapi di tablet & web
-                ),
+                constraints: const BoxConstraints(maxWidth: 500),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -161,7 +163,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
                                 side: BorderSide(color: Colors.grey.shade300),
                               ),
                               onPressed: () {
-                                Navigator.pop(context);
+                                context.pop();
                               },
                               child: Text(
                                 'Batal',
@@ -227,7 +229,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
       );
       
       // Kembali ke halaman sebelumnya
-      Navigator.pop(context);
+      context.pop();
     }
   }
 

@@ -47,8 +47,8 @@ final router = GoRouter(
     // Authentication routes
     ...authRoutes,
     
-    // Admin routes
-    ...adminRoutes,
+    // Admin routes (with shell)
+    adminRoutes,
 
     // RT routes (with shell)
     rtRoutes,
