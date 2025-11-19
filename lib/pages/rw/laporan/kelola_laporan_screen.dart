@@ -3,6 +3,7 @@ import 'package:rukunin/pages/rw/laporan/widgets/rt_item_card.dart';
 import 'package:rukunin/pages/rw/laporan/widgets/rw_item_card.dart';
 import 'package:rukunin/pages/rw/laporan/widgets/rekap_summary_card.dart';
 import 'package:rukunin/pages/rw/laporan/data/dummy_data.dart';
+import 'package:rukunin/style/app_colors.dart';
 
 class KelolaLaporanScreen extends StatefulWidget {
   const KelolaLaporanScreen({super.key});
@@ -30,30 +31,50 @@ class _KelolaLaporanScreenState extends State<KelolaLaporanScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text('Kelola Laporan'),
+        title: const Text(
+          'Kelola Laporan',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        bottom: TabBar(
-          controller: _tabController,
-          labelColor: Colors.blue,
-          unselectedLabelColor: Colors.grey.shade500,
-          indicatorColor: Colors.blue,
-          tabs: const [
-            Tab(text: 'Laporan RT'),
-            Tab(text: 'Laporan RW'),
-          ],
+        surfaceTintColor: Colors.transparent,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(56),
+          child: Container(
+            color: Colors.white,
+            child: TabBar(
+              controller: _tabController,
+              labelColor: AppColors.primary,
+              unselectedLabelColor: Colors.grey[600],
+              indicatorColor: AppColors.primary,
+              indicatorWeight: 3,
+              labelStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+              tabs: const [
+                Tab(text: 'Laporan RT'),
+                Tab(text: 'Laporan RW'),
+              ],
+            ),
+          ),
         ),
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          _laporanRTView(context),
-          _laporanRWView(context),
-        ],
+        children: [_laporanRTView(context), _laporanRWView(context)],
       ),
     );
   }
@@ -62,10 +83,12 @@ class _KelolaLaporanScreenState extends State<KelolaLaporanScreen>
     return ListView(
       padding: const EdgeInsets.all(16),
       children: DummyData.rtReports
-          .map((report) => RTItemCard(
-                report: report,
-                onTap: () => _showDetailRT(context, report),
-              ))
+          .map(
+            (report) => RTItemCard(
+              report: report,
+              onTap: () => _showDetailRT(context, report),
+            ),
+          )
           .toList(),
     );
   }
@@ -81,10 +104,12 @@ class _KelolaLaporanScreenState extends State<KelolaLaporanScreen>
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        ...DummyData.rwReports.map((report) => RWItemCard(
-              report: report,
-              onTap: () => _showDetailRW(context, report),
-            )),
+        ...DummyData.rwReports.map(
+          (report) => RWItemCard(
+            report: report,
+            onTap: () => _showDetailRW(context, report),
+          ),
+        ),
       ],
     );
   }
@@ -95,20 +120,40 @@ class _KelolaLaporanScreenState extends State<KelolaLaporanScreen>
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text('Laporan ${report.rt}', style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(
+          'Laporan ${report.rt}',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _infoRow(Icons.format_list_numbered, 'Total Laporan', report.total.toString()),
+            _infoRow(
+              Icons.format_list_numbered,
+              'Total Laporan',
+              report.total.toString(),
+            ),
             const SizedBox(height: 8),
-            _infoRow(Icons.check_circle, 'Selesai', report.selesai.toString(), color: Colors.green),
+            _infoRow(
+              Icons.check_circle,
+              'Selesai',
+              report.selesai.toString(),
+              color: Colors.green,
+            ),
             const SizedBox(height: 8),
-            _infoRow(Icons.access_time, 'Belum Selesai', (report.total - report.selesai).toString(), color: Colors.orange),
+            _infoRow(
+              Icons.access_time,
+              'Belum Selesai',
+              (report.total - report.selesai).toString(),
+              color: Colors.orange,
+            ),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Tutup', style: TextStyle(color: Colors.blue))),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Tutup', style: TextStyle(color: Colors.blue)),
+          ),
         ],
       ),
     );
@@ -120,7 +165,10 @@ class _KelolaLaporanScreenState extends State<KelolaLaporanScreen>
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(report.judul, style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(
+          report.judul,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +179,10 @@ class _KelolaLaporanScreenState extends State<KelolaLaporanScreen>
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Tutup', style: TextStyle(color: Colors.blue))),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Tutup', style: TextStyle(color: Colors.blue)),
+          ),
         ],
       ),
     );
@@ -150,10 +201,14 @@ class _KelolaLaporanScreenState extends State<KelolaLaporanScreen>
 
   Color _getStatusColor(String status) {
     switch (status) {
-      case 'Selesai': return Colors.green;
-      case 'Proses': return Colors.orange;
-      case 'Menunggu': return Colors.red;
-      default: return Colors.grey;
+      case 'Selesai':
+        return Colors.green;
+      case 'Proses':
+        return Colors.orange;
+      case 'Menunggu':
+        return Colors.red;
+      default:
+        return Colors.grey;
     }
   }
 }

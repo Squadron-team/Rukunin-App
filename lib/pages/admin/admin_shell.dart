@@ -2,33 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
 
-class RtShell extends StatelessWidget {
+class AdminShell extends StatelessWidget {
   final Widget child;
 
-  const RtShell({
-    required this.child,
-    super.key,
-  });
+  const AdminShell({required this.child, super.key});
 
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
-    if (location == '/rt') return 0;
-    if (location == '/rt/warga') return 1;
-    if (location == '/rt/laporan') return 2;
-    if (location == '/rt/account') return 3;
+    if (location == '/admin') return 0;
+    if (location == '/admin/warga') return 1;
+    if (location == '/admin/laporan') return 2;
+    if (location == '/admin/account') return 3;
     return 0;
   }
 
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.go('/rt');
+        context.go('/admin');
         break;
       case 1:
-        context.go('/rt/warga');
+        // TODO: Navigate to warga screen when available
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Menu Warga belum tersedia'),
+            backgroundColor: Colors.orange,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
         break;
       case 2:
-        // TODO: Add proper navigation when laporan screen is created
+        // TODO: Navigate to laporan screen when available
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Menu Laporan belum tersedia'),
@@ -41,7 +48,7 @@ class RtShell extends StatelessWidget {
         );
         break;
       case 3:
-        context.go('/rt/account');
+        context.go('/admin/account');
         break;
     }
   }
@@ -51,14 +58,14 @@ class RtShell extends StatelessWidget {
     final currentIndex = _getCurrentIndex(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[50],
       body: child,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withAlpha(20),
               blurRadius: 12,
               offset: const Offset(0, -4),
             ),
@@ -70,33 +77,41 @@ class RtShell extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildNavItem(
-                  context,
-                  icon: Icons.home_rounded,
-                  label: 'Dashboard',
-                  index: 0,
-                  isSelected: currentIndex == 0,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.home_rounded,
+                    label: 'Dashboard',
+                    index: 0,
+                    isSelected: currentIndex == 0,
+                  ),
                 ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.people_rounded,
-                  label: 'Warga',
-                  index: 1,
-                  isSelected: currentIndex == 1,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.people_rounded,
+                    label: 'Warga',
+                    index: 1,
+                    isSelected: currentIndex == 1,
+                  ),
                 ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.analytics_rounded,
-                  label: 'Laporan',
-                  index: 2,
-                  isSelected: currentIndex == 2,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.analytics_rounded,
+                    label: 'Laporan',
+                    index: 2,
+                    isSelected: currentIndex == 2,
+                  ),
                 ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.person_rounded,
-                  label: 'Akun',
-                  index: 3,
-                  isSelected: currentIndex == 3,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.person_rounded,
+                    label: 'Akun',
+                    index: 3,
+                    isSelected: currentIndex == 3,
+                  ),
                 ),
               ],
             ),
@@ -116,10 +131,8 @@ class RtShell extends StatelessWidget {
     return GestureDetector(
       onTap: () => _onItemTapped(context, index),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

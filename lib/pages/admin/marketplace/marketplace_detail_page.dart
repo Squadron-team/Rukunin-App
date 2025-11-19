@@ -1,31 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/admin/admin_layout.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class MarketplaceDetailPage extends StatelessWidget {
-  const MarketplaceDetailPage({super.key});
+  final String id;
+  final String name;
+  final String seller;
+  final String phone;
+  final int price;
+  final String category;
+  final String image;
+  final int stock;
+  final bool isActive;
+  final String description;
+
+  const MarketplaceDetailPage({
+    required this.id,
+    required this.name,
+    required this.seller,
+    required this.phone,
+    required this.price,
+    required this.category,
+    required this.image,
+    required this.stock,
+    required this.isActive,
+    required this.description,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    // Ambil arguments dari navigator
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    
-    final String id = args['id'];
-    final String name = args['name'];
-    final String seller = args['seller'];
-    final String phone = args['phone'];
-    final int price = args['price'];
-    final String category = args['category'];
-    final String image = args['image'];
-    final int stock = args['stock'];
-    final bool isActive = args['isActive'];
-    final String description = args['description'];
-
     bool isService = category == 'Jasa';
 
-    return AdminLayout(
-      title: 'Detail Produk',
-      currentIndex: 3,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Detail Produk'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Container(
@@ -39,10 +52,7 @@ class MarketplaceDetailPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
@@ -57,14 +67,9 @@ class MarketplaceDetailPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: isActive
-                            ? Colors.green.withOpacity(0.1)
-                            : Colors.red.withOpacity(0.1),
+                        color: isActive ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
@@ -100,10 +105,7 @@ class MarketplaceDetailPage extends StatelessWidget {
                     border: Border.all(color: Colors.grey[200]!),
                   ),
                   child: Center(
-                    child: Text(
-                      image,
-                      style: const TextStyle(fontSize: 120),
-                    ),
+                    child: Text(image, style: const TextStyle(fontSize: 120)),
                   ),
                 ),
 
@@ -112,10 +114,7 @@ class MarketplaceDetailPage extends StatelessWidget {
                 // Product Name
                 Text(
                   name,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
 
                 const SizedBox(height: 20),
@@ -131,24 +130,9 @@ class MarketplaceDetailPage extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    _buildInfoCard(
-                      icon: Icons.store,
-                      label: 'Penjual',
-                      value: seller,
-                      color: Colors.blue,
-                    ),
-                    _buildInfoCard(
-                      icon: Icons.phone,
-                      label: 'No. Telepon',
-                      value: phone,
-                      color: Colors.green,
-                    ),
-                    _buildInfoCard(
-                      icon: Icons.attach_money,
-                      label: 'Harga',
-                      value: 'Rp ${_formatCurrency(price)}',
-                      color: Colors.orange,
-                    ),
+                    _buildInfoCard(icon: Icons.store, label: 'Penjual', value: seller, color: Colors.blue),
+                    _buildInfoCard(icon: Icons.phone, label: 'No. Telepon', value: phone, color: Colors.green),
+                    _buildInfoCard(icon: Icons.attach_money, label: 'Harga', value: 'Rp ${_formatCurrency(price)}', color: Colors.orange),
                     if (!isService)
                       _buildInfoCard(
                         icon: Icons.inventory,
@@ -186,21 +170,14 @@ class MarketplaceDetailPage extends StatelessWidget {
                           SizedBox(width: 8),
                           Text(
                             'Deskripsi Produk',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
                       Text(
                         description,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
-                          height: 1.6,
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[700], height: 1.6),
                       ),
                     ],
                   ),
@@ -208,53 +185,47 @@ class MarketplaceDetailPage extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                // Action Buttons for Admin
+                // Action Buttons
                 Column(
                   children: [
-                    // Edit Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                           elevation: 0,
                         ),
                         icon: const Icon(Icons.edit, color: Colors.white),
                         label: const Text(
                           'Edit Produk',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/marketplace/edit',
-                            arguments: args,
-                          );
+                          context.push('/admin/marketplace/edit', extra: {
+                            'id': id,
+                            'name': name,
+                            'seller': seller,
+                            'phone': phone,
+                            'price': price,
+                            'category': category,
+                            'image': image,
+                            'stock': stock,
+                            'isActive': isActive,
+                            'description': description,
+                          });
                         },
                       ),
                     ),
                     const SizedBox(height: 12),
-
-                    // Toggle Active/Inactive
                     SizedBox(
                       width: double.infinity,
                       child: OutlinedButton.icon(
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          side: BorderSide(
-                            color: isActive ? Colors.orange : Colors.green,
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          side: BorderSide(color: isActive ? Colors.orange : Colors.green),
                         ),
                         icon: Icon(
                           isActive ? Icons.block : Icons.check_circle,
@@ -268,36 +239,24 @@ class MarketplaceDetailPage extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        onPressed: () {
-                          _showToggleActiveDialog(context, name, isActive);
-                        },
+                        onPressed: () => _showToggleActiveDialog(context, name, isActive),
                       ),
                     ),
                     const SizedBox(height: 12),
-
-                    // Delete Button
                     SizedBox(
                       width: double.infinity,
                       child: OutlinedButton.icon(
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                           side: const BorderSide(color: Colors.red),
                         ),
                         icon: const Icon(Icons.delete, color: Colors.red),
                         label: const Text(
                           'Hapus Produk',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.red,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: TextStyle(fontSize: 16, color: Colors.red, fontWeight: FontWeight.w600),
                         ),
-                        onPressed: () {
-                          _showDeleteDialog(context, name);
-                        },
+                        onPressed: () => _showDeleteDialog(context, name),
                       ),
                     ),
                   ],
@@ -336,20 +295,11 @@ class MarketplaceDetailPage extends StatelessWidget {
         children: [
           Icon(icon, color: color, size: 20),
           const SizedBox(height: 8),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              color: Colors.grey[600],
-            ),
-          ),
+          Text(label, style: TextStyle(fontSize: 11, color: Colors.grey[600])),
           const SizedBox(height: 4),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -368,9 +318,7 @@ class MarketplaceDetailPage extends StatelessWidget {
               ? 'Apakah Anda yakin ingin menonaktifkan "$name"? Produk tidak akan muncul di marketplace warga.'
               : 'Apakah Anda yakin ingin mengaktifkan "$name"? Produk akan muncul kembali di marketplace warga.',
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -379,31 +327,20 @@ class MarketplaceDetailPage extends StatelessWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: isActive ? Colors.orange : Colors.green,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
             onPressed: () {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(
-                    isActive
-                        ? 'Produk berhasil dinonaktifkan'
-                        : 'Produk berhasil diaktifkan',
-                  ),
+                  content: Text(isActive ? 'Produk berhasil dinonaktifkan' : 'Produk berhasil diaktifkan'),
                   backgroundColor: isActive ? Colors.orange : Colors.green,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
               );
             },
-            child: Text(
-              isActive ? 'Nonaktifkan' : 'Aktifkan',
-              style: const TextStyle(color: Colors.white),
-            ),
+            child: Text(isActive ? 'Nonaktifkan' : 'Aktifkan', style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -415,12 +352,8 @@ class MarketplaceDetailPage extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Hapus Produk'),
-        content: Text(
-          'Apakah Anda yakin ingin menghapus "$name"? Tindakan ini tidak dapat dibatalkan.',
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        content: Text('Apakah Anda yakin ingin menghapus "$name"? Tindakan ini tidak dapat dibatalkan.'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -429,21 +362,17 @@ class MarketplaceDetailPage extends StatelessWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
             onPressed: () {
               Navigator.pop(context); // Close dialog
-              Navigator.pop(context); // Back to list
+              context.pop(); // Back to list
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: const Text('Produk berhasil dihapus'),
                   backgroundColor: Colors.red,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
               );
             },

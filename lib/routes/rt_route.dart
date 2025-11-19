@@ -11,7 +11,7 @@ final rtRoutes = ShellRoute(
       path: '/rt',
       name: 'rt-home',
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: CommunityHeadHomeScreen(),
+        child: RtHomeScreen(),
       ),
     ),
     GoRoute(
