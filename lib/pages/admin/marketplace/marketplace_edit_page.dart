@@ -131,7 +131,7 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                             const SizedBox(height: 16),
 
                             DropdownButtonFormField<String>(
-                              value: category,
+                              initialValue: category,
                               items: const [
                                 DropdownMenuItem(value: 'Makanan', child: Text('Makanan')),
                                 DropdownMenuItem(value: 'Minuman', child: Text('Minuman')),

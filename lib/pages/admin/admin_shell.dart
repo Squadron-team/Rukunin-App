@@ -10,9 +10,7 @@ class AdminShell extends StatelessWidget {
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     if (location == '/admin') return 0;
-    if (location == '/admin/warga') return 1;
-    if (location == '/admin/laporan') return 2;
-    if (location == '/admin/account') return 3;
+    if (location == '/admin/account') return 4;
     return 0;
   }
 
@@ -22,10 +20,10 @@ class AdminShell extends StatelessWidget {
         context.go('/admin');
         break;
       case 1:
-        // TODO: Navigate to warga screen when available
+        // TODO: Navigate to marketplace screen when available
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Menu Warga belum tersedia'),
+            content: const Text('Menu Pasar belum tersedia'),
             backgroundColor: Colors.orange,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -35,10 +33,10 @@ class AdminShell extends StatelessWidget {
         );
         break;
       case 2:
-        // TODO: Navigate to laporan screen when available
+        // TODO: Navigate to events screen when available
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Menu Laporan belum tersedia'),
+            content: const Text('Menu Kegiatan belum tersedia'),
             backgroundColor: Colors.orange,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -48,6 +46,19 @@ class AdminShell extends StatelessWidget {
         );
         break;
       case 3:
+        // TODO: Navigate to admin panel screen when available
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Menu Panel admin belum tersedia'),
+            backgroundColor: Colors.orange,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+        break;
+      case 4:
         context.go('/admin/account');
         break;
     }
@@ -81,7 +92,7 @@ class AdminShell extends StatelessWidget {
                   child: _buildNavItem(
                     context,
                     icon: Icons.home_rounded,
-                    label: 'Dashboard',
+                    label: 'Beranda',
                     index: 0,
                     isSelected: currentIndex == 0,
                   ),
@@ -89,8 +100,8 @@ class AdminShell extends StatelessWidget {
                 Expanded(
                   child: _buildNavItem(
                     context,
-                    icon: Icons.people_rounded,
-                    label: 'Warga',
+                    icon: Icons.store_rounded,
+                    label: 'Pasar',
                     index: 1,
                     isSelected: currentIndex == 1,
                   ),
@@ -98,8 +109,8 @@ class AdminShell extends StatelessWidget {
                 Expanded(
                   child: _buildNavItem(
                     context,
-                    icon: Icons.analytics_rounded,
-                    label: 'Laporan',
+                    icon: Icons.event_rounded,
+                    label: 'Kegiatan',
                     index: 2,
                     isSelected: currentIndex == 2,
                   ),
@@ -107,10 +118,19 @@ class AdminShell extends StatelessWidget {
                 Expanded(
                   child: _buildNavItem(
                     context,
-                    icon: Icons.person_rounded,
-                    label: 'Akun',
+                    icon: Icons.admin_panel_settings,
+                    label: 'Panel Admin',
                     index: 3,
                     isSelected: currentIndex == 3,
+                  ),
+                ),
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.person_rounded,
+                    label: 'Akun',
+                    index: 4,
+                    isSelected: currentIndex == 4,
                   ),
                 ),
               ],

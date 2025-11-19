@@ -1,10 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/pages/resident/community/community_screen.dart';
+import 'package:rukunin/pages/resident/community/dues_screen.dart';
+import 'package:rukunin/pages/resident/community/finance_transparency_screen.dart';
 import 'package:rukunin/pages/resident/resident_home_screen.dart';
 import 'package:rukunin/pages/resident/marketplace/marketplace_screen.dart';
 import 'package:rukunin/pages/resident/events/events_screen.dart';
-import 'package:rukunin/pages/resident/dues/dues_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/resident/resident_shell.dart';
+import 'package:rukunin/pages/general/coming_soon_screen.dart';
 
 final residentRoutes = ShellRoute(
   builder: (context, state, child) => ResidentShell(child: child),
@@ -31,11 +35,50 @@ final residentRoutes = ShellRoute(
       ),
     ),
     GoRoute(
-      path: '/resident/dues',
-      name: 'resident-dues',
+      path: '/resident/community',
+      name: 'resident-community',
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: DuesScreen(),
+        child: CommunityScreen(),
       ),
+      routes: [
+        GoRoute(
+          path: 'dues',
+          name: 'resident-community-dues',
+          builder: (context, state) => const DuesScreen(),
+        ),
+        GoRoute(
+          path: 'finance-transparency',
+          name: 'resident-community-finance',
+          builder: (context, state) => const FinanceTransparencyScreen(),
+        ),
+        GoRoute(
+          path: 'population',
+          name: 'resident-community-population',
+          builder: (context, state) => const ComingSoonScreen(
+            featureName: 'Informasi Kependudukan',
+            description: 'Fitur untuk melihat dan mengelola data KTP/KK Anda sedang dalam pengembangan. Anda akan dapat mengakses informasi lengkap kependudukan Anda segera.',
+            icon: Icons.people,
+          ),
+        ),
+        GoRoute(
+          path: 'family',
+          name: 'resident-community-family',
+          builder: (context, state) => const ComingSoonScreen(
+            featureName: 'Data Keluarga (KK)',
+            description: 'Fitur untuk mengelola informasi anggota keluarga dalam Kartu Keluarga sedang dalam pengembangan. Anda akan dapat melihat dan memperbarui data keluarga dengan mudah.',
+            icon: Icons.family_restroom,
+          ),
+        ),
+        GoRoute(
+          path: 'documents',
+          name: 'resident-community-documents',
+          builder: (context, state) => const ComingSoonScreen(
+            featureName: 'Pengajuan Surat',
+            description: 'Fitur untuk mengajukan surat keterangan dan dokumen administratif secara online sedang dalam pengembangan. Proses pengajuan akan menjadi lebih mudah dan cepat.',
+            icon: Icons.description,
+          ),
+        ),
+      ],
     ),
     GoRoute(
       path: '/resident/account',

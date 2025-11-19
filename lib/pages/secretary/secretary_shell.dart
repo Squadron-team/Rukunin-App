@@ -118,7 +118,7 @@ class SecretaryShell extends StatelessWidget {
                 Expanded(
                   child: _buildNavItem(
                     context,
-                    icon: Icons.admin_panel_settings,
+                    icon: Icons.description,
                     label: 'Administrasi',
                     index: 3,
                     isSelected: currentIndex == 3,

@@ -115,7 +115,7 @@ class _WargaEditPageState extends State<WargaEditPage> {
                             const SizedBox(height: 16),
 
                             DropdownButtonFormField<String>(
-                              value: status,
+                              initialValue: status,
                               items: const [
                                 DropdownMenuItem(
                                     value: 'Aktif', child: Text('Aktif')),

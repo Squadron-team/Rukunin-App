@@ -9,17 +9,13 @@ import 'package:rukunin/pages/rw/surat/surat_menyurat_screen.dart';
 import 'package:rukunin/pages/rw/data_warga/data_warga_screen.dart';
 
 class RwHomeScreen extends StatelessWidget {
-  final int totalWarga;
-  final String totalKeuangan;
-
-  const RwHomeScreen({
-    super.key,
-    this.totalWarga = 248, // Data dummy
-    this.totalKeuangan = 'Rp 45.8 Jt', // Data dummy
-  });
+  const RwHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    const totalWarga = 248;
+    const totalKeuangan = 'Rp 45.8 Jt';
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -63,7 +59,7 @@ class RwHomeScreen extends StatelessWidget {
               const SizedBox(height: 28),
               _quickStats(context),
               const SizedBox(height: 28),
-              _insightSection(context),
+              _insightSection(context, totalWarga, totalKeuangan),
               const SizedBox(height: 28),
               _menuSection(context),
               const SizedBox(height: 28),
@@ -220,7 +216,11 @@ class RwHomeScreen extends StatelessWidget {
   }
 
   // ========================= INSIGHT SECTION =========================
-  Widget _insightSection(BuildContext context) {
+  Widget _insightSection(
+    BuildContext context,
+    int totalWarga,
+    String totalKeuangan,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
