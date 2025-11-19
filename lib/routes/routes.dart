@@ -56,8 +56,8 @@ final router = GoRouter(
     // RW routes (with shell)
     rwRoutes,
 
-    // Secretary routes
-    ...secretaryRoutes,
+    // Secretary routes (with shell)
+    secretaryRoutes,
 
     // Treasurer routes
     ...treasurerRoutes,
