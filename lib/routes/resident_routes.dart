@@ -3,12 +3,14 @@ import 'package:go_router/go_router.dart';
 import 'package:rukunin/pages/resident/community/community_screen.dart';
 import 'package:rukunin/pages/resident/community/dues_screen.dart';
 import 'package:rukunin/pages/resident/community/finance_transparency_screen.dart';
+import 'package:rukunin/pages/resident/community/population_info_screen.dart';
 import 'package:rukunin/pages/resident/resident_home_screen.dart';
 import 'package:rukunin/pages/resident/marketplace/marketplace_screen.dart';
 import 'package:rukunin/pages/resident/events/events_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/resident/resident_shell.dart';
 import 'package:rukunin/pages/general/coming_soon_screen.dart';
+import 'package:rukunin/pages/resident/community/family_details_screen.dart';
 
 final residentRoutes = ShellRoute(
   builder: (context, state, child) => ResidentShell(child: child),
@@ -54,20 +56,12 @@ final residentRoutes = ShellRoute(
         GoRoute(
           path: 'population',
           name: 'resident-community-population',
-          builder: (context, state) => const ComingSoonScreen(
-            featureName: 'Informasi Kependudukan',
-            description: 'Fitur untuk melihat dan mengelola data KTP/KK Anda sedang dalam pengembangan. Anda akan dapat mengakses informasi lengkap kependudukan Anda segera.',
-            icon: Icons.people,
-          ),
+          builder: (context, state) => const PopulationInfoScreen(),
         ),
         GoRoute(
           path: 'family',
           name: 'resident-community-family',
-          builder: (context, state) => const ComingSoonScreen(
-            featureName: 'Data Keluarga (KK)',
-            description: 'Fitur untuk mengelola informasi anggota keluarga dalam Kartu Keluarga sedang dalam pengembangan. Anda akan dapat melihat dan memperbarui data keluarga dengan mudah.',
-            icon: Icons.family_restroom,
-          ),
+          builder: (context, state) => const FamilyDetailsScreen(),
         ),
         GoRoute(
           path: 'documents',
