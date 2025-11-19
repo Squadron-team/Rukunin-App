@@ -1,7 +1,7 @@
 name: rukunin
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.0+4
 
 environment:
   sdk: ^3.9.2
@@ -15,11 +15,44 @@ dependencies:
   intl: ^0.20.2
   shared_preferences: ^2.5.3
   table_calendar: ^3.2.0
+  web: ^1.1.1
+  pdf: ^3.11.3
+  excel: ^4.0.6
+  path_provider: ^2.1.5
+  permission_handler: ^12.0.1
+  open_file: ^3.5.10
+  printing: ^5.14.2
+  go_router: ^17.0.0
+  share_plus: ^12.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/kk/
+    - assets/ktp/
+
+flutter_launcher_icons:
+  android: "app_icon"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    background_color: "#ffffff"
+    theme_color: "#ffffff"
+  windows:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/icons/app_icon.png"

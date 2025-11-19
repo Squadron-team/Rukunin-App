@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rukunin/pages/general/sign_up_screen.dart';
 import 'package:rukunin/services/user_cache_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/firebase_auth_helper.dart';
 import 'package:rukunin/utils/role_based_navigator.dart';
 import 'package:rukunin/widgets/buttons/social_sign_button.dart';
+import 'package:go_router/go_router.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -448,14 +448,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: OutlinedButton(
                     onPressed: _isLoading
                         ? null
-                        : () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SignUpScreen(),
-                              ),
-                            );
-                          },
+                        : () => context.push('/sign-up'),
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: AppColors.primary),
                       shape: RoundedRectangleBorder(

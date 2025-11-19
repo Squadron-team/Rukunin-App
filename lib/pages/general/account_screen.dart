@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rukunin/pages/general/sign_in_screen.dart';
-import 'package:rukunin/pages/admin/admin_layout.dart';
-import 'package:rukunin/pages/community_head/community_head_layout.dart';
-import 'package:rukunin/pages/block_leader/block_leader_layout.dart';
-import 'package:rukunin/pages/resident/resident_layout.dart';
-import 'package:rukunin/pages/secretary/secretary_layout.dart';
-import 'package:rukunin/pages/treasurer/treasurer_layout.dart';
 import 'package:rukunin/services/user_cache_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -251,11 +245,7 @@ class _AccountScreenState extends State<AccountScreen> {
       await _auth.signOut();
 
       if (mounted) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const SignInScreen()),
-          (route) => false,
-        );
+        context.go('/sign-in');
       }
     } catch (e) {
       debugPrint('Error logging out: $e');
@@ -293,24 +283,6 @@ class _AccountScreenState extends State<AccountScreen> {
     }
   }
 
-  Widget _buildRoleBasedLayout(Widget body) {
-    switch (_userRole) {
-      case 'admin':
-        return AdminLayout(title: 'Akun', currentIndex: 3, body: body);
-      case 'community_head':
-        return CommunityHeadLayout(title: 'Akun', currentIndex: 3, body: body);
-      case 'block_leader':
-        return BlockLeaderLayout(title: 'Akun', currentIndex: 3, body: body);
-      case 'secretary':
-        return SecretaryLayout(title: 'Akun', currentIndex: 3, body: body);
-      case 'treasurer':
-        return TreasurerLayout(title: 'Akun', currentIndex: 3, body: body);
-      case 'resident':
-      default:
-        return ResidentLayout(title: 'Akun', currentIndex: 4, body: body);
-    }
-  }
-
   @override
   void dispose() {
     _nameController.dispose();
@@ -325,8 +297,23 @@ class _AccountScreenState extends State<AccountScreen> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    return _buildRoleBasedLayout(
-      SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        title: const Text(
+          'Akun',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
+      body: SingleChildScrollView(
         child: Column(
           children: [
             // Profile Header
@@ -639,44 +626,138 @@ class _AccountScreenState extends State<AccountScreen> {
                     onTap: () {
                       showDialog(
                         context: context,
-                        builder: (context) => AlertDialog(
+                        barrierDismissible: false,
+                        builder: (context) => Dialog(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          title: const Text(
-                            'Tentang Aplikasi',
-                            style: TextStyle(fontWeight: FontWeight.w700),
-                          ),
-                          content: const Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Rukunin',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(24)),
+                          elevation: 0,
+                          backgroundColor: Colors.transparent,
+                          child: Container(
+                            padding: const EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(24),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 10),
                                 ),
-                              ),
-                              SizedBox(height: 8),
-                              Text('Versi 1.0.0'),
-                              SizedBox(height: 16),
-                              Text(
-                                'Aplikasi manajemen komunitas untuk memudahkan administrasi RT/RW.',
-                                style: TextStyle(height: 1.5),
-                              ),
-                            ],
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text(
-                                'Tutup',
-                                style: TextStyle(fontWeight: FontWeight.w600),
-                              ),
+                              ],
                             ),
-                          ],
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // App Icon
+                                Container(
+                                  width: 80,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primary.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Icon(
+                                    Icons.info_outline,
+                                    color: AppColors.primary,
+                                    size: 40,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+
+                                // App Name
+                                const Text(
+                                  'Rukunin',
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+
+                                // Version
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    'Versi 1.0.0',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.grey[700],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+
+                                // Description
+                                Container(
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[50],
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(
+                                    'Aplikasi manajemen komunitas untuk memudahkan administrasi RT/RW.',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[700],
+                                      height: 1.5,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                const SizedBox(height: 24),
+
+                                // Close Button
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: [AppColors.primary, Color(0xFFFFBF3C)],
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppColors.primary.withOpacity(0.3),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: () => Navigator.pop(context),
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Container(
+                                          padding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 14),
+                                          alignment: Alignment.center,
+                                          child: const Text(
+                                            'Tutup',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       );
                     },
@@ -771,7 +852,7 @@ class _AccountScreenState extends State<AccountScreen> {
         border: Border.all(color: Colors.grey[300]!),
       ),
       child: DropdownButtonFormField<String>(
-        value: _selectedGender,
+        initialValue: _selectedGender,
         decoration: const InputDecoration(
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -901,52 +982,267 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
+  void _showAboutDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // App Icon
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Icon(
+                  Icons.info_outline,
+                  color: AppColors.primary,
+                  size: 40,
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // App Name
+              const Text(
+                'Rukunin',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primary,
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // Version
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  'Versi 1.0.0',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[700],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Description
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[50],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  'Aplikasi manajemen komunitas untuk memudahkan administrasi RT/RW.',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[700],
+                    height: 1.5,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Close Button
+              SizedBox(
+                width: double.infinity,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [AppColors.primary, Color(0xFFFFBF3C)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => Navigator.pop(context),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding:
+                            const EdgeInsets.symmetric(vertical: 14),
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Tutup',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: const Text(
-            'Keluar',
-            style: TextStyle(fontWeight: FontWeight.w700),
-          ),
-          content: const Text('Apakah Anda yakin ingin keluar dari aplikasi?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(
-                'Batal',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.w600,
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
                 ),
-              ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context); // Close dialog
-                _logout(); // Perform logout
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Icon
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.red.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Icon(
+                    Icons.logout_rounded,
+                    color: Colors.red,
+                    size: 40,
+                  ),
                 ),
-              ),
-              child: const Text(
-                'Keluar',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                const SizedBox(height: 20),
+
+                // Title
+                const Text(
+                  'Keluar dari Aplikasi?',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
+                const SizedBox(height: 12),
+
+                // Description
+                Text(
+                  'Apakah Anda yakin ingin keluar dari aplikasi?',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                    height: 1.5,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+
+                // Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          side: BorderSide(color: Colors.grey[300]!),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Text(
+                          'Batal',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      flex: 2,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          _logout();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.logout_rounded, color: Colors.white, size: 18),
+                            SizedBox(width: 8),
+                            Text(
+                              'Ya, Keluar',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );

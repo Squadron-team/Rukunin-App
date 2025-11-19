@@ -1,30 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/models/product.dart';
-import 'package:rukunin/pages/resident/resident_layout.dart';
+import 'package:rukunin/pages/resident/marketplace/widgets/my_shop_banner.dart';
+import 'package:rukunin/repositories/products.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/cards/category_chip.dart';
 import 'package:rukunin/widgets/cards/market_promo_card.dart';
-import 'package:rukunin/widgets/cards/product_card.dart';
-import 'package:rukunin/widgets/search_bar_market.dart';
+import 'package:rukunin/pages/resident/marketplace/widgets/product_card.dart';
+import 'package:rukunin/pages/resident/marketplace/widgets/search_bar_market.dart';
 
 class MarketplaceScreen extends StatelessWidget {
   const MarketplaceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ResidentLayout(
-      title: 'Pasar Warga',
-      currentIndex: 1,
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        title: const Text(
+          'Pasar Warga',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
       body: Column(
         children: [
           const SearchBarMarket(),
-
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 8),
+                  const MyShopBanner(isHaveShop: true),
+                  const SizedBox(height: 16),
 
                   // Promo Banners (horizontal scroll only for this section)
                   const SingleChildScrollView(
@@ -99,21 +113,14 @@ class MarketplaceScreen extends StatelessWidget {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 0.6,
+                            childAspectRatio: 0.55,
                             crossAxisSpacing: 16,
                             mainAxisSpacing: 16,
                           ),
-                      itemCount: 6,
+                      itemCount: products.length,
                       itemBuilder: (context, index) {
-                        return ProductCard(
-                          product: Product(
-                            name: 'Pisang sehat wenak',
-                            seller: 'Ibu Wijaya',
-                            price: 14.500,
-                            badge: 'Buah-buahan',
-                            description: 'Buah pisang enak, bergizi, yahut dah pokoknya!'
-                          ),
-                        );
+                        final product = products[index];
+                        return ProductCard(product: product);
                       },
                     ),
                   ),
