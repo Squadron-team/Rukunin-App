@@ -77,7 +77,7 @@ class QuickActionsGrid extends StatelessWidget {
           label: 'Buat Surat',
           color: AppColors.primary,
         ),
-        const QuickAccessItem(
+        QuickAccessItem(
           icon: Icons.campaign,
           label: 'Pengumuman RT',
           color: AppColors.primary,
