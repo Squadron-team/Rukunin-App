@@ -14,10 +14,9 @@ class Shop {
     required this.name,
     required this.ownerId,
     required this.ownerName,
-    this.description,
+    required this.createdAt, this.description,
     this.imageUrl,
     this.location,
-    required this.createdAt,
     this.isActive = true,
   });
 

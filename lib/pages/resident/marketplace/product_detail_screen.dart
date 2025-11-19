@@ -19,7 +19,7 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int _quantity = 2;
-  bool _isFavorite = false;
+  final bool _isFavorite = false;
 
   void _addToCart() {
     // Check if product already in cart

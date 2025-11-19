@@ -85,7 +85,7 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(color: AppColors.primary, width: 2),
+                        borderSide: const BorderSide(color: AppColors.primary, width: 2),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 14,
@@ -374,7 +374,7 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                             ),
                             child: Text(
                               category,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 10,
                                 color: AppColors.primary,
                                 fontWeight: FontWeight.w600,
@@ -408,7 +408,7 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                       const SizedBox(height: 8),
                       Text(
                         'Rp ${_formatCurrency(price)}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: AppColors.primary,

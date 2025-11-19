@@ -107,7 +107,7 @@ class _AkunAdminEditPageState extends State<AkunAdminEditPage> {
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppColors.primary,
                 ),
                 child: Column(
@@ -426,7 +426,7 @@ class _AkunAdminEditPageState extends State<AkunAdminEditPage> {
                                 isActive = value;
                               });
                             },
-                            activeColor: Colors.green,
+                            activeThumbColor: Colors.green,
                           ),
                         ],
                       ),
@@ -563,7 +563,7 @@ class _AkunAdminEditPageState extends State<AkunAdminEditPage> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AppColors.primary, width: 2),
+              borderSide: const BorderSide(color: AppColors.primary, width: 2),
             ),
             filled: true,
             fillColor: Colors.white,
@@ -579,11 +579,11 @@ class _AkunAdminEditPageState extends State<AkunAdminEditPage> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
+        title: const Row(
           children: [
             Icon(Icons.check_circle, color: Colors.green, size: 28),
-            const SizedBox(width: 12),
-            const Text('Berhasil!'),
+            SizedBox(width: 12),
+            Text('Berhasil!'),
           ],
         ),
         content: Text(

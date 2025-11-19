@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/admin/admin_layout.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/pages/admin/warga/warga_edit_page.dart';
 
 class WargaDetailPage extends StatelessWidget {
   final String name;
@@ -11,12 +10,7 @@ class WargaDetailPage extends StatelessWidget {
   final String status;
 
   const WargaDetailPage({
-    super.key,
-    required this.name,
-    required this.nik,
-    required this.alamat,
-    required this.noTelp,
-    required this.status,
+    required this.name, required this.nik, required this.alamat, required this.noTelp, required this.status, super.key,
   });
 
   @override
