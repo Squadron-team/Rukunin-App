@@ -71,7 +71,7 @@ jobs:
       with:
         appId: ${{ secrets.FIREBASE_APP_ID }}
         serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-        groups: ""    # Add tester groups here
+        groups: " internal-tester"
         file: build/app/outputs/flutter-apk/app-release.apk
         releaseNotes: |
           Changes in this build:
