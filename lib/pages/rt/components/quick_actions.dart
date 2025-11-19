@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
+import 'package:rukunin/pages/rt/announcements/announcements_screen.dart';
 import 'package:rukunin/pages/rt/warga/warga_list_screen.dart';
 import 'package:rukunin/pages/rt/warga/data_kk_screen.dart';
 import 'package:rukunin/pages/rt/events/events_screen.dart';
@@ -76,10 +77,16 @@ class QuickActionsGrid extends StatelessWidget {
           label: 'Buat Surat',
           color: AppColors.primary,
         ),
-        const QuickAccessItem(
+        QuickAccessItem(
           icon: Icons.campaign,
           label: 'Pengumuman RT',
           color: AppColors.primary,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const AnnouncementsScreen()),
+            );
+          },
         ),
         const QuickAccessItem(
           icon: Icons.insert_chart,
