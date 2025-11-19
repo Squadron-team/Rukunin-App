@@ -121,7 +121,7 @@ class AdminShell extends StatelessWidget {
                     icon: Icons.admin_panel_settings,
                     label: 'Panel Admin',
                     index: 3,
-                    isSelected: currentIndex == 2,
+                    isSelected: currentIndex == 3,
                   ),
                 ),
                 Expanded(
@@ -130,7 +130,7 @@ class AdminShell extends StatelessWidget {
                     icon: Icons.person_rounded,
                     label: 'Akun',
                     index: 4,
-                    isSelected: currentIndex == 3,
+                    isSelected: currentIndex == 4,
                   ),
                 ),
               ],
