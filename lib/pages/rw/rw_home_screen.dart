@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
-
-// Halaman lain
 import 'package:rukunin/pages/rw/iuran/iuran_rw_screen.dart';
 import 'package:rukunin/pages/rw/kegiatan/kegiatan_rw_screen.dart';
 import 'package:rukunin/pages/rw/laporan/kelola_laporan_screen.dart';
@@ -22,31 +20,57 @@ class RwHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.grey[50]!,
-            Colors.white,
-          ],
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        title: const Text(
+          'Selamat pagi, Bu RW!',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
         ),
+        centerTitle: false,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications_outlined, color: Colors.black),
+            onPressed: () {
+              // TODO: Navigate to notifications
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Fitur notifikasi akan segera tersedia'),
+                  backgroundColor: Colors.orange,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            _header(),
-            const SizedBox(height: 28),
-            _quickStats(context),
-            const SizedBox(height: 28),
-            _insightSection(context),
-            const SizedBox(height: 28),
-            _menuSection(context),
-            const SizedBox(height: 28),
-            _recentActivity(),
-            const SizedBox(height: 24),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              _header(),
+              const SizedBox(height: 28),
+              _quickStats(context),
+              const SizedBox(height: 28),
+              _insightSection(context),
+              const SizedBox(height: 28),
+              _menuSection(context),
+              const SizedBox(height: 28),
+              _recentActivity(),
+              const SizedBox(height: 24),
+            ],
+          ),
         ),
       ),
     );
@@ -56,132 +80,102 @@ class RwHomeScreen extends StatelessWidget {
   Widget _header() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(20, 32, 20, 28),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            AppColors.primary,
-            AppColors.primary.withOpacity(0.8),
-            AppColors.primary.withOpacity(0.9),
-          ],
+          colors: [AppColors.primary, AppColors.primary.withOpacity(0.8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(32),
-          bottomRight: Radius.circular(32),
-        ),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.4),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          )
+            color: AppColors.primary.withOpacity(0.3),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white.withOpacity(0.3), width: 2),
-                ),
-                child: const CircleAvatar(
-                  radius: 32,
-                  backgroundImage: AssetImage('assets/images/avatar.png'),
-                ),
+          const Text(
+            'Selamat Datang, Budi Santoso! 👋',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Kelola aktivitas RW 05 dengan mudah',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.white.withOpacity(0.9),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Text(
+              'Ketua RW 05',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Selamat Datang! 👋',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Budi Santoso',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Text(
-                        'Ketua RW 05',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  // ========================= QUICK STATS =========================
   Widget _quickStats(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        children: [
-          Expanded(
-            child: _quickStatCard(
-              'Laporan Baru',
-              '3',
-              Icons.report_problem_rounded,
-              Colors.orange,
-            ),
+    return Row(
+      children: [
+        Expanded(
+          child: _quickStatCard(
+            'Laporan Baru',
+            '3',
+            Icons.report_problem_rounded,
+            Colors.orange,
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _quickStatCard(
-              'Pengumuman',
-              '5',
-              Icons.campaign_rounded,
-              Colors.red,
-            ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _quickStatCard(
+            'Pengumuman',
+            '5',
+            Icons.campaign_rounded,
+            Colors.red,
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _quickStatCard(
-              'Rapat Hari Ini',
-              '1',
-              Icons.event_rounded,
-              Colors.purple,
-            ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _quickStatCard(
+            'Rapat Hari Ini',
+            '1',
+            Icons.event_rounded,
+            Colors.purple,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  Widget _quickStatCard(String title, String value, IconData icon, Color color) {
+  Widget _quickStatCard(
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       decoration: BoxDecoration(
@@ -193,7 +187,7 @@ class RwHomeScreen extends StatelessWidget {
             color: color.withOpacity(0.1),
             blurRadius: 8,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -227,74 +221,71 @@ class RwHomeScreen extends StatelessWidget {
 
   // ========================= INSIGHT SECTION =========================
   Widget _insightSection(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 4,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(2),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(2),
               ),
-              const SizedBox(width: 12),
-              const Text(
-                'Statistik Utama',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.5,
-                ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Statistik Utama',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                letterSpacing: -0.5,
               ),
-            ],
-          ),
-          const SizedBox(height: 18),
-          _insightCard(
-            context: context,
-            title: 'Total RT',
-            value: '12 RT',
-            subtitle: 'Di wilayah RW 05',
-            icon: Icons.home_work_rounded,
-            color: Colors.indigo,
-            trend: '+2 RT baru',
-          ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                child: _insightCard(
-                  context: context,
-                  title: 'Jumlah Warga',
-                  value: totalWarga.toString(),
-                  subtitle: 'Terdaftar aktif',
-                  icon: Icons.people_rounded,
-                  color: Colors.blue,
-                  page: const DataWargaScreen(),
-                  trend: '+12 bulan ini',
-                ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 18),
+        _insightCard(
+          context: context,
+          title: 'Total RT',
+          value: '12 RT',
+          subtitle: 'Di wilayah RW 05',
+          icon: Icons.home_work_rounded,
+          color: Colors.indigo,
+          trend: '+2 RT baru',
+        ),
+        const SizedBox(height: 14),
+        Row(
+          children: [
+            Expanded(
+              child: _insightCard(
+                context: context,
+                title: 'Jumlah Warga',
+                value: totalWarga.toString(),
+                subtitle: 'Terdaftar aktif',
+                icon: Icons.people_rounded,
+                color: Colors.blue,
+                page: const DataWargaScreen(),
+                trend: '+12 bulan ini',
               ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: _insightCard(
-                  context: context,
-                  title: 'Total Keuangan',
-                  value: totalKeuangan,
-                  subtitle: 'Saldo tersedia',
-                  icon: Icons.account_balance_wallet_rounded,
-                  color: Colors.green,
-                  page: const IuranRwScreen(),
-                  trend: '+8.5% bulan ini',
-                ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: _insightCard(
+                context: context,
+                title: 'Total Keuangan',
+                value: totalKeuangan,
+                subtitle: 'Saldo tersedia',
+                icon: Icons.account_balance_wallet_rounded,
+                color: Colors.green,
+                page: const IuranRwScreen(),
+                trend: '+8.5% bulan ini',
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -333,7 +324,7 @@ class RwHomeScreen extends StatelessWidget {
                 color: color.withOpacity(0.15),
                 blurRadius: 12,
                 offset: const Offset(0, 6),
-              )
+              ),
             ],
           ),
           child: Column(
@@ -387,17 +378,17 @@ class RwHomeScreen extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 subtitle,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey[600],
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
               ),
               if (trend != null) ...[
                 const SizedBox(height: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withAlpha(26),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -419,61 +410,107 @@ class RwHomeScreen extends StatelessWidget {
 
   // ========================= MENU GRID =========================
   Widget _menuSection(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 4,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(2),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(2),
               ),
-              const SizedBox(width: 12),
-              const Text(
-                'Menu Layanan',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.5,
-                ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Menu Layanan',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                letterSpacing: -0.5,
               ),
-            ],
-          ),
-          const SizedBox(height: 18),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 3,
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 14,
-            childAspectRatio: 0.9,
-            children: [
-              _menuItem(context, 'Data Warga', Icons.people_rounded, AppColors.primary, const DataWargaScreen()),
-              _menuItem(context, 'Iuran', Icons.payments_rounded, Colors.green, const IuranRwScreen()),
-              _menuItem(context, 'Kegiatan', Icons.event_rounded, Colors.purple, const KegiatanRwScreen()),
-              _menuItem(context, 'Laporan', Icons.receipt_long_rounded, Colors.orange, const KelolaLaporanScreen()),
-              _menuItem(context, 'Pengumuman', Icons.campaign_rounded, Colors.red, const PengumumanScreen()),
-              _menuItem(context, 'Rapat', Icons.meeting_room_rounded, Colors.teal, const RapatRwScreen()),
-              _menuItem(context, 'Surat', Icons.description_rounded, Colors.brown, const SuratMenyuratScreen()),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 18),
+        GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 3,
+          crossAxisSpacing: 14,
+          mainAxisSpacing: 14,
+          childAspectRatio: 0.9,
+          children: [
+            _menuItem(
+              context,
+              'Data Warga',
+              Icons.people_rounded,
+              AppColors.primary,
+              const DataWargaScreen(),
+            ),
+            _menuItem(
+              context,
+              'Iuran',
+              Icons.payments_rounded,
+              Colors.green,
+              const IuranRwScreen(),
+            ),
+            _menuItem(
+              context,
+              'Kegiatan',
+              Icons.event_rounded,
+              Colors.purple,
+              const KegiatanRwScreen(),
+            ),
+            _menuItem(
+              context,
+              'Laporan',
+              Icons.receipt_long_rounded,
+              Colors.orange,
+              const KelolaLaporanScreen(),
+            ),
+            _menuItem(
+              context,
+              'Pengumuman',
+              Icons.campaign_rounded,
+              Colors.red,
+              const PengumumanScreen(),
+            ),
+            _menuItem(
+              context,
+              'Rapat',
+              Icons.meeting_room_rounded,
+              Colors.teal,
+              const RapatRwScreen(),
+            ),
+            _menuItem(
+              context,
+              'Surat',
+              Icons.description_rounded,
+              Colors.brown,
+              const SuratMenyuratScreen(),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
-  Widget _menuItem(BuildContext context, String label, IconData icon, Color color, Widget page) {
+  Widget _menuItem(
+    BuildContext context,
+    String label,
+    IconData icon,
+    Color color,
+    Widget page,
+  ) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => page)),
+        onTap: () =>
+            Navigator.push(context, MaterialPageRoute(builder: (_) => page)),
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -520,57 +557,53 @@ class RwHomeScreen extends StatelessWidget {
     );
   }
 
-  // ========================= RECENT ACTIVITY =========================
   Widget _recentActivity() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 4,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(2),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(2),
               ),
-              const SizedBox(width: 12),
-              const Text(
-                'Aktivitas Terbaru',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.5,
-                ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Aktivitas Terbaru',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                letterSpacing: -0.5,
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _activityItem(
-            'Laporan kebersihan diterima',
-            '2 jam yang lalu',
-            Icons.report_rounded,
-            Colors.orange,
-          ),
-          const SizedBox(height: 12),
-          _activityItem(
-            'Rapat RT 03 dijadwalkan',
-            '5 jam yang lalu',
-            Icons.event_rounded,
-            Colors.purple,
-          ),
-          const SizedBox(height: 12),
-          _activityItem(
-            'Iuran Agustus - 85% terkumpul',
-            '1 hari yang lalu',
-            Icons.payments_rounded,
-            Colors.green,
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        _activityItem(
+          'Laporan kebersihan diterima',
+          '2 jam yang lalu',
+          Icons.report_rounded,
+          Colors.orange,
+        ),
+        const SizedBox(height: 12),
+        _activityItem(
+          'Rapat RT 03 dijadwalkan',
+          '5 jam yang lalu',
+          Icons.event_rounded,
+          Colors.purple,
+        ),
+        const SizedBox(height: 12),
+        _activityItem(
+          'Iuran Agustus - 85% terkumpul',
+          '1 hari yang lalu',
+          Icons.payments_rounded,
+          Colors.green,
+        ),
+      ],
     );
   }
 
@@ -586,7 +619,7 @@ class RwHomeScreen extends StatelessWidget {
             color: Colors.grey.withOpacity(0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
-          )
+          ),
         ],
       ),
       child: Row(
@@ -615,10 +648,7 @@ class RwHomeScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   time,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[500],
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[500]),
                 ),
               ],
             ),

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rukunin/pages/general/notification_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class RwShell extends StatelessWidget {
   final Widget child;
 
-  const RwShell({
-    required this.child,
-    super.key,
-  });
+  const RwShell({required this.child, super.key});
 
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
@@ -18,21 +14,6 @@ class RwShell extends StatelessWidget {
     if (location == '/rw/laporan') return 2;
     if (location == '/rw/account') return 3;
     return 0;
-  }
-
-  String _getTitle(int index) {
-    switch (index) {
-      case 0:
-        return 'Dashboard';
-      case 1:
-        return 'Warga';
-      case 2:
-        return 'Laporan';
-      case 3:
-        return 'Akun';
-      default:
-        return 'Dashboard';
-    }
   }
 
   void _onItemTapped(BuildContext context, int index) {
@@ -55,102 +36,16 @@ class RwShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentIndex = _getCurrentIndex(context);
-    final title = _getTitle(currentIndex);
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        title: Row(
-          children: [
-            Container(
-              width: 4,
-              height: 24,
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                letterSpacing: -0.5,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 8),
-            child: Stack(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.primary.withOpacity(0.1),
-                        AppColors.primary.withOpacity(0.05),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: AppColors.primary.withOpacity(0.2),
-                      width: 1,
-                    ),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.notifications_outlined,
-                      color: AppColors.primary,
-                      size: 22,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const NotificationScreen(),
-                        ),
-                      );
-                    },
-                    padding: EdgeInsets.zero,
-                  ),
-                ),
-                Positioned(
-                  right: 8,
-                  top: 8,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 1.5),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
       body: child,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withAlpha(20),
               blurRadius: 12,
               offset: const Offset(0, -4),
             ),
@@ -164,8 +59,8 @@ class RwShell extends StatelessWidget {
               children: [
                 _buildNavItem(
                   context,
-                  icon: Icons.dashboard_rounded,
-                  label: 'Dashboard',
+                  icon: Icons.home_rounded,
+                  label: 'Beranda',
                   index: 0,
                   isSelected: currentIndex == 0,
                 ),
@@ -209,9 +104,7 @@ class RwShell extends StatelessWidget {
       onTap: () => _onItemTapped(context, index),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
