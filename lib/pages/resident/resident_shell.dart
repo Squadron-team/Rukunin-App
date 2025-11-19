@@ -12,7 +12,7 @@ class ResidentShell extends StatelessWidget {
     if (location == '/resident') return 0;
     if (location == '/resident/marketplace') return 1;
     if (location == '/resident/events') return 2;
-    if (location == '/resident/dues') return 3;
+    if (location == '/resident/community') return 3;
     if (location == '/resident/account') return 4;
     return 0;
   }
@@ -29,7 +29,7 @@ class ResidentShell extends StatelessWidget {
         context.go('/resident/events');
         break;
       case 3:
-        context.go('/resident/dues');
+        context.go('/resident/community');
         break;
       case 4:
         context.go('/resident/account');
@@ -91,8 +91,8 @@ class ResidentShell extends StatelessWidget {
                 Expanded(
                   child: _buildNavItem(
                     context,
-                    icon: Icons.receipt_long_rounded,
-                    label: 'Iuran',
+                    icon: Icons.groups,
+                    label: 'Komunitas',
                     index: 3,
                     isSelected: currentIndex == 3,
                   ),
