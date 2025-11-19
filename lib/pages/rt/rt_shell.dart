@@ -13,9 +13,7 @@ class RtShell extends StatelessWidget {
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     if (location == '/rt') return 0;
-    if (location == '/rt/warga') return 1;
-    if (location == '/rt/laporan') return 2;
-    if (location == '/rt/account') return 3;
+    if (location == '/rt/account') return 4;
     return 0;
   }
 
@@ -25,13 +23,23 @@ class RtShell extends StatelessWidget {
         context.go('/rt');
         break;
       case 1:
-        context.go('/rt/warga');
-        break;
-      case 2:
-        // TODO: Add proper navigation when laporan screen is created
+        // TODO: Navigate to marketplace screen when available
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Menu Laporan belum tersedia'),
+            content: const Text('Menu Pasar belum tersedia'),
+            backgroundColor: Colors.orange,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+        break;
+      case 2:
+        // TODO: Navigate to events screen when available
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Menu Kegiatan belum tersedia'),
             backgroundColor: Colors.orange,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -41,6 +49,19 @@ class RtShell extends StatelessWidget {
         );
         break;
       case 3:
+        // TODO: Navigate to community screen when available
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Menu Komunitas belum tersedia'),
+            backgroundColor: Colors.orange,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+        break;
+      case 4:
         context.go('/rt/account');
         break;
     }
@@ -58,7 +79,7 @@ class RtShell extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withAlpha(20),
               blurRadius: 12,
               offset: const Offset(0, -4),
             ),
@@ -70,33 +91,50 @@ class RtShell extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildNavItem(
-                  context,
-                  icon: Icons.home_rounded,
-                  label: 'Dashboard',
-                  index: 0,
-                  isSelected: currentIndex == 0,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.home_rounded,
+                    label: 'Dashboard',
+                    index: 0,
+                    isSelected: currentIndex == 0,
+                  ),
                 ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.people_rounded,
-                  label: 'Warga',
-                  index: 1,
-                  isSelected: currentIndex == 1,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.people_rounded,
+                    label: 'Pasar',
+                    index: 1,
+                    isSelected: currentIndex == 1,
+                  ),
                 ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.analytics_rounded,
-                  label: 'Laporan',
-                  index: 2,
-                  isSelected: currentIndex == 2,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.event_rounded,
+                    label: 'Kegiatan',
+                    index: 2,
+                    isSelected: currentIndex == 2,
+                  ),
                 ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.person_rounded,
-                  label: 'Akun',
-                  index: 3,
-                  isSelected: currentIndex == 3,
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.groups,
+                    label: 'Komunitas',
+                    index: 3,
+                    isSelected: currentIndex == 3,
+                  ),
+                ),
+                Expanded(
+                  child: _buildNavItem(
+                    context,
+                    icon: Icons.person_rounded,
+                    label: 'Akun',
+                    index: 4,
+                    isSelected: currentIndex == 4,
+                  ),
                 ),
               ],
             ),
@@ -116,7 +154,7 @@ class RtShell extends StatelessWidget {
     return GestureDetector(
       onTap: () => _onItemTapped(context, index),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
         ),
