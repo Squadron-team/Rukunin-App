@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rukunin/pages/splash_screen.dart';
 import 'package:rukunin/routes/rw_routes.dart';
 import 'package:rukunin/routes/rt_route.dart';
 import 'package:rukunin/routes/secretary_routes.dart';
@@ -11,10 +12,17 @@ import 'package:rukunin/routes/resident_routes.dart';
 
 final router = GoRouter(
   debugLogDiagnostics: true,
+  initialLocation: '/',
   redirect: (context, state) async {
     final user = FirebaseAuth.instance.currentUser;
     final isAuthRoute = state.matchedLocation == '/sign-in' || 
                         state.matchedLocation == '/sign-up';
+    final isSplashRoute = state.matchedLocation == '/';
+
+    // Allow splash screen to show without redirect
+    if (isSplashRoute) {
+      return null;
+    }
 
     // If user is not logged in and not on auth routes, redirect to sign-in
     if (user == null && !isAuthRoute) {
@@ -30,6 +38,12 @@ final router = GoRouter(
     return null;
   },
   routes: [
+    // Splash screen
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const SplashScreen(),
+    ),
+
     // Authentication routes
     ...authRoutes,
     
