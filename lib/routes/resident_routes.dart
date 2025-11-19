@@ -3,12 +3,15 @@ import 'package:go_router/go_router.dart';
 import 'package:rukunin/pages/resident/community/community_screen.dart';
 import 'package:rukunin/pages/resident/community/dues_screen.dart';
 import 'package:rukunin/pages/resident/community/finance_transparency_screen.dart';
+import 'package:rukunin/pages/resident/community/population_info_screen.dart';
 import 'package:rukunin/pages/resident/resident_home_screen.dart';
 import 'package:rukunin/pages/resident/marketplace/marketplace_screen.dart';
 import 'package:rukunin/pages/resident/events/events_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/resident/resident_shell.dart';
-import 'package:rukunin/pages/general/coming_soon_screen.dart';
+import 'package:rukunin/pages/resident/community/family_details_screen.dart';
+import 'package:rukunin/pages/resident/community/documents_screen.dart';
+import 'package:rukunin/pages/resident/community/document_request_form_screen.dart';
 
 final residentRoutes = ShellRoute(
   builder: (context, state, child) => ResidentShell(child: child),
@@ -54,29 +57,79 @@ final residentRoutes = ShellRoute(
         GoRoute(
           path: 'population',
           name: 'resident-community-population',
-          builder: (context, state) => const ComingSoonScreen(
-            featureName: 'Informasi Kependudukan',
-            description: 'Fitur untuk melihat dan mengelola data KTP/KK Anda sedang dalam pengembangan. Anda akan dapat mengakses informasi lengkap kependudukan Anda segera.',
-            icon: Icons.people,
-          ),
+          builder: (context, state) => const PopulationInfoScreen(),
         ),
         GoRoute(
           path: 'family',
           name: 'resident-community-family',
-          builder: (context, state) => const ComingSoonScreen(
-            featureName: 'Data Keluarga (KK)',
-            description: 'Fitur untuk mengelola informasi anggota keluarga dalam Kartu Keluarga sedang dalam pengembangan. Anda akan dapat melihat dan memperbarui data keluarga dengan mudah.',
-            icon: Icons.family_restroom,
-          ),
+          builder: (context, state) => const FamilyDetailsScreen(),
         ),
         GoRoute(
           path: 'documents',
           name: 'resident-community-documents',
-          builder: (context, state) => const ComingSoonScreen(
-            featureName: 'Pengajuan Surat',
-            description: 'Fitur untuk mengajukan surat keterangan dan dokumen administratif secara online sedang dalam pengembangan. Proses pengajuan akan menjadi lebih mudah dan cepat.',
-            icon: Icons.description,
-          ),
+          builder: (context, state) => const DocumentsScreen(),
+          routes: [
+            GoRoute(
+              path: 'domicile',
+              name: 'document-domicile',
+              builder: (context, state) => const DocumentRequestFormScreen(
+                documentType: 'domicile',
+                documentTitle: 'Surat Keterangan Domisili',
+                documentIcon: Icons.home_outlined,
+                documentColor: Colors.blue,
+              ),
+            ),
+            GoRoute(
+              path: 'sktm',
+              name: 'document-sktm',
+              builder: (context, state) => const DocumentRequestFormScreen(
+                documentType: 'sktm',
+                documentTitle: 'Surat Keterangan Tidak Mampu',
+                documentIcon: Icons.people_outline,
+                documentColor: Colors.orange,
+              ),
+            ),
+            GoRoute(
+              path: 'business',
+              name: 'document-business',
+              builder: (context, state) => const DocumentRequestFormScreen(
+                documentType: 'business',
+                documentTitle: 'Surat Keterangan Usaha',
+                documentIcon: Icons.business_outlined,
+                documentColor: Colors.green,
+              ),
+            ),
+            GoRoute(
+              path: 'correction',
+              name: 'document-correction',
+              builder: (context, state) => const DocumentRequestFormScreen(
+                documentType: 'correction',
+                documentTitle: 'Permohonan Koreksi Data',
+                documentIcon: Icons.edit_document,
+                documentColor: Colors.purple,
+              ),
+            ),
+            GoRoute(
+              path: 'family',
+              name: 'document-family',
+              builder: (context, state) => const DocumentRequestFormScreen(
+                documentType: 'family',
+                documentTitle: 'Surat Keterangan Keluarga',
+                documentIcon: Icons.family_restroom,
+                documentColor: Colors.teal,
+              ),
+            ),
+            GoRoute(
+              path: 'other',
+              name: 'document-other',
+              builder: (context, state) => const DocumentRequestFormScreen(
+                documentType: 'other',
+                documentTitle: 'Surat Lainnya',
+                documentIcon: Icons.description_outlined,
+                documentColor: Colors.grey,
+              ),
+            ),
+          ],
         ),
       ],
     ),
