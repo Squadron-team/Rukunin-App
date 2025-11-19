@@ -1,0 +1,78 @@
+name: Build and Deploy Flutter Android App
+
+on:
+  push:
+    branches: 
+      - main
+  workflow_dispatch: 
+
+permissions:
+  contents: write  # needed if you want to commit back changes like version bumps
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    # 1. Checkout repository
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # needed if you push version bumps back
+
+    # 2. Setup Java (required by Android build tools)
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+        
+    # 3. Setup Flutter
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.32.5' # set to your project's Flutter version
+        channel: 'stable'
+
+    # 4. Automatically bump build number
+    - name: Bump Flutter build version
+      run: |
+        # Extract current version (format: x.y.z+build)
+        current_version=$(grep '^version:' pubspec.yaml | sed 's/version: //')
+        version_name=$(echo $current_version | cut -d+ -f1)
+        build_number=$(echo $current_version | cut -d+ -f2)
+
+        # Increment build number
+        new_build_number=$((build_number + 1))
+        new_version="$version_name+$new_build_number"
+
+        # Replace in pubspec.yaml
+        sed -i "s/version: .*/version: $new_version/" pubspec.yaml
+
+        echo "Updated version to $new_version"
+        
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add pubspec.yaml
+        git commit -m "chore: bump version [skip ci]" || echo "No changes to commit"
+        git push origin HEAD:${{ github.ref }}
+
+    # 5. Get dependencies
+    - name: Get dependencies
+      run: flutter pub get
+    
+    # 6. Build release APK
+    - name: Build APK
+      run: flutter build apk --release
+      
+    # 7. Upload APK to Firebase App Distribution
+    - name: Upload APK to Firebase App Distribution
+      uses: wzieba/Firebase-Distribution-Github-Action@v1
+      with:
+        appId: ${{ secrets.FIREBASE_APP_ID }}
+        serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+        groups: ""    # Add tester groups here
+        file: build/app/outputs/flutter-apk/app-release.apk
+        releaseNotes: |
+          Changes in this build:
+          ${{ github.event.head_commit.message }}

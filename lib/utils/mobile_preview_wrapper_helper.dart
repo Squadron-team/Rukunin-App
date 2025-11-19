@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:web/web.dart';
+import 'package:rukunin/utils/mobile_preview_wrapper_helper_stub.dart'
+    if (dart.library.html) 'mobile_preview_wrapper_helper_web.dart'
+    if (dart.library.io) 'mobile_preview_wrapper_helper_mobile.dart';
 
 class MobilePreviewWrapperHelper {
   static bool shouldUseMobilePreview() {
     if (kIsWeb) {
       // On web, check if the device is mobile
-      if (_isWebMobile()) {
+      if (isWebMobile()) {
         return false; // Running on a phone → NO wrapper
       } else {
         return true; // Running on desktop browser → wrapper
@@ -18,13 +20,5 @@ class MobilePreviewWrapperHelper {
 
     // Running on a real mobile device → don't wrap
     return false;
-  }
-
-  static bool _isWebMobile() {
-    final ua = window.navigator.userAgent.toLowerCase();
-    return ua.contains('iphone') ||
-        ua.contains('android') ||
-        ua.contains('ipad') ||
-        ua.contains('mobile');
   }
 }
