@@ -47,22 +47,22 @@ final router = GoRouter(
     // Authentication routes
     ...authRoutes,
     
-    // Admin routes (with shell)
+    // Admin routes
     adminRoutes,
 
-    // RT routes (with shell)
+    // RT routes
     rtRoutes,
     
-    // RW routes (with shell)
+    // RW routes
     rwRoutes,
 
-    // Secretary routes (with shell)
+    // Secretary routes
     secretaryRoutes,
 
     // Treasurer routes
-    ...treasurerRoutes,
+    treasurerRoutes,
     
-    // Resident routes (with shell)
+    // Resident routes
     residentRoutes,
   ],
 );
