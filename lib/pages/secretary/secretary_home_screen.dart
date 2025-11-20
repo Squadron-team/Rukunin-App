@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
+import 'package:rukunin/pages/general/notification_screen.dart';
 
 class SecretaryHomeScreen extends StatelessWidget {
   const SecretaryHomeScreen({super.key});
@@ -26,15 +27,10 @@ class SecretaryHomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.notifications_outlined, color: Colors.black),
             onPressed: () {
-              // TODO: Navigate to notifications
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Fitur notifikasi akan segera tersedia'),
-                  backgroundColor: Colors.orange,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
                 ),
               );
             },
