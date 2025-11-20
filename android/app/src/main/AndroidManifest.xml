@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="rukunin"
+        android:label="Rukunin"
         android:name="${applicationName}"
         android:icon="@mipmap/app_icon"
         android:requestLegacyExternalStorage="true">
