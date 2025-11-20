@@ -42,16 +42,16 @@ class _DataWargaScreenState extends State<DataWargaScreen> {
   void _filterData() {
     setState(() {
       filteredWargaList = wargaList.where((warga) {
-        final matchesSearch = warga.nama
-                .toLowerCase()
-                .contains(_searchController.text.toLowerCase()) ||
+        final matchesSearch =
+            warga.nama.toLowerCase().contains(
+              _searchController.text.toLowerCase(),
+            ) ||
             warga.nik.contains(_searchController.text) ||
-            warga.alamat
-                .toLowerCase()
-                .contains(_searchController.text.toLowerCase());
+            warga.alamat.toLowerCase().contains(
+              _searchController.text.toLowerCase(),
+            );
 
-        final matchesRT =
-            selectedRT == 'Semua' || warga.rt == selectedRT;
+        final matchesRT = selectedRT == 'Semua' || warga.rt == selectedRT;
 
         return matchesSearch && matchesRT;
       }).toList();
@@ -73,8 +73,23 @@ class _DataWargaScreenState extends State<DataWargaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: RefreshIndicator(
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        title: const Text(
+          'Data Warga',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
+      body: RefreshIndicator(
         onRefresh: () async {
           _loadData();
         },
@@ -87,8 +102,8 @@ class _DataWargaScreenState extends State<DataWargaScreen> {
               child: isLoading
                   ? _buildLoadingState()
                   : filteredWargaList.isEmpty
-                      ? _buildEmptyState()
-                      : _buildWargaList(),
+                  ? _buildEmptyState()
+                  : _buildWargaList(),
             ),
           ],
         ),
@@ -103,10 +118,7 @@ class _DataWargaScreenState extends State<DataWargaScreen> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            AppColors.primary,
-            AppColors.primary.withOpacity(0.85),
-          ],
+          colors: [AppColors.primary, AppColors.primary.withOpacity(0.85)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -342,8 +354,11 @@ class _DataWargaScreenState extends State<DataWargaScreen> {
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          Icon(Icons.credit_card,
-                              size: 14, color: Colors.grey[600]),
+                          Icon(
+                            Icons.credit_card,
+                            size: 14,
+                            color: Colors.grey[600],
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             warga.nik,
@@ -357,8 +372,11 @@ class _DataWargaScreenState extends State<DataWargaScreen> {
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          Icon(Icons.location_on,
-                              size: 14, color: Colors.grey[600]),
+                          Icon(
+                            Icons.location_on,
+                            size: 14,
+                            color: Colors.grey[600],
+                          ),
                           const SizedBox(width: 4),
                           Expanded(
                             child: Text(
@@ -425,7 +443,7 @@ class _DataWargaScreenState extends State<DataWargaScreen> {
             ),
           ),
         ),
-      ), 
+      ),
     );
   }
 

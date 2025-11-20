@@ -1,7 +1,7 @@
 name: rukunin
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0+4
+version: 0.1.0+9
 
 environment:
   sdk: ^3.9.2
@@ -24,6 +24,9 @@ dependencies:
   printing: ^5.14.2
   go_router: ^17.0.0
   share_plus: ^12.0.1
+  flutter_native_splash: ^2.4.3
+  image_picker: ^1.0.7
+  image_picker_for_web: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -38,6 +41,7 @@ flutter:
     - assets/
     - assets/kk/
     - assets/ktp/
+    - assets/icons/
 
 flutter_launcher_icons:
   android: "app_icon"
@@ -56,3 +60,13 @@ flutter_launcher_icons:
   macos:
     generate: true
     image_path: "assets/icons/app_icon.png"
+
+flutter_native_splash:
+  color: "#FFAB00"
+  image: assets/icons/app_icon.png
+  android: true
+  ios: true
+  web: true
+  android_12:
+    color: "#FFAB00"
+    image: assets/icons/app_icon.png

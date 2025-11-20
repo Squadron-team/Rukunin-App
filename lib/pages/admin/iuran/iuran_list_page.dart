@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/admin/admin_layout.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class IuranListPage extends StatefulWidget {
@@ -14,9 +13,13 @@ class _IuranListPageState extends State<IuranListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AdminLayout(
-      title: 'Daftar Iuran',
-      currentIndex: 2,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Daftar Iuran'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -35,16 +38,30 @@ class _IuranListPageState extends State<IuranListPage> {
                       color: Colors.black,
                     ),
                   ),
-                  DropdownButton<String>(
-                    value: selectedFilter,
-                    items: const [
-                      DropdownMenuItem(value: 'Semua', child: Text('Semua')),
-                      DropdownMenuItem(value: 'Lunas', child: Text('Lunas')),
-                      DropdownMenuItem(value: 'Belum Lunas', child: Text('Belum Lunas')),
-                    ],
-                    onChanged: (v) => setState(() => selectedFilter = v!),
-                    underline: Container(),
-                    icon: const Icon(Icons.filter_list, color: AppColors.primary),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                    ),
+                    child: DropdownButton<String>(
+                      value: selectedFilter,
+                      items: const [
+                        DropdownMenuItem(value: 'Semua', child: Text('Semua')),
+                        DropdownMenuItem(value: 'Lunas', child: Text('Lunas')),
+                        DropdownMenuItem(value: 'Belum Lunas', child: Text('Belum Lunas')),
+                      ],
+                      onChanged: (v) => setState(() => selectedFilter = v!),
+                      underline: Container(),
+                      icon: const Icon(Icons.filter_list, color: AppColors.primary, size: 20),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primary,
+                      ),
+                      isDense: true,
+                    ),
                   ),
                 ],
               ),
@@ -85,6 +102,13 @@ class _IuranListPageState extends State<IuranListPage> {
                 amount: 50000,
                 status: 'Lunas',
                 paymentDate: '30 Des 2024',
+              ),
+              _buildIuranCard(
+                name: 'Rangga Saputra',
+                period: 'Desember 2024',
+                amount: 50000,
+                status: 'Belum Lunas',
+                paymentDate: null,
               ),
             ],
           ),
@@ -224,6 +248,35 @@ class _IuranListPageState extends State<IuranListPage> {
                       ],
                     ),
                   ],
+                )
+              else
+                ElevatedButton.icon(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text('Fitur catat pembayaran akan segera tersedia'),
+                        backgroundColor: Colors.orange,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.add, size: 16),
+                  label: const Text('Bayar'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    textStyle: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
             ],
           ),

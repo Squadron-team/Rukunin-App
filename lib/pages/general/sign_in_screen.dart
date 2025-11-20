@@ -244,10 +244,14 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ],
                   ),
-                  child: const Icon(
-                    Icons.wb_sunny,
-                    size: 40,
-                    color: Colors.white,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.asset(
+                      'assets/icons/app_icon.png',
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
 

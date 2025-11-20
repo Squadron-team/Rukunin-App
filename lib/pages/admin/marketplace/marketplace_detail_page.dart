@@ -1,375 +1,518 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/admin/admin_layout.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/utils/currency_formatter.dart';
 
-class MarketplaceDetailPage extends StatelessWidget {
-  const MarketplaceDetailPage({super.key});
+class MarketplaceDetailPage extends StatefulWidget {
+  final String id;
+  final String name;
+  final String seller;
+  final String phone;
+  final int price;
+  final String category;
+  final String image;
+  final int stock;
+  final bool isActive;
+  final String description;
+
+  const MarketplaceDetailPage({
+    required this.id,
+    required this.name,
+    required this.seller,
+    required this.phone,
+    required this.price,
+    required this.category,
+    required this.image,
+    required this.stock,
+    required this.isActive,
+    required this.description,
+    super.key,
+  });
 
   @override
+  State<MarketplaceDetailPage> createState() => _MarketplaceDetailPageState();
+}
+
+class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
+  @override
   Widget build(BuildContext context) {
-    // Ambil arguments dari navigator
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    
-    final String id = args['id'];
-    final String name = args['name'];
-    final String seller = args['seller'];
-    final String phone = args['phone'];
-    final int price = args['price'];
-    final String category = args['category'];
-    final String image = args['image'];
-    final int stock = args['stock'];
-    final bool isActive = args['isActive'];
-    final String description = args['description'];
-
-    bool isService = category == 'Jasa';
-
-    return AdminLayout(
-      title: 'Detail Produk',
-      currentIndex: 3,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 650),
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Status Badge
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
+    return Scaffold(
+      backgroundColor: const Color(0xFFFFF5E6),
+      body: CustomScrollView(
+        slivers: [
+          // App Bar with Image
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            backgroundColor: Colors.white,
+            leading: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => context.pop(),
+              ),
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.edit, color: AppColors.primary),
+                  onPressed: () {
+                    context.pushNamed(
+                      'admin-marketplace-edit',
+                      extra: {
+                        'id': widget.id,
+                        'name': widget.name,
+                        'seller': widget.seller,
+                        'phone': widget.phone,
+                        'price': widget.price,
+                        'category': widget.category,
+                        'image': widget.image,
+                        'stock': widget.stock,
+                        'isActive': widget.isActive,
+                        'description': widget.description,
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.network(
+                    widget.image,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.grey[200],
+                        child: const Center(
+                          child: Icon(
+                            Icons.image_outlined,
+                            size: 80,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  // Status Badge Overlay
+                  Positioned(
+                    bottom: 16,
+                    right: 16,
+                    child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
-                        vertical: 6,
+                        vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
+                        color: widget.isActive ? Colors.green : Colors.orange,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 8,
+                          ),
+                        ],
                       ),
-                      child: Text(
-                        category,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            widget.isActive ? Icons.check_circle : Icons.pending,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            widget.isActive ? 'Disetujui' : 'Menunggu',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Container(
+                  ),
+                  // Admin Badge
+                  Positioned(
+                    bottom: 16,
+                    left: 16,
+                    child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
-                        vertical: 6,
+                        vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: isActive
+                        color: Colors.black.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.admin_panel_settings,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'Mode Admin',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Content
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32),
+                  topRight: Radius.circular(32),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Product Name and Category
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            widget.name,
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withAlpha(38),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            widget.category,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Seller Info Card
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.grey[200]!),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.store,
+                              color: AppColors.primary,
+                              size: 24,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.seller,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.phone,
+                                      size: 14,
+                                      color: Colors.grey[600],
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      widget.phone,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Price
+                    Row(
+                      children: [
+                        Text(
+                          CurrencyFormatter.format(widget.price),
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Stock Info
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: widget.stock > 0
                             ? Colors.green.withOpacity(0.1)
                             : Colors.red.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: widget.stock > 0
+                              ? Colors.green.withOpacity(0.3)
+                              : Colors.red.withOpacity(0.3),
+                        ),
                       ),
                       child: Row(
                         children: [
                           Icon(
-                            isActive ? Icons.check_circle : Icons.cancel,
-                            size: 14,
-                            color: isActive ? Colors.green : Colors.red,
+                            widget.stock > 0 ? Icons.inventory_2 : Icons.inventory_2_outlined,
+                            color: widget.stock > 0 ? Colors.green : Colors.red,
+                            size: 20,
                           ),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: 12),
                           Text(
-                            isActive ? 'Aktif' : 'Nonaktif',
+                            'Stok: ${widget.stock} ${widget.stock > 0 ? "tersedia" : "habis"}',
                             style: TextStyle(
-                              fontSize: 12,
-                              color: isActive ? Colors.green : Colors.red,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
+                              color: widget.stock > 0 ? Colors.green : Colors.red,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 16),
 
-                // Image Card
-                Container(
-                  width: double.infinity,
-                  height: 250,
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.grey[200]!),
-                  ),
-                  child: Center(
-                    child: Text(
-                      image,
-                      style: const TextStyle(fontSize: 120),
-                    ),
-                  ),
-                ),
+                    const SizedBox(height: 24),
 
-                const SizedBox(height: 20),
-
-                // Product Name
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                // Info Cards Grid
-                GridView(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 2.2,
-                  ),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    _buildInfoCard(
-                      icon: Icons.store,
-                      label: 'Penjual',
-                      value: seller,
-                      color: Colors.blue,
-                    ),
-                    _buildInfoCard(
-                      icon: Icons.phone,
-                      label: 'No. Telepon',
-                      value: phone,
-                      color: Colors.green,
-                    ),
-                    _buildInfoCard(
-                      icon: Icons.attach_money,
-                      label: 'Harga',
-                      value: 'Rp ${_formatCurrency(price)}',
-                      color: Colors.orange,
-                    ),
-                    if (!isService)
-                      _buildInfoCard(
-                        icon: Icons.inventory,
-                        label: 'Stok',
-                        value: '$stock ${stock > 0 ? "Tersedia" : "Habis"}',
-                        color: stock > 0 ? Colors.green : Colors.red,
-                      ),
-                  ],
-                ),
-
-                const SizedBox(height: 20),
-
-                // Description Card
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.grey[200]!),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.04),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Row(
-                        children: [
-                          Icon(Icons.description, size: 20),
-                          SizedBox(width: 8),
-                          Text(
-                            'Deskripsi Produk',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        description,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
-                          height: 1.6,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 30),
-
-                // Action Buttons for Admin
-                Column(
-                  children: [
-                    // Edit Button
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          elevation: 0,
-                        ),
-                        icon: const Icon(Icons.edit, color: Colors.white),
-                        label: const Text(
-                          'Edit Produk',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/marketplace/edit',
-                            arguments: args,
-                          );
-                        },
+                    // Description Section
+                    const Text(
+                      'Deskripsi Produk',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
                       ),
                     ),
                     const SizedBox(height: 12),
-
-                    // Toggle Active/Inactive
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          side: BorderSide(
-                            color: isActive ? Colors.orange : Colors.green,
-                          ),
-                        ),
-                        icon: Icon(
-                          isActive ? Icons.block : Icons.check_circle,
-                          color: isActive ? Colors.orange : Colors.green,
-                        ),
-                        label: Text(
-                          isActive ? 'Nonaktifkan Produk' : 'Aktifkan Produk',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: isActive ? Colors.orange : Colors.green,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        onPressed: () {
-                          _showToggleActiveDialog(context, name, isActive);
-                        },
+                    Text(
+                      widget.description,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[700],
+                        height: 1.6,
                       ),
                     ),
-                    const SizedBox(height: 12),
 
-                    // Delete Button
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          side: const BorderSide(color: Colors.red),
-                        ),
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        label: const Text(
-                          'Hapus Produk',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.red,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        onPressed: () {
-                          _showDeleteDialog(context, name);
-                        },
-                      ),
-                    ),
+                    const SizedBox(height: 100),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(20),
+              blurRadius: 10,
+              offset: const Offset(0, -4),
+            ),
+          ],
+        ),
+        child: SafeArea(
+          child: widget.isActive ? _buildApprovedActions() : _buildPendingActions(),
         ),
       ),
     );
   }
 
-  Widget _buildInfoCard({
-    required IconData icon,
-    required String label,
-    required String value,
-    required Color color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[200]!),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: color, size: 20),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              color: Colors.grey[600],
+  Widget _buildPendingActions() {
+    return Row(
+      children: [
+        Expanded(
+          child: OutlinedButton(
+            onPressed: () => _showRejectDialog(),
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: Colors.red, width: 2),
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: const Text(
+              'Tolak',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Colors.red,
+              ),
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: ElevatedButton(
+            onPressed: () => _showApproveDialog(),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 0,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            child: const Text(
+              'Setujui',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  void _showToggleActiveDialog(BuildContext context, String name, bool isActive) {
+  Widget _buildApprovedActions() {
+    return Row(
+      children: [
+        Expanded(
+          child: OutlinedButton(
+            onPressed: () => _showHideDialog(),
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: Colors.orange, width: 2),
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: const Text(
+              'Sembunyikan',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Colors.orange,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: ElevatedButton(
+            onPressed: () => _showDeleteDialog(),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 0,
+            ),
+            child: const Text(
+              'Hapus',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showApproveDialog() {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(isActive ? 'Nonaktifkan Produk' : 'Aktifkan Produk'),
-        content: Text(
-          isActive
-              ? 'Apakah Anda yakin ingin menonaktifkan "$name"? Produk tidak akan muncul di marketplace warga.'
-              : 'Apakah Anda yakin ingin mengaktifkan "$name"? Produk akan muncul kembali di marketplace warga.',
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text(
+          'Setujui Produk',
+          style: TextStyle(fontWeight: FontWeight.w700),
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+        content: Text(
+          'Apakah Anda yakin ingin menyetujui "${widget.name}"? Produk akan muncul di marketplace warga.',
         ),
         actions: [
           TextButton(
@@ -378,48 +521,55 @@ class MarketplaceDetailPage extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: isActive ? Colors.orange : Colors.green,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              backgroundColor: Colors.green,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
             onPressed: () {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(
-                    isActive
-                        ? 'Produk berhasil dinonaktifkan'
-                        : 'Produk berhasil diaktifkan',
-                  ),
-                  backgroundColor: isActive ? Colors.orange : Colors.green,
+                  content: const Text('Produk berhasil disetujui'),
+                  backgroundColor: Colors.green,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
               );
             },
-            child: Text(
-              isActive ? 'Nonaktifkan' : 'Aktifkan',
-              style: const TextStyle(color: Colors.white),
-            ),
+            child: const Text('Setujui', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
     );
   }
 
-  void _showDeleteDialog(BuildContext context, String name) {
+  void _showRejectDialog() {
+    final TextEditingController noteController = TextEditingController();
+    
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Hapus Produk'),
-        content: Text(
-          'Apakah Anda yakin ingin menghapus "$name"? Tindakan ini tidak dapat dibatalkan.',
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text(
+          'Tolak Produk',
+          style: TextStyle(fontWeight: FontWeight.w700),
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Apakah Anda yakin ingin menolak "${widget.name}"?'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: noteController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: 'Alasan penolakan (opsional)',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+          ],
         ),
         actions: [
           TextButton(
@@ -429,21 +579,97 @@ class MarketplaceDetailPage extends StatelessWidget {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
             onPressed: () {
-              Navigator.pop(context); // Close dialog
-              Navigator.pop(context); // Back to list
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Produk berhasil ditolak'),
+                  backgroundColor: Colors.red,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+              );
+            },
+            child: const Text('Tolak', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showHideDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text(
+          'Sembunyikan Produk',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+        content: Text(
+          'Apakah Anda yakin ingin menyembunyikan "${widget.name}"? Produk tidak akan muncul di marketplace.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Batal'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Produk berhasil disembunyikan'),
+                  backgroundColor: Colors.orange,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+              );
+            },
+            child: const Text('Sembunyikan', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text(
+          'Hapus Produk',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+        content: Text(
+          'Apakah Anda yakin ingin menghapus "${widget.name}"? Tindakan ini tidak dapat dibatalkan.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Batal'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+              context.pop();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: const Text('Produk berhasil dihapus'),
                   backgroundColor: Colors.red,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
               );
             },
@@ -452,12 +678,5 @@ class MarketplaceDetailPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _formatCurrency(int amount) {
-    return amount.toString().replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]}.',
-        );
   }
 }

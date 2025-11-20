@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/admin/admin_layout.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class MarketplaceAddPage extends StatefulWidget {
@@ -35,9 +35,13 @@ class _MarketplaceAddPageState extends State<MarketplaceAddPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AdminLayout(
-      title: 'Tambah Produk',
-      currentIndex: 3,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tambah Produk'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -290,9 +294,7 @@ class _MarketplaceAddPageState extends State<MarketplaceAddPage> {
                                 ),
                                 side: BorderSide(color: Colors.grey.shade300),
                               ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
+                              onPressed: () => context.pop(),
                               child: Text(
                                 'Batal',
                                 style: TextStyle(
@@ -353,7 +355,7 @@ class _MarketplaceAddPageState extends State<MarketplaceAddPage> {
         ),
       );
 
-      Navigator.pop(context);
+      context.pop();
     }
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/admin/admin_layout.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/pages/admin/administrasi/akun_admin_edit_page.dart';
 
 class AkunAdminListPage extends StatefulWidget {
   const AkunAdminListPage({super.key});
@@ -155,22 +154,22 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const AkunAdminEditPage(),
-            ),
-          );
-        },
-        backgroundColor: Colors.amber,
-        child: const Icon(Icons.add, color: Colors.white, size: 28),
+      appBar: AppBar(
+        title: const Text('Kelola Akun Admin'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
       ),
-      body: AdminLayout(
-        title: 'Kelola Akun Admin',
-        currentIndex: 4,
-        body: Column(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => context.push('/admin/akun/edit'),
+        backgroundColor: AppColors.primary,
+        icon: const Icon(Icons.add, color: Colors.white),
+        label: const Text(
+          'Tambah Admin',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+        ),
+      ),
+      body: Column(
         children: [
           // Header
           Container(
@@ -326,11 +325,8 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
           ),
         ],
       ),
-    ),
     );
   }
-}
-  
 
   Widget _buildAdminCard(BuildContext context, Map<String, dynamic> admin) {
     return Container(
@@ -348,14 +344,7 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
         ],
       ),
       child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => AkunAdminEditPage(adminId: admin['id']),
-            ),
-          );
-        },
+        onTap: () => context.push('/admin/akun/edit?id=${admin['id']}'),
         borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -470,3 +459,4 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
       ),
     );
   }
+}

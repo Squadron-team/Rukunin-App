@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/admin/admin_layout.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/pages/admin/administrasi/akun_admin_list_page.dart';
 
 class RoleManagementPage extends StatefulWidget {
   const RoleManagementPage({super.key});
@@ -64,9 +63,13 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AdminLayout(
-      title: 'Manajemen Role',
-      currentIndex: 4,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Manajemen Role'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -170,14 +173,7 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const AkunAdminListPage(),
-                          ),
-                        );
-                      },
+                      onPressed: () => context.push('/admin/akun'),
                       icon: const Icon(Icons.manage_accounts, size: 20),
                       label: const Text('Kelola Akun'),
                       style: ElevatedButton.styleFrom(
@@ -193,9 +189,7 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: () {
-                        _showAddRoleDialog(context);
-                      },
+                      onPressed: () => _showAddRoleDialog(context),
                       icon: const Icon(Icons.add, size: 20),
                       label: const Text('Tambah Role'),
                       style: OutlinedButton.styleFrom(
@@ -369,9 +363,7 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                onPressed: () {
-                  _showEditRoleDialog(context, role);
-                },
+                onPressed: () => _showEditRoleDialog(context, role),
                 icon: Icon(Icons.edit, size: 20, color: Colors.grey[600]),
               ),
               Icon(Icons.expand_more, color: Colors.grey[400]),

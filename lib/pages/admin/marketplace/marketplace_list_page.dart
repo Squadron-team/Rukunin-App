@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/admin/admin_layout.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/pages/admin/marketplace/marketplace_add_page.dart';
 
 class MarketplaceListPage extends StatefulWidget {
   const MarketplaceListPage({super.key});
@@ -15,6 +14,91 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
   String searchQuery = '';
   final TextEditingController searchC = TextEditingController();
 
+  // Product data list
+  final List<Map<String, dynamic>> products = [
+    {
+      'id': '1',
+      'name': 'Nasi Goreng Spesial',
+      'seller': 'Warung Bu Siti',
+      'phone': '081234567890',
+      'price': 15000,
+      'category': 'Makanan',
+      'image': '🍛',
+      'stock': 20,
+      'isActive': true,
+      'description': 'Nasi goreng spesial dengan bumbu rahasia yang lezat dan menggugah selera',
+    },
+    {
+      'id': '2',
+      'name': 'Es Teh Manis',
+      'seller': 'Warung Bu Siti',
+      'phone': '081234567890',
+      'price': 3000,
+      'category': 'Minuman',
+      'image': '🥤',
+      'stock': 50,
+      'isActive': true,
+      'description': 'Es teh manis segar untuk menemani hari Anda',
+    },
+    {
+      'id': '3',
+      'name': 'Cuci Motor',
+      'seller': 'Bengkel Pak Budi',
+      'phone': '081234567891',
+      'price': 10000,
+      'category': 'Jasa',
+      'image': '🏍️',
+      'stock': 0,
+      'isActive': true,
+      'description': 'Jasa cuci motor dengan peralatan lengkap dan tenaga profesional',
+    },
+    {
+      'id': '4',
+      'name': 'Kue Brownies',
+      'seller': 'Dapur Ibu Ani',
+      'phone': '081234567892',
+      'price': 25000,
+      'category': 'Makanan',
+      'image': '🍰',
+      'stock': 15,
+      'isActive': true,
+      'description': 'Brownies coklat lembut dan lezat, cocok untuk oleh-oleh',
+    },
+    {
+      'id': '5',
+      'name': 'Jus Alpukat',
+      'seller': 'Warung Bu Siti',
+      'phone': '081234567890',
+      'price': 12000,
+      'category': 'Minuman',
+      'image': '🥑',
+      'stock': 0,
+      'isActive': false,
+      'description': 'Jus alpukat segar tanpa gula tambahan',
+    },
+    {
+      'id': '6',
+      'name': 'Service AC',
+      'seller': 'Teknisi Pak Joko',
+      'phone': '081234567893',
+      'price': 150000,
+      'category': 'Jasa',
+      'image': '❄️',
+      'stock': 0,
+      'isActive': true,
+      'description': 'Jasa service AC rumah dan kantor dengan garansi',
+    },
+  ];
+
+  List<Map<String, dynamic>> get filteredProducts {
+    return products.where((product) {
+      final matchesCategory = selectedCategory == 'Semua' || product['category'] == selectedCategory;
+      final matchesSearch = product['name'].toLowerCase().contains(searchQuery.toLowerCase()) ||
+          product['seller'].toLowerCase().contains(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    }).toList();
+  }
+
   @override
   void dispose() {
     searchC.dispose();
@@ -23,189 +107,150 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AdminLayout(
-      title: 'Marketplace',
-      currentIndex: 3,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 96.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final displayProducts = filteredProducts;
+
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 96.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Kelola Produk & Jasa',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '${displayProducts.length} Produk',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // Search Bar
+                TextField(
+                  controller: searchC,
+                  decoration: InputDecoration(
+                    hintText: 'Cari produk atau penjual...',
+                    prefixIcon: const Icon(Icons.search),
+                    filled: true,
+                    fillColor: Colors.grey.shade50,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: AppColors.primary, width: 2),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                  ),
+                  onChanged: (v) => setState(() => searchQuery = v),
+                ),
+                const SizedBox(height: 16),
+
+                // Filter Category
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
                     children: [
-                      const Text(
-                        'Kelola Produk & Jasa',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Text(
-                          '6 Produk',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
+                      _buildCategoryChip('Semua'),
+                      _buildCategoryChip('Makanan'),
+                      _buildCategoryChip('Minuman'),
+                      _buildCategoryChip('Jasa'),
+                      _buildCategoryChip('Lainnya'),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                ),
+                const SizedBox(height: 20),
 
-                  // Search Bar
-                  TextField(
-                    controller: searchC,
-                    decoration: InputDecoration(
-                      hintText: 'Cari produk atau penjual...',
-                      prefixIcon: const Icon(Icons.search),
-                      filled: true,
-                      fillColor: Colors.grey.shade50,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: AppColors.primary, width: 2),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 14,
-                        horizontal: 16,
+                // Product List
+                if (displayProducts.isEmpty)
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(40),
+                      child: Column(
+                        children: [
+                          Icon(Icons.search_off, size: 64, color: Colors.grey[400]),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Tidak ada produk ditemukan',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    onChanged: (v) => setState(() => searchQuery = v),
+                  )
+                else
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: displayProducts.length,
+                    itemBuilder: (context, index) {
+                      final product = displayProducts[index];
+                      return _buildProductCard(
+                        id: product['id'],
+                        name: product['name'],
+                        seller: product['seller'],
+                        phone: product['phone'],
+                        price: product['price'],
+                        category: product['category'],
+                        image: product['image'],
+                        stock: product['stock'],
+                        isActive: product['isActive'],
+                        description: product['description'],
+                      );
+                    },
                   ),
-                  const SizedBox(height: 16),
-
-                  // Filter Category
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        _buildCategoryChip('Semua'),
-                        _buildCategoryChip('Makanan'),
-                        _buildCategoryChip('Minuman'),
-                        _buildCategoryChip('Jasa'),
-                        _buildCategoryChip('Lainnya'),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Product List
-                  _buildProductCard(
-                    id: '1',
-                    name: 'Nasi Goreng Spesial',
-                    seller: 'Warung Bu Siti',
-                    phone: '081234567890',
-                    price: 15000,
-                    category: 'Makanan',
-                    image: '🍛',
-                    stock: 20,
-                    isActive: true,
-                  ),
-                  _buildProductCard(
-                    id: '2',
-                    name: 'Es Teh Manis',
-                    seller: 'Warung Bu Siti',
-                    phone: '081234567890',
-                    price: 3000,
-                    category: 'Minuman',
-                    image: '🥤',
-                    stock: 50,
-                    isActive: true,
-                  ),
-                  _buildProductCard(
-                    id: '3',
-                    name: 'Cuci Motor',
-                    seller: 'Bengkel Pak Budi',
-                    phone: '081234567891',
-                    price: 10000,
-                    category: 'Jasa',
-                    image: '🏍️',
-                    stock: 0,
-                    isActive: true,
-                  ),
-                  _buildProductCard(
-                    id: '4',
-                    name: 'Kue Brownies',
-                    seller: 'Dapur Ibu Ani',
-                    phone: '081234567892',
-                    price: 25000,
-                    category: 'Makanan',
-                    image: '🍰',
-                    stock: 15,
-                    isActive: true,
-                  ),
-                  _buildProductCard(
-                    id: '5',
-                    name: 'Jus Alpukat',
-                    seller: 'Warung Bu Siti',
-                    phone: '081234567890',
-                    price: 12000,
-                    category: 'Minuman',
-                    image: '🥑',
-                    stock: 0,
-                    isActive: false,
-                  ),
-                  _buildProductCard(
-                    id: '6',
-                    name: 'Service AC',
-                    seller: 'Teknisi Pak Joko',
-                    phone: '081234567893',
-                    price: 150000,
-                    category: 'Jasa',
-                    image: '❄️',
-                    stock: 0,
-                    isActive: true,
-                  ),
-                ],
-              ),
+              ],
             ),
           ),
+        ),
 
-          // Floating Action Button
-          Positioned(
-            right: 20,
-            bottom: 20,
-            child: FloatingActionButton.extended(
-              backgroundColor: AppColors.primary,
-              icon: const Icon(Icons.add, color: Colors.white),
-              label: const Text(
-                'Tambah',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const MarketplaceAddPage(),
-                  ),
-                );
-              },
+        // Floating Action Button
+        Positioned(
+          right: 20,
+          bottom: 20,
+          child: FloatingActionButton.extended(
+            backgroundColor: AppColors.primary,
+            icon: const Icon(Icons.add, color: Colors.white),
+            label: const Text(
+              'Tambah',
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
             ),
+            onPressed: () => context.push('/admin/marketplace/add'),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -244,6 +289,7 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
     required String image,
     required int stock,
     required bool isActive,
+    required String description,
   }) {
     bool isService = category == 'Jasa';
 
@@ -266,22 +312,18 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              '/marketplace/detail',
-              arguments: {
-                'id': id,
-                'name': name,
-                'seller': seller,
-                'phone': phone,
-                'price': price,
-                'category': category,
-                'image': image,
-                'stock': stock,
-                'isActive': isActive,
-                'description': 'Deskripsi lengkap untuk $name. Produk berkualitas dengan harga terjangkau.',
-              },
-            );
+            context.push('/admin/marketplace/detail', extra: {
+              'id': id,
+              'name': name,
+              'seller': seller,
+              'phone': phone,
+              'price': price,
+              'category': category,
+              'image': image,
+              'stock': stock,
+              'isActive': isActive,
+              'description': description,
+            });
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -311,24 +353,16 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                           Expanded(
                             child: Text(
                               name,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           const SizedBox(width: 8),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: isActive
-                                  ? Colors.green.withOpacity(0.1)
-                                  : Colors.red.withOpacity(0.1),
+                              color: isActive ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
@@ -350,10 +384,7 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                           Expanded(
                             child: Text(
                               seller,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[600],
-                              ),
+                              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -364,10 +395,7 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                       Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 2,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
                               color: AppColors.primary.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(4),
@@ -384,14 +412,9 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                           const SizedBox(width: 8),
                           if (!isService)
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
-                              ),
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
-                                color: stock > 0
-                                    ? Colors.green.withOpacity(0.1)
-                                    : Colors.orange.withOpacity(0.1),
+                                color: stock > 0 ? Colors.green.withOpacity(0.1) : Colors.orange.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
