@@ -10,6 +10,7 @@ import 'package:rukunin/routes/auth_routes.dart';
 import 'package:rukunin/routes/admin_routes.dart';
 import 'package:rukunin/routes/resident_routes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rukunin/pages/general/notification_screen.dart';
 
 final router = GoRouter(
   debugLogDiagnostics: true,
@@ -85,5 +86,11 @@ final router = GoRouter(
     
     // Resident routes
     residentRoutes,
+
+    // Notification route (accessible by all authenticated users)
+    GoRoute(
+      path: '/notifications',
+      builder: (context, state) => const NotificationScreen(),
+    ),
   ],
 );

@@ -6,6 +6,7 @@ import 'package:rukunin/pages/rt/components/welcome_card.dart';
 import 'package:rukunin/pages/rt/components/financial_summary.dart';
 import 'package:rukunin/pages/rt/components/quick_actions.dart';
 import 'package:rukunin/pages/rt/components/pending_tasks.dart';
+import 'package:rukunin/pages/general/notification_screen.dart';
 
 class RtHomeScreen extends StatelessWidget {
   const RtHomeScreen({super.key});
@@ -31,15 +32,10 @@ class RtHomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.notifications_outlined, color: Colors.black),
             onPressed: () {
-              // TODO: Navigate to notifications
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Fitur notifikasi akan segera tersedia'),
-                  backgroundColor: Colors.orange,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
                 ),
               );
             },
