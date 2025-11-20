@@ -9,6 +9,7 @@ import 'package:rukunin/utils/role_based_navigator.dart';
 import 'package:rukunin/routes/auth_routes.dart';
 import 'package:rukunin/routes/admin_routes.dart';
 import 'package:rukunin/routes/resident_routes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final router = GoRouter(
   debugLogDiagnostics: true,
@@ -17,6 +18,7 @@ final router = GoRouter(
     final user = FirebaseAuth.instance.currentUser;
     final isAuthRoute = state.matchedLocation == '/sign-in' || 
                         state.matchedLocation == '/sign-up';
+    final isOnboardingRoute = state.matchedLocation == '/onboarding';
     final isSplashRoute = state.matchedLocation == '/';
 
     // Allow splash screen to show without redirect
@@ -29,7 +31,26 @@ final router = GoRouter(
       return '/sign-in';
     }
 
-    // If user is logged in and on auth routes, redirect to role-based home
+    // If user is logged in, check if onboarding is completed
+    if (user != null && !isAuthRoute && !isOnboardingRoute) {
+      try {
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+        
+        final onboardingCompleted = userDoc.data()?['onboardingCompleted'] ?? false;
+        
+        if (!onboardingCompleted) {
+          return '/onboarding';
+        }
+      } catch (e) {
+        // If error checking, allow access
+        return null;
+      }
+    }
+
+    // If user is logged in, onboarding completed, and on auth routes, redirect to role-based home
     if (user != null && isAuthRoute) {
       final role = await RoleBasedNavigator.getUserRole(user.uid);
       return RoleBasedNavigator.getRouteByRole(role);
