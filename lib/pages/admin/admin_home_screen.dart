@@ -237,12 +237,6 @@ class AdminHomeScreen extends StatelessWidget {
                     onTap: () => context.push('/admin/keuangan'),
                   ),
                   QuickAccessItem(
-                    icon: Icons.store,
-                    label: 'Marketplace',
-                    color: AppColors.primary,
-                    onTap: () => context.push('/admin/marketplace'),
-                  ),
-                  QuickAccessItem(
                     icon: Icons.verified_user,
                     label: 'Verifikasi',
                     color: AppColors.primary,

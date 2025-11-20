@@ -8,7 +8,7 @@ import 'package:rukunin/pages/admin/warga/warga_add_page.dart';
 import 'package:rukunin/pages/admin/warga/warga_edit_page.dart';
 import 'package:rukunin/pages/admin/iuran/keuangan_dashboard_page.dart';
 import 'package:rukunin/pages/admin/iuran/iuran_list_page.dart';
-import 'package:rukunin/pages/admin/marketplace/marketplace_list_page.dart';
+import 'package:rukunin/pages/admin/marketplace/admin_marketplace_screen.dart';
 import 'package:rukunin/pages/admin/marketplace/marketplace_detail_page.dart';
 import 'package:rukunin/pages/admin/marketplace/marketplace_add_page.dart';
 import 'package:rukunin/pages/admin/marketplace/marketplace_edit_page.dart';
@@ -90,7 +90,7 @@ final adminRoutes = ShellRoute(
       path: '/admin/marketplace',
       name: 'admin-marketplace',
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: MarketplaceListPage(),
+        child: AdminMarketplaceScreen(),
       ),
     ),
     GoRoute(

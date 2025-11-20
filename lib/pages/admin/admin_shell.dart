@@ -10,6 +10,7 @@ class AdminShell extends StatelessWidget {
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     if (location == '/admin') return 0;
+    if (location.startsWith('/admin/marketplace')) return 1;
     if (location == '/admin/account') return 4;
     return 0;
   }
@@ -20,17 +21,7 @@ class AdminShell extends StatelessWidget {
         context.go('/admin');
         break;
       case 1:
-        // TODO: Navigate to marketplace screen when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu Pasar belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/admin/marketplace');
         break;
       case 2:
         // TODO: Navigate to events screen when available
