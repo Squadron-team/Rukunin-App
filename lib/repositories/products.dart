@@ -7,6 +7,8 @@ List<Product> products = [
     price: 14_500,
     badge: 'Buah-buahan',
     description: 'Buah pisang enak, bergizi, yahut dah pokoknya!',
+    isActive: true,
+    stock: 50,
   ),
   Product(
     name: 'Sayur Bayam Segar',
@@ -14,6 +16,8 @@ List<Product> products = [
     price: 5_000,
     badge: 'Sayuran',
     description: 'Bayam segar baru dipetik dari kebun pagi ini.',
+    isActive: false, // Pending review
+    stock: 30,
   ),
   Product(
     name: 'Telur Kampung Asli',
@@ -21,6 +25,8 @@ List<Product> products = [
     price: 28_000,
     badge: 'Peternakan',
     description: 'Telur kampung organik dari ayam yang dirawat alami.',
+    isActive: true,
+    stock: 20,
   ),
   Product(
     name: 'Cabe Rawit Merah',
@@ -28,6 +34,8 @@ List<Product> products = [
     price: 18_000,
     badge: 'Sayuran',
     description: 'Cabe rawit pedas mantap untuk sambal rumahan.',
+    isActive: true,
+    stock: 40,
   ),
   Product(
     name: 'Kopi Bubuk Desa',
@@ -35,6 +43,8 @@ List<Product> products = [
     price: 32_000,
     badge: 'Minuman',
     description: 'Kopi asli dari biji lokal, aroma kuat dan nikmat.',
+    isActive: true,
+    stock: 60,
   ),
   Product(
     name: 'Madu Hutan Alami',
@@ -42,6 +52,8 @@ List<Product> products = [
     price: 55_000,
     badge: 'Kesehatan',
     description: 'Madu asli tanpa campuran, manis dan sehat.',
+    isActive: true,
+    stock: 25,
   ),
   Product(
     name: 'Keripik Singkong Pedas',
@@ -49,6 +61,8 @@ List<Product> products = [
     price: 12_000,
     badge: 'Makanan Ringan',
     description: 'Keripik singkong renyah dengan bumbu pedas nikmat.',
+    isActive: true,
+    stock: 35,
   ),
   Product(
     name: 'Minyak Kelapa Murni',
@@ -56,6 +70,8 @@ List<Product> products = [
     price: 25_000,
     badge: 'Dapur',
     description: 'Minyak kelapa asli hasil olahan tradisional.',
+    isActive: true,
+    stock: 45,
   ),
   Product(
     name: 'Kacang Tanah Kupas',
@@ -63,6 +79,8 @@ List<Product> products = [
     price: 9_000,
     badge: 'Bahan Masak',
     description: 'Kacang tanah bersih, cocok untuk bumbu pecel.',
+    isActive: true,
+    stock: 50,
   ),
   Product(
     name: 'Pepaya Fresh Manis',
@@ -70,6 +88,8 @@ List<Product> products = [
     price: 10_000,
     badge: 'Buah-buahan',
     description: 'Pepaya matang pohon, manis dan lembut.',
+    isActive: true,
+    stock: 40,
   ),
   Product(
     name: 'Tomat Merah Super',
@@ -77,6 +97,8 @@ List<Product> products = [
     price: 7_000,
     badge: 'Sayuran',
     description: 'Tomat segar untuk masakan atau jus.',
+    isActive: true,
+    stock: 50,
   ),
   Product(
     name: 'Susu Kambing Segar',
@@ -84,6 +106,8 @@ List<Product> products = [
     price: 20_000,
     badge: 'Peternakan',
     description: 'Susu kambing perah pagi, segar dan bergizi.',
+    isActive: true,
+    stock: 30,
   ),
   Product(
     name: 'Tahu Putih Organik',
@@ -91,6 +115,8 @@ List<Product> products = [
     price: 4_000,
     badge: 'Dapur',
     description: 'Tahu lembut, dibuat setiap pagi, tanpa bahan kimia.',
+    isActive: true,
+    stock: 20,
   ),
   Product(
     name: 'Gula Aren Cetak',
@@ -98,6 +124,8 @@ List<Product> products = [
     price: 15_000,
     badge: 'Bahan Masak',
     description: 'Gula aren asli dengan aroma khas manis legit.',
+    isActive: true,
+    stock: 30,
   ),
   Product(
     name: 'Kerupuk Udang Desa',
@@ -105,5 +133,7 @@ List<Product> products = [
     price: 13_000,
     badge: 'Makanan Ringan',
     description: 'Kerupuk udang gurih, cocok untuk lauk atau cemilan.',
+    isActive: true,
+    stock: 25,
   ),
 ];
