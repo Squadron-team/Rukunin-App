@@ -71,7 +71,7 @@ final residentRoutes = ShellRoute(
           routes: [
             GoRoute(
               path: 'domicile',
-              name: 'document-domicile',
+              name: 'resident-ocument-domicile',
               builder: (context, state) => const DocumentRequestFormScreen(
                 documentType: 'domicile',
                 documentTitle: 'Surat Keterangan Domisili',
@@ -81,7 +81,7 @@ final residentRoutes = ShellRoute(
             ),
             GoRoute(
               path: 'sktm',
-              name: 'document-sktm',
+              name: 'resident-document-sktm',
               builder: (context, state) => const DocumentRequestFormScreen(
                 documentType: 'sktm',
                 documentTitle: 'Surat Keterangan Tidak Mampu',
@@ -91,7 +91,7 @@ final residentRoutes = ShellRoute(
             ),
             GoRoute(
               path: 'business',
-              name: 'document-business',
+              name: 'resident-document-business',
               builder: (context, state) => const DocumentRequestFormScreen(
                 documentType: 'business',
                 documentTitle: 'Surat Keterangan Usaha',
@@ -101,7 +101,7 @@ final residentRoutes = ShellRoute(
             ),
             GoRoute(
               path: 'correction',
-              name: 'document-correction',
+              name: 'resident-document-correction',
               builder: (context, state) => const DocumentRequestFormScreen(
                 documentType: 'correction',
                 documentTitle: 'Permohonan Koreksi Data',
@@ -111,7 +111,7 @@ final residentRoutes = ShellRoute(
             ),
             GoRoute(
               path: 'family',
-              name: 'document-family',
+              name: 'resident-document-family',
               builder: (context, state) => const DocumentRequestFormScreen(
                 documentType: 'family',
                 documentTitle: 'Surat Keterangan Keluarga',
@@ -121,7 +121,7 @@ final residentRoutes = ShellRoute(
             ),
             GoRoute(
               path: 'other',
-              name: 'document-other',
+              name: 'resident-document-other',
               builder: (context, state) => const DocumentRequestFormScreen(
                 documentType: 'other',
                 documentTitle: 'Surat Lainnya',
