@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/role_based_navigator.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -79,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: AnimatedBuilder(
@@ -101,13 +100,9 @@ class _SplashScreenState extends State<SplashScreen>
                             height: 120,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 3,
-                              ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
+                                  color: Colors.black.withAlpha(26),
                                   blurRadius: 20,
                                   offset: const Offset(0, 8),
                                 ),
@@ -175,7 +170,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 Container(
                                   padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.15),
+                                    color: Colors.black.withAlpha(40),
                                     shape: BoxShape.circle,
                                   ),
                                   child: const Icon(
