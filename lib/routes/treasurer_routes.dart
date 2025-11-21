@@ -22,26 +22,23 @@ final treasurerRoutes = ShellRoute(
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: TreasurerHomeScreen()),
     ),
-        GoRoute(
+    GoRoute(
       path: '/treasurer/marketplace',
       name: 'treasurer-marketplace',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: MarketplaceScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: MarketplaceScreen()),
     ),
     GoRoute(
       path: '/treasurer/activities',
       name: 'treasurer-activities',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: ActivityScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: ActivityScreen()),
     ),
     GoRoute(
       path: '/treasurer/community',
       name: 'treasurer-community',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: CommunityScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: CommunityScreen()),
       routes: [
         GoRoute(
           path: 'dues',
