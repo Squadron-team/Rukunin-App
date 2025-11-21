@@ -6,7 +6,7 @@ import 'package:rukunin/pages/resident/community/finance_transparency_screen.dar
 import 'package:rukunin/pages/resident/community/population_info_screen.dart';
 import 'package:rukunin/pages/resident/resident_home_screen.dart';
 import 'package:rukunin/pages/resident/marketplace/marketplace_screen.dart';
-import 'package:rukunin/pages/resident/events/events_screen.dart';
+import 'package:rukunin/pages/resident/activities/activity_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/resident/resident_shell.dart';
 import 'package:rukunin/pages/resident/community/family_details_screen.dart';
@@ -34,7 +34,7 @@ final residentRoutes = ShellRoute(
       path: '/resident/events',
       name: 'resident-events',
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: EventsScreen(),
+        child: ActivityScreen(),
       ),
     ),
     GoRoute(

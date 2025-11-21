@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
-import 'package:rukunin/pages/resident/events/widgets/event_card.dart';
+import 'package:rukunin/pages/resident/activities/widgets/event_card.dart';
 import 'package:rukunin/repositories/events.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class EventsScreen extends StatefulWidget {
-  const EventsScreen({super.key});
+class ActivityScreen extends StatefulWidget {
+  const ActivityScreen({super.key});
 
   @override
-  State<EventsScreen> createState() => _EventsScreenState();
+  State<ActivityScreen> createState() => _ActivityScreenState();
 }
 
-class _EventsScreenState extends State<EventsScreen> {
+class _ActivityScreenState extends State<ActivityScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   final CalendarFormat _calendarFormat = CalendarFormat.month;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
-import 'package:rukunin/pages/resident/events/event_detail_screen.dart';
+import 'package:rukunin/pages/resident/activities/activity_detail_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/icon_mapper.dart';
 
@@ -24,7 +24,7 @@ class EventCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EventDetailScreen(event: event),
+            builder: (context) => ActivityDetailScreen(event: event),
           ),
         );
       },

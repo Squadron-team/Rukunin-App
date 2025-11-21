@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
-import 'package:rukunin/pages/resident/events/widgets/event_detail_screen_appbar.dart';
-import 'package:rukunin/pages/resident/events/widgets/event_organizer_card.dart';
-import 'package:rukunin/pages/resident/events/widgets/small_event_detail_card.dart';
+import 'package:rukunin/pages/resident/activities/widgets/event_detail_screen_appbar.dart';
+import 'package:rukunin/pages/resident/activities/widgets/event_organizer_card.dart';
+import 'package:rukunin/pages/resident/activities/widgets/small_event_detail_card.dart';
 import 'package:rukunin/style/app_colors.dart';
 
-class EventDetailScreen extends StatefulWidget {
+class ActivityDetailScreen extends StatefulWidget {
   final Event event;
 
-  const EventDetailScreen({required this.event, super.key});
+  const ActivityDetailScreen({required this.event, super.key});
 
   @override
-  State<EventDetailScreen> createState() => _EventDetailScreenState();
+  State<ActivityDetailScreen> createState() => _ActivityDetailScreenState();
 }
 
-class _EventDetailScreenState extends State<EventDetailScreen> {
+class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
   bool _isJoined = false;
   int _participantCount = 45;
 
@@ -24,7 +24,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
       backgroundColor: Colors.grey[50],
       body: CustomScrollView(
         slivers: [
-          EventDetailScreenAppbar(event: widget.event),
+          ActivityDetailScreenAppbar(event: widget.event),
 
           // Content
           SliverToBoxAdapter(
