@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/models/app_notification.dart';
+import 'package:rukunin/repositories/app_notifications.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -13,63 +15,6 @@ class _NotificationScreenState extends State<NotificationScreen>
   late TabController _tabController;
   String _selectedTab = 'All';
 
-  final List<Map<String, dynamic>> _notifications = [
-    {
-      'type': 'Community',
-      'icon': Icons.campaign,
-      'title': 'Perbaikan Jalan Gang 3',
-      'description':
-          'Perbaikan jalan akan dilaksanakan pada 20 November 2025. Mohon kerjasama warga.',
-      'time': '2m ago',
-      'isRead': false,
-    },
-    {
-      'type': 'Admin',
-      'icon': Icons.info_outline,
-      'title': 'Pembaruan Sistem',
-      'description':
-          'Sistem aplikasi akan diperbarui pada malam ini pukul 23.00 WIB.',
-      'time': '1h ago',
-      'isRead': false,
-    },
-    {
-      'type': 'Event',
-      'icon': Icons.event,
-      'title': 'Kerja Bakti Minggu Pagi',
-      'description':
-          'Kerja bakti rutin akan diadakan hari Minggu, 17 November 2025 pukul 07.00.',
-      'time': '3h ago',
-      'isRead': true,
-    },
-    {
-      'type': 'Admin',
-      'icon': Icons.payment,
-      'title': 'Pengingat Iuran Bulanan',
-      'description':
-          'Iuran bulan November akan jatuh tempo pada 30 November 2025.',
-      'time': '1d ago',
-      'isRead': false,
-    },
-    {
-      'type': 'Community',
-      'icon': Icons.announcement,
-      'title': 'Pengumuman Rapat RT',
-      'description':
-          'Rapat RT akan diadakan Kamis, 21 November 2025 di Balai RW.',
-      'time': '2d ago',
-      'isRead': true,
-    },
-    {
-      'type': 'Event',
-      'icon': Icons.celebration,
-      'title': '17 Agustus - Lomba Warga',
-      'description':
-          'Daftarkan diri Anda untuk mengikuti berbagai lomba menarik!',
-      'time': '3d ago',
-      'isRead': true,
-    },
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -82,19 +27,23 @@ class _NotificationScreenState extends State<NotificationScreen>
     super.dispose();
   }
 
-  List<Map<String, dynamic>> get _filteredNotifications {
+  List<AppNotification> get _filteredNotifications {
     if (_selectedTab == 'All') {
-      return _notifications;
+      return appNotifications;
     }
-    return _notifications
-        .where((notification) => notification['type'] == _selectedTab)
+
+    return appNotifications
+        .where(
+          (notification) =>
+              notification.type == AppNotification.stringToType(_selectedTab),
+        )
         .toList();
   }
 
   void _markAllAsRead() {
     setState(() {
-      for (var notification in _notifications) {
-        notification['isRead'] = true;
+      for (var notification in appNotifications) {
+        notification.isRead = true;
       }
     });
 
@@ -103,17 +52,14 @@ class _NotificationScreenState extends State<NotificationScreen>
         content: const Text('Semua notifikasi ditandai sudah dibaca'),
         backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    int unreadCount =
-        _notifications.where((n) => n['isRead'] == false).length;
+    int unreadCount = appNotifications.where((n) => n.isRead == false).length;
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -127,15 +73,6 @@ class _NotificationScreenState extends State<NotificationScreen>
         ),
         title: Row(
           children: [
-            Container(
-              width: 4,
-              height: 24,
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(width: 12),
             const Text(
               'Notifikasi',
               style: TextStyle(
@@ -190,7 +127,10 @@ class _NotificationScreenState extends State<NotificationScreen>
               children: [
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
                   child: Row(
                     children: [
                       _buildTabChip('All', Icons.notifications_active),
@@ -229,8 +169,8 @@ class _NotificationScreenState extends State<NotificationScreen>
   Widget _buildTabChip(String label, IconData icon) {
     bool isSelected = _selectedTab == label;
     int count = label == 'All'
-        ? _notifications.length
-        : _notifications.where((n) => n['type'] == label).length;
+        ? appNotifications.length
+        : appNotifications.where((n) => n.type == label).length;
 
     return GestureDetector(
       onTap: () {
@@ -299,14 +239,14 @@ class _NotificationScreenState extends State<NotificationScreen>
     );
   }
 
-  Widget _buildNotificationCard(Map<String, dynamic> notification) {
-    bool isRead = notification['isRead'];
-    Color backgroundColor = _getBackgroundColor(notification['type'], isRead);
+  Widget _buildNotificationCard(AppNotification notification) {
+    bool isRead = notification.isRead;
+    Color backgroundColor = _getBackgroundColor(notification.type, isRead);
 
     return GestureDetector(
       onTap: () {
         setState(() {
-          notification['isRead'] = true;
+          notification.isRead = true;
         });
         // TODO: Navigate to detailed view
       },
@@ -316,7 +256,9 @@ class _NotificationScreenState extends State<NotificationScreen>
           color: backgroundColor,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isRead ? Colors.grey[200]! : AppColors.primary.withOpacity(0.3),
+            color: isRead
+                ? Colors.grey[200]!
+                : AppColors.primary.withOpacity(0.3),
             width: isRead ? 1 : 2,
           ),
           boxShadow: [
@@ -337,12 +279,12 @@ class _NotificationScreenState extends State<NotificationScreen>
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: _getIconBackgroundColor(notification['type']),
+                  color: _getIconBackgroundColor(notification.type),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
-                  notification['icon'],
-                  color: _getIconColor(notification['type']),
+                  notification.icon,
+                  color: _getIconColor(notification.type),
                   size: 24,
                 ),
               ),
@@ -358,7 +300,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                       children: [
                         Expanded(
                           child: Text(
-                            notification['title'],
+                            notification.title,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -379,7 +321,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      notification['description'],
+                      notification.description,
                       style: TextStyle(
                         fontSize: 14,
                         color: isRead ? Colors.grey[500] : Colors.grey[700],
@@ -398,7 +340,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          notification['time'],
+                          notification.time,
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey[500],
@@ -447,54 +389,45 @@ class _NotificationScreenState extends State<NotificationScreen>
           const SizedBox(height: 8),
           Text(
             'Notifikasi baru akan muncul di sini',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
           ),
         ],
       ),
     );
   }
 
-  Color _getBackgroundColor(String type, bool isRead) {
+  Color _getBackgroundColor(AppNotificationType type, bool isRead) {
     if (isRead) return Colors.white;
 
     switch (type) {
-      case 'Admin':
+      case AppNotificationType.admin:
         return Colors.blue.withAlpha(13);
-      case 'Community':
+      case AppNotificationType.community:
         return Colors.amber.withAlpha(13);
-      case 'Event':
+      case AppNotificationType.event:
         return Colors.green.withAlpha(13);
-      default:
-        return Colors.white;
-    }
+      }
   }
 
-  Color _getIconBackgroundColor(String type) {
+  Color _getIconBackgroundColor(AppNotificationType type) {
     switch (type) {
-      case 'Admin':
+      case AppNotificationType.admin:
         return Colors.blue.withAlpha(38);
-      case 'Community':
+      case AppNotificationType.community:
         return AppColors.primary.withAlpha(38);
-      case 'Event':
+      case AppNotificationType.event:
         return Colors.green.withAlpha(38);
-      default:
-        return Colors.grey.withAlpha(38);
-    }
+      }
   }
 
-  Color _getIconColor(String type) {
+  Color _getIconColor(AppNotificationType type) {
     switch (type) {
-      case 'Admin':
+      case AppNotificationType.admin:
         return Colors.blue;
-      case 'Community':
+      case AppNotificationType.community:
         return AppColors.primary;
-      case 'Event':
+      case AppNotificationType.event:
         return Colors.green;
-      default:
-        return Colors.grey;
-    }
+      }
   }
 }
