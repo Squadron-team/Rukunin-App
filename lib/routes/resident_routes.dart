@@ -31,8 +31,8 @@ final residentRoutes = ShellRoute(
       ),
     ),
     GoRoute(
-      path: '/resident/events',
-      name: 'resident-events',
+      path: '/resident/activities',
+      name: 'resident-activities',
       pageBuilder: (context, state) => const NoTransitionPage(
         child: ActivityScreen(),
       ),

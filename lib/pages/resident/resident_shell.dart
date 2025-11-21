@@ -11,7 +11,7 @@ class ResidentShell extends StatelessWidget {
     final location = GoRouterState.of(context).matchedLocation;
     if (location == '/resident') return 0;
     if (location == '/resident/marketplace') return 1;
-    if (location == '/resident/events') return 2;
+    if (location == '/resident/activities') return 2;
     if (location == '/resident/community') return 3;
     if (location == '/resident/account') return 4;
     return 0;
@@ -26,7 +26,7 @@ class ResidentShell extends StatelessWidget {
         context.go('/resident/marketplace');
         break;
       case 2:
-        context.go('/resident/events');
+        context.go('/resident/activities');
         break;
       case 3:
         context.go('/resident/community');
