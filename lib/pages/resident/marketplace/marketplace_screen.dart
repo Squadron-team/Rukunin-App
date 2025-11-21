@@ -3,7 +3,7 @@ import 'package:rukunin/pages/resident/marketplace/widgets/my_shop_banner.dart';
 import 'package:rukunin/repositories/products.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/cards/category_chip.dart';
-import 'package:rukunin/widgets/cards/market_promo_card.dart';
+import 'package:rukunin/widgets/cards/promo_banner_card.dart';
 import 'package:rukunin/pages/resident/marketplace/widgets/product_card.dart';
 import 'package:rukunin/pages/resident/marketplace/widgets/search_bar_market.dart';
 
@@ -41,20 +41,23 @@ class MarketplaceScreen extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   // Promo Banners (horizontal scroll only for this section)
-                  const SingleChildScrollView(
+                  SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
                         PromoBannerCard(
                           title: 'PROMO 11.11!',
                           subtitle: 'Diskon hingga 50%',
                           primaryColor: AppColors.primary,
+                          width: MediaQuery.of(context).size.width - 40,
                         ),
+                        const SizedBox(width: 16),
                         PromoBannerCard(
                           title: 'Promo Akhir Tahun 🎉',
                           subtitle: 'Gratis ongkir se-Indonesia',
                           primaryColor: Colors.green,
+                          width: MediaQuery.of(context).size.width - 40,
                         ),
                       ],
                     ),

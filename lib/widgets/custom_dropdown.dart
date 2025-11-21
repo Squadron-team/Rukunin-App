@@ -38,7 +38,7 @@ class CustomDropdown extends StatelessWidget {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButtonFormField<String>(
-              value: value,
+              initialValue: value,
               isExpanded: true,
               decoration: InputDecoration(
                 prefixIcon: Icon(icon, color: AppColors.primary, size: 22),

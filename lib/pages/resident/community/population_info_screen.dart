@@ -438,7 +438,7 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
                 ],
               ),
             ),
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios,
               size: 18,
               color: AppColors.primary,

@@ -5,14 +5,19 @@ class PromoBannerCard extends StatelessWidget {
   final String subtitle;
   final Color primaryColor;
   final double height;
+  final double? width;
   final double borderRadius;
   final double blurRadius;
   final Alignment begin;
   final Alignment end;
 
   const PromoBannerCard({
-    required this.title, required this.subtitle, required this.primaryColor, super.key,
+    required this.title,
+    required this.subtitle,
+    required this.primaryColor,
+    super.key,
     this.height = 140,
+    this.width,
     this.borderRadius = 16,
     this.blurRadius = 12,
     this.begin = Alignment.topLeft,
@@ -22,7 +27,8 @@ class PromoBannerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      width: width,
       height: height,
       decoration: BoxDecoration(
         gradient: LinearGradient(

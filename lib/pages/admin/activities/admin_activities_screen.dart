@@ -599,7 +599,7 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: _selectedRW,
+                initialValue: _selectedRW,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -634,7 +634,7 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: _selectedRT,
+                initialValue: _selectedRT,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),

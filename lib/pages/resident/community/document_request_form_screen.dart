@@ -33,7 +33,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
   final _notesController = TextEditingController();
   
   bool _isSubmitting = false;
-  List<XFile> _attachments = [];
+  final List<XFile> _attachments = [];
 
   @override
   void dispose() {
@@ -378,7 +378,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
                           ),
                           child: Column(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.cloud_upload_outlined,
                                 color: AppColors.primary,
                                 size: 40,
@@ -402,7 +402,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
                               ),
                               if (kIsWeb) ...[
                                 const SizedBox(height: 4),
-                                Text(
+                                const Text(
                                   'Klik untuk memilih file',
                                   style: TextStyle(
                                     fontSize: 11,

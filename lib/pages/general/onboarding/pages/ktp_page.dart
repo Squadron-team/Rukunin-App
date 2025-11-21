@@ -9,7 +9,7 @@ import 'package:rukunin/style/app_colors.dart';
 class KTPPage extends StatefulWidget {
   final OnboardingState state;
 
-  const KTPPage({super.key, required this.state});
+  const KTPPage({required this.state, super.key});
 
   @override
   State<KTPPage> createState() => _KTPPageState();

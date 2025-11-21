@@ -8,7 +8,7 @@ import 'package:rukunin/style/app_colors.dart';
 class KKPage extends StatefulWidget {
   final OnboardingState state;
 
-  const KKPage({super.key, required this.state});
+  const KKPage({required this.state, super.key});
 
   @override
   State<KKPage> createState() => _KKPageState();
