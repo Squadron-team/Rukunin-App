@@ -36,7 +36,7 @@ class WargaDetailScreen extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 30,
-                  backgroundColor: AppColors.primary.withOpacity(0.12),
+                  backgroundColor: Colors.white,
                   child: const Icon(Icons.person, color: AppColors.primary, size: 28),
                 ),
                 const SizedBox(width: 12),
@@ -53,8 +53,9 @@ class WargaDetailScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: warga.isActive ? AppColors.primary.withAlpha(30) : Colors.red.withAlpha(30),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: warga.isActive ? AppColors.primary.withOpacity(0.12) : Colors.red.withOpacity(0.12)),
                   ),
                   child: Text(warga.isActive ? 'Aktif' : 'Non-aktif', style: TextStyle(color: warga.isActive ? AppColors.primary : Colors.red[700], fontWeight: FontWeight.w700)),
                 ),

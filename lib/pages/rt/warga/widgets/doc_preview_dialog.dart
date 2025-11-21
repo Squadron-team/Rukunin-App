@@ -12,14 +12,14 @@ Future<void> showDocPreview(BuildContext context, {required String type, require
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
             child: Container(
-              color: Colors.black,
+              color: Colors.white,
               constraints: const BoxConstraints(maxHeight: 480),
               child: Image.asset(
                 url,
                 fit: BoxFit.contain,
                 errorBuilder: (c2, e, s) => Container(
                   height: 240,
-                  color: Colors.grey[100],
+                  color: Colors.white,
                   child: const Center(child: Icon(Icons.image_not_supported, size: 64, color: Colors.grey)),
                 ),
               ),

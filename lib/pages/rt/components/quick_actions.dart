@@ -5,6 +5,8 @@ import 'package:rukunin/pages/rt/announcements/announcements_screen.dart';
 import 'package:rukunin/pages/rt/warga/warga_list_screen.dart';
 import 'package:rukunin/pages/rt/warga/data_kk_screen.dart';
 import 'package:rukunin/pages/rt/events/events_screen.dart';
+import 'package:rukunin/pages/rt/wilayah/wilayah_rt_screen.dart';
+import 'package:rukunin/pages/rt/surat/kelola_pengajuan_surat_screen.dart';
 
 class QuickActionsGrid extends StatelessWidget {
   const QuickActionsGrid({super.key});
@@ -52,6 +54,17 @@ class QuickActionsGrid extends StatelessWidget {
           },
         ),
         QuickAccessItem(
+          icon: Icons.map,
+          label: 'Wilayah RT',
+          color: AppColors.primary,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const WilayahRtScreen()),
+            );
+          },
+        ),
+        QuickAccessItem(
           icon: Icons.event_available,
           label: 'Kegiatan RT',
           color: AppColors.primary,
@@ -85,6 +98,17 @@ class QuickActionsGrid extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const AnnouncementsScreen()),
+            );
+          },
+        ),
+        QuickAccessItem(
+          icon: Icons.mail,
+          label: 'Kelola Pengajuan Surat',
+          color: AppColors.primary,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const KelolaPengajuanSuratScreen()),
             );
           },
         ),
