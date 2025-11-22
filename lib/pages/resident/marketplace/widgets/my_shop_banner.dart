@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/models/shop.dart';
-import 'package:rukunin/pages/resident/marketplace/shop_dashboard_screen.dart';
 import 'package:rukunin/services/shop_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
@@ -136,11 +136,10 @@ class MyShopBanner extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ShopDashboardScreen(shop: shop),
-                ),
+              context.pushNamed(
+                'resident-shop-dashboard',
+                pathParameters: {'shopId': shop.id},
+                extra: shop,
               );
             },
             style: ElevatedButton.styleFrom(
@@ -301,8 +300,8 @@ class MyShopBanner extends StatelessWidget {
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: const Text('❌ Gagal membuat toko'),
+                                  const SnackBar(
+                                    content: Text('❌ Gagal membuat toko'),
                                     backgroundColor: Colors.red,
                                     behavior: SnackBarBehavior.floating,
                                   ),

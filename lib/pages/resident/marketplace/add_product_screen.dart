@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/models/product.dart';
 import 'package:rukunin/models/shop.dart';
 import 'package:rukunin/services/product_service.dart';
@@ -384,7 +385,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
     setState(() => _isLoading = false);
 
-    if (productId != null) {
+    if (productId != null && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('✅ Produk berhasil ditambahkan!'),
@@ -393,8 +394,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
       );
-      Navigator.pop(context);
-    } else {
+      context.pop();
+    } else if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('❌ Gagal menambahkan produk'),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/models/product.dart';
 import 'package:rukunin/models/shop.dart';
 import 'package:rukunin/services/product_service.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/pages/resident/marketplace/add_product_screen.dart';
 
 class MyProductsScreen extends StatelessWidget {
   final Shop shop;
@@ -170,11 +170,10 @@ class MyProductsScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddProductScreen(shop: shop),
-            ),
+          context.goNamed(
+            'resident-shop-add-product',
+            pathParameters: {'shopId': shop.id},
+            extra: shop,
           );
         },
         backgroundColor: AppColors.primary,
@@ -232,7 +231,11 @@ class MyProductsScreen extends StatelessWidget {
             const SizedBox(height: 32),
             ElevatedButton.icon(
               onPressed: () {
-                // Navigate to add product
+                context.goNamed(
+                  'resident-shop-add-product',
+                  pathParameters: {'shopId': shop.id},
+                  extra: shop,
+                );
               },
               icon: const Icon(Icons.add, color: Colors.white),
               label: const Text(
@@ -483,7 +486,7 @@ class MyProductsScreen extends StatelessWidget {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () => Navigator.pop(context),
+                          onTap: () => context.pop(),
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 14),
@@ -508,8 +511,6 @@ class MyProductsScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [Colors.red[600]!, Colors.red[400]!],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
                         ),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
@@ -523,57 +524,28 @@ class MyProductsScreen extends StatelessWidget {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Row(
-                                  children: [
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.2),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.white,
-                                        size: 24,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    const Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            'Produk Berhasil Dihapus',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          SizedBox(height: 2),
-                                          Text(
-                                            'Produk telah dihapus dari daftar',
-                                            style: TextStyle(fontSize: 13),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                backgroundColor: Colors.green[600],
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                margin: const EdgeInsets.all(16),
-                                duration: const Duration(seconds: 3),
-                              ),
-                            );
+                          onTap: () async {
+                            final success = await ProductService().deleteProduct(product.id);
+                            if (context.mounted) {
+                              context.pop();
+                              if (success) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('✅ Produk berhasil dihapus'),
+                                    backgroundColor: Colors.green,
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('❌ Gagal menghapus produk'),
+                                    backgroundColor: Colors.red,
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              }
+                            }
                           },
                           borderRadius: BorderRadius.circular(12),
                           child: Container(

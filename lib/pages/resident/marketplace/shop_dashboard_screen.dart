@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/models/shop.dart';
-import 'package:rukunin/pages/resident/marketplace/add_product_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/my_products_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/orders_screen.dart';
 import 'package:rukunin/services/product_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
@@ -150,11 +148,10 @@ class ShopDashboardScreen extends StatelessWidget {
                     label: 'Tambah Produk',
                     color: AppColors.primary,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddProductScreen(shop: shop),
-                        ),
+                      context.pushNamed(
+                        'resident-shop-add-product',
+                        pathParameters: {'shopId': shop.id},
+                        extra: shop,
                       );
                     },
                   ),
@@ -165,11 +162,10 @@ class ShopDashboardScreen extends StatelessWidget {
                     label: 'Kelola Produk',
                     color: Colors.blue,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyProductsScreen(shop: shop),
-                        ),
+                      context.pushNamed(
+                        'resident-shop-products',
+                        pathParameters: {'shopId': shop.id},
+                        extra: shop,
                       );
                     },
                   ),
@@ -180,11 +176,10 @@ class ShopDashboardScreen extends StatelessWidget {
                     label: 'Lihat Pesanan',
                     color: Colors.green,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OrdersScreen(shop: shop),
-                        ),
+                      context.pushNamed(
+                        'resident-shop-orders',
+                        pathParameters: {'shopId': shop.id},
+                        extra: shop,
                       );
                     },
                   ),

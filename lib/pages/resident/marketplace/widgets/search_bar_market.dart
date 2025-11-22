@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/pages/resident/marketplace/cart_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/search_results_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class SearchBarMarket extends StatelessWidget {
@@ -16,12 +16,7 @@ class SearchBarMarket extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SearchResultsScreen(),
-                  ),
-                );
+                context.goNamed('resident-marketplace-search');
               },
               child: Container(
                 height: 45,
