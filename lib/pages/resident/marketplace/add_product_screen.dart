@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/models/product.dart';
 import 'package:rukunin/models/shop.dart';
+import 'package:rukunin/services/product_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -22,6 +24,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   String? _selectedCategory;
   String? _selectedUnit;
+  bool _isLoading = false;
 
   final List<String> _categories = [
     'Sayur',
@@ -331,22 +334,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Save product
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text('✅ Produk berhasil ditambahkan!'),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      );
-                      Navigator.pop(context);
-                    }
-                  },
+                  onPressed: _isLoading ? null : _saveProduct,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     shape: RoundedRectangleBorder(
@@ -354,14 +342,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     ),
                     elevation: 2,
                   ),
-                  child: const Text(
-                    'Simpan Produk',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: _isLoading
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text(
+                          'Simpan Produk',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
               ),
 
@@ -371,6 +361,48 @@ class _AddProductScreenState extends State<AddProductScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _saveProduct() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    final product = Product(
+      name: _nameController.text.trim(),
+      description: _descriptionController.text.trim(),
+      price: double.parse(_priceController.text.trim()),
+      category: _selectedCategory!,
+      badge: _selectedCategory!,
+      seller: widget.shop.name,
+      shopId: widget.shop.id,
+      stock: int.parse(_stockController.text.trim()),
+      isActive: true,
+    );
+
+    final productId = await ProductService().addProduct(product);
+
+    setState(() => _isLoading = false);
+
+    if (productId != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('✅ Produk berhasil ditambahkan!'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      );
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('❌ Gagal menambahkan produk'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   Widget _buildSectionTitle(String title) {

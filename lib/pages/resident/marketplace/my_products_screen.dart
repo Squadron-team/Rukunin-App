@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/product.dart';
 import 'package:rukunin/models/shop.dart';
+import 'package:rukunin/services/product_service.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/pages/resident/marketplace/add_product_screen.dart';
 
 class MyProductsScreen extends StatelessWidget {
   final Shop shop;
@@ -12,18 +14,6 @@ class MyProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Mock data - replace with actual data
-    final products = List.generate(
-      5,
-      (index) => Product(
-        name: 'Produk ${index + 1}',
-        seller: shop.name,
-        price: 10000.0 + (index * 5000),
-        badge: 'Sayur',
-        description: 'Deskripsi produk',
-      ),
-    );
-
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: Column(
@@ -77,61 +67,67 @@ class MyProductsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     // Shop Info Card
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
+                    StreamBuilder<List<Product>>(
+                      stream: ProductService().getProductsByShop(shop.id),
+                      builder: (context, snapshot) {
+                        final productCount = snapshot.data?.length ?? 0;
+                        return Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 56,
-                            height: 56,
-                            decoration: BoxDecoration(
-                              color: AppColors.primary.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              Icons.store,
-                              color: AppColors.primary,
-                              size: 28,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  shop.name,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
-                                  ),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 56,
+                                height: 56,
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '${products.length} Produk',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey[600],
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                child: const Icon(
+                                  Icons.store,
+                                  color: AppColors.primary,
+                                  size: 28,
                                 ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      shop.name,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '$productCount Produk',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey[600],
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -139,23 +135,47 @@ class MyProductsScreen extends StatelessWidget {
             ),
           ),
 
-          // Products List
+          // Products List from Firestore
           Expanded(
-            child: products.isEmpty
-                ? _buildEmptyState(context)
-                : ListView.builder(
-                    padding: const EdgeInsets.all(20),
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      return _buildProductCard(context, products[index]);
-                    },
-                  ),
+            child: StreamBuilder<List<Product>>(
+              stream: ProductService().getProductsByShop(shop.id),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                }
+
+                final products = snapshot.data ?? [];
+
+                if (products.isEmpty) {
+                  return _buildEmptyState(context);
+                }
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(20),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    return _buildProductCard(context, products[index]);
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // Navigate to add product
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddProductScreen(shop: shop),
+            ),
+          );
         },
         backgroundColor: AppColors.primary,
         icon: const Icon(Icons.add, color: Colors.white),
@@ -384,20 +404,11 @@ class MyProductsScreen extends StatelessWidget {
       barrierDismissible: false,
       builder: (context) => Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
-            ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -424,7 +435,6 @@ class MyProductsScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
                 ),
                 textAlign: TextAlign.center,
               ),
