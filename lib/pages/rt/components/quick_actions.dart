@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
 import 'package:rukunin/pages/rt/announcements/announcements_screen.dart';
-import 'package:rukunin/pages/rt/warga/warga_list_screen.dart';
-import 'package:rukunin/pages/rt/warga/data_kk_screen.dart';
+import 'package:rukunin/pages/rt/warga/list_warga/warga_list_screen.dart';
+import 'package:rukunin/pages/rt/warga/list_keluarga/family_list_screen.dart';
 import 'package:rukunin/pages/rt/events/events_screen.dart';
 import 'package:rukunin/pages/rt/wilayah/wilayah_rt_screen.dart';
 import 'package:rukunin/pages/rt/surat/kelola_pengajuan_surat_screen.dart';
@@ -14,7 +14,7 @@ class QuickActionsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomSafe = MediaQuery.of(context).viewPadding.bottom;
-    final gridBottom = bottomSafe + 28.0; // extra room to avoid tiny overflows
+    final gridBottom = bottomSafe + 28.0; 
 
     return SafeArea(
       bottom: true,
@@ -28,7 +28,6 @@ class QuickActionsGrid extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
-        // increase tile height so labels (eg. "Pengumuman RT") don't get cut
         childAspectRatio: 0.8,
         children: [
         QuickAccessItem(
@@ -43,13 +42,13 @@ class QuickActionsGrid extends StatelessWidget {
           },
         ),
         QuickAccessItem(
-          icon: Icons.list_alt,
-          label: 'Data KK',
+          icon: Icons.family_restroom,
+          label: 'Data Keluarga',
           color: AppColors.primary,
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const DataKkScreen()),
+              MaterialPageRoute(builder: (_) => const FamilyListScreen()),
             );
           },
         ),

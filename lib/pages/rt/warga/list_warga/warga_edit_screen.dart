@@ -3,6 +3,10 @@ import 'package:rukunin/models/resident.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
 import 'package:rukunin/pages/rt/warga/widgets/doc_tile.dart';
+import 'package:rukunin/models/street.dart';
+import 'package:rukunin/repositories/streets.dart' as streetRepo;
+import 'package:rukunin/pages/rt/warga/widgets/warga_common_fields.dart';
+import 'package:rukunin/pages/rt/warga/widgets/form_actions.dart';
 
 class WargaEditScreen extends StatefulWidget {
   final Warga warga;
@@ -23,6 +27,18 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
   late String rw;
   bool isActive = true;
 
+  // new fields
+  late TextEditingController placeC;
+  late TextEditingController pekerjaanC;
+  late TextEditingController maritalC;
+  late TextEditingController educationC;
+  DateTime? dateOfBirth;
+  bool isHead = false;
+
+  List<Street> _streets = [];
+  Street? _selectedStreet;
+  int? _selectedHouseNo;
+
   String ktpPreview = '';
   String kkPreview = '';
 
@@ -38,6 +54,24 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
     isActive = widget.warga.isActive;
     ktpPreview = widget.warga.ktpUrl;
     kkPreview = widget.warga.kkUrl;
+    // new fields
+    placeC = TextEditingController(text: widget.warga.placeOfBirth);
+    pekerjaanC = TextEditingController(text: widget.warga.pekerjaan);
+    maritalC = TextEditingController(text: widget.warga.maritalStatus);
+    educationC = TextEditingController(text: widget.warga.education);
+    dateOfBirth = widget.warga.dateOfBirth;
+    isHead = widget.warga.isHead;
+    _streets = List<Street>.from(streetRepo.streets);
+    // parse street & house from address if possible
+    final addr = widget.warga.address;
+    if (addr.contains('No.')) {
+      final parts = addr.split('No.');
+      final streetName = parts[0].trim();
+      final numPart = parts[1].trim();
+      final parsed = int.tryParse(numPart);
+      _selectedHouseNo = parsed;
+      _selectedStreet = _streets.firstWhere((s) => s.name == streetName, orElse: () => _streets.isNotEmpty ? _streets.first : Street(name: '', totalHouses: 6));
+    }
   }
 
   @override
@@ -46,6 +80,10 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
     nikC.dispose();
     kkC.dispose();
     addressC.dispose();
+    placeC.dispose();
+    pekerjaanC.dispose();
+    maritalC.dispose();
+    educationC.dispose();
     super.dispose();
   }
 
@@ -131,10 +169,25 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                               return null;
                             }),
                             const SizedBox(height: 12),
-                            TextFormField(controller: addressC, decoration: _dec('Alamat'), maxLines: 3, validator: (v) {
-                              if (v == null || v.isEmpty) return 'Alamat tidak boleh kosong';
-                              return null;
-                            }),
+                            const SizedBox(height: 12),
+                            AddressPicker(
+                              streets: _streets,
+                              selectedStreet: _selectedStreet,
+                              onStreetChanged: (v) => setState(() => _selectedStreet = v),
+                              selectedHouseNo: _selectedHouseNo,
+                              onHouseChanged: (v) => setState(() => _selectedHouseNo = v),
+                            ),
+                            const SizedBox(height: 12),
+                            PersonalDetailsFields(
+                              placeC: placeC,
+                              dateOfBirth: dateOfBirth,
+                              onDateChanged: (d) => setState(() => dateOfBirth = d),
+                              pekerjaanC: pekerjaanC,
+                              maritalC: maritalC,
+                              educationC: educationC,
+                              isHead: isHead,
+                              onIsHeadChanged: (v) => setState(() => isHead = v),
+                            ),
                             const SizedBox(height: 12),
                             Row(children: [
                               Expanded(child: TextFormField(decoration: _dec('RT').copyWith(fillColor: Colors.grey.shade50), initialValue: rt, readOnly: true)),
@@ -185,42 +238,34 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
 
                       const SizedBox(height: 20),
 
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)), side: BorderSide(color: Colors.grey.shade300)),
-                              onPressed: () => Navigator.pop(context),
-                              child: Text('Batal', style: TextStyle(color: Colors.grey[700])),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            flex: 2,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)), elevation: 0),
-                              onPressed: () {
-                                if (_formKey.currentState?.validate() ?? false) {
-                                  final edited = Warga(
-                                    id: widget.warga.id,
-                                    name: nameC.text,
-                                    nik: nikC.text,
-                                    kkNumber: kkC.text,
-                                    address: addressC.text,
-                                    rt: rt,
-                                    rw: rw,
-                                    isActive: isActive,
-                                    ktpUrl: ktpPreview,
-                                    kkUrl: kkPreview,
-                                    createdAt: widget.warga.createdAt,
-                                  );
-                                  Navigator.pop(context, edited);
-                                }
-                              },
-                              child: const Text('Simpan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-                            ),
-                          ),
-                        ],
+                      FormActions(
+                        onCancel: () => Navigator.pop(context),
+                        onSave: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            final streetName = _selectedStreet?.name ?? '';
+                            final addr = (streetName.isNotEmpty && _selectedHouseNo != null) ? '$streetName No. ${_selectedHouseNo!}' : addressC.text;
+                            final edited = Warga(
+                              id: widget.warga.id,
+                              name: nameC.text,
+                              nik: nikC.text,
+                              kkNumber: kkC.text,
+                              address: addr,
+                              rt: rt,
+                              rw: rw,
+                              isActive: isActive,
+                              ktpUrl: ktpPreview,
+                              kkUrl: kkPreview,
+                              createdAt: widget.warga.createdAt,
+                              placeOfBirth: placeC.text,
+                              dateOfBirth: dateOfBirth,
+                              pekerjaan: pekerjaanC.text,
+                              maritalStatus: maritalC.text,
+                              education: educationC.text,
+                              isHead: isHead,
+                            );
+                            Navigator.pop(context, edited);
+                          }
+                        },
                       )
                     ],
                   ),
