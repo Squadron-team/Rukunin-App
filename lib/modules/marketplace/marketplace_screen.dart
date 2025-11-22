@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/product.dart';
 import 'package:rukunin/modules/marketplace/widgets/my_shop_banner.dart';
+import 'package:rukunin/modules/marketplace/widgets/promo_banner_carousel.dart';
 import 'package:rukunin/services/product_service.dart';
-import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/cards/category_chip.dart';
-import 'package:rukunin/widgets/cards/promo_banner_card.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_card.dart';
 import 'package:rukunin/modules/marketplace/widgets/search_bar_market.dart';
 
@@ -49,49 +48,8 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                   const MyShopBanner(isHaveShop: true),
                   const SizedBox(height: 16),
 
-                  // Promo Banners (horizontal scroll only for this section)
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        PromoBannerCard(
-                          title: 'PROMO 11.11!',
-                          subtitle: 'Diskon hingga 50%',
-                          primaryColor: AppColors.primary,
-                          width: MediaQuery.of(context).size.width - 40,
-                        ),
-                        const SizedBox(width: 16),
-                        PromoBannerCard(
-                          title: 'Promo Akhir Tahun 🎉',
-                          subtitle: 'Gratis ongkir se-Indonesia',
-                          primaryColor: Colors.green,
-                          width: MediaQuery.of(context).size.width - 40,
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  // Dots Indicator
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      4,
-                      (index) => Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 3),
-                        width: index == 0 ? 24 : 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: index == 0
-                              ? AppColors.primary
-                              : Colors.grey[300],
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Promo Banners Carousel
+                  const PromoBannerCarousel(),
 
                   const SizedBox(height: 24),
 
