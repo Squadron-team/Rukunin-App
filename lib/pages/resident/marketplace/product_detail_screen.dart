@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rukunin/models/product.dart';
-import 'package:rukunin/pages/resident/marketplace/payment_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/widgets/product_detail_screen_appbar.dart';
-import 'package:rukunin/pages/resident/marketplace/widgets/product_detail_screen_main_content.dart';
-import 'package:rukunin/services/cart_service.dart';
+import 'package:rukunin/modules/marketplace/models/product.dart';
+import 'package:rukunin/modules/marketplace/pages/payment_screen.dart';
+import 'package:rukunin/modules/marketplace/widgets/product_detail_screen_appbar.dart';
+import 'package:rukunin/modules/marketplace/widgets/product_detail_screen_main_content.dart';
+import 'package:rukunin/modules/marketplace/services/cart_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/currency_formatter.dart';
 
@@ -48,7 +48,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           content: Text('${widget.product.name} ditambahkan ke keranjang'),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           action: SnackBarAction(
             label: 'Lihat',
             textColor: Colors.white,
@@ -76,10 +78,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PaymentScreen(
-          products: [purchaseProduct],
-          fromCart: false,
-        ),
+        builder: (context) =>
+            PaymentScreen(products: [purchaseProduct], fromCart: false),
       ),
     );
   }
@@ -90,7 +90,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       backgroundColor: const Color(0xFFFFF5E6),
       body: CustomScrollView(
         slivers: [
-          ProductDetailScreenAppbar(isFavorite: _isFavorite),
+          ProductDetailScreenAppbar(
+            isFavorite: _isFavorite,
+            imageUrl: widget.product.imageUrl,
+          ),
 
           // Content
           SliverFillRemaining(
@@ -286,9 +289,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                     const SizedBox(height: 24),
 
-                    ProductDetailScreenMainContent(
-                      product: widget.product,
-                    ),
+                    ProductDetailScreenMainContent(product: widget.product),
 
                     const SizedBox(height: 100),
                   ],

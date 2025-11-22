@@ -8,7 +8,6 @@ import 'package:rukunin/pages/secretary/community/dues_screen.dart';
 import 'package:rukunin/pages/secretary/community/family_details_screen.dart';
 import 'package:rukunin/pages/secretary/community/finance_transparency_screen.dart';
 import 'package:rukunin/pages/secretary/community/population_info_screen.dart';
-import 'package:rukunin/pages/secretary/marketplace/marketplace_screen.dart';
 import 'package:rukunin/pages/secretary/secretary_home_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/secretary/secretary_shell.dart';
@@ -21,12 +20,6 @@ final secretaryRoutes = ShellRoute(
       name: 'secretary-home',
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: SecretaryHomeScreen()),
-    ),
-    GoRoute(
-      path: '/secretary/marketplace',
-      name: 'secretary-marketplace',
-      pageBuilder: (context, state) =>
-          const NoTransitionPage(child: MarketplaceScreen()),
     ),
     GoRoute(
       path: '/secretary/activities',
