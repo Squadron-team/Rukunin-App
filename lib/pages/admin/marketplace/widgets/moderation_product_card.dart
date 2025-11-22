@@ -6,9 +6,7 @@ class ModerationProductCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const ModerationProductCard({
-    super.key,
-    required this.product,
-    required this.onTap,
+    required this.product, required this.onTap, super.key,
   });
 
   @override
@@ -72,7 +70,7 @@ class ModerationProductCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     'Rp ${product.price.toStringAsFixed(0)}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: AppColors.primary,

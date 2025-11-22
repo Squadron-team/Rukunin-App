@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/models/shop.dart';
-import 'package:rukunin/pages/resident/marketplace/add_product_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/my_products_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/orders_screen.dart';
+import 'package:rukunin/services/product_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class ShopDashboardScreen extends StatelessWidget {
@@ -68,36 +67,72 @@ class ShopDashboardScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                     ),
                   ],
+                  if (!shop.isApproved) ...[
+                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.pending, size: 16, color: Colors.orange[700]),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Menunggu Persetujuan',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.orange[700],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
 
             const SizedBox(height: 20),
 
-            // Stats Cards
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard(
-                      icon: Icons.inventory_2,
-                      label: 'Produk',
-                      value: '12',
-                      color: AppColors.primary,
-                    ),
+            // Stats Cards with real-time data
+            StreamBuilder<int>(
+              stream: ProductService()
+                  .getProductsByShop(shop.id)
+                  .map((products) => products.length),
+              builder: (context, productSnapshot) {
+                final productCount = productSnapshot.data ?? 0;
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _buildStatCard(
+                          icon: Icons.inventory_2,
+                          label: 'Produk',
+                          value: productCount.toString(),
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildStatCard(
+                          icon: Icons.shopping_bag,
+                          label: 'Pesanan',
+                          value: '0',
+                          color: Colors.orange,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard(
-                      icon: Icons.shopping_bag,
-                      label: 'Pesanan',
-                      value: '5',
-                      color: Colors.orange,
-                    ),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
 
             const SizedBox(height: 24),
@@ -113,11 +148,10 @@ class ShopDashboardScreen extends StatelessWidget {
                     label: 'Tambah Produk',
                     color: AppColors.primary,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddProductScreen(shop: shop),
-                        ),
+                      context.pushNamed(
+                        'resident-shop-add-product',
+                        pathParameters: {'shopId': shop.id},
+                        extra: shop,
                       );
                     },
                   ),
@@ -128,11 +162,10 @@ class ShopDashboardScreen extends StatelessWidget {
                     label: 'Kelola Produk',
                     color: Colors.blue,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyProductsScreen(shop: shop),
-                        ),
+                      context.pushNamed(
+                        'resident-shop-products',
+                        pathParameters: {'shopId': shop.id},
+                        extra: shop,
                       );
                     },
                   ),
@@ -143,11 +176,10 @@ class ShopDashboardScreen extends StatelessWidget {
                     label: 'Lihat Pesanan',
                     color: Colors.green,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OrdersScreen(shop: shop),
-                        ),
+                      context.pushNamed(
+                        'resident-shop-orders',
+                        pathParameters: {'shopId': shop.id},
+                        extra: shop,
                       );
                     },
                   ),

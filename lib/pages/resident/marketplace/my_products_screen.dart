@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/models/product.dart';
 import 'package:rukunin/models/shop.dart';
+import 'package:rukunin/services/product_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class MyProductsScreen extends StatelessWidget {
@@ -12,18 +14,6 @@ class MyProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Mock data - replace with actual data
-    final products = List.generate(
-      5,
-      (index) => Product(
-        name: 'Produk ${index + 1}',
-        seller: shop.name,
-        price: 10000.0 + (index * 5000),
-        badge: 'Sayur',
-        description: 'Deskripsi produk',
-      ),
-    );
-
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: Column(
@@ -77,61 +67,67 @@ class MyProductsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     // Shop Info Card
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
+                    StreamBuilder<List<Product>>(
+                      stream: ProductService().getProductsByShop(shop.id),
+                      builder: (context, snapshot) {
+                        final productCount = snapshot.data?.length ?? 0;
+                        return Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 56,
-                            height: 56,
-                            decoration: BoxDecoration(
-                              color: AppColors.primary.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              Icons.store,
-                              color: AppColors.primary,
-                              size: 28,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  shop.name,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
-                                  ),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 56,
+                                height: 56,
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '${products.length} Produk',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey[600],
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                child: const Icon(
+                                  Icons.store,
+                                  color: AppColors.primary,
+                                  size: 28,
                                 ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      shop.name,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '$productCount Produk',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey[600],
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -139,23 +135,46 @@ class MyProductsScreen extends StatelessWidget {
             ),
           ),
 
-          // Products List
+          // Products List from Firestore
           Expanded(
-            child: products.isEmpty
-                ? _buildEmptyState(context)
-                : ListView.builder(
-                    padding: const EdgeInsets.all(20),
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      return _buildProductCard(context, products[index]);
-                    },
-                  ),
+            child: StreamBuilder<List<Product>>(
+              stream: ProductService().getProductsByShop(shop.id),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                }
+
+                final products = snapshot.data ?? [];
+
+                if (products.isEmpty) {
+                  return _buildEmptyState(context);
+                }
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(20),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    return _buildProductCard(context, products[index]);
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // Navigate to add product
+          context.goNamed(
+            'resident-shop-add-product',
+            pathParameters: {'shopId': shop.id},
+            extra: shop,
+          );
         },
         backgroundColor: AppColors.primary,
         icon: const Icon(Icons.add, color: Colors.white),
@@ -212,7 +231,11 @@ class MyProductsScreen extends StatelessWidget {
             const SizedBox(height: 32),
             ElevatedButton.icon(
               onPressed: () {
-                // Navigate to add product
+                context.goNamed(
+                  'resident-shop-add-product',
+                  pathParameters: {'shopId': shop.id},
+                  extra: shop,
+                );
               },
               icon: const Icon(Icons.add, color: Colors.white),
               label: const Text(
@@ -384,20 +407,11 @@ class MyProductsScreen extends StatelessWidget {
       barrierDismissible: false,
       builder: (context) => Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
-            ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -424,7 +438,6 @@ class MyProductsScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -473,7 +486,7 @@ class MyProductsScreen extends StatelessWidget {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () => Navigator.pop(context),
+                          onTap: () => context.pop(),
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 14),
@@ -498,8 +511,6 @@ class MyProductsScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [Colors.red[600]!, Colors.red[400]!],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
                         ),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
@@ -513,57 +524,28 @@ class MyProductsScreen extends StatelessWidget {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Row(
-                                  children: [
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.2),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.white,
-                                        size: 24,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    const Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            'Produk Berhasil Dihapus',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          SizedBox(height: 2),
-                                          Text(
-                                            'Produk telah dihapus dari daftar',
-                                            style: TextStyle(fontSize: 13),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                backgroundColor: Colors.green[600],
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                margin: const EdgeInsets.all(16),
-                                duration: const Duration(seconds: 3),
-                              ),
-                            );
+                          onTap: () async {
+                            final success = await ProductService().deleteProduct(product.id);
+                            if (context.mounted) {
+                              context.pop();
+                              if (success) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('✅ Produk berhasil dihapus'),
+                                    backgroundColor: Colors.green,
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('❌ Gagal menghapus produk'),
+                                    backgroundColor: Colors.red,
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              }
+                            }
                           },
                           borderRadius: BorderRadius.circular(12),
                           child: Container(
