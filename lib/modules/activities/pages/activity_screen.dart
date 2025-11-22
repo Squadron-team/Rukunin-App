@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/modules/activities/models/activity.dart';
-import 'package:rukunin/modules/activities/widgets/event_card.dart';
+import 'package:rukunin/modules/activities/widgets/activity_card.dart';
 import 'package:rukunin/modules/activities/services/activity_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
@@ -58,8 +58,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
   List<Activity> _getEventsForDay(DateTime day) {
     return _allEvents.where((event) {
       return event.dateTime.year == day.year &&
-             event.dateTime.month == day.month &&
-             event.dateTime.day == day.day;
+          event.dateTime.month == day.month &&
+          event.dateTime.day == day.day;
     }).toList();
   }
 
@@ -289,14 +289,14 @@ class _ActivityScreenState extends State<ActivityScreen> {
     final events = _getEventsForDay(_selectedDay ?? _focusedDay);
 
     if (events.isEmpty) {
-      return const EventCard.empty();
+      return const ActivityCard.empty();
     }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: events
-            .map((event) => EventCard.normal(event: event))
+            .map((event) => ActivityCard.normal(event: event))
             .toList(),
       ),
     );

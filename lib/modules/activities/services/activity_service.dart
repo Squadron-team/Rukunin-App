@@ -13,7 +13,9 @@ class ActivityService {
         .snapshots()
         .map((snapshot) {
           return snapshot.docs
-              .map((doc) => Activity.fromMap(doc.id, doc.data()))
+              .map((doc) {
+                return Activity.fromMap(doc.id, doc.data());
+              })
               .toList();
         });
   }

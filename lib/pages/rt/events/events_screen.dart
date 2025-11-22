@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/modules/activities/widgets/event_card.dart';
+import 'package:rukunin/modules/activities/widgets/activity_card.dart';
 import 'package:rukunin/pages/rt/events/models/event.dart';
 import 'package:rukunin/pages/rt/events/widgets/community_event_card.dart';
 import 'package:rukunin/repositories/events.dart';
@@ -180,7 +180,7 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
               .where((e) => e.category.toLowerCase() == _filter.toLowerCase())
               .toList();
 
-    if (visible.isEmpty) return const EventCard.empty();
+    if (visible.isEmpty) return const ActivityCard.empty();
 
     // sort upcoming then past
     visible.sort((a, b) {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/modules/activities/models/activity.dart';
-import 'package:rukunin/modules/activities/widgets/event_detail_screen_appbar.dart';
-import 'package:rukunin/modules/activities/widgets/event_organizer_card.dart';
-import 'package:rukunin/modules/activities/widgets/small_event_detail_card.dart';
+import 'package:rukunin/modules/activities/widgets/activity_detail_screen_appbar.dart';
+import 'package:rukunin/modules/activities/widgets/activity_organizer_card.dart';
+import 'package:rukunin/modules/activities/widgets/small_activity_detail_card.dart';
 import 'package:rukunin/modules/activities/services/activity_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
@@ -19,7 +19,7 @@ class ActivityDetailScreen extends StatefulWidget {
 class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
   final ActivityService _activityService = ActivityService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  
+
   bool _isJoined = false;
   int _participantCount = 0;
   bool _isLoading = true;
@@ -35,8 +35,11 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
     _activityService.getEventById(widget.event.id).listen((event) async {
       if (event != null && mounted) {
         final userId = _auth.currentUser?.uid ?? '';
-        final hasJoined = await _activityService.hasUserJoined(event.id, userId);
-        
+        final hasJoined = await _activityService.hasUserJoined(
+          event.id,
+          userId,
+        );
+
         setState(() {
           _currentEvent = event;
           _participantCount = event.participants.length;
@@ -49,7 +52,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
 
   Future<void> _toggleJoinStatus() async {
     final userId = _auth.currentUser?.uid;
-    
+
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -105,7 +108,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final displayEvent = _currentEvent ?? widget.event;
-    
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: CustomScrollView(
@@ -197,21 +200,21 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                 const SizedBox(height: 16),
 
                 // Activity Details Cards
-                SmallEventDetailCard(
+                SmallActivityDetailCard(
                   icon: Icons.calendar_today,
                   title: 'Tanggal',
                   subtitle: displayEvent.date,
                   color: Colors.blue,
                 ),
 
-                SmallEventDetailCard(
+                SmallActivityDetailCard(
                   icon: Icons.access_time,
                   title: 'Waktu',
                   subtitle: displayEvent.time,
                   color: Colors.green,
                 ),
 
-                SmallEventDetailCard(
+                SmallActivityDetailCard(
                   icon: Icons.location_on,
                   title: 'Lokasi',
                   subtitle: displayEvent.location,
@@ -280,7 +283,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                 const SizedBox(height: 16),
 
                 // Organizer Section
-                EventOrganizerCard(
+                ActivityOrganizerCard(
                   name: displayEvent.organizerName,
                   position: displayEvent.organizerPosition,
                 ),

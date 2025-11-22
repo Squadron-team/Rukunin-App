@@ -4,12 +4,12 @@ import 'package:rukunin/modules/activities/pages/activity_detail_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/icon_mapper.dart';
 
-class EventCard extends StatelessWidget {
+class ActivityCard extends StatelessWidget {
   final Activity? event;
   final bool isEmpty;
 
-  const EventCard.normal({required this.event, super.key}) : isEmpty = false;
-  const EventCard.empty({super.key}) : event = null, isEmpty = true;
+  const ActivityCard.normal({required this.event, super.key}) : isEmpty = false;
+  const ActivityCard.empty({super.key}) : event = null, isEmpty = true;
 
   @override
   Widget build(BuildContext context) {
