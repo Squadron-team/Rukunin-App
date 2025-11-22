@@ -11,6 +11,7 @@ import 'package:rukunin/pages/resident/marketplace/my_products_screen.dart';
 import 'package:rukunin/pages/resident/marketplace/add_product_screen.dart';
 import 'package:rukunin/pages/resident/marketplace/orders_screen.dart';
 import 'package:rukunin/pages/resident/marketplace/search_results_screen.dart';
+import 'package:rukunin/pages/resident/marketplace/cart_screen.dart';
 import 'package:rukunin/pages/resident/activities/activity_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/resident/resident_shell.dart';
@@ -70,6 +71,11 @@ final residentRoutes = [
       final query = state.uri.queryParameters['q'] ?? '';
       return SearchResultsScreen(initialQuery: query);
     },
+  ),
+  GoRoute(
+    path: '/resident/marketplace/cart',
+    name: 'resident-marketplace-cart',
+    builder: (context, state) => const CartScreen(),
   ),
   GoRoute(
     path: '/resident/marketplace/shop/:shopId/dashboard',

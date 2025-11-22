@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rukunin/pages/resident/marketplace/cart_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class SearchBarMarket extends StatelessWidget {
@@ -16,7 +15,7 @@ class SearchBarMarket extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                context.goNamed('resident-marketplace-search');
+                context.pushNamed('resident-marketplace-search');
               },
               child: Container(
                 height: 45,
@@ -33,10 +32,7 @@ class SearchBarMarket extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'Cari produk yang anda cari',
-                        style: TextStyle(
-                          color: Colors.grey[400],
-                          fontSize: 14,
-                        ),
+                        style: TextStyle(color: Colors.grey[400], fontSize: 14),
                       ),
                     ),
                   ],
@@ -45,28 +41,18 @@ class SearchBarMarket extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CartScreen()),
-              );
-            },
-            child: Container(
-              height: 45,
-              width: 45,
-              decoration: BoxDecoration(
-                color: AppColors.primary,
+          IconButton(
+            style: IconButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              fixedSize: const Size(45, 45),
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Center(
-                child: Icon(
-                  Icons.shopping_cart_outlined,
-                  color: Colors.white,
-                  size: 24,
-                ),
-              ),
             ),
+            onPressed: () {
+              context.pushNamed('resident-marketplace-cart');
+            },
+            icon: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
           ),
         ],
       ),
