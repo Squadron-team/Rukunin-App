@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/models/product.dart';
-import 'package:rukunin/pages/resident/marketplace/cart_screen.dart';
 import 'package:rukunin/pages/resident/marketplace/payment_screen.dart';
 import 'package:rukunin/pages/resident/marketplace/widgets/product_detail_screen_appbar.dart';
 import 'package:rukunin/pages/resident/marketplace/widgets/product_detail_screen_main_content.dart';
-import 'package:rukunin/repositories/cart_items.dart';
+import 'package:rukunin/services/cart_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/currency_formatter.dart';
 
@@ -20,65 +21,57 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int _quantity = 2;
   final bool _isFavorite = false;
+  final CartService _cartService = CartService();
 
-  void _addToCart() {
-    // Check if product already in cart
-    final existingIndex = cartItems.indexWhere(
-      (item) => item.name == widget.product.name,
-    );
-
-    setState(() {
-      if (existingIndex != -1) {
-        // Update quantity if exists
-        cartItems[existingIndex].quantity += _quantity;
-      } else {
-        // Add new item
-        final cartProduct = Product(
-          name: widget.product.name,
-          seller: widget.product.seller,
-          price: widget.product.price,
-          badge: widget.product.badge,
-          description: widget.product.description,
-          rating: widget.product.rating,
-          isDiscount: widget.product.isDiscount,
-        );
-        cartProduct.quantity = _quantity;
-        cartItems.add(cartProduct);
-      }
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${widget.product.name} ditambahkan ke keranjang'),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        action: SnackBarAction(
-          label: 'Lihat',
-          textColor: Colors.white,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CartScreen()),
-            );
-          },
+  Future<void> _addToCart() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Silakan login terlebih dahulu'),
+          backgroundColor: Colors.orange,
+          behavior: SnackBarBehavior.floating,
         ),
-      ),
+      );
+      return;
+    }
+
+    final success = await _cartService.addToCart(
+      userId: userId,
+      product: widget.product,
+      quantity: _quantity,
     );
+
+    if (success != null && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${widget.product.name} ditambahkan ke keranjang'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          action: SnackBarAction(
+            label: 'Lihat',
+            textColor: Colors.white,
+            onPressed: () {
+              context.pushNamed('resident-marketplace-cart');
+            },
+          ),
+        ),
+      );
+    } else if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Gagal menambahkan ke keranjang'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   void _buyNow() {
     // Create a temporary cart item for direct purchase
-    final purchaseProduct = Product(
-      name: widget.product.name,
-      seller: widget.product.seller,
-      price: widget.product.price,
-      badge: widget.product.badge,
-      description: widget.product.description,
-      rating: widget.product.rating,
-      isDiscount: widget.product.isDiscount,
-    );
-    purchaseProduct.quantity = _quantity;
+    final purchaseProduct = widget.product.copyWith(quantity: _quantity);
 
     Navigator.push(
       context,

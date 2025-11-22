@@ -12,14 +12,14 @@ class ResidentHomeScreen extends StatelessWidget {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text(
-          'Selamat pagi, Pak Eko!',
+          'Beranda',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w800,
             color: Colors.black,
           ),
         ),
-        centerTitle: false,
+        centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
         surfaceTintColor: Colors.transparent,

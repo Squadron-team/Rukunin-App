@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/resident/marketplace/cart_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class SearchBarMarket extends StatelessWidget {
@@ -13,46 +13,46 @@ class SearchBarMarket extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Container(
-              height: 45,
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Cari produk yang anda cari',
-                  hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
-                  prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
+            child: GestureDetector(
+              onTap: () {
+                context.pushNamed('resident-marketplace-search');
+              },
+              child: Container(
+                height: 45,
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Icon(Icons.search, color: Colors.grey[400]),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'Cari produk yang anda cari',
+                        style: TextStyle(color: Colors.grey[400], fontSize: 14),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
           const SizedBox(width: 12),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CartScreen()),
-              );
-            },
-            child: Container(
-              height: 45,
-              width: 45,
-              decoration: BoxDecoration(
-                color: AppColors.primary,
+          IconButton(
+            style: IconButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              fixedSize: const Size(45, 45),
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Center(
-                child: Icon(
-                  Icons.shopping_cart_outlined,
-                  color: Colors.white,
-                  size: 24,
-                ),
-              ),
             ),
+            onPressed: () {
+              context.pushNamed('resident-marketplace-cart');
+            },
+            icon: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
           ),
         ],
       ),

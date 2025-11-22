@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/models/order.dart';
 import 'package:rukunin/models/shop.dart';
 import 'package:rukunin/style/app_colors.dart';
@@ -34,7 +35,7 @@ class _OrdersScreenState extends State<OrdersScreen>
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
         title: Row(
           children: [
@@ -536,12 +537,12 @@ class _OrdersScreenState extends State<OrdersScreen>
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             child: const Text('Batal'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
               setState(() {
                 // TODO: Update order status in Firebase
               });
@@ -574,12 +575,12 @@ class _OrdersScreenState extends State<OrdersScreen>
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             child: const Text('Batal'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
               setState(() {
                 // TODO: Update order status in Firebase
               });
@@ -612,12 +613,12 @@ class _OrdersScreenState extends State<OrdersScreen>
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             child: const Text('Belum'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
               setState(() {
                 // TODO: Update order status in Firebase
               });

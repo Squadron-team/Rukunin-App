@@ -218,7 +218,7 @@ class _SplashScreenState extends State<SplashScreen>
       animation: animation,
       builder: (context, child) {
         final scale = 0.7 + (animation.value * 0.6);
-        final opacity = 0.3 + (animation.value * 0.7);
+        final opacity = 0.3 + (animation.value * 0.3);
         
         return Transform.scale(
           scale: scale,
@@ -226,11 +226,11 @@ class _SplashScreenState extends State<SplashScreen>
             width: 12,
             height: 12,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(opacity),
+              color: Colors.grey.withAlpha((opacity * 255).toInt()),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white.withOpacity(opacity * 0.5),
+                  color: Colors.grey.withAlpha(((opacity * 0.5) * 255).toInt()),
                   blurRadius: 8,
                   spreadRadius: 2,
                 ),

@@ -85,7 +85,7 @@ final router = GoRouter(
     treasurerRoutes,
     
     // Resident routes
-    residentRoutes,
+    ...residentRoutes,
 
     // Notification route (accessible by all authenticated users)
     GoRoute(
