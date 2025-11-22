@@ -9,7 +9,6 @@ import 'package:rukunin/pages/treasurer/community/dues_screen.dart';
 import 'package:rukunin/pages/treasurer/community/family_details_screen.dart';
 import 'package:rukunin/pages/treasurer/community/finance_transparency_screen.dart';
 import 'package:rukunin/pages/treasurer/community/population_info_screen.dart';
-import 'package:rukunin/pages/treasurer/marketplace/marketplace_screen.dart';
 import 'package:rukunin/pages/treasurer/treasurer_home_screen.dart';
 import 'package:rukunin/pages/treasurer/treasurer_shell.dart';
 
@@ -21,12 +20,6 @@ final treasurerRoutes = ShellRoute(
       name: 'treasurer-home',
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: TreasurerHomeScreen()),
-    ),
-    GoRoute(
-      path: '/treasurer/marketplace',
-      name: 'treasurer-marketplace',
-      pageBuilder: (context, state) =>
-          const NoTransitionPage(child: MarketplaceScreen()),
     ),
     GoRoute(
       path: '/treasurer/activities',
