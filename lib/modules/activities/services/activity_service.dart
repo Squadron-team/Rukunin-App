@@ -3,9 +3,9 @@ import 'package:rukunin/modules/activities/models/activity.dart';
 
 class ActivityService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final String _collectionName = 'events';
+  final String _collectionName = 'activity';
 
-  // Get all events
+  // Get all activity
   Stream<List<Activity>> getEvents() {
     return _firestore
         .collection(_collectionName)
@@ -18,7 +18,7 @@ class ActivityService {
         });
   }
 
-  // Get events for a specific date
+  // Get activity for a specific date
   Future<List<Activity>> getEventsByDate(String date) async {
     try {
       final snapshot = await _firestore
@@ -31,7 +31,7 @@ class ActivityService {
           .map((doc) => Activity.fromMap(doc.id, doc.data()))
           .toList();
     } catch (e) {
-      print('Error fetching events by date: $e');
+      print('Error fetching activity by date: $e');
       return [];
     }
   }
@@ -154,7 +154,7 @@ class ActivityService {
     }
   }
 
-  // Get events by category
+  // Get activity by category
   Stream<List<Activity>> getEventsByCategory(String category) {
     return _firestore
         .collection(_collectionName)
@@ -168,7 +168,7 @@ class ActivityService {
         });
   }
 
-  // Get upcoming events
+  // Get upcoming activity
   Stream<List<Activity>> getUpcomingEvents() {
     return _firestore
         .collection(_collectionName)
