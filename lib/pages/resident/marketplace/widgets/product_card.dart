@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
-import 'package:rukunin/modules/marketplace/product_detail_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/product_detail_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/currency_formatter.dart';
 

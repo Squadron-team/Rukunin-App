@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
-import 'package:rukunin/modules/marketplace/payment_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/payment_screen.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_detail_screen_appbar.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_detail_screen_main_content.dart';
 import 'package:rukunin/modules/marketplace/services/cart_service.dart';
