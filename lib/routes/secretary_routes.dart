@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rukunin/pages/secretary/activities/activity_screen.dart';
 import 'package:rukunin/pages/secretary/community/community_screen.dart';
 import 'package:rukunin/pages/secretary/community/document_request_form_screen.dart';
 import 'package:rukunin/pages/secretary/community/documents_screen.dart';
@@ -20,12 +19,6 @@ final secretaryRoutes = ShellRoute(
       name: 'secretary-home',
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: SecretaryHomeScreen()),
-    ),
-    GoRoute(
-      path: '/secretary/activities',
-      name: 'secretary-activities',
-      pageBuilder: (context, state) =>
-          const NoTransitionPage(child: ActivityScreen()),
     ),
     GoRoute(
       path: '/secretary/community',

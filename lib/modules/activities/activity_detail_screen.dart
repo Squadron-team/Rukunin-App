@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
-import 'package:rukunin/pages/resident/activities/widgets/event_detail_screen_appbar.dart';
-import 'package:rukunin/pages/resident/activities/widgets/event_organizer_card.dart';
-import 'package:rukunin/pages/resident/activities/widgets/small_event_detail_card.dart';
+import 'package:rukunin/modules/activities/widgets/event_detail_screen_appbar.dart';
+import 'package:rukunin/modules/activities/widgets/event_organizer_card.dart';
+import 'package:rukunin/modules/activities/widgets/small_event_detail_card.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class ActivityDetailScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/event.dart';
-import 'package:rukunin/pages/resident/activities/widgets/event_card.dart';
+import 'package:rukunin/modules/activities/widgets/event_card.dart';
 import 'package:rukunin/repositories/events.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
