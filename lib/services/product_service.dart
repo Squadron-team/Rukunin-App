@@ -44,15 +44,63 @@ class ProductService {
     }
   }
 
-  // Search products
+  // Enhanced search products with multiple strategies
   Stream<List<Product>> searchProducts(String query) {
+    if (query.isEmpty) {
+      return Stream.value([]);
+    }
+
+    final searchQuery = query.toLowerCase();
+
+    // Search by name (case-insensitive using Firestore query)
     return _firestore
         .collection(_collectionName)
-        .where('name', isGreaterThanOrEqualTo: query)
-        .where('name', isLessThanOrEqualTo: '$query\uf8ff')
+        .where('isActive', isEqualTo: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Product.fromFirestore(doc.data(), doc.id))
-            .toList());
+        .map((snapshot) {
+      final products = snapshot.docs
+          .map((doc) => Product.fromFirestore(doc.data(), doc.id))
+          .where((product) =>
+              product.name.toLowerCase().contains(searchQuery) ||
+              product.description.toLowerCase().contains(searchQuery) ||
+              product.category.toLowerCase().contains(searchQuery) ||
+              product.seller.toLowerCase().contains(searchQuery))
+          .toList();
+
+      // Sort by relevance (exact match first)
+      products.sort((a, b) {
+        final aNameMatch = a.name.toLowerCase().startsWith(searchQuery);
+        final bNameMatch = b.name.toLowerCase().startsWith(searchQuery);
+        if (aNameMatch && !bNameMatch) return -1;
+        if (!aNameMatch && bNameMatch) return 1;
+        return 0;
+      });
+
+      return products;
+    });
+  }
+
+  // Alternative: Search with autocomplete suggestions
+  Future<List<String>> getSearchSuggestions(String query) async {
+    if (query.isEmpty) return [];
+
+    try {
+      final snapshot = await _firestore
+          .collection(_collectionName)
+          .where('isActive', isEqualTo: true)
+          .limit(10)
+          .get();
+
+      final suggestions = snapshot.docs
+          .map((doc) => doc.data()['name'] as String)
+          .where((name) => name.toLowerCase().contains(query.toLowerCase()))
+          .toSet()
+          .toList();
+
+      return suggestions;
+    } catch (e) {
+      print('Error getting suggestions: $e');
+      return [];
+    }
   }
 }
