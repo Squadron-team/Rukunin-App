@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/models/event.dart';
 import 'package:rukunin/modules/activities/widgets/event_detail_screen_appbar.dart';
 import 'package:rukunin/modules/activities/widgets/event_organizer_card.dart';
 import 'package:rukunin/modules/activities/widgets/small_event_detail_card.dart';
+import 'package:rukunin/services/firebase_event_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class ActivityDetailScreen extends StatefulWidget {
@@ -15,16 +17,100 @@ class ActivityDetailScreen extends StatefulWidget {
 }
 
 class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
+  final FirebaseEventService _eventService = FirebaseEventService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  
   bool _isJoined = false;
-  int _participantCount = 45;
+  int _participantCount = 0;
+  bool _isLoading = true;
+  Event? _currentEvent;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEventData();
+  }
+
+  void _loadEventData() {
+    _eventService.getEventById(widget.event.id).listen((event) async {
+      if (event != null && mounted) {
+        final userId = _auth.currentUser?.uid ?? '';
+        final hasJoined = await _eventService.hasUserJoined(event.id, userId);
+        
+        setState(() {
+          _currentEvent = event;
+          _participantCount = event.participants.length;
+          _isJoined = hasJoined;
+          _isLoading = false;
+        });
+      }
+    });
+  }
+
+  Future<void> _toggleJoinStatus() async {
+    final userId = _auth.currentUser?.uid;
+    
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Silakan login terlebih dahulu'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    bool success;
+    if (_isJoined) {
+      success = await _eventService.leaveEvent(widget.event.id, userId);
+    } else {
+      success = await _eventService.joinEvent(widget.event.id, userId);
+    }
+
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              _isJoined
+                  ? 'Pendaftaran dibatalkan'
+                  : 'Anda telah mendaftar untuk kegiatan ini',
+            ),
+            backgroundColor: _isJoined ? Colors.orange : Colors.green,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Gagal memperbarui status pendaftaran'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final displayEvent = _currentEvent ?? widget.event;
+    
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: CustomScrollView(
         slivers: [
-          ActivityDetailScreenAppbar(event: widget.event),
+          ActivityDetailScreenAppbar(event: displayEvent),
 
           // Content
           SliverToBoxAdapter(
@@ -52,7 +138,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.event.title,
+                        displayEvent.title,
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
@@ -114,21 +200,21 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                 SmallEventDetailCard(
                   icon: Icons.calendar_today,
                   title: 'Tanggal',
-                  subtitle: widget.event.date,
+                  subtitle: displayEvent.date,
                   color: Colors.blue,
                 ),
 
                 SmallEventDetailCard(
                   icon: Icons.access_time,
                   title: 'Waktu',
-                  subtitle: widget.event.time,
+                  subtitle: displayEvent.time,
                   color: Colors.green,
                 ),
 
                 SmallEventDetailCard(
                   icon: Icons.location_on,
                   title: 'Lokasi',
-                  subtitle: widget.event.location,
+                  subtitle: displayEvent.location,
                   color: AppColors.primary,
                   hasAction: true,
                 ),
@@ -180,7 +266,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        widget.event.description,
+                        displayEvent.description,
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey[700],
@@ -194,9 +280,9 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                 const SizedBox(height: 16),
 
                 // Organizer Section
-                const EventOrganizerCard(
-                  name: 'Pak RT 03',
-                  position: 'Ketua RT 03 RW 05',
+                EventOrganizerCard(
+                  name: displayEvent.organizerName,
+                  position: displayEvent.organizerPosition,
                 ),
 
                 const SizedBox(height: 100),
@@ -241,27 +327,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
             const SizedBox(width: 16),
             Expanded(
               child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _isJoined = !_isJoined;
-                    _participantCount += _isJoined ? 1 : -1;
-                  });
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        _isJoined
-                            ? 'Anda telah mendaftar untuk kegiatan ini'
-                            : 'Pendaftaran dibatalkan',
-                      ),
-                      backgroundColor: _isJoined ? Colors.green : Colors.orange,
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  );
-                },
+                onPressed: _isLoading ? null : _toggleJoinStatus,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _isJoined
                       ? Colors.grey[300]
@@ -273,23 +339,32 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                   ),
                   elevation: 0,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      _isJoined ? Icons.check_circle : Icons.person_add,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      _isJoined ? 'Sudah Terdaftar' : 'Ikut Kegiatan',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                child: _isLoading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            _isJoined ? Icons.check_circle : Icons.person_add,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            _isJoined ? 'Sudah Terdaftar' : 'Ikut Kegiatan',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
               ),
             ),
           ],
