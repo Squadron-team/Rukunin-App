@@ -13,6 +13,8 @@ import 'package:rukunin/modules/marketplace/pages/add_product_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/orders_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/search_results_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/cart_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/product_detail_screen.dart';
+import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/pages/resident/activities/activity_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/resident/resident_shell.dart';
@@ -64,6 +66,14 @@ final residentRoutes = [
   ),
 
   // Deep-link routes without bottom navigation - Marketplace
+  GoRoute(
+    path: '/resident/marketplace/product/:productId',
+    name: 'resident-product-detail',
+    builder: (context, state) {
+      final product = state.extra as Product;
+      return ProductDetailScreen(product: product);
+    },
+  ),
   GoRoute(
     path: '/resident/marketplace/search',
     name: 'resident-marketplace-search',

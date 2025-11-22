@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/pages/payment_screen.dart';
-import 'package:rukunin/modules/marketplace/services/product_service.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_detail_screen_appbar.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_detail_screen_main_content.dart';
 import 'package:rukunin/modules/marketplace/services/cart_service.dart';
@@ -26,7 +25,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int _quantity = 2;
   final bool _isFavorite = false;
   final CartService _cartService = CartService();
-  final ProductService _productService = ProductService();
 
   Future<void> _addToCart() async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
