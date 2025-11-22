@@ -19,75 +19,6 @@ class WilayahDetailScreen extends StatefulWidget {
 class _WilayahDetailScreenState extends State<WilayahDetailScreen> {
   final List<House> _addedHouses = [];
 
-  void _showCompactFamilyDetail(BuildContext context, List<Warga> members, String kk, String head) {
-    final maxHeight = MediaQuery.of(context).size.height * 0.75;
-    // estimate desired height: base + per-member
-    final base = 140.0;
-    final perMember = 60.0;
-    final desired = base + (members.length * perMember);
-    final height = desired.clamp(140.0, maxHeight);
-
-    showDialog(
-      context: context,
-      builder: (ctx) => Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 420, maxHeight: height),
-          child: Material(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(child: Text('Keluarga $head', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16))),
-                      Text(kk, style: TextStyle(color: Colors.grey[700])),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Text('${members.length} anggota', style: TextStyle(color: Colors.grey[600])),
-                  const SizedBox(height: 12),
-                  Expanded(
-                    child: members.isEmpty
-                        ? const Center(child: Text('Belum ada anggota'))
-                        : ListView.separated(
-                            itemCount: members.length,
-                            separatorBuilder: (_, __) => const Divider(height: 1),
-                            itemBuilder: (c, i) {
-                              final m = members[i];
-                              return ListTile(
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                leading: CircleAvatar(backgroundColor: Colors.white, child: Icon(Icons.person, color: AppColors.primary)),
-                                title: Text(m.name, style: const TextStyle(fontWeight: FontWeight.w700)),
-                                subtitle: Text('NIK: ${m.nik}'),
-                                onTap: () {
-                                  Navigator.pop(ctx);
-                                  Navigator.push(context, MaterialPageRoute(builder: (_) => DataKeluargaScreen.fromFamily(members: members, kkNumber: kk, head: head)));
-                                },
-                              );
-                            },
-                          ),
-                  ),
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () => Navigator.pop(ctx),
-                      child: const Text('Tutup'),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final street = widget.street;
@@ -260,7 +191,12 @@ class _WilayahDetailScreenState extends State<WilayahDetailScreen> {
                                                     ),
                                                     onTap: () {
                                                       Navigator.pop(dialogContext);
-                                                      _showCompactFamilyDetail(context, members, kk, head.name);
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (_) => DataKeluargaScreen.fromFamily(members: members, kkNumber: kk, head: head.name),
+                                                        ),
+                                                      );
                                                     },
                                                   );
                                                 }).toList(),
