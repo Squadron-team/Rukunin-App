@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/models/product.dart';
+import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/cart_screen.dart';
 import 'package:rukunin/modules/marketplace/payment_screen.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_detail_screen_appbar.dart';

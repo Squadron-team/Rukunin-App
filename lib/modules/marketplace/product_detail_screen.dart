@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rukunin/models/product.dart';
+import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/payment_screen.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_detail_screen_appbar.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_detail_screen_main_content.dart';
-import 'package:rukunin/services/cart_service.dart';
+import 'package:rukunin/modules/marketplace/services/cart_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/currency_formatter.dart';
 

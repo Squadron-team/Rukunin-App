@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rukunin/models/shop.dart';
+import 'package:rukunin/modules/marketplace/models/shop.dart';
 
 class ShopService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

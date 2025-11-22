@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rukunin/models/cart_item.dart';
-import 'package:rukunin/models/product.dart';
+import 'package:rukunin/modules/marketplace/models/cart_item.dart';
+import 'package:rukunin/modules/marketplace/models/product.dart';
 
 class CartService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

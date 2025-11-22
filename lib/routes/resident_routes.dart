@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/pages/resident/community/community_screen.dart';
 import 'package:rukunin/pages/resident/community/dues_screen.dart';
 import 'package:rukunin/pages/resident/community/finance_transparency_screen.dart';
@@ -18,7 +19,6 @@ import 'package:rukunin/pages/resident/resident_shell.dart';
 import 'package:rukunin/pages/resident/community/family_details_screen.dart';
 import 'package:rukunin/pages/resident/community/documents_screen.dart';
 import 'package:rukunin/pages/resident/community/document_request_form_screen.dart';
-import 'package:rukunin/models/shop.dart';
 
 final residentRoutes = [
   // Main routes with bottom navigation

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rukunin/models/order.dart';
-import 'package:rukunin/models/shop.dart';
+import 'package:rukunin/modules/marketplace/models/order.dart';
+import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class OrdersScreen extends StatefulWidget {

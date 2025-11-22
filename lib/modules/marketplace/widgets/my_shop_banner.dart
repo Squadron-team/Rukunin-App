@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rukunin/models/shop.dart';
-import 'package:rukunin/services/shop_service.dart';
+import 'package:rukunin/modules/marketplace/models/shop.dart';
+import 'package:rukunin/modules/marketplace/services/shop_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class MyShopBanner extends StatelessWidget {

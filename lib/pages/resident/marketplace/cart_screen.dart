@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rukunin/models/cart_item.dart';
-import 'package:rukunin/models/order.dart';
+import 'package:rukunin/modules/marketplace/models/cart_item.dart';
+import 'package:rukunin/modules/marketplace/models/order.dart';
 import 'package:rukunin/modules/marketplace/payment_screen.dart';
-import 'package:rukunin/services/cart_service.dart';
+import 'package:rukunin/modules/marketplace/services/cart_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class CartScreen extends StatefulWidget {
