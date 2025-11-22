@@ -24,7 +24,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   void _addToCart() {
     // Check if product already in cart
     final existingIndex = cartItems.indexWhere(
-      (item) => item.name == widget.product.name,
+      (item) => item.id == widget.product.id,
     );
 
     setState(() {
@@ -32,17 +32,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         // Update quantity if exists
         cartItems[existingIndex].quantity += _quantity;
       } else {
-        // Add new item
-        final cartProduct = Product(
-          name: widget.product.name,
-          seller: widget.product.seller,
-          price: widget.product.price,
-          badge: widget.product.badge,
-          description: widget.product.description,
-          rating: widget.product.rating,
-          isDiscount: widget.product.isDiscount,
-        );
-        cartProduct.quantity = _quantity;
+        // Add new item using copyWith
+        final cartProduct = widget.product.copyWith(quantity: _quantity);
         cartItems.add(cartProduct);
       }
     });
@@ -69,16 +60,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   void _buyNow() {
     // Create a temporary cart item for direct purchase
-    final purchaseProduct = Product(
-      name: widget.product.name,
-      seller: widget.product.seller,
-      price: widget.product.price,
-      badge: widget.product.badge,
-      description: widget.product.description,
-      rating: widget.product.rating,
-      isDiscount: widget.product.isDiscount,
-    );
-    purchaseProduct.quantity = _quantity;
+    final purchaseProduct = widget.product.copyWith(quantity: _quantity);
 
     Navigator.push(
       context,
