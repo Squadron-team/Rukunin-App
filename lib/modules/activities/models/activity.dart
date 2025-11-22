@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rukunin/utils/date_formatter.dart';
 
 class Activity {
   final String id;
   final String title;
   final String description;
-  final String date;
-  final String time;
+  final DateTime dateTime;
   final String location;
   final String imageUrl;
   final String organizerId;
@@ -20,33 +21,44 @@ class Activity {
     required this.id,
     required this.title,
     required this.description,
-    required this.date,
-    required this.time,
+    required this.dateTime,
     required this.location,
-    required this.imageUrl,
+    this.imageUrl = '',
     required this.organizerId,
     required this.organizerName,
     required this.organizerPosition,
-    required this.participants,
-    required this.createdAt,
+    this.participants = const [],
+    DateTime? createdAt,
     this.category = 'Sosial',
     this.categoryColor = Colors.blue,
-  });
+  }) : createdAt = createdAt ?? DateTime.now();
+
+  // Getters for formatted date and time
+  String get date => DateFormatter.formatFull(dateTime);
+  String get time =>
+      '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+
+  bool get isPast => dateTime.isBefore(DateTime.now());
+  bool get isToday {
+    final now = DateTime.now();
+    return dateTime.year == now.year &&
+        dateTime.month == now.month &&
+        dateTime.day == now.day;
+  }
 
   // Convert Activity to Map for Firestore
   Map<String, dynamic> toMap() {
     return {
       'title': title,
       'description': description,
-      'date': date,
-      'time': time,
+      'dateTime': Timestamp.fromDate(dateTime),
       'location': location,
       'imageUrl': imageUrl,
       'organizerId': organizerId,
       'organizerName': organizerName,
       'organizerPosition': organizerPosition,
       'participants': participants,
-      'createdAt': createdAt.toIso8601String(),
+      'createdAt': Timestamp.fromDate(createdAt),
       'category': category,
       'categoryColorValue': categoryColor.value,
     };
@@ -54,19 +66,36 @@ class Activity {
 
   // Create Activity from Firestore document
   factory Activity.fromMap(String id, Map<String, dynamic> map) {
+    DateTime dateTime;
+    if (map['dateTime'] is Timestamp) {
+      dateTime = (map['dateTime'] as Timestamp).toDate();
+    } else if (map['dateTime'] is String) {
+      dateTime = DateTime.parse(map['dateTime']);
+    } else {
+      dateTime = DateTime.now();
+    }
+
+    DateTime createdAt;
+    if (map['createdAt'] is Timestamp) {
+      createdAt = (map['createdAt'] as Timestamp).toDate();
+    } else if (map['createdAt'] is String) {
+      createdAt = DateTime.parse(map['createdAt']);
+    } else {
+      createdAt = DateTime.now();
+    }
+
     return Activity(
       id: id,
       title: map['title'] ?? '',
       description: map['description'] ?? '',
-      date: map['date'] ?? '',
-      time: map['time'] ?? '',
+      dateTime: dateTime,
       location: map['location'] ?? '',
       imageUrl: map['imageUrl'] ?? '',
       organizerId: map['organizerId'] ?? '',
       organizerName: map['organizerName'] ?? '',
       organizerPosition: map['organizerPosition'] ?? '',
       participants: List<String>.from(map['participants'] ?? []),
-      createdAt: DateTime.parse(map['createdAt'] ?? DateTime.now().toIso8601String()),
+      createdAt: createdAt,
       category: map['category'] ?? 'Sosial',
       categoryColor: map['categoryColorValue'] != null
           ? Color(map['categoryColorValue'])
@@ -79,8 +108,7 @@ class Activity {
     String? id,
     String? title,
     String? description,
-    String? date,
-    String? time,
+    DateTime? dateTime,
     String? location,
     String? imageUrl,
     String? organizerId,
@@ -95,8 +123,7 @@ class Activity {
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
-      date: date ?? this.date,
-      time: time ?? this.time,
+      dateTime: dateTime ?? this.dateTime,
       location: location ?? this.location,
       imageUrl: imageUrl ?? this.imageUrl,
       organizerId: organizerId ?? this.organizerId,
@@ -108,4 +135,12 @@ class Activity {
       categoryColor: categoryColor ?? this.categoryColor,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Activity && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

@@ -56,8 +56,11 @@ class _ActivityScreenState extends State<ActivityScreen> {
   }
 
   List<Activity> _getEventsForDay(DateTime day) {
-    final dayStr = DateFormatter.formatFull(day);
-    return _allEvents.where((event) => event.date == dayStr).toList();
+    return _allEvents.where((event) {
+      return event.dateTime.year == day.year &&
+             event.dateTime.month == day.month &&
+             event.dateTime.day == day.day;
+    }).toList();
   }
 
   @override

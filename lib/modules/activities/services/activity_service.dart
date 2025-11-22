@@ -3,13 +3,13 @@ import 'package:rukunin/modules/activities/models/activity.dart';
 
 class ActivityService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final String _collectionName = 'activity';
+  final String _collectionName = 'activities';
 
-  // Get all activity
+  // Get all activities
   Stream<List<Activity>> getEvents() {
     return _firestore
         .collection(_collectionName)
-        .orderBy('createdAt', descending: true)
+        .orderBy('dateTime', descending: false)
         .snapshots()
         .map((snapshot) {
           return snapshot.docs
@@ -18,25 +18,32 @@ class ActivityService {
         });
   }
 
-  // Get activity for a specific date
-  Future<List<Activity>> getEventsByDate(String date) async {
+  // Get activities for a specific date
+  Future<List<Activity>> getEventsByDate(DateTime date) async {
     try {
+      final startOfDay = DateTime(date.year, date.month, date.day);
+      final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+
       final snapshot = await _firestore
           .collection(_collectionName)
-          .where('date', isEqualTo: date)
-          .orderBy('time')
+          .where(
+            'dateTime',
+            isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay),
+          )
+          .where('dateTime', isLessThanOrEqualTo: Timestamp.fromDate(endOfDay))
+          .orderBy('dateTime')
           .get();
 
       return snapshot.docs
           .map((doc) => Activity.fromMap(doc.id, doc.data()))
           .toList();
     } catch (e) {
-      print('Error fetching activity by date: $e');
+      print('Error fetching activities by date: $e');
       return [];
     }
   }
 
-  // Get single event by ID
+  // Get single activity by ID
   Stream<Activity?> getEventById(String eventId) {
     return _firestore.collection(_collectionName).doc(eventId).snapshots().map((
       doc,
@@ -48,7 +55,7 @@ class ActivityService {
     });
   }
 
-  // Create new event
+  // Create new activity
   Future<String?> createEvent(Activity event) async {
     try {
       final docRef = await _firestore
@@ -56,12 +63,12 @@ class ActivityService {
           .add(event.toMap());
       return docRef.id;
     } catch (e) {
-      print('Error creating event: $e');
+      print('Error creating activity: $e');
       return null;
     }
   }
 
-  // Update event
+  // Update activity
   Future<bool> updateEvent(String eventId, Activity event) async {
     try {
       await _firestore
@@ -70,23 +77,23 @@ class ActivityService {
           .update(event.toMap());
       return true;
     } catch (e) {
-      print('Error updating event: $e');
+      print('Error updating activity: $e');
       return false;
     }
   }
 
-  // Delete event
+  // Delete activity
   Future<bool> deleteEvent(String eventId) async {
     try {
       await _firestore.collection(_collectionName).doc(eventId).delete();
       return true;
     } catch (e) {
-      print('Error deleting event: $e');
+      print('Error deleting activity: $e');
       return false;
     }
   }
 
-  // Join event (add user to participants)
+  // Join activity (add user to participants)
   Future<bool> joinEvent(String eventId, String userId) async {
     try {
       await _firestore.collection(_collectionName).doc(eventId).update({
@@ -94,12 +101,12 @@ class ActivityService {
       });
       return true;
     } catch (e) {
-      print('Error joining event: $e');
+      print('Error joining activity: $e');
       return false;
     }
   }
 
-  // Leave event (remove user from participants)
+  // Leave activity (remove user from participants)
   Future<bool> leaveEvent(String eventId, String userId) async {
     try {
       await _firestore.collection(_collectionName).doc(eventId).update({
@@ -107,12 +114,12 @@ class ActivityService {
       });
       return true;
     } catch (e) {
-      print('Error leaving event: $e');
+      print('Error leaving activity: $e');
       return false;
     }
   }
 
-  // Check if user has joined event
+  // Check if user has joined activity
   Future<bool> hasUserJoined(String eventId, String userId) async {
     try {
       final doc = await _firestore
@@ -154,12 +161,12 @@ class ActivityService {
     }
   }
 
-  // Get activity by category
+  // Get activities by category
   Stream<List<Activity>> getEventsByCategory(String category) {
     return _firestore
         .collection(_collectionName)
         .where('category', isEqualTo: category)
-        .orderBy('createdAt', descending: true)
+        .orderBy('dateTime', descending: false)
         .snapshots()
         .map((snapshot) {
           return snapshot.docs
@@ -168,12 +175,28 @@ class ActivityService {
         });
   }
 
-  // Get upcoming activity
+  // Get upcoming activities
   Stream<List<Activity>> getUpcomingEvents() {
+    final now = DateTime.now();
     return _firestore
         .collection(_collectionName)
-        .orderBy('date')
-        .orderBy('time')
+        .where('dateTime', isGreaterThanOrEqualTo: Timestamp.fromDate(now))
+        .orderBy('dateTime')
+        .snapshots()
+        .map((snapshot) {
+          return snapshot.docs
+              .map((doc) => Activity.fromMap(doc.id, doc.data()))
+              .toList();
+        });
+  }
+
+  // Get past activities
+  Stream<List<Activity>> getPastEvents() {
+    final now = DateTime.now();
+    return _firestore
+        .collection(_collectionName)
+        .where('dateTime', isLessThan: Timestamp.fromDate(now))
+        .orderBy('dateTime', descending: true)
         .snapshots()
         .map((snapshot) {
           return snapshot.docs
