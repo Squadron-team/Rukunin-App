@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/modules/activities/models/event.dart';
 import 'package:rukunin/modules/activities/widgets/event_card.dart';
+import 'package:rukunin/pages/rt/events/models/event.dart';
 import 'package:rukunin/pages/rt/events/widgets/community_event_card.dart';
 import 'package:rukunin/repositories/events.dart';
 import 'package:rukunin/pages/rt/events/create_event_screen.dart';

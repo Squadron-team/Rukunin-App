@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/modules/activities/models/event.dart';
+import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/modules/activities/widgets/event_card.dart';
-import 'package:rukunin/modules/activities/services/firebase_event_service.dart';
+import 'package:rukunin/modules/activities/services/activity_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -17,9 +17,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   final CalendarFormat _calendarFormat = CalendarFormat.month;
-  final FirebaseEventService _eventService = FirebaseEventService();
+  final ActivityService _activityService = ActivityService();
 
-  List<Event> _allEvents = [];
+  List<Activity> _allEvents = [];
   bool _isLoading = true;
 
   @override
@@ -30,7 +30,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   }
 
   void _loadEvents() {
-    _eventService.getEvents().listen(
+    _activityService.getEvents().listen(
       (events) {
         if (mounted) {
           setState(() {
@@ -55,7 +55,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
     );
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
+  List<Activity> _getEventsForDay(DateTime day) {
     final dayStr = DateFormatter.formatFull(day);
     return _allEvents.where((event) => event.date == dayStr).toList();
   }
@@ -105,7 +105,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
                     const SizedBox(height: 16),
 
-                    // Event List Section
+                    // Activity List Section
                     _buildEventListSection(),
 
                     const SizedBox(height: 20),

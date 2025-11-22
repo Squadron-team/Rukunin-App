@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rukunin/modules/activities/models/event.dart';
+import 'package:rukunin/modules/activities/models/activity.dart';
 
-class FirebaseEventService {
+class ActivityService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String _collectionName = 'events';
 
   // Get all events
-  Stream<List<Event>> getEvents() {
+  Stream<List<Activity>> getEvents() {
     return _firestore
         .collection(_collectionName)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
           return snapshot.docs
-              .map((doc) => Event.fromMap(doc.id, doc.data()))
+              .map((doc) => Activity.fromMap(doc.id, doc.data()))
               .toList();
         });
   }
 
   // Get events for a specific date
-  Future<List<Event>> getEventsByDate(String date) async {
+  Future<List<Activity>> getEventsByDate(String date) async {
     try {
       final snapshot = await _firestore
           .collection(_collectionName)
@@ -28,7 +28,7 @@ class FirebaseEventService {
           .get();
 
       return snapshot.docs
-          .map((doc) => Event.fromMap(doc.id, doc.data()))
+          .map((doc) => Activity.fromMap(doc.id, doc.data()))
           .toList();
     } catch (e) {
       print('Error fetching events by date: $e');
@@ -37,19 +37,19 @@ class FirebaseEventService {
   }
 
   // Get single event by ID
-  Stream<Event?> getEventById(String eventId) {
+  Stream<Activity?> getEventById(String eventId) {
     return _firestore.collection(_collectionName).doc(eventId).snapshots().map((
       doc,
     ) {
       if (doc.exists) {
-        return Event.fromMap(doc.id, doc.data()!);
+        return Activity.fromMap(doc.id, doc.data()!);
       }
       return null;
     });
   }
 
   // Create new event
-  Future<String?> createEvent(Event event) async {
+  Future<String?> createEvent(Activity event) async {
     try {
       final docRef = await _firestore
           .collection(_collectionName)
@@ -62,7 +62,7 @@ class FirebaseEventService {
   }
 
   // Update event
-  Future<bool> updateEvent(String eventId, Event event) async {
+  Future<bool> updateEvent(String eventId, Activity event) async {
     try {
       await _firestore
           .collection(_collectionName)
@@ -155,7 +155,7 @@ class FirebaseEventService {
   }
 
   // Get events by category
-  Stream<List<Event>> getEventsByCategory(String category) {
+  Stream<List<Activity>> getEventsByCategory(String category) {
     return _firestore
         .collection(_collectionName)
         .where('category', isEqualTo: category)
@@ -163,17 +163,13 @@ class FirebaseEventService {
         .snapshots()
         .map((snapshot) {
           return snapshot.docs
-              .map((doc) => Event.fromMap(doc.id, doc.data()))
+              .map((doc) => Activity.fromMap(doc.id, doc.data()))
               .toList();
         });
   }
 
   // Get upcoming events
-  Stream<List<Event>> getUpcomingEvents() {
-    final today = DateTime.now();
-    final todayStr =
-        '${today.day.toString().padLeft(2, '0')} ${_getMonthName(today.month)} ${today.year}';
-
+  Stream<List<Activity>> getUpcomingEvents() {
     return _firestore
         .collection(_collectionName)
         .orderBy('date')
@@ -181,26 +177,8 @@ class FirebaseEventService {
         .snapshots()
         .map((snapshot) {
           return snapshot.docs
-              .map((doc) => Event.fromMap(doc.id, doc.data()))
+              .map((doc) => Activity.fromMap(doc.id, doc.data()))
               .toList();
         });
-  }
-
-  String _getMonthName(int month) {
-    const months = [
-      'Januari',
-      'Februari',
-      'Maret',
-      'April',
-      'Mei',
-      'Juni',
-      'Juli',
-      'Agustus',
-      'September',
-      'Oktober',
-      'November',
-      'Desember',
-    ];
-    return months[month - 1];
   }
 }

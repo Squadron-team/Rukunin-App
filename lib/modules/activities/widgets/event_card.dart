@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/modules/activities/models/event.dart';
+import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/modules/activities/pages/activity_detail_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/icon_mapper.dart';
 
 class EventCard extends StatelessWidget {
-  final Event? event;
+  final Activity? event;
   final bool isEmpty;
 
   const EventCard.normal({required this.event, super.key}) : isEmpty = false;
@@ -18,7 +18,7 @@ class EventCard extends StatelessWidget {
         : _buildNormalCard(context, event!);
   }
 
-  Widget _buildNormalCard(BuildContext context, Event event) {
+  Widget _buildNormalCard(BuildContext context, Activity event) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -110,7 +110,7 @@ class EventCard extends StatelessWidget {
 
                   const SizedBox(height: 16),
 
-                  // Event Title
+                  // Activity Title
                   Text(
                     event.title,
                     style: const TextStyle(

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rukunin/modules/activities/models/event.dart';
+import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/modules/activities/widgets/event_detail_screen_appbar.dart';
 import 'package:rukunin/modules/activities/widgets/event_organizer_card.dart';
 import 'package:rukunin/modules/activities/widgets/small_event_detail_card.dart';
-import 'package:rukunin/modules/activities/services/firebase_event_service.dart';
+import 'package:rukunin/modules/activities/services/activity_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class ActivityDetailScreen extends StatefulWidget {
-  final Event event;
+  final Activity event;
 
   const ActivityDetailScreen({required this.event, super.key});
 
@@ -17,13 +17,13 @@ class ActivityDetailScreen extends StatefulWidget {
 }
 
 class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
-  final FirebaseEventService _eventService = FirebaseEventService();
+  final ActivityService _activityService = ActivityService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   
   bool _isJoined = false;
   int _participantCount = 0;
   bool _isLoading = true;
-  Event? _currentEvent;
+  Activity? _currentEvent;
 
   @override
   void initState() {
@@ -32,10 +32,10 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
   }
 
   void _loadEventData() {
-    _eventService.getEventById(widget.event.id).listen((event) async {
+    _activityService.getEventById(widget.event.id).listen((event) async {
       if (event != null && mounted) {
         final userId = _auth.currentUser?.uid ?? '';
-        final hasJoined = await _eventService.hasUserJoined(event.id, userId);
+        final hasJoined = await _activityService.hasUserJoined(event.id, userId);
         
         setState(() {
           _currentEvent = event;
@@ -66,9 +66,9 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
 
     bool success;
     if (_isJoined) {
-      success = await _eventService.leaveEvent(widget.event.id, userId);
+      success = await _activityService.leaveEvent(widget.event.id, userId);
     } else {
-      success = await _eventService.joinEvent(widget.event.id, userId);
+      success = await _activityService.joinEvent(widget.event.id, userId);
     }
 
     if (mounted) {
@@ -196,7 +196,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
 
                 const SizedBox(height: 16),
 
-                // Event Details Cards
+                // Activity Details Cards
                 SmallEventDetailCard(
                   icon: Icons.calendar_today,
                   title: 'Tanggal',
