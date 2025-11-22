@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/order.dart';
-import 'package:rukunin/pages/resident/marketplace/payment_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/widgets/cart_item.dart';
+import 'package:rukunin/modules/marketplace/payment_screen.dart';
+import 'package:rukunin/modules/marketplace/widgets/cart_item.dart';
 import 'package:rukunin/repositories/cart_items.dart';
 import 'package:rukunin/style/app_colors.dart';
 

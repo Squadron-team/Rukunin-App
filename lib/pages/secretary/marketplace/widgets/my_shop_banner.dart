@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/shop.dart';
-import 'package:rukunin/pages/resident/marketplace/shop_dashboard_screen.dart';
+import 'package:rukunin/modules/marketplace/shop_dashboard_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class MyShopBanner extends StatelessWidget {

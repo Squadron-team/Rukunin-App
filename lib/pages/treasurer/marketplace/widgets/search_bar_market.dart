@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/resident/marketplace/cart_screen.dart';
+import 'package:rukunin/modules/marketplace/cart_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class SearchBarMarket extends StatelessWidget {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/resident/marketplace/widgets/my_shop_banner.dart';
+import 'package:rukunin/modules/marketplace/widgets/my_shop_banner.dart';
 import 'package:rukunin/repositories/products.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/cards/category_chip.dart';
 import 'package:rukunin/widgets/cards/promo_banner_card.dart';
-import 'package:rukunin/pages/resident/marketplace/widgets/product_card.dart';
-import 'package:rukunin/pages/resident/marketplace/widgets/search_bar_market.dart';
+import 'package:rukunin/modules/marketplace/widgets/product_card.dart';
+import 'package:rukunin/modules/marketplace/widgets/search_bar_market.dart';
 
 class MarketplaceScreen extends StatelessWidget {
   const MarketplaceScreen({super.key});

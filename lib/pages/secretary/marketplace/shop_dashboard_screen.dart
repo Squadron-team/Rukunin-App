@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/shop.dart';
-import 'package:rukunin/pages/resident/marketplace/add_product_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/my_products_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/orders_screen.dart';
+import 'package:rukunin/modules/marketplace/add_product_screen.dart';
+import 'package:rukunin/modules/marketplace/my_products_screen.dart';
+import 'package:rukunin/modules/marketplace/orders_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class ShopDashboardScreen extends StatelessWidget {
