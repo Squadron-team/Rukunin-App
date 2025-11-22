@@ -15,7 +15,7 @@ import 'package:rukunin/modules/marketplace/pages/search_results_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/cart_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/product_detail_screen.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
-import 'package:rukunin/modules/activities/activity_screen.dart';
+import 'package:rukunin/modules/activities/pages/activity_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/resident/resident_shell.dart';
 import 'package:rukunin/pages/resident/community/family_details_screen.dart';

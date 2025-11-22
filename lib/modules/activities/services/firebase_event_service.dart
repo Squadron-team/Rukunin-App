@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rukunin/models/event.dart';
+import 'package:rukunin/modules/activities/models/event.dart';
 
 class FirebaseEventService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

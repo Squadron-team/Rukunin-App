@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/models/event.dart';
+import 'package:rukunin/modules/activities/models/event.dart';
 import 'package:rukunin/utils/icon_mapper.dart';
 
 class ActivityDetailScreenAppbar extends StatelessWidget {
