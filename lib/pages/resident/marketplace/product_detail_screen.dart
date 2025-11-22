@@ -48,7 +48,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           content: Text('${widget.product.name} ditambahkan ke keranjang'),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           action: SnackBarAction(
             label: 'Lihat',
             textColor: Colors.white,
@@ -76,10 +78,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PaymentScreen(
-          products: [purchaseProduct],
-          fromCart: false,
-        ),
+        builder: (context) =>
+            PaymentScreen(products: [purchaseProduct], fromCart: false),
       ),
     );
   }
@@ -90,7 +90,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       backgroundColor: const Color(0xFFFFF5E6),
       body: CustomScrollView(
         slivers: [
-          ProductDetailScreenAppbar(isFavorite: _isFavorite),
+          ProductDetailScreenAppbar(
+            isFavorite: _isFavorite,
+            imageUrl: widget.product.imageUrl,
+          ),
 
           // Content
           SliverFillRemaining(
@@ -286,9 +289,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                     const SizedBox(height: 24),
 
-                    ProductDetailScreenMainContent(
-                      product: widget.product,
-                    ),
+                    ProductDetailScreenMainContent(product: widget.product),
 
                     const SizedBox(height: 100),
                   ],

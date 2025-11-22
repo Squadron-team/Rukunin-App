@@ -55,6 +55,8 @@ class ProductCard extends StatelessWidget {
                         width: double.infinity,
                         height: 140,
                         fit: BoxFit.cover,
+                        cacheWidth: 400,
+                        cacheHeight: 400,
                         errorBuilder: (context, error, stackTrace) {
                           return Center(
                             child: Icon(
@@ -72,6 +74,7 @@ class ProductCard extends StatelessWidget {
                                   ? loadingProgress.cumulativeBytesLoaded /
                                       loadingProgress.expectedTotalBytes!
                                   : null,
+                              strokeWidth: 2,
                             ),
                           );
                         },

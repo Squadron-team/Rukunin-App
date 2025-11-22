@@ -1,140 +1,193 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
 
-class ProductDetailScreenAppbar extends StatefulWidget {
+class ProductDetailScreenAppbar extends StatelessWidget {
   final bool isFavorite;
+  final String imageUrl;
+  final bool isOwner;
+  final VoidCallback? onManage;
 
   const ProductDetailScreenAppbar({
     required this.isFavorite,
+    required this.imageUrl,
+    this.isOwner = false,
+    this.onManage,
     super.key,
   });
 
   @override
-  State<ProductDetailScreenAppbar> createState() =>
-      _ProductDetailScreenAppbarState();
-}
-
-class _ProductDetailScreenAppbarState extends State<ProductDetailScreenAppbar> {
-  late bool _isFavorite;
-
-  @override
-  void initState() {
-    super.initState();
-    _isFavorite = widget.isFavorite;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: 320,
+      expandedHeight: 300,
       pinned: true,
       backgroundColor: const Color(0xFFFFF5E6),
-      elevation: 0,
       leading: Padding(
-        padding: const EdgeInsets.all(10),
-        child: _ActionButton(
-          icon: Icons.arrow_back_ios_new,
-          iconColor: Colors.black,
-          onTap: () => Navigator.pop(context),
+        padding: const EdgeInsets.all(8),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(20),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => context.pop(),
+          ),
         ),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: _ActionButton(
-            icon: _isFavorite ? Icons.favorite : Icons.favorite_border,
-            iconColor: _isFavorite ? Colors.red : Colors.black,
-            onTap: () {
-              setState(() => _isFavorite = !_isFavorite);
-            },
+        if (!isOwner)
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(20),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: IconButton(
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: isFavorite ? Colors.red : Colors.black,
+                ),
+                onPressed: () {},
+              ),
+            ),
           ),
-        ),
+        if (isOwner)
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(20),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.more_vert, color: Colors.black),
+                onPressed: onManage,
+              ),
+            ),
+          ),
       ],
       flexibleSpace: FlexibleSpaceBar(
-        background: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 80),
-            _buildImage(),
-            const SizedBox(height: 20),
-            _buildIndicator(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildImage() {
-    return Container(
-      width: 200,
-      height: 200,
-      decoration: BoxDecoration(
-        color: Colors.orange[100],
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Icon(
-          Icons.camera_alt_outlined,
-          size: 60,
-          color: Colors.orange[300],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildIndicator() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        3,
-        (i) => AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: i == 0 ? 32 : 8,
-          height: 8,
-          decoration: BoxDecoration(
-            color: i == 0 ? AppColors.primary : Colors.orange[200],
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ActionButton extends StatelessWidget {
-  final IconData icon;
-  final Color iconColor;
-  final VoidCallback onTap;
-
-  const _ActionButton({
-    required this.icon,
-    required this.iconColor,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 42,
-        height: 42,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.12),
-              blurRadius: 10,
-              offset: const Offset(0, 3),
+        background: Container(
+          color: const Color(0xFFFFF5E6),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: imageUrl.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.network(
+                        imageUrl,
+                        width: double.infinity,
+                        height: 280,
+                        fit: BoxFit.cover,
+                        cacheWidth: 600,
+                        cacheHeight: 600,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
+                            width: double.infinity,
+                            height: 280,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                                color: AppColors.primary,
+                                strokeWidth: 3,
+                              ),
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: double.infinity,
+                            height: 280,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.image_not_supported_outlined,
+                                  size: 64,
+                                  color: Colors.grey[400],
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Gambar tidak tersedia',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[500],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : Container(
+                      width: double.infinity,
+                      height: 280,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.image_outlined,
+                            size: 64,
+                            color: Colors.grey[400],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Tidak ada gambar',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[500],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
             ),
-          ],
-        ),
-        child: Icon(
-          icon,
-          size: 20,
-          color: iconColor,
+          ),
         ),
       ),
     );
