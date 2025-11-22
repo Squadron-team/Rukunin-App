@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
-import 'package:rukunin/pages/treasurer/activities/activity_screen.dart';
 import 'package:rukunin/pages/treasurer/community/community_screen.dart';
 import 'package:rukunin/pages/treasurer/community/document_request_form_screen.dart';
 import 'package:rukunin/pages/treasurer/community/documents_screen.dart';
@@ -20,12 +19,6 @@ final treasurerRoutes = ShellRoute(
       name: 'treasurer-home',
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: TreasurerHomeScreen()),
-    ),
-    GoRoute(
-      path: '/treasurer/activities',
-      name: 'treasurer-activities',
-      pageBuilder: (context, state) =>
-          const NoTransitionPage(child: ActivityScreen()),
     ),
     GoRoute(
       path: '/treasurer/community',

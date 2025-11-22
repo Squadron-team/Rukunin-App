@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SmallEventDetailCard extends StatelessWidget {
+class SmallActivityDetailCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
   final Color color;
   final bool hasAction;
 
-  const SmallEventDetailCard({
+  const SmallActivityDetailCard({
     required this.icon,
     required this.title,
     required this.subtitle,

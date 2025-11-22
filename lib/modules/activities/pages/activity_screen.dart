@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/models/event.dart';
-import 'package:rukunin/pages/resident/activities/widgets/event_card.dart';
-import 'package:rukunin/repositories/events.dart';
+import 'package:rukunin/modules/activities/models/activity.dart';
+import 'package:rukunin/modules/activities/widgets/activity_card.dart';
+import 'package:rukunin/modules/activities/services/activity_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -17,16 +17,50 @@ class _ActivityScreenState extends State<ActivityScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   final CalendarFormat _calendarFormat = CalendarFormat.month;
+  final ActivityService _activityService = ActivityService();
+
+  List<Activity> _allEvents = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
+    _loadEvents();
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
-    final dayStr = DateFormatter.formatFull(day);
-    return events.where((event) => event.date == dayStr).toList();
+  void _loadEvents() {
+    _activityService.getEvents().listen(
+      (events) {
+        if (mounted) {
+          setState(() {
+            _allEvents = events;
+            _isLoading = false;
+          });
+        }
+      },
+      onError: (error) {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error loading events: $error'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  List<Activity> _getEventsForDay(DateTime day) {
+    return _allEvents.where((event) {
+      return event.dateTime.year == day.year &&
+          event.dateTime.month == day.month &&
+          event.dateTime.day == day.day;
+    }).toList();
   }
 
   @override
@@ -49,32 +83,38 @@ class _ActivityScreenState extends State<ActivityScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          // TODO: Implement refresh from Firebase
-          await Future.delayed(const Duration(seconds: 1));
-          setState(() {});
+          setState(() {
+            _isLoading = true;
+          });
+          _loadEvents();
+          await Future.delayed(const Duration(milliseconds: 500));
         },
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Calendar Section
-              _buildCalendarSection(),
+        child: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(color: AppColors.primary),
+              )
+            : SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Calendar Section
+                    _buildCalendarSection(),
 
-              const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-              // Selected Date Header
-              _buildSelectedDateHeader(),
+                    // Selected Date Header
+                    _buildSelectedDateHeader(),
 
-              const SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
-              // Event List Section
-              _buildEventListSection(),
+                    // Activity List Section
+                    _buildEventListSection(),
 
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
       ),
     );
   }
@@ -249,14 +289,14 @@ class _ActivityScreenState extends State<ActivityScreen> {
     final events = _getEventsForDay(_selectedDay ?? _focusedDay);
 
     if (events.isEmpty) {
-      return const EventCard.empty();
+      return const ActivityCard.empty();
     }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: events
-            .map((event) => EventCard.normal(event: event))
+            .map((event) => ActivityCard.normal(event: event))
             .toList(),
       ),
     );

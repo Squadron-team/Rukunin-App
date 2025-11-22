@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 
-class EventOrganizerCard extends StatelessWidget {
+class ActivityOrganizerCard extends StatelessWidget {
   final String name;
   final String position;
 
-  const EventOrganizerCard({
+  const ActivityOrganizerCard({
     required this.name,
     required this.position,
     super.key,
