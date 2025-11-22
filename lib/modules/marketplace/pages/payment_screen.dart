@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
-import 'package:rukunin/repositories/cart_items.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rukunin/modules/marketplace/services/order_service.dart';
+import 'package:rukunin/modules/marketplace/services/cart_service.dart';
 
 class PaymentScreen extends StatefulWidget {
   final List<Product> products;
@@ -53,6 +55,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   ];
 
   String _selectedSubMethod = '';
+  bool _isProcessing = false;
+  final OrderService _orderService = OrderService();
+  final CartService _cartService = CartService();
 
   double get _subtotal {
     return widget.products.fold(
@@ -604,7 +609,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       child: SafeArea(
         child: ElevatedButton(
-          onPressed: canPay ? _processPayment : null,
+          onPressed: (canPay && !_isProcessing) ? _processPayment : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: canPay ? AppColors.primary : Colors.grey[300],
             foregroundColor: Colors.white,
@@ -616,32 +621,102 @@ class _PaymentScreenState extends State<PaymentScreen> {
             disabledBackgroundColor: Colors.grey[300],
             disabledForegroundColor: Colors.grey[500],
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.payment, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                'Bayar Sekarang - Rp ${_total.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+          child: _isProcessing
+              ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2,
+                  ),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.payment, size: 20),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Bayar Sekarang - Rp ${_total.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );
   }
 
-  void _processPayment() {
-    // Clear cart if coming from cart
-    if (widget.fromCart) {
-      cartItems.clear();
+  void _processPayment() async {
+    if (_isProcessing) return;
+
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Silakan login terlebih dahulu'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
     }
 
-    // Show success dialog
+    setState(() => _isProcessing = true);
+
+    try {
+      // Determine payment method name
+      final paymentMethodName = _selectedSubMethod.isNotEmpty
+          ? _selectedSubMethod
+          : _paymentMethods.firstWhere(
+              (m) => m['id'] == _selectedPaymentMethod,
+            )['name'];
+
+      // Create order in Firebase
+      final orderId = await _orderService.createOrder(
+        userId: userId,
+        products: widget.products,
+        subtotal: _subtotal,
+        deliveryFee: widget.deliveryFee,
+        discount: widget.appliedDiscount,
+        paymentMethod: paymentMethodName,
+        shippingAddress: 'Block C No. 15, RW 05, Tegalharjo, Surabaya, Jawa Timur 60261',
+      );
+
+      if (orderId == null) {
+        throw Exception('Gagal membuat pesanan');
+      }
+
+      // Clear cart if coming from cart
+      if (widget.fromCart && context.mounted) {
+        final cartStream = _cartService.getUserCart(userId);
+        final cartSnapshot = await cartStream.first;
+        for (var item in cartSnapshot) {
+          await _cartService.removeFromCart(item.id);
+        }
+      }
+
+      setState(() => _isProcessing = false);
+
+      // Show success dialog
+      if (context.mounted) {
+        _showSuccessDialog(paymentMethodName);
+      }
+    } catch (e) {
+      setState(() => _isProcessing = false);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Gagal memproses pembayaran: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  void _showSuccessDialog(String paymentMethodName) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -692,7 +767,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               const SizedBox(height: 24),
 
-              // Title
               const Text(
                 'Pembayaran Berhasil!',
                 style: TextStyle(
@@ -704,7 +778,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               const SizedBox(height: 12),
 
-              // Payment info
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -720,11 +793,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         Icon(Icons.payment, size: 20, color: Colors.green[700]),
                         const SizedBox(width: 8),
                         Text(
-                          _selectedSubMethod.isNotEmpty
-                              ? _selectedSubMethod
-                              : _paymentMethods.firstWhere(
-                                  (m) => m['id'] == _selectedPaymentMethod,
-                                )['name'],
+                          paymentMethodName,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -747,7 +816,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Description
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -773,7 +841,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               const SizedBox(height: 24),
 
-              // Action Button
               SizedBox(
                 width: double.infinity,
                 child: Container(
@@ -796,9 +863,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        Navigator.of(
-                          context,
-                        ).popUntil((route) => route.isFirst);
+                        Navigator.of(context).popUntil((route) => route.isFirst);
                       },
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
@@ -830,17 +895,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               const SizedBox(height: 12),
 
-              // Secondary action
               TextButton.icon(
                 onPressed: () {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                  // TODO: Navigate to order history
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  // Navigate to cart screen orders tab
                 },
-                icon: Icon(
-                  Icons.receipt_long_rounded,
-                  size: 18,
-                  color: Colors.grey[700],
-                ),
+                icon: Icon(Icons.receipt_long_rounded, size: 18, color: Colors.grey[700]),
                 label: Text(
                   'Lihat Pesanan Saya',
                   style: TextStyle(
@@ -848,9 +909,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     fontWeight: FontWeight.w600,
                     color: Colors.grey[700],
                   ),
-                ),
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
               ),
             ],

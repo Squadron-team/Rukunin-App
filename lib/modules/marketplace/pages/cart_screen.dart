@@ -5,6 +5,7 @@ import 'package:rukunin/modules/marketplace/models/cart_item.dart';
 import 'package:rukunin/modules/marketplace/models/order.dart';
 import 'package:rukunin/modules/marketplace/pages/payment_screen.dart';
 import 'package:rukunin/modules/marketplace/services/cart_service.dart';
+import 'package:rukunin/modules/marketplace/services/order_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class CartScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class _CartScreenState extends State<CartScreen>
   late TabController _tabController;
   final TextEditingController _couponController = TextEditingController();
   final CartService _cartService = CartService();
+  final OrderService _orderService = OrderService();
   
   String _couponStatus = '';
   bool _isCouponApplied = false;
@@ -217,7 +219,7 @@ class _CartScreenState extends State<CartScreen>
             },
           ),
         ],
-      ),
+      ), 
     );
   }
 
@@ -738,25 +740,40 @@ class _CartScreenState extends State<CartScreen>
   }
 
   Widget _buildOrderList({required bool isCompleted}) {
-    // Mock data - replace with actual orders from Firebase/state management
-    final List<Order> mockOrders = [];
-
-    if (mockOrders.isEmpty) {
-      return _buildEmptyOrderState(isCompleted);
+    if (_userId == null) {
+      return const Center(child: Text('Please login'));
     }
 
-    return RefreshIndicator(
-      onRefresh: () async {
-        await Future.delayed(const Duration(seconds: 1));
-        setState(() {});
+    return StreamBuilder<List<Order>>(
+      stream: _orderService.getUserOrders(_userId!, isCompleted: isCompleted),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        final orders = snapshot.data ?? [];
+
+        if (orders.isEmpty) {
+          return _buildEmptyOrderState(isCompleted);
+        }
+
+        return RefreshIndicator(
+          onRefresh: () async {
+            setState(() {});
+          },
+          child: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: orders.length,
+            itemBuilder: (context, index) {
+              return _buildOrderCard(orders[index]);
+            },
+          ),
+        );
       },
-      child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: mockOrders.length,
-        itemBuilder: (context, index) {
-          return _buildOrderCard(mockOrders[index]);
-        },
-      ),
     );
   }
 
@@ -842,12 +859,14 @@ class _CartScreenState extends State<CartScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Order #${order.id}',
+                          'Order #${order.id.length > 10 ? order.id.substring(0, 6) : order.id}',
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 14,
                             color: Colors.black,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         Text(
                           order.createdAt.toString().split(' ')[0],
@@ -985,6 +1004,7 @@ class _CartScreenState extends State<CartScreen>
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
+                          color: Colors.white
                         ),
                       ),
                     ),

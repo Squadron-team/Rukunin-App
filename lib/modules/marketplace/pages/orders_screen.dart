@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/modules/marketplace/models/order.dart';
 import 'package:rukunin/modules/marketplace/models/shop.dart';
+import 'package:rukunin/modules/marketplace/services/order_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class OrdersScreen extends StatefulWidget {
   final Shop shop;
 
-  const OrdersScreen({
-    required this.shop, super.key,
-  });
+  const OrdersScreen({required this.shop, super.key});
 
   @override
   State<OrdersScreen> createState() => _OrdersScreenState();
@@ -18,6 +17,7 @@ class OrdersScreen extends StatefulWidget {
 class _OrdersScreenState extends State<OrdersScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final OrderService _orderService = OrderService();
 
   @override
   void initState() {
@@ -37,27 +37,14 @@ class _OrdersScreenState extends State<OrdersScreen>
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => context.pop(),
         ),
-        title: Row(
-          children: [
-            Container(
-              width: 4,
-              height: 24,
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(width: 12),
-            const Text(
-              'Pesanan Toko',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                letterSpacing: -0.5,
-              ),
-            ),
-          ],
+        title: const Text(
+          'Pesanan Toko',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.5,
+          ),
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56),
@@ -86,10 +73,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                   icon: Icon(Icons.local_shipping, size: 20),
                   text: 'Diproses',
                 ),
-                Tab(
-                  icon: Icon(Icons.check_circle, size: 20),
-                  text: 'Selesai',
-                ),
+                Tab(icon: Icon(Icons.check_circle, size: 20), text: 'Selesai'),
               ],
             ),
           ),
@@ -99,7 +83,10 @@ class _OrdersScreenState extends State<OrdersScreen>
         controller: _tabController,
         children: [
           _buildOrderList(status: OrderStatus.pending),
-          _buildOrderList(status: OrderStatus.confirmed, includeInDelivery: true),
+          _buildOrderList(
+            status: OrderStatus.confirmed,
+            includeInDelivery: true,
+          ),
           _buildOrderList(status: OrderStatus.completed),
         ],
       ),
@@ -110,41 +97,61 @@ class _OrdersScreenState extends State<OrdersScreen>
     required OrderStatus status,
     bool includeInDelivery = false,
   }) {
-    // Mock data - replace with actual orders from Firebase
-    final List<Order> allOrders = [];
+    return StreamBuilder<List<Order>>(
+      stream: _orderService.getSellerOrders(widget.shop.id),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    // Filter orders based on status
-    final filteredOrders = allOrders.where((order) {
-      if (includeInDelivery) {
-        return order.status == status || order.status == OrderStatus.inDelivery;
-      }
-      return order.status == status;
-    }).toList();
+        if (snapshot.hasError) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
+                const SizedBox(height: 16),
+                Text('Error: ${snapshot.error}'),
+              ],
+            ),
+          );
+        }
 
-    if (filteredOrders.isEmpty) {
-      return _buildEmptyState(status);
-    }
+        final allOrders = snapshot.data ?? [];
 
-    return RefreshIndicator(
-      onRefresh: () async {
-        // TODO: Implement refresh from Firebase
-        await Future.delayed(const Duration(seconds: 1));
-        setState(() {});
+        // Filter orders based on status
+        final filteredOrders = allOrders.where((order) {
+          if (includeInDelivery) {
+            return order.status == status ||
+                order.status == OrderStatus.inDelivery;
+          }
+          return order.status == status;
+        }).toList();
+
+        if (filteredOrders.isEmpty) {
+          return _buildEmptyState(status);
+        }
+
+        return RefreshIndicator(
+          onRefresh: () async {
+            setState(() {});
+          },
+          child: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: filteredOrders.length,
+            itemBuilder: (context, index) {
+              return _buildOrderCard(filteredOrders[index]);
+            },
+          ),
+        );
       },
-      child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: filteredOrders.length,
-        itemBuilder: (context, index) {
-          return _buildOrderCard(filteredOrders[index]);
-        },
-      ),
     );
   }
 
   Widget _buildEmptyState(OrderStatus status) {
     String message;
     IconData icon;
-    
+
     switch (status) {
       case OrderStatus.pending:
         message = 'Belum ada pesanan pending';
@@ -174,11 +181,7 @@ class _OrdersScreenState extends State<OrdersScreen>
               color: AppColors.primary.withAlpha(26),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              size: 60,
-              color: AppColors.primary,
-            ),
+            child: Icon(icon, size: 60, color: AppColors.primary),
           ),
           const SizedBox(height: 24),
           Text(
@@ -192,10 +195,7 @@ class _OrdersScreenState extends State<OrdersScreen>
           const SizedBox(height: 8),
           Text(
             'Pesanan akan muncul di sini',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
           ),
         ],
       ),
@@ -220,51 +220,51 @@ class _OrdersScreenState extends State<OrdersScreen>
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             // Order Header
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: _getStatusColor(order.status).withAlpha(26),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(
-                        _getStatusIcon(order.status),
-                        size: 16,
-                        color: _getStatusColor(order.status),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Order #${order.id}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          order.createdAt.toString().split(' ')[0],
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: _getStatusColor(order.status).withAlpha(26),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    _getStatusIcon(order.status),
+                    size: 16,
+                    color: _getStatusColor(order.status),
+                  ),
                 ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Order #${order.id.length > 10 ? order.id.substring(0, 10) : order.id}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        order.createdAt.toString().split(' ')[0],
+                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
+                    horizontal: 10,
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
@@ -275,24 +275,24 @@ class _OrdersScreenState extends State<OrdersScreen>
                     order.statusText,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 11,
+                      fontSize: 10,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
               ],
             ),
-            
+
             Divider(height: 24, color: Colors.grey[200]),
 
             // Customer Info
             _buildInfoRow(
               Icons.person,
               'Pembeli',
-              order.buyerName,
+              order.buyerName ?? 'User',
               AppColors.primary,
             ),
-            
+
             if (order.buyerContact != null) ...[
               const SizedBox(height: 8),
               _buildInfoRow(
@@ -302,9 +302,9 @@ class _OrdersScreenState extends State<OrdersScreen>
                 Colors.green,
               ),
             ],
-            
+
             const SizedBox(height: 12),
-            
+
             // Product Info
             Container(
               padding: const EdgeInsets.all(12),
@@ -312,45 +312,127 @@ class _OrdersScreenState extends State<OrdersScreen>
                 color: Colors.grey[50],
                 borderRadius: BorderRadius.circular(12),
               ),
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: order.items.length,
+                separatorBuilder: (context, index) => const SizedBox(height: 8),
+                itemBuilder: (context, index) {
+                  final item = order.items[index];
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: item.product.imageUrl.isNotEmpty
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  item.product.imageUrl,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Icon(
+                                      Icons.shopping_bag,
+                                      color: Colors.grey[400],
+                                      size: 24,
+                                    );
+                                  },
+                                ),
+                              )
+                            : Icon(
+                                Icons.shopping_bag,
+                                color: Colors.grey[400],
+                                size: 24,
+                              ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              item.product.name,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Text(
+                                  '${item.quantity} ${item.product.unit}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '×',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Flexible(
+                                  child: Text(
+                                    'Rp ${item.price.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey[600],
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Rp ${item.totalPrice.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Total Amount
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withAlpha(26),
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(
-                      Icons.shopping_bag,
-                      color: Colors.grey[400],
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          order.product.name,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${order.quantity} item',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      ],
+                  const Text(
+                    'Total Pembayaran',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
                     ),
                   ),
                   Text(
@@ -411,6 +493,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
+                          color: Colors.white
                         ),
                       ),
                     ),
@@ -457,12 +540,7 @@ class _OrdersScreenState extends State<OrdersScreen>
     );
   }
 
-  Widget _buildInfoRow(
-    IconData icon,
-    String label,
-    String value,
-    Color color,
-  ) {
+  Widget _buildInfoRow(IconData icon, String label, String value, Color color) {
     return Row(
       children: [
         Container(
@@ -533,7 +611,7 @@ class _OrdersScreenState extends State<OrdersScreen>
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('Konfirmasi Pesanan'),
         content: Text(
-          'Apakah Anda yakin ingin mengkonfirmasi pesanan dari ${order.buyerName}?',
+          'Apakah Anda yakin ingin mengkonfirmasi pesanan dari ${order.buyerName ?? "User"}?',
         ),
         actions: [
           TextButton(
@@ -541,22 +619,23 @@ class _OrdersScreenState extends State<OrdersScreen>
             child: const Text('Batal'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               context.pop();
-              setState(() {
-                // TODO: Update order status in Firebase
-              });
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Pesanan berhasil dikonfirmasi'),
-                  backgroundColor: Colors.green,
-                  behavior: SnackBarBehavior.floating,
-                ),
+              final success = await _orderService.updateOrderStatus(
+                order.id,
+                OrderStatus.confirmed,
               );
+              if (success && mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Pesanan berhasil dikonfirmasi'),
+                    backgroundColor: Colors.green,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              }
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
             child: const Text('Konfirmasi'),
           ),
         ],
@@ -571,7 +650,7 @@ class _OrdersScreenState extends State<OrdersScreen>
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('Tolak Pesanan'),
         content: Text(
-          'Apakah Anda yakin ingin menolak pesanan dari ${order.buyerName}?',
+          'Apakah Anda yakin ingin menolak pesanan dari ${order.buyerName ?? "User"}?',
         ),
         actions: [
           TextButton(
@@ -579,22 +658,20 @@ class _OrdersScreenState extends State<OrdersScreen>
             child: const Text('Batal'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               context.pop();
-              setState(() {
-                // TODO: Update order status in Firebase
-              });
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Pesanan ditolak'),
-                  backgroundColor: Colors.red,
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
+              final success = await _orderService.cancelOrder(order.id);
+              if (success && mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Pesanan ditolak'),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              }
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             child: const Text('Tolak'),
           ),
         ],
@@ -617,22 +694,23 @@ class _OrdersScreenState extends State<OrdersScreen>
             child: const Text('Belum'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               context.pop();
-              setState(() {
-                // TODO: Update order status in Firebase
-              });
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Pesanan selesai'),
-                  backgroundColor: Colors.green,
-                  behavior: SnackBarBehavior.floating,
-                ),
+              final success = await _orderService.updateOrderStatus(
+                order.id,
+                OrderStatus.completed,
               );
+              if (success && mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Pesanan selesai'),
+                    backgroundColor: Colors.green,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              }
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
             child: const Text('Ya, Selesai'),
           ),
         ],
