@@ -10,7 +10,8 @@ class PaymentScreen extends StatefulWidget {
   final double deliveryFee;
 
   const PaymentScreen({
-    required this.products, super.key,
+    required this.products,
+    super.key,
     this.fromCart = false,
     this.appliedDiscount = 0,
     this.deliveryFee = 5000,
@@ -60,8 +61,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  double get _total =>
-      _subtotal + widget.deliveryFee - widget.appliedDiscount;
+  double get _total => _subtotal + widget.deliveryFee - widget.appliedDiscount;
 
   @override
   Widget build(BuildContext context) {
@@ -75,27 +75,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Row(
-          children: [
-            Container(
-              width: 4,
-              height: 24,
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(width: 12),
-            const Text(
-              'Pembayaran',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                letterSpacing: -0.5,
-              ),
-            ),
-          ],
+        title: const Text(
+          'Pembayaran',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.5,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -195,10 +182,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           const SizedBox(height: 2),
           Text(
             'Surabaya, Jawa Timur 60261',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[700],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[700]),
           ),
         ],
       ),
@@ -265,11 +249,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(
-                      Icons.image,
-                      color: Colors.grey[400],
-                      size: 30,
-                    ),
+                    child: Icon(Icons.image, color: Colors.grey[400], size: 30),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -538,7 +518,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
           _buildSummaryRow('Biaya Pengiriman', widget.deliveryFee),
           if (widget.appliedDiscount > 0) ...[
             const SizedBox(height: 12),
-            _buildSummaryRow('Diskon', -widget.appliedDiscount, isDiscount: true),
+            _buildSummaryRow(
+              'Diskon',
+              -widget.appliedDiscount,
+              isDiscount: true,
+            ),
           ],
           const SizedBox(height: 16),
           Divider(color: Colors.grey[300], height: 1),
@@ -569,7 +553,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Widget _buildSummaryRow(String label, double value, {bool isDiscount = false}) {
+  Widget _buildSummaryRow(
+    String label,
+    double value, {
+    bool isDiscount = false,
+  }) {
     final displayValue = value.abs();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -595,7 +583,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildPayButton() {
-    final bool canPay = _selectedPaymentMethod.isNotEmpty &&
+    final bool canPay =
+        _selectedPaymentMethod.isNotEmpty &&
         (_selectedSubMethod.isNotEmpty ||
             _paymentMethods
                 .firstWhere((m) => m['id'] == _selectedPaymentMethod)['methods']
@@ -728,17 +717,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.payment,
-                          size: 20,
-                          color: Colors.green[700],
-                        ),
+                        Icon(Icons.payment, size: 20, color: Colors.green[700]),
                         const SizedBox(width: 8),
                         Text(
                           _selectedSubMethod.isNotEmpty
                               ? _selectedSubMethod
-                              : _paymentMethods
-                                  .firstWhere((m) => m['id'] == _selectedPaymentMethod)['name'],
+                              : _paymentMethods.firstWhere(
+                                  (m) => m['id'] == _selectedPaymentMethod,
+                                )['name'],
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -770,11 +756,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.info_outline,
-                      size: 20,
-                      color: Colors.grey[600],
-                    ),
+                    Icon(Icons.info_outline, size: 20, color: Colors.grey[600]),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
@@ -814,7 +796,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        Navigator.of(context).popUntil((route) => route.isFirst);
+                        Navigator.of(
+                          context,
+                        ).popUntil((route) => route.isFirst);
                       },
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
@@ -823,7 +807,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.home_rounded, color: Colors.white, size: 20),
+                            Icon(
+                              Icons.home_rounded,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                             SizedBox(width: 10),
                             Text(
                               'Kembali ke Beranda',
@@ -848,7 +836,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   Navigator.of(context).popUntil((route) => route.isFirst);
                   // TODO: Navigate to order history
                 },
-                icon: Icon(Icons.receipt_long_rounded, size: 18, color: Colors.grey[700]),
+                icon: Icon(
+                  Icons.receipt_long_rounded,
+                  size: 18,
+                  color: Colors.grey[700],
+                ),
                 label: Text(
                   'Lihat Pesanan Saya',
                   style: TextStyle(

@@ -585,6 +585,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         seller: widget.shop.name,
         shopId: widget.shop.id,
         stock: int.parse(_stockController.text.trim()),
+        unit: _selectedUnit!,
         isActive: true,
       );
 

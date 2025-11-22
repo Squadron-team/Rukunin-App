@@ -22,7 +22,7 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  int _quantity = 2;
+  int _quantity = 1;
   final bool _isFavorite = false;
   final CartService _cartService = CartService();
 
@@ -99,8 +99,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
 
           // Content
-          SliverFillRemaining(
-            hasScrollBody: false,
+          SliverToBoxAdapter(
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -159,7 +158,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '${widget.product.rating.toStringAsFixed(1)} Rating',
+                          '${widget.product.rating.toStringAsFixed(1)}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '(128 ulasan)',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[600],
@@ -185,7 +193,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         const SizedBox(width: 12),
                         if (widget.product.isDiscount)
                           Text(
-                            CurrencyFormatter.format(widget.product.price),
+                            CurrencyFormatter.format(widget.product.price * 1.67),
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey[400],
@@ -193,30 +201,98 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ),
                           ),
                         const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary.withAlpha(38),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: const Text(
-                            '40% OFF',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.primary,
+                        if (widget.product.isDiscount)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withAlpha(38),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: const Text(
+                              '40% OFF',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.primary,
+                              ),
                             ),
                           ),
-                        ),
                       ],
                     ),
 
                     const SizedBox(height: 24),
 
-                    // Product Weight
+                    // Seller Info
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.grey[200]!),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withAlpha(38),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.store,
+                              color: AppColors.primary,
+                              size: 24,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.product.shopId,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      size: 14,
+                                      color: Colors.grey[600],
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      'RT 05 / RW 02',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.chevron_right,
+                            color: Colors.grey[400],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Product Weight/Quantity
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -257,7 +333,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 horizontal: 16,
                               ),
                               child: Text(
-                                '$_quantity kg',
+                                '$_quantity ${widget.product.unit}',
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -290,11 +366,142 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ],
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
 
-                    // Product Details
-                    ProductDetailScreenMainContent(
-                      product: widget.product,
+                    // Description Section
+                    const Text(
+                      'Deskripsi Produk',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      widget.product.description,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[700],
+                        height: 1.6,
+                      ),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // Reviews Section
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Ulasan Pembeli',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // Navigate to all reviews
+                          },
+                          child: const Text(
+                            'Lihat Semua',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Rating Summary
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.grey[200]!),
+                      ),
+                      child: Row(
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                widget.product.rating.toStringAsFixed(1),
+                                style: const TextStyle(
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Row(
+                                children: List.generate(
+                                  5,
+                                  (index) => Icon(
+                                    Icons.star,
+                                    color: AppColors.primary,
+                                    size: 16,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                '128 ulasan',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 24),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                _buildRatingBar(5, 85),
+                                _buildRatingBar(4, 10),
+                                _buildRatingBar(3, 3),
+                                _buildRatingBar(2, 1),
+                                _buildRatingBar(1, 1),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Review Items
+                    _buildReviewItem(
+                      name: 'Budi Santoso',
+                      rating: 5,
+                      date: '2 hari yang lalu',
+                      comment:
+                          'Produk sangat fresh dan berkualitas. Pengiriman cepat, penjual responsif. Highly recommended!',
+                      isVerified: true,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildReviewItem(
+                      name: 'Siti Nurhaliza',
+                      rating: 5,
+                      date: '5 hari yang lalu',
+                      comment:
+                          'Sayuran segar, harga terjangkau. Senang bisa belanja dari tetangga sendiri. Terima kasih!',
+                      isVerified: true,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildReviewItem(
+                      name: 'Ahmad Yani',
+                      rating: 4,
+                      date: '1 minggu yang lalu',
+                      comment:
+                          'Bagus, tapi ada beberapa daun yang sedikit layu. Overall oke.',
+                      isVerified: false,
                     ),
 
                     const SizedBox(height: 100),
@@ -358,6 +565,150 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildRatingBar(int stars, int percentage) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        children: [
+          Text(
+            '$stars',
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey[700],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Icon(
+            Icons.star,
+            size: 12,
+            color: Colors.grey[400],
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: LinearProgressIndicator(
+                value: percentage / 100,
+                backgroundColor: Colors.grey[200],
+                valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                minHeight: 6,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          SizedBox(
+            width: 32,
+            child: Text(
+              '$percentage%',
+              style: TextStyle(
+                fontSize: 11,
+                color: Colors.grey[600],
+              ),
+              textAlign: TextAlign.right,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReviewItem({
+    required String name,
+    required int rating,
+    required String date,
+    required String comment,
+    required bool isVerified,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[200]!),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 20,
+                backgroundColor: AppColors.primary.withAlpha(38),
+                child: Text(
+                  name[0],
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          name,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                        if (isVerified) ...[
+                          const SizedBox(width: 4),
+                          const Icon(
+                            Icons.verified,
+                            size: 14,
+                            color: AppColors.primary,
+                          ),
+                        ],
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        ...List.generate(
+                          5,
+                          (index) => Icon(
+                            index < rating ? Icons.star : Icons.star_border,
+                            color: AppColors.primary,
+                            size: 14,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          date,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            comment,
+            style: TextStyle(
+              fontSize: 13,
+              color: Colors.grey[700],
+              height: 1.5,
+            ),
+          ),
+        ],
       ),
     );
   }

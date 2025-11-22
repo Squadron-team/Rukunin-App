@@ -9,6 +9,7 @@ class Product {
   final String seller; // same as shopName
   final String shopId;
   final int stock;
+  final String unit; // kg, gram, buah, pack, liter
   final bool isActive;
   final bool isDiscount;
   final double rating;
@@ -26,6 +27,7 @@ class Product {
     String? seller,
     String? shopId,
     this.stock = 100,
+    this.unit = 'kg',
     this.isActive = true,
     this.isDiscount = false,
     this.rating = 0.0,
@@ -52,6 +54,7 @@ class Product {
       seller: data['shopName'] ?? data['seller'] ?? '',
       shopId: data['shopId'] ?? '',
       stock: data['stock'] ?? 0,
+      unit: data['unit'] ?? 'kg',
       isActive: data['isActive'] ?? true,
       isDiscount: data['isDiscount'] ?? false,
       rating: (data['rating'] ?? 0).toDouble(),
@@ -72,6 +75,7 @@ class Product {
       'shopName': seller,
       'shopId': shopId,
       'stock': stock,
+      'unit': unit,
       'isActive': isActive,
       'isDiscount': isDiscount,
       'rating': rating,
@@ -91,6 +95,7 @@ class Product {
     String? seller,
     String? shopId,
     int? stock,
+    String? unit,
     bool? isActive,
     bool? isDiscount,
     double? rating,
@@ -108,6 +113,7 @@ class Product {
       seller: seller ?? this.seller,
       shopId: shopId ?? this.shopId,
       stock: stock ?? this.stock,
+      unit: unit ?? this.unit,
       isActive: isActive ?? this.isActive,
       isDiscount: isDiscount ?? this.isDiscount,
       rating: rating ?? this.rating,
