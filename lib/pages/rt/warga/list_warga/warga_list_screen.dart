@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rt/warga/widgets/warga_card.dart';
-import 'package:rukunin/pages/rt/warga/warga_detail_screen.dart';
-import 'package:rukunin/pages/rt/warga/warga_add_screen.dart';
+import 'package:rukunin/pages/rt/warga/list_warga/warga_detail_screen.dart';
+import 'package:rukunin/pages/rt/warga/list_warga/warga_add_screen.dart';
 import 'package:rukunin/models/resident.dart';
 import 'package:rukunin/repositories/resident.dart';
 import 'package:rukunin/style/app_colors.dart';
@@ -147,9 +147,13 @@ class _WargaListScreenState extends State<WargaListScreen> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               OutlinedButton(
-                                                style: OutlinedButton.styleFrom(side: BorderSide(color: Colors.grey.shade300)),
+                                                style: OutlinedButton.styleFrom(
+                                                  side: BorderSide(color: Colors.grey.shade300),
+                                                  backgroundColor: Colors.grey[100],
+                                                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                                                ),
                                                 onPressed: () => Navigator.pop(c, false),
-                                                child: Text('Batal', style: TextStyle(color: Colors.grey[700])),
+                                                child: Text('Batal', style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600)),
                                               ),
                                               const SizedBox(width: 12),
                                               ElevatedButton(

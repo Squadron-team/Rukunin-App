@@ -23,9 +23,13 @@ Future<bool?> showDeleteConfirm(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     OutlinedButton(
-                      style: OutlinedButton.styleFrom(side: BorderSide(color: Colors.grey.shade300)),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: Colors.grey.shade300),
+                        backgroundColor: Colors.grey[100],
+                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                      ),
                       onPressed: () => Navigator.pop(c, false),
-                      child: Text('Batal', style: TextStyle(color: Colors.grey[700])),
+                      child: Text('Batal', style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600)),
                     ),
                     const SizedBox(width: 12),
                     ElevatedButton(

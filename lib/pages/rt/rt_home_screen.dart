@@ -42,7 +42,7 @@ class RtHomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(20.0),
           child: Column(
@@ -169,6 +169,7 @@ class RtHomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16),
+              
               QuickActionsGrid(),
 
               SizedBox(height: 32),

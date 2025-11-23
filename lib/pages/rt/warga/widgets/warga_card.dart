@@ -24,7 +24,7 @@ class WargaCard extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(Icons.person, color: AppColors.primary, size: 28),

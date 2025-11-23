@@ -28,96 +28,98 @@ class AnnouncementDetailDialog extends StatelessWidget {
           maxWidth: maxWidth,
           maxHeight: MediaQuery.of(context).size.height * 0.85,
         ),
-        child: SingleChildScrollView(
-          padding: EdgeInsets.only(
-            left: 16,
-            right: 16,
-            top: 16,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: Colors.yellow[50],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.campaign,
-                        color: Colors.yellow[800],
-                        size: 22,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: 16,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: Colors.yellow[50],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.campaign,
+                          color: Colors.yellow[800],
+                          size: 22,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      a.title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w900,
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        a.title,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  const Icon(Icons.person, size: 14, color: AppColors.primary),
-                  const SizedBox(width: 6),
-                  Expanded(
-                    child: Text(
-                      a.author,
-                      style: TextStyle(color: Colors.grey[700], fontSize: 13),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Icon(Icons.access_time, size: 13, color: Colors.grey[400]),
-                  const SizedBox(width: 6),
-                  Text(
-                    _formatRelative(a.createdAt),
-                    style: TextStyle(color: Colors.grey[600], fontSize: 12),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                a.body,
-                style: TextStyle(
-                  color: Colors.grey[900],
-                  fontSize: 15,
-                  height: 1.6,
+                  ],
                 ),
-              ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.centerRight,
-                child: OutlinedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 16,
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    const Icon(Icons.person, size: 14, color: AppColors.primary),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        a.author,
+                        style: TextStyle(color: Colors.grey[700], fontSize: 13),
+                      ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+                    const SizedBox(width: 8),
+                    Icon(Icons.access_time, size: 13, color: Colors.grey[400]),
+                    const SizedBox(width: 6),
+                    Text(
+                      _formatRelative(a.createdAt),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 12),
                     ),
-                    side: BorderSide(color: Colors.grey.shade300),
-                  ),
-                  child: Text(
-                    'Tutup',
-                    style: TextStyle(color: Colors.grey[700]),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  a.body,
+                  style: TextStyle(
+                    color: Colors.grey[900],
+                    fontSize: 15,
+                    height: 1.6,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      elevation: 0,
+                    ),
+                    child: const Text(
+                      'Tutup',
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

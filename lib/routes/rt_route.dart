@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/pages/rt/rt_home_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
-import 'package:rukunin/pages/rt/warga/warga_list_screen.dart';
+import 'package:rukunin/pages/rt/warga/list_warga/warga_list_screen.dart';
 import 'package:rukunin/pages/rt/rt_shell.dart';
 
 final rtRoutes = ShellRoute(

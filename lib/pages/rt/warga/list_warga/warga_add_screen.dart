@@ -3,6 +3,10 @@ import 'package:rukunin/models/resident.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
 import 'package:rukunin/pages/rt/warga/widgets/doc_tile.dart';
+import 'package:rukunin/models/street.dart';
+import 'package:rukunin/repositories/streets.dart' as streetRepo;
+import 'package:rukunin/pages/rt/warga/widgets/warga_common_fields.dart';
+import 'package:rukunin/pages/rt/warga/widgets/form_actions.dart';
 
 class WargaAddScreen extends StatefulWidget {
   const WargaAddScreen({super.key});
@@ -16,7 +20,18 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
   final nameC = TextEditingController();
   final nikC = TextEditingController();
   final kkC = TextEditingController();
+  // address now selected via street + house number
   final addressC = TextEditingController();
+  final placeC = TextEditingController();
+  final pekerjaanC = TextEditingController();
+  final maritalC = TextEditingController();
+  final educationC = TextEditingController();
+  DateTime? dateOfBirth;
+  bool isHead = false;
+
+  List<Street> _streets = [];
+  Street? _selectedStreet;
+  int? _selectedHouseNo;
   String rt = '01';
   String rw = '01';
 
@@ -30,6 +45,10 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
     nikC.dispose();
     kkC.dispose();
     addressC.dispose();
+    placeC.dispose();
+    pekerjaanC.dispose();
+    maritalC.dispose();
+    educationC.dispose();
     super.dispose();
   }
 
@@ -63,6 +82,8 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // load streets
+    _streets = List<Street>.from(streetRepo.streets);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -125,10 +146,24 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
                               return null;
                             }),
                             const SizedBox(height: 12),
-                            TextFormField(controller: addressC, decoration: _dec('Alamat'), maxLines: 3, validator: (v) {
-                              if (v == null || v.isEmpty) return 'Alamat tidak boleh kosong';
-                              return null;
-                            }),
+                            AddressPicker(
+                              streets: _streets,
+                              selectedStreet: _selectedStreet,
+                              onStreetChanged: (v) => setState(() => _selectedStreet = v),
+                              selectedHouseNo: _selectedHouseNo,
+                              onHouseChanged: (v) => setState(() => _selectedHouseNo = v),
+                            ),
+                            const SizedBox(height: 12),
+                            PersonalDetailsFields(
+                              placeC: placeC,
+                              dateOfBirth: dateOfBirth,
+                              onDateChanged: (d) => setState(() => dateOfBirth = d),
+                              pekerjaanC: pekerjaanC,
+                              maritalC: maritalC,
+                              educationC: educationC,
+                              isHead: isHead,
+                              onIsHeadChanged: (v) => setState(() => isHead = v),
+                            ),
                             const SizedBox(height: 12),
                             Row(children: [
                               Expanded(
@@ -183,42 +218,34 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
 
                       const SizedBox(height: 20),
 
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)), side: BorderSide(color: Colors.grey.shade300)),
-                              onPressed: () => Navigator.pop(context),
-                              child: Text('Batal', style: TextStyle(color: Colors.grey[700])),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            flex: 2,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)), elevation: 0),
-                              onPressed: () {
-                                if (_formKey.currentState?.validate() ?? false) {
-                                  final newWarga = Warga(
-                                    id: 'warga_${DateTime.now().millisecondsSinceEpoch}',
-                                    name: nameC.text,
-                                    nik: nikC.text,
-                                    kkNumber: kkC.text,
-                                    address: addressC.text,
-                                    rt: rt,
-                                    rw: rw,
-                                    isActive: true,
-                                    ktpUrl: ktpPreview,
-                                    kkUrl: kkPreview,
-                                    createdAt: DateTime.now(),
-                                  );
-                                  Navigator.pop(context, newWarga);
-                                }
-                              },
-                              child: const Text('Simpan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-                            ),
-                          ),
-                        ],
+                      FormActions(
+                        onCancel: () => Navigator.pop(context),
+                        onSave: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            final streetName = _selectedStreet?.name ?? '';
+                            final addr = (streetName.isNotEmpty && _selectedHouseNo != null) ? '$streetName No. ${_selectedHouseNo!}' : addressC.text;
+                            final newWarga = Warga(
+                              id: 'warga_${DateTime.now().millisecondsSinceEpoch}',
+                              name: nameC.text,
+                              nik: nikC.text,
+                              kkNumber: kkC.text,
+                              address: addr,
+                              rt: rt,
+                              rw: rw,
+                              isActive: true,
+                              ktpUrl: ktpPreview,
+                              kkUrl: kkPreview,
+                              createdAt: DateTime.now(),
+                              placeOfBirth: placeC.text,
+                              dateOfBirth: dateOfBirth,
+                              pekerjaan: pekerjaanC.text,
+                              maritalStatus: maritalC.text,
+                              education: educationC.text,
+                              isHead: isHead,
+                            );
+                            Navigator.pop(context, newWarga);
+                          }
+                        },
                       )
                     ],
                   ),
