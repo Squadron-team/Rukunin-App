@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
-import 'package:rukunin/pages/treasurer/activities/activity_screen.dart';
 import 'package:rukunin/pages/treasurer/community/community_screen.dart';
 import 'package:rukunin/pages/treasurer/community/document_request_form_screen.dart';
 import 'package:rukunin/pages/treasurer/community/documents_screen.dart';
@@ -9,7 +8,6 @@ import 'package:rukunin/pages/treasurer/community/dues_screen.dart';
 import 'package:rukunin/pages/treasurer/community/family_details_screen.dart';
 import 'package:rukunin/pages/treasurer/community/finance_transparency_screen.dart';
 import 'package:rukunin/pages/treasurer/community/population_info_screen.dart';
-import 'package:rukunin/pages/treasurer/marketplace/marketplace_screen.dart';
 import 'package:rukunin/pages/treasurer/treasurer_home_screen.dart';
 import 'package:rukunin/pages/treasurer/treasurer_shell.dart';
 
@@ -21,18 +19,6 @@ final treasurerRoutes = ShellRoute(
       name: 'treasurer-home',
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: TreasurerHomeScreen()),
-    ),
-    GoRoute(
-      path: '/treasurer/marketplace',
-      name: 'treasurer-marketplace',
-      pageBuilder: (context, state) =>
-          const NoTransitionPage(child: MarketplaceScreen()),
-    ),
-    GoRoute(
-      path: '/treasurer/activities',
-      name: 'treasurer-activities',
-      pageBuilder: (context, state) =>
-          const NoTransitionPage(child: ActivityScreen()),
     ),
     GoRoute(
       path: '/treasurer/community',

@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/pages/resident/community/community_screen.dart';
 import 'package:rukunin/pages/resident/community/dues_screen.dart';
 import 'package:rukunin/pages/resident/community/finance_transparency_screen.dart';
 import 'package:rukunin/pages/resident/community/population_info_screen.dart';
 import 'package:rukunin/pages/resident/resident_home_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/marketplace_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/shop_dashboard_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/my_products_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/add_product_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/orders_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/search_results_screen.dart';
-import 'package:rukunin/pages/resident/marketplace/cart_screen.dart';
-import 'package:rukunin/pages/resident/activities/activity_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/marketplace_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/shop_dashboard_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/my_products_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/add_product_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/orders_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/search_results_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/cart_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/product_detail_screen.dart';
+import 'package:rukunin/modules/marketplace/models/product.dart';
+import 'package:rukunin/modules/activities/pages/activity_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/resident/resident_shell.dart';
 import 'package:rukunin/pages/resident/community/family_details_screen.dart';
 import 'package:rukunin/pages/resident/community/documents_screen.dart';
 import 'package:rukunin/pages/resident/community/document_request_form_screen.dart';
-import 'package:rukunin/models/shop.dart';
 
 final residentRoutes = [
   // Main routes with bottom navigation
@@ -64,6 +66,14 @@ final residentRoutes = [
   ),
 
   // Deep-link routes without bottom navigation - Marketplace
+  GoRoute(
+    path: '/resident/marketplace/product/:productId',
+    name: 'resident-product-detail',
+    builder: (context, state) {
+      final product = state.extra as Product;
+      return ProductDetailScreen(product: product);
+    },
+  ),
   GoRoute(
     path: '/resident/marketplace/search',
     name: 'resident-marketplace-search',

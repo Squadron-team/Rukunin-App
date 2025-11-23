@@ -10,8 +10,6 @@ class SecretaryShell extends StatelessWidget {
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     if (location == '/secretary') return 0;
-    if (location == '/secretary/marketplace') return 1;
-    if (location == '/secretary/activities') return 2;
     if (location == '/secretary/community') return 3;
     if (location == '/secretary/account') return 4;
     return 0;

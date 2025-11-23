@@ -1,7 +1,7 @@
 name: rukunin
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0+13
+version: 0.1.0+15
 
 environment:
   sdk: ^3.9.2
@@ -27,6 +27,7 @@ dependencies:
   flutter_native_splash: ^2.4.3
   image_picker: ^1.0.7
   image_picker_for_web: ^3.1.1
+  firebase_storage: ^13.0.4
 
 dev_dependencies:
   flutter_test:
