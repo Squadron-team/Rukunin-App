@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/pages/resident/community/services/document_service.dart';
+import 'package:rukunin/services/storage_service.dart';
 
 class DocumentRequestFormScreen extends StatefulWidget {
   final String documentType;
@@ -25,14 +25,15 @@ class DocumentRequestFormScreen extends StatefulWidget {
 
 class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _auth = FirebaseAuth.instance;
-  final _firestore = FirebaseFirestore.instance;
   final _picker = ImagePicker();
+  final _documentService = DocumentService();
+  final _storageService = StorageService();
 
   final _purposeController = TextEditingController();
   final _notesController = TextEditingController();
   
   bool _isSubmitting = false;
+  double _uploadProgress = 0.0;
   final List<XFile> _attachments = [];
 
   @override
@@ -44,70 +45,52 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
 
   Future<void> _pickImage() async {
     try {
-      if (kIsWeb) {
-        // Web implementation
-        final XFile? image = await _picker.pickImage(
-          source: ImageSource.gallery,
-          maxWidth: 1920,
-          maxHeight: 1080,
-          imageQuality: 85,
-        );
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1920,
+        maxHeight: 1080,
+        imageQuality: 85,
+      );
 
-        if (image != null) {
-          // Validate file size (max 5MB)
-          final bytes = await image.readAsBytes();
-          if (bytes.length > 5 * 1024 * 1024) {
-            if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Ukuran file maksimal 5MB'),
-                  backgroundColor: Colors.orange,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+      if (image != null) {
+        // Validate file size (max 5MB)
+        final bytes = await image.readAsBytes();
+        if (!_storageService.validateFileSize(bytes, maxSizeInMB: 5)) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Text('Ukuran file maksimal 5MB'),
+                backgroundColor: Colors.orange,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              );
-            }
-            return;
+              ),
+            );
           }
-
-          setState(() {
-            _attachments.add(image);
-          });
+          return;
         }
-      } else {
-        // Mobile implementation
-        final XFile? image = await _picker.pickImage(
-          source: ImageSource.gallery,
-          maxWidth: 1920,
-          maxHeight: 1080,
-          imageQuality: 85,
-        );
 
-        if (image != null) {
-          // Validate file size (max 5MB)
-          final bytes = await image.readAsBytes();
-          if (bytes.length > 5 * 1024 * 1024) {
-            if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Ukuran file maksimal 5MB'),
-                  backgroundColor: Colors.orange,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+        // Validate file type
+        if (!_storageService.validateFileType(image.name)) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Text('Format file tidak didukung'),
+                backgroundColor: Colors.orange,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              );
-            }
-            return;
+              ),
+            );
           }
-
-          setState(() {
-            _attachments.add(image);
-          });
+          return;
         }
+
+        setState(() {
+          _attachments.add(image);
+        });
       }
     } catch (e) {
       debugPrint('Error picking image: $e');
@@ -153,33 +136,36 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
 
     setState(() {
       _isSubmitting = true;
+      _uploadProgress = 0.0;
     });
 
     try {
-      final user = _auth.currentUser;
-      if (user == null) return;
-
-      // Get user data
-      final userDoc = await _firestore.collection('users').doc(user.uid).get();
-      final userData = userDoc.data();
-
-      // TODO: Upload attachments to Firebase Storage
-      // For now, just save the request without file URLs
+      // Generate temporary request ID
+      final tempRequestId = DateTime.now().millisecondsSinceEpoch.toString();
+      
+      // Upload attachments if any
+      List<String> attachmentUrls = [];
+      if (_attachments.isNotEmpty) {
+        attachmentUrls = await _storageService.uploadMultipleAttachments(
+          files: _attachments,
+          documentType: widget.documentType,
+          requestId: tempRequestId,
+          onProgress: (current, total) {
+            setState(() {
+              _uploadProgress = current / total;
+            });
+          },
+        );
+      }
 
       // Create document request
-      await _firestore.collection('document_requests').add({
-        'userId': user.uid,
-        'userName': userData?['name'] ?? '',
-        'userNik': userData?['nik'] ?? '',
-        'documentType': widget.documentType,
-        'documentTitle': widget.documentTitle,
-        'purpose': _purposeController.text.trim(),
-        'notes': _notesController.text.trim(),
-        'attachmentCount': _attachments.length,
-        'status': 'pending',
-        'createdAt': FieldValue.serverTimestamp(),
-        'updatedAt': FieldValue.serverTimestamp(),
-      });
+      await _documentService.createDocumentRequest(
+        documentType: widget.documentType,
+        documentTitle: widget.documentTitle,
+        purpose: _purposeController.text.trim(),
+        notes: _notesController.text.trim(),
+        attachmentUrls: attachmentUrls,
+      );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -201,7 +187,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Gagal mengirim pengajuan: $e'),
+            content: Text('Gagal mengirim pengajuan: ${e.toString()}'),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -214,6 +200,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
       if (mounted) {
         setState(() {
           _isSubmitting = false;
+          _uploadProgress = 0.0;
         });
       }
     }
@@ -418,6 +405,39 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
                     ),
 
                     const SizedBox(height: 32),
+
+                    // Upload Progress Indicator
+                    if (_isSubmitting && _uploadProgress > 0) ...[
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey[200]!),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Mengunggah lampiran... ${(_uploadProgress * 100).toInt()}%',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            LinearProgressIndicator(
+                              value: _uploadProgress,
+                              backgroundColor: Colors.grey[200],
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                AppColors.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
 
                     // Submit Button
                     SizedBox(

@@ -10,6 +10,9 @@ class RwShell extends StatelessWidget {
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     if (location == '/rw') return 0;
+    if (location == '/rw/marketplace') return 1;
+    if (location == '/rw/activities') return 2;
+    if (location == '/rw/community') return 3;
     if (location == '/rw/account') return 4;
     return 0;
   }
@@ -20,43 +23,13 @@ class RwShell extends StatelessWidget {
         context.go('/rw');
         break;
       case 1:
-        // TODO: Navigate to marketplace screen when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu Pasar belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/rw/marketplace');
         break;
       case 2:
-        // TODO: Navigate to events screen when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu Kegiatan belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/rw/activities');
         break;
       case 3:
-        // TODO: Navigate to community screen when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu Komunitas belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/rw/community');
         break;
       case 4:
         context.go('/rw/account');
