@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class PopulationInfoScreen extends StatefulWidget {
@@ -24,6 +25,23 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
     _loadPopulationData();
   }
 
+  String _formatTimestamp(dynamic timestamp) {
+    if (timestamp == null) return '-';
+    if (timestamp is String) return timestamp;
+    if (timestamp is Timestamp) {
+      final date = timestamp.toDate();
+      return DateFormat('dd MMMM yyyy').format(date);
+    }
+    return timestamp.toString();
+  }
+
+  String _getStringValue(dynamic value) {
+    if (value == null) return '-';
+    if (value is String) return value;
+    if (value is Timestamp) return _formatTimestamp(value);
+    return value.toString();
+  }
+
   Future<void> _loadPopulationData() async {
     try {
       final user = _auth.currentUser;
@@ -33,15 +51,16 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
       final userDoc = await _firestore.collection('users').doc(user.uid).get();
       
       if (userDoc.exists) {
+        final data = userDoc.data();
         setState(() {
-          _userData = userDoc.data();
+          _userData = data;
         });
 
         // Load family members if KK number exists
-        if (_userData?['kkNumber'] != null) {
+        if (data?['kkNumber'] != null) {
           final familyQuery = await _firestore
               .collection('users')
-              .where('kkNumber', isEqualTo: _userData!['kkNumber'])
+              .where('kkNumber', isEqualTo: data!['kkNumber'])
               .get();
 
           setState(() {
@@ -73,8 +92,9 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+      return Scaffold(
+        backgroundColor: Colors.grey[50],
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -209,18 +229,18 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
           const SizedBox(height: 20),
           const Divider(),
           const SizedBox(height: 16),
-          _buildInfoRow('NIK', _userData?['nik'] ?? '-'),
-          _buildInfoRow('Nama Lengkap', _userData?['name'] ?? '-'),
-          _buildInfoRow('Tempat Lahir', _userData?['birthPlace'] ?? '-'),
-          _buildInfoRow('Tanggal Lahir', _userData?['birthdate'] ?? '-'),
-          _buildInfoRow('Jenis Kelamin', _userData?['gender'] ?? '-'),
-          _buildInfoRow('Alamat', _userData?['address'] ?? '-'),
-          _buildInfoRow('RT/RW', '${_userData?['rt'] ?? '-'} / ${_userData?['rw'] ?? '-'}'),
-          _buildInfoRow('Kelurahan', _userData?['kelurahan'] ?? '-'),
-          _buildInfoRow('Kecamatan', _userData?['kecamatan'] ?? '-'),
-          _buildInfoRow('Agama', _userData?['religion'] ?? '-'),
-          _buildInfoRow('Status Perkawinan', _userData?['maritalStatus'] ?? '-'),
-          _buildInfoRow('Pekerjaan', _userData?['occupation'] ?? '-'),
+          _buildInfoRow('NIK', _getStringValue(_userData?['nik'])),
+          _buildInfoRow('Nama Lengkap', _getStringValue(_userData?['name'])),
+          _buildInfoRow('Tempat Lahir', _getStringValue(_userData?['birthPlace'])),
+          _buildInfoRow('Tanggal Lahir', _formatTimestamp(_userData?['birthdate'])),
+          _buildInfoRow('Jenis Kelamin', _getStringValue(_userData?['gender'])),
+          _buildInfoRow('Alamat', _getStringValue(_userData?['address'])),
+          _buildInfoRow('RT/RW', '${_getStringValue(_userData?['rt'])} / ${_getStringValue(_userData?['rw'])}'),
+          _buildInfoRow('Kelurahan', _getStringValue(_userData?['kelurahan'])),
+          _buildInfoRow('Kecamatan', _getStringValue(_userData?['kecamatan'])),
+          _buildInfoRow('Agama', _getStringValue(_userData?['religion'])),
+          _buildInfoRow('Status Perkawinan', _getStringValue(_userData?['maritalStatus'])),
+          _buildInfoRow('Pekerjaan', _getStringValue(_userData?['occupation'])),
         ],
       ),
     );
@@ -287,8 +307,8 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
           const SizedBox(height: 20),
           const Divider(),
           const SizedBox(height: 16),
-          _buildInfoRow('No. KK', _userData?['kkNumber'] ?? '-'),
-          _buildInfoRow('Kepala Keluarga', _userData?['headOfFamily'] ?? _userData?['name'] ?? '-'),
+          _buildInfoRow('No. KK', _getStringValue(_userData?['kkNumber'])),
+          _buildInfoRow('Kepala Keluarga', _getStringValue(_userData?['headOfFamily'] ?? _userData?['name'])),
           _buildInfoRow(
             'Jumlah Anggota',
             '${(_familyMembers.length + 1).toString()} orang',
@@ -335,7 +355,7 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  member['name'] ?? 'Tidak diketahui',
+                  _getStringValue(member['name']),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -344,7 +364,7 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  member['relationToHead'] ?? 'Anggota keluarga',
+                  _getStringValue(member['relationToHead']),
                   style: TextStyle(
                     fontSize: 13,
                     color: Colors.grey[600],
@@ -353,7 +373,7 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
                 if (member['nik'] != null) ...[
                   const SizedBox(height: 2),
                   Text(
-                    'NIK: ${member['nik']}',
+                    'NIK: ${_getStringValue(member['nik'])}',
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.grey[500],

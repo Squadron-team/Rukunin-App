@@ -10,6 +10,8 @@ class TreasurerShell extends StatelessWidget {
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     if (location == '/treasurer') return 0;
+    if (location == '/treasurer/marketplace') return 1;
+    if (location == '/treasurer/activities') return 2;
     if (location == '/treasurer/community') return 3;
     if (location == '/treasurer/account') return 4;
     return 0;
