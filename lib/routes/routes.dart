@@ -73,10 +73,10 @@ final router = GoRouter(
     adminRoutes,
 
     // RT routes
-    rtRoutes,
+    ...rtRoutes,
     
     // RW routes
-    rwRoutes,
+    ...rwRoutes,
 
     // Secretary routes
     ... secretaryRoutes,
