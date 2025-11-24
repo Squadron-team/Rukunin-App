@@ -32,8 +32,8 @@ class DocTile extends StatelessWidget {
         SizedBox(
           height: height,
           child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
+              decoration: BoxDecoration(
+                color: Colors.white,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.grey.withOpacity(0.2)),
             ),
@@ -49,9 +49,9 @@ class DocTile extends StatelessWidget {
                             url,
                             fit: BoxFit.contain,
                             errorBuilder: (c, e, s) => Container(
-                              color: Colors.grey[100],
-                              child: const Center(child: Icon(Icons.image_not_supported, size: 48, color: Colors.grey)),
-                            ),
+                                color: Colors.white,
+                                child: const Center(child: Icon(Icons.image_not_supported, size: 48, color: Colors.grey)),
+                              ),
                           ),
                   ),
                   if (url.isNotEmpty && onRemove != null)
