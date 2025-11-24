@@ -79,10 +79,10 @@ final router = GoRouter(
     rwRoutes,
 
     // Secretary routes
-    secretaryRoutes,
+    ... secretaryRoutes,
 
     // Treasurer routes
-    treasurerRoutes,
+    ...treasurerRoutes,
     
     // Resident routes
     ...residentRoutes,
