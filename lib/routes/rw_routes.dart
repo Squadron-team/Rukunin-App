@@ -10,7 +10,7 @@ import 'package:rukunin/modules/marketplace/pages/orders_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/product_detail_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/search_results_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/shop_dashboard_screen.dart';
-import 'package:rukunin/pages/resident/community/community_screen.dart';
+import 'package:rukunin/pages/resident/community/pages/community_screen.dart';
 import 'package:rukunin/pages/rw/data_warga/data_warga_screen.dart';
 import 'package:rukunin/pages/rw/laporan/kelola_laporan_screen.dart';
 import 'package:rukunin/pages/rw/rw_home_screen.dart';
