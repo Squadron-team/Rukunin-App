@@ -7,6 +7,7 @@ import 'package:rukunin/pages/rt/warga/list_keluarga/family_list_screen.dart';
 import 'package:rukunin/pages/rt/events/events_screen.dart';
 import 'package:rukunin/pages/rt/wilayah/wilayah_rt_screen.dart';
 import 'package:rukunin/pages/rt/surat/kelola_pengajuan_surat_screen.dart';
+import 'package:rukunin/pages/rt/reports/manage_reports_screen.dart';
 
 class QuickActionsGrid extends StatelessWidget {
   const QuickActionsGrid({super.key});
@@ -79,10 +80,16 @@ class QuickActionsGrid extends StatelessWidget {
           label: 'Catat Iuran',
           color: AppColors.primary,
         ),
-        const QuickAccessItem(
+        QuickAccessItem(
           icon: Icons.report,
-          label: 'Kelola Laporan',
+          label: 'Kelola Laporan Warga',
           color: AppColors.primary,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ManageReportsScreen()),
+            );
+          },
         ),
         const QuickAccessItem(
           icon: Icons.edit_document,
