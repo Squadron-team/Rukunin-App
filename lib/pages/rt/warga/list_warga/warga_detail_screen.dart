@@ -106,6 +106,8 @@ class WargaDetailScreen extends StatelessWidget {
                   warga.createdAt.toLocal().toString().split(' ').first,
                 ),
                 _infoRow('Peran', warga.isHead ? 'Kepala Keluarga' : 'Anggota'),
+                _infoRow('Jenis Kelamin', warga.gender.isNotEmpty ? warga.gender : '-'),
+                _infoRow('Status Kehidupan', warga.isAlive ? 'Hidup' : 'Wafat'),
                 _infoRow(
                   'Tempat Lahir',
                   warga.placeOfBirth.isNotEmpty ? warga.placeOfBirth : '-',
