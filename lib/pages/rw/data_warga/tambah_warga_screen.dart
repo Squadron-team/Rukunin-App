@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rw/data_warga/models/warga_model.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class TambahWargaScreen extends StatefulWidget {
   const TambahWargaScreen({super.key});
@@ -476,10 +477,7 @@ class _TambahWargaScreenState extends State<TambahWargaScreen> {
             ? const SizedBox(
                 width: 20,
                 height: 20,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 2,
-                ),
+                child: LoadingIndicator(),
               )
             : const Text(
                 'Simpan Data',

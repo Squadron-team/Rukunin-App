@@ -4,6 +4,7 @@ import 'package:rukunin/style/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/modules/marketplace/services/order_service.dart';
 import 'package:rukunin/modules/marketplace/services/cart_service.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class PaymentScreen extends StatefulWidget {
   final List<Product> products;
@@ -625,10 +626,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ? const SizedBox(
                   height: 20,
                   width: 20,
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                    strokeWidth: 2,
-                  ),
+                  child: LoadingIndicator(),
                 )
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,

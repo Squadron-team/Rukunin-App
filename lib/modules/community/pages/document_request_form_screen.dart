@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/modules/community/services/document_service.dart';
 import 'package:rukunin/services/storage_service.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class DocumentRequestFormScreen extends StatefulWidget {
@@ -442,10 +443,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
                             ? const SizedBox(
                                 height: 20,
                                 width: 20,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
+                                child: LoadingIndicator(),
                               )
                             : const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -494,7 +492,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
               color: Colors.grey[100],
             ),
             child: const Center(
-              child: CircularProgressIndicator(strokeWidth: 2),
+              child: LoadingIndicator(),
             ),
           );
         }

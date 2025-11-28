@@ -7,6 +7,7 @@ import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/firebase_auth_helper.dart';
 import 'package:rukunin/widgets/buttons/social_sign_button.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -516,10 +517,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ? const SizedBox(
                             width: 24,
                             height: 24,
-                            child: CircularProgressIndicator(
-                              color: Colors.black,
-                              strokeWidth: 2.5,
-                            ),
+                            child: LoadingIndicator(color: Colors.white,)
                           )
                         : const Text(
                             'Daftar',

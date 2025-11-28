@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/modules/community/services/document_service.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class DocumentsScreen extends StatelessWidget {
   const DocumentsScreen({super.key});
@@ -303,7 +304,7 @@ class _DocumentHistoryTabState extends State<_DocumentHistoryTab> {
       stream: _documentService.getUserDocumentRequests(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: LoadingIndicator());
         }
 
         if (snapshot.hasError) {

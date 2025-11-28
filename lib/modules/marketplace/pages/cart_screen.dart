@@ -7,6 +7,7 @@ import 'package:rukunin/modules/marketplace/pages/payment_screen.dart';
 import 'package:rukunin/modules/marketplace/services/cart_service.dart';
 import 'package:rukunin/modules/marketplace/services/order_service.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -159,7 +160,7 @@ class _CartScreenState extends State<CartScreen>
       stream: _cartService.getUserCart(_userId!),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: LoadingIndicator());
         }
 
         if (snapshot.hasError) {
@@ -790,7 +791,7 @@ class _CartScreenState extends State<CartScreen>
       stream: _orderService.getUserOrders(_userId!, isCompleted: isCompleted),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: LoadingIndicator());
         }
 
         if (snapshot.hasError) {

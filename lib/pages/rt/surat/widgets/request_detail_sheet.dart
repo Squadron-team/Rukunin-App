@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rt/surat/models/document_request.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class RequestDetailSheet extends StatefulWidget {
   final DocumentRequest request;
@@ -118,7 +119,7 @@ class _RequestDetailSheetState extends State<RequestDetailSheet> {
                         ? const SizedBox(
                             height: 16,
                             width: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                            child: LoadingIndicator(),
                           )
                         : const Text('Simpan Catatan'),
                   ),
