@@ -70,7 +70,12 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
       final numPart = parts[1].trim();
       final parsed = int.tryParse(numPart);
       _selectedHouseNo = parsed;
-      _selectedStreet = _streets.firstWhere((s) => s.name == streetName, orElse: () => _streets.isNotEmpty ? _streets.first : Street(name: '', totalHouses: 6));
+      _selectedStreet = _streets.firstWhere(
+        (s) => s.name == streetName,
+        orElse: () => _streets.isNotEmpty
+            ? _streets.first
+            : Street(name: '', totalHouses: 6),
+      );
     }
   }
 
@@ -91,30 +96,32 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
     return buildInputDecoration(label);
   }
 
-  
-
   Future<void> _pickKtp() async {
     setState(() {
       ktpPreview = 'ktp_${DateTime.now().millisecondsSinceEpoch}.jpg';
     });
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: const Text('Upload KTP berhasil'),
-      backgroundColor: AppColors.primary,
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Upload KTP berhasil'),
+        backgroundColor: AppColors.primary,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
   }
 
   Future<void> _pickKk() async {
     setState(() {
       kkPreview = 'kk_${DateTime.now().millisecondsSinceEpoch}.jpg';
     });
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: const Text('Upload KK berhasil'),
-      backgroundColor: AppColors.primary,
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Upload KK berhasil'),
+        backgroundColor: AppColors.primary,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
   }
 
   @override
@@ -123,11 +130,28 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Row(children: [
-          Container(width: 4, height: 24, decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(2))),
-          const SizedBox(width: 12),
-          const Text('Edit Warga', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20, letterSpacing: -0.5)),
-        ]),
+        title: Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Edit Warga',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+                letterSpacing: -0.5,
+              ),
+            ),
+          ],
+        ),
         foregroundColor: Colors.black,
       ),
       body: LayoutBuilder(
@@ -142,9 +166,18 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Edit Data Warga', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                      const Text(
+                        'Edit Data Warga',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                       const SizedBox(height: 8),
-                      Text('Ubah informasi warga berikut. RT/RW tidak dapat diubah.', style: TextStyle(color: Colors.grey[700])),
+                      Text(
+                        'Ubah informasi warga berikut. RT/RW tidak dapat diubah.',
+                        style: TextStyle(color: Colors.grey[700]),
+                      ),
                       const SizedBox(height: 16),
 
                       Container(
@@ -156,44 +189,86 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                         ),
                         child: Column(
                           children: [
-                            TextFormField(controller: nameC, decoration: _dec('Nama Lengkap'), validator: (v) => (v?.isEmpty ?? true) ? 'Nama tidak boleh kosong' : null),
+                            TextFormField(
+                              controller: nameC,
+                              decoration: _dec('Nama Lengkap'),
+                              validator: (v) => (v?.isEmpty ?? true)
+                                  ? 'Nama tidak boleh kosong'
+                                  : null,
+                            ),
                             const SizedBox(height: 12),
-                            TextFormField(controller: nikC, decoration: _dec('NIK'), keyboardType: TextInputType.number, validator: (v) {
-                              if (v == null || v.isEmpty) return 'NIK tidak boleh kosong';
-                              if (v.length < 6) return 'NIK terlalu pendek';
-                              return null;
-                            }),
+                            TextFormField(
+                              controller: nikC,
+                              decoration: _dec('NIK'),
+                              keyboardType: TextInputType.number,
+                              validator: (v) {
+                                if (v == null || v.isEmpty) {
+                                  return 'NIK tidak boleh kosong';
+                                }
+                                if (v.length < 6) return 'NIK terlalu pendek';
+                                return null;
+                              },
+                            ),
                             const SizedBox(height: 12),
-                            TextFormField(controller: kkC, decoration: _dec('No. KK'), keyboardType: TextInputType.number, validator: (v) {
-                              if (v == null || v.isEmpty) return 'No. KK tidak boleh kosong';
-                              return null;
-                            }),
+                            TextFormField(
+                              controller: kkC,
+                              decoration: _dec('No. KK'),
+                              keyboardType: TextInputType.number,
+                              validator: (v) {
+                                if (v == null || v.isEmpty) {
+                                  return 'No. KK tidak boleh kosong';
+                                }
+                                return null;
+                              },
+                            ),
                             const SizedBox(height: 12),
                             const SizedBox(height: 12),
                             AddressPicker(
                               streets: _streets,
                               selectedStreet: _selectedStreet,
-                              onStreetChanged: (v) => setState(() => _selectedStreet = v),
+                              onStreetChanged: (v) =>
+                                  setState(() => _selectedStreet = v),
                               selectedHouseNo: _selectedHouseNo,
-                              onHouseChanged: (v) => setState(() => _selectedHouseNo = v),
+                              onHouseChanged: (v) =>
+                                  setState(() => _selectedHouseNo = v),
                             ),
                             const SizedBox(height: 12),
                             PersonalDetailsFields(
                               placeC: placeC,
                               dateOfBirth: dateOfBirth,
-                              onDateChanged: (d) => setState(() => dateOfBirth = d),
+                              onDateChanged: (d) =>
+                                  setState(() => dateOfBirth = d),
                               pekerjaanC: pekerjaanC,
                               maritalC: maritalC,
                               educationC: educationC,
                               isHead: isHead,
-                              onIsHeadChanged: (v) => setState(() => isHead = v),
+                              onIsHeadChanged: (v) =>
+                                  setState(() => isHead = v),
                             ),
                             const SizedBox(height: 12),
-                            Row(children: [
-                              Expanded(child: TextFormField(decoration: _dec('RT').copyWith(fillColor: Colors.grey.shade50), initialValue: rt, readOnly: true)),
-                              const SizedBox(width: 12),
-                              Expanded(child: TextFormField(decoration: _dec('RW').copyWith(fillColor: Colors.grey.shade50), initialValue: rw, readOnly: true)),
-                            ]),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    decoration: _dec(
+                                      'RT',
+                                    ).copyWith(fillColor: Colors.grey.shade50),
+                                    initialValue: rt,
+                                    readOnly: true,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: TextFormField(
+                                    decoration: _dec(
+                                      'RW',
+                                    ).copyWith(fillColor: Colors.grey.shade50),
+                                    initialValue: rw,
+                                    readOnly: true,
+                                  ),
+                                ),
+                              ],
+                            ),
                             const SizedBox(height: 16),
                             SwitchListTile(
                               value: isActive,
@@ -215,7 +290,8 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                                     onView: null,
                                     showUpload: true,
                                     showViewButton: false,
-                                    onRemove: () => setState(() => ktpPreview = ''),
+                                    onRemove: () =>
+                                        setState(() => ktpPreview = ''),
                                   ),
                                 ),
                                 const SizedBox(width: 12),
@@ -227,7 +303,8 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                                     onView: null,
                                     showUpload: true,
                                     showViewButton: false,
-                                    onRemove: () => setState(() => kkPreview = ''),
+                                    onRemove: () =>
+                                        setState(() => kkPreview = ''),
                                   ),
                                 ),
                               ],
@@ -243,7 +320,11 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                         onSave: () {
                           if (_formKey.currentState?.validate() ?? false) {
                             final streetName = _selectedStreet?.name ?? '';
-                            final addr = (streetName.isNotEmpty && _selectedHouseNo != null) ? '$streetName No. ${_selectedHouseNo!}' : addressC.text;
+                            final addr =
+                                (streetName.isNotEmpty &&
+                                    _selectedHouseNo != null)
+                                ? '$streetName No. ${_selectedHouseNo!}'
+                                : addressC.text;
                             final edited = Warga(
                               id: widget.warga.id,
                               name: nameC.text,
@@ -266,7 +347,7 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                             Navigator.pop(context, edited);
                           }
                         },
-                      )
+                      ),
                     ],
                   ),
                 ),

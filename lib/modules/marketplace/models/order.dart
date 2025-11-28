@@ -1,12 +1,6 @@
 import 'package:rukunin/modules/marketplace/models/product.dart';
 
-enum OrderStatus {
-  pending,
-  confirmed,
-  inDelivery,
-  completed,
-  cancelled,
-}
+enum OrderStatus { pending, confirmed, inDelivery, completed, cancelled }
 
 class Order {
   final String id;
@@ -41,8 +35,8 @@ class Order {
     DateTime? createdAt,
     this.discount = 0,
     this.updatedAt,
-  })  : id = id ?? DateTime.now().millisecondsSinceEpoch.toString(),
-        createdAt = createdAt ?? DateTime.now();
+  }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString(),
+       createdAt = createdAt ?? DateTime.now();
 
   // For backward compatibility with existing code
   Product get product => items.first.product;
@@ -68,7 +62,8 @@ class Order {
       id: documentId,
       userId: data['userId'] ?? '',
       sellerId: data['sellerId'] ?? '',
-      items: (data['items'] as List?)
+      items:
+          (data['items'] as List?)
               ?.map((item) => OrderItem.fromMap(item))
               .toList() ??
           [],
@@ -108,10 +103,7 @@ class Order {
     };
   }
 
-  Order copyWith({
-    OrderStatus? status,
-    DateTime? updatedAt,
-  }) {
+  Order copyWith({OrderStatus? status, DateTime? updatedAt}) {
     return Order(
       id: id,
       userId: userId,

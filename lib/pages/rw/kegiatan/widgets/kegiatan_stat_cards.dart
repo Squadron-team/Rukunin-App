@@ -10,11 +10,32 @@ class KegiatanStatCards extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 10),
       child: Row(
         children: [
-          Expanded(child: _card('Akan Datang', DummyKegiatanData.getAkanDatang(), Icons.schedule, Colors.blue)),
+          Expanded(
+            child: _card(
+              'Akan Datang',
+              DummyKegiatanData.getAkanDatang(),
+              Icons.schedule,
+              Colors.blue,
+            ),
+          ),
           const SizedBox(width: 12),
-          Expanded(child: _card('Berlangsung', DummyKegiatanData.getSedangBerlangsung(), Icons.play_circle, Colors.green)),
+          Expanded(
+            child: _card(
+              'Berlangsung',
+              DummyKegiatanData.getSedangBerlangsung(),
+              Icons.play_circle,
+              Colors.green,
+            ),
+          ),
           const SizedBox(width: 12),
-          Expanded(child: _card('Selesai', DummyKegiatanData.getSelesai(), Icons.check_circle, Colors.grey)),
+          Expanded(
+            child: _card(
+              'Selesai',
+              DummyKegiatanData.getSelesai(),
+              Icons.check_circle,
+              Colors.grey,
+            ),
+          ),
         ],
       ),
     );
@@ -27,9 +48,7 @@ class KegiatanStatCards extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: color.withOpacity(0.4)),
-        boxShadow: [
-          BoxShadow(color: color.withOpacity(0.2), blurRadius: 8),
-        ],
+        boxShadow: [BoxShadow(color: color.withOpacity(0.2), blurRadius: 8)],
       ),
       child: Column(
         children: [
@@ -37,12 +56,13 @@ class KegiatanStatCards extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             value.toString(),
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color),
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
-          Text(
-            label,
-            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-          )
+          Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
         ],
       ),
     );

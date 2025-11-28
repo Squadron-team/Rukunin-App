@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rt/surat/models/document_request.dart';
 import 'package:rukunin/style/app_colors.dart';
- 
 
 class DocumentRequestCard extends StatelessWidget {
   final DocumentRequest request;
   final VoidCallback? onView;
   final void Function(String status)? onChangeStatus;
 
-  const DocumentRequestCard({Key? key, required this.request, this.onView, this.onChangeStatus}) : super(key: key);
-
-  
+  const DocumentRequestCard({
+    required this.request,
+    super.key,
+    this.onView,
+    this.onChangeStatus,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,23 +50,53 @@ class DocumentRequestCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // title
-                  Text(request.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Colors.black)),
+                  Text(
+                    request.title,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                  ),
                   const SizedBox(height: 6),
                   // requester name below title
                   Row(
                     children: [
-                      CircleAvatar(radius: 14, backgroundColor: AppColors.primary, child: const Icon(Icons.person, size: 16, color: Colors.white)),
+                      const CircleAvatar(
+                        radius: 14,
+                        backgroundColor: AppColors.primary,
+                        child: Icon(
+                          Icons.person,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                      ),
                       const SizedBox(width: 8),
-                      Expanded(child: Text(request.requester, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600))),
+                      Expanded(
+                        child: Text(
+                          request.requester,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.w600),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
                   // time with icon
                   Row(
                     children: [
-                      Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
+                      Icon(
+                        Icons.access_time,
+                        size: 14,
+                        color: Colors.grey[600],
+                      ),
                       const SizedBox(width: 6),
-                      Text(dateLabel, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey[600])),
+                      Text(
+                        dateLabel,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey[600],
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -74,12 +106,21 @@ class DocumentRequestCard extends StatelessWidget {
             Positioned(
               top: 8,
               right: 40,
-                child: Container(
+              child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(color: sColor.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(
+                  color: sColor.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Text(
-                  request.status.isNotEmpty ? '${request.status[0].toUpperCase()}${request.status.substring(1)}' : request.status,
-                  style: TextStyle(color: sColor, fontSize: 12, fontWeight: FontWeight.w700),
+                  request.status.isNotEmpty
+                      ? '${request.status[0].toUpperCase()}${request.status.substring(1)}'
+                      : request.status,
+                  style: TextStyle(
+                    color: sColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ),
@@ -89,7 +130,11 @@ class DocumentRequestCard extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Padding(
                   padding: EdgeInsets.only(right: 12.0),
-                  child: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ),
@@ -98,6 +143,4 @@ class DocumentRequestCard extends StatelessWidget {
       ),
     );
   }
-
-  
 }

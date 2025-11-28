@@ -253,7 +253,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
 
                         // Category Dropdown
                         DropdownButtonFormField<String>(
-                          value: selectedCategory,
+                          initialValue: selectedCategory,
                           decoration: InputDecoration(
                             labelText: 'Kategori',
                             prefixIcon: const Icon(

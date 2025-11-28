@@ -103,7 +103,7 @@ class _WargaEditPageState extends State<WargaEditPage> {
                                   : null,
                             ),
                             const SizedBox(height: 16),
-                            
+
                             _input(
                               'Alamat',
                               alamatC,
@@ -118,9 +118,13 @@ class _WargaEditPageState extends State<WargaEditPage> {
                               initialValue: status,
                               items: const [
                                 DropdownMenuItem(
-                                    value: 'Aktif', child: Text('Aktif')),
+                                  value: 'Aktif',
+                                  child: Text('Aktif'),
+                                ),
                                 DropdownMenuItem(
-                                    value: 'Nonaktif', child: Text('Nonaktif')),
+                                  value: 'Nonaktif',
+                                  child: Text('Nonaktif'),
+                                ),
                               ],
                               decoration: _dec('Status Warga'),
                               onChanged: (v) => setState(() => status = v!),
@@ -137,7 +141,9 @@ class _WargaEditPageState extends State<WargaEditPage> {
                           Expanded(
                             child: OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
@@ -159,7 +165,9 @@ class _WargaEditPageState extends State<WargaEditPage> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
@@ -202,7 +210,7 @@ class _WargaEditPageState extends State<WargaEditPage> {
           ),
         ),
       );
-      
+
       context.pop();
     }
   }
@@ -243,8 +251,7 @@ class _WargaEditPageState extends State<WargaEditPage> {
         borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(color: Colors.red, width: 2),
       ),
-      contentPadding:
-          const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
     );
   }
 }

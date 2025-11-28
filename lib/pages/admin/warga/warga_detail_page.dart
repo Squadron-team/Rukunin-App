@@ -118,7 +118,7 @@ class WargaDetailPage extends StatelessWidget {
             color: Colors.black.withOpacity(.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Column(

@@ -47,19 +47,11 @@ class OnboardingState {
         religion == null ||
         maritalStatus == null ||
         occupation == null) {
-      _showSnackBar(
-        context,
-        'Mohon lengkapi semua data KTP',
-        Colors.orange,
-      );
+      _showSnackBar(context, 'Mohon lengkapi semua data KTP', Colors.orange);
       return false;
     }
     if (nikController.text.length != 16) {
-      _showSnackBar(
-        context,
-        'NIK harus 16 digit',
-        Colors.red,
-      );
+      _showSnackBar(context, 'NIK harus 16 digit', Colors.red);
       return false;
     }
     return true;
@@ -77,11 +69,7 @@ class OnboardingState {
       return false;
     }
     if (kkNumberController.text.length != 16) {
-      _showSnackBar(
-        context,
-        'Nomor KK harus 16 digit',
-        Colors.red,
-      );
+      _showSnackBar(context, 'Nomor KK harus 16 digit', Colors.red);
       return false;
     }
     return true;
@@ -93,9 +81,7 @@ class OnboardingState {
         content: Text(message),
         backgroundColor: color,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
   }

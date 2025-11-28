@@ -16,7 +16,7 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
   final List<String> _tabs = ['Semua', 'RW', 'RT'];
   String _selectedRW = 'Semua RW';
   String _selectedRT = 'Semua RT';
-  
+
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   final CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -30,7 +30,9 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
 
   List<Map<String, dynamic>> _getActivitiesForDay(DateTime day) {
     final dayStr = DateFormatter.formatFull(day);
-    return _mockActivities.where((activity) => activity['date'] == dayStr).toList();
+    return _mockActivities
+        .where((activity) => activity['date'] == dayStr)
+        .toList();
   }
 
   @override
@@ -109,7 +111,9 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
-                        color: isSelected ? AppColors.primary : Colors.grey[200],
+                        color: isSelected
+                            ? AppColors.primary
+                            : Colors.grey[200],
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -387,14 +391,14 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
   List<Map<String, dynamic>> _getFilteredActivities() {
     // Filter by selected date
     final activities = _getActivitiesForDay(_selectedDay ?? _focusedDay);
-    
+
     // Filter by tab
     if (_selectedTabIndex == 1) {
       return activities.where((a) => a['level'] == 'RW').toList();
     } else if (_selectedTabIndex == 2) {
       return activities.where((a) => a['level'] == 'RT').toList();
     }
-    
+
     return activities;
   }
 
@@ -414,10 +418,7 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
       ),
       child: InkWell(
         onTap: () {
-          context.pushNamed(
-            'admin-activity-detail',
-            extra: activity,
-          );
+          context.pushNamed('admin-activity-detail', extra: activity);
         },
         borderRadius: BorderRadius.circular(16),
         child: Padding(
@@ -464,32 +465,18 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
               // Date & Time
               Row(
                 children: [
-                  Icon(
-                    Icons.calendar_today,
-                    size: 14,
-                    color: Colors.grey[600],
-                  ),
+                  Icon(Icons.calendar_today, size: 14, color: Colors.grey[600]),
                   const SizedBox(width: 6),
                   Text(
                     activity['date'],
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   ),
                   const SizedBox(width: 16),
-                  Icon(
-                    Icons.access_time,
-                    size: 14,
-                    color: Colors.grey[600],
-                  ),
+                  Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
                   const SizedBox(width: 6),
                   Text(
                     activity['time'],
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   ),
                 ],
               ),
@@ -499,19 +486,12 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
               // Location
               Row(
                 children: [
-                  Icon(
-                    Icons.location_on,
-                    size: 14,
-                    color: Colors.grey[600],
-                  ),
+                  Icon(Icons.location_on, size: 14, color: Colors.grey[600]),
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
                       activity['location'],
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -543,10 +523,7 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
                       ),
                     ],
                   ),
-                  Icon(
-                    Icons.chevron_right,
-                    color: Colors.grey[400],
-                  ),
+                  Icon(Icons.chevron_right, color: Colors.grey[400]),
                 ],
               ),
             ],
@@ -582,20 +559,14 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
             children: [
               const Text(
                 'Filter Kegiatan',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 20),
-              
+
               // RW Filter
               const Text(
                 'RW',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
@@ -610,10 +581,7 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
                   ),
                 ),
                 items: ['Semua RW', 'RW 01', 'RW 02', 'RW 03']
-                    .map((rw) => DropdownMenuItem(
-                          value: rw,
-                          child: Text(rw),
-                        ))
+                    .map((rw) => DropdownMenuItem(value: rw, child: Text(rw)))
                     .toList(),
                 onChanged: (value) {
                   setModalState(() {
@@ -621,16 +589,13 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
                   });
                 },
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // RT Filter
               const Text(
                 'RT',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
@@ -645,10 +610,7 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
                   ),
                 ),
                 items: ['Semua RT', 'RT 01', 'RT 02', 'RT 03', 'RT 04']
-                    .map((rt) => DropdownMenuItem(
-                          value: rt,
-                          child: Text(rt),
-                        ))
+                    .map((rt) => DropdownMenuItem(value: rt, child: Text(rt)))
                     .toList(),
                 onChanged: (value) {
                   setModalState(() {
@@ -696,7 +658,9 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
     {
       'id': '1',
       'title': 'Kerja Bakti Lingkungan',
-      'date': DateFormatter.formatFull(DateTime.now().add(const Duration(days: 2))),
+      'date': DateFormatter.formatFull(
+        DateTime.now().add(const Duration(days: 2)),
+      ),
       'time': '08:00 - 11:00',
       'location': 'Balai RW 03',
       'level': 'RW',
@@ -706,7 +670,9 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
     {
       'id': '2',
       'title': 'Posyandu Balita',
-      'date': DateFormatter.formatFull(DateTime.now().add(const Duration(days: 5))),
+      'date': DateFormatter.formatFull(
+        DateTime.now().add(const Duration(days: 5)),
+      ),
       'time': '09:00 - 12:00',
       'location': 'Pos RT 02',
       'level': 'RT',
@@ -716,7 +682,9 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
     {
       'id': '3',
       'title': 'Rapat Koordinasi RW',
-      'date': DateFormatter.formatFull(DateTime.now().add(const Duration(days: 7))),
+      'date': DateFormatter.formatFull(
+        DateTime.now().add(const Duration(days: 7)),
+      ),
       'time': '19:00 - 21:00',
       'location': 'Balai RW 01',
       'level': 'RW',
@@ -736,7 +704,9 @@ class _AdminActivitiesScreenState extends State<AdminActivitiesScreen> {
     {
       'id': '5',
       'title': 'Arisan Ibu-ibu PKK',
-      'date': DateFormatter.formatFull(DateTime.now().add(const Duration(days: 10))),
+      'date': DateFormatter.formatFull(
+        DateTime.now().add(const Duration(days: 10)),
+      ),
       'time': '14:00 - 16:00',
       'location': 'Balai RW 02',
       'level': 'RW',

@@ -9,6 +9,7 @@ class DateFormatter {
   static String formatShort(DateTime date) => shortDate.format(date);
   static String formatTime(DateTime date) => time.format(date);
 
-  /// Return the full month name 
-  static String monthName(DateTime date) => DateFormat.MMMM('id_ID').format(date);
+  /// Return the full month name
+  static String monthName(DateTime date) =>
+      DateFormat.MMMM('id_ID').format(date);
 }

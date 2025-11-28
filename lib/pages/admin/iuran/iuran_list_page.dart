@@ -39,22 +39,34 @@ class _IuranListPageState extends State<IuranListPage> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.primary.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                      border: Border.all(
+                        color: AppColors.primary.withOpacity(0.3),
+                      ),
                     ),
                     child: DropdownButton<String>(
                       value: selectedFilter,
                       items: const [
                         DropdownMenuItem(value: 'Semua', child: Text('Semua')),
                         DropdownMenuItem(value: 'Lunas', child: Text('Lunas')),
-                        DropdownMenuItem(value: 'Belum Lunas', child: Text('Belum Lunas')),
+                        DropdownMenuItem(
+                          value: 'Belum Lunas',
+                          child: Text('Belum Lunas'),
+                        ),
                       ],
                       onChanged: (v) => setState(() => selectedFilter = v!),
                       underline: Container(),
-                      icon: const Icon(Icons.filter_list, color: AppColors.primary, size: 20),
+                      icon: const Icon(
+                        Icons.filter_list,
+                        color: AppColors.primary,
+                        size: 20,
+                      ),
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -161,10 +173,7 @@ class _IuranListPageState extends State<IuranListPage> {
                     const SizedBox(height: 4),
                     Text(
                       period,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                     ),
                   ],
                 ),
@@ -202,10 +211,7 @@ class _IuranListPageState extends State<IuranListPage> {
                 children: [
                   Text(
                     'Nominal',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -224,10 +230,7 @@ class _IuranListPageState extends State<IuranListPage> {
                   children: [
                     Text(
                       'Dibayar',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                     ),
                     const SizedBox(height: 4),
                     Row(
@@ -254,7 +257,9 @@ class _IuranListPageState extends State<IuranListPage> {
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: const Text('Fitur catat pembayaran akan segera tersedia'),
+                        content: const Text(
+                          'Fitur catat pembayaran akan segera tersedia',
+                        ),
                         backgroundColor: Colors.orange,
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(
@@ -268,7 +273,10 @@ class _IuranListPageState extends State<IuranListPage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -287,8 +295,8 @@ class _IuranListPageState extends State<IuranListPage> {
 
   String _formatCurrency(int amount) {
     return amount.toString().replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]}.',
-        );
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]}.',
+    );
   }
 }

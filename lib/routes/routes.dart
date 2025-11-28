@@ -10,15 +10,16 @@ import 'package:rukunin/routes/auth_routes.dart';
 import 'package:rukunin/routes/admin_routes.dart';
 import 'package:rukunin/routes/resident_routes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rukunin/pages/general/notification_screen.dart';
+import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 
 final router = GoRouter(
   debugLogDiagnostics: true,
   initialLocation: '/',
   redirect: (context, state) async {
     final user = FirebaseAuth.instance.currentUser;
-    final isAuthRoute = state.matchedLocation == '/sign-in' || 
-                        state.matchedLocation == '/sign-up';
+    final isAuthRoute =
+        state.matchedLocation == '/sign-in' ||
+        state.matchedLocation == '/sign-up';
     final isOnboardingRoute = state.matchedLocation == '/onboarding';
     final isSplashRoute = state.matchedLocation == '/';
 
@@ -39,9 +40,10 @@ final router = GoRouter(
             .collection('users')
             .doc(user.uid)
             .get();
-        
-        final onboardingCompleted = userDoc.data()?['onboardingCompleted'] ?? false;
-        
+
+        final onboardingCompleted =
+            userDoc.data()?['onboardingCompleted'] ?? false;
+
         if (!onboardingCompleted) {
           return '/onboarding';
         }
@@ -61,29 +63,26 @@ final router = GoRouter(
   },
   routes: [
     // Splash screen
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const SplashScreen(),
-    ),
+    GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
 
     // Authentication routes
     ...authRoutes,
-    
+
     // Admin routes
     adminRoutes,
 
     // RT routes
     ...rtRoutes,
-    
+
     // RW routes
     ...rwRoutes,
 
     // Secretary routes
-    ... secretaryRoutes,
+    ...secretaryRoutes,
 
     // Treasurer routes
     ...treasurerRoutes,
-    
+
     // Resident routes
     ...residentRoutes,
 

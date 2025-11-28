@@ -9,14 +9,14 @@ class CartItem {
   final DateTime addedAt;
 
   CartItem({
-    String? id,
     required this.userId,
     required this.productId,
     required this.product,
     required this.quantity,
+    String? id,
     DateTime? addedAt,
-  })  : id = id ?? DateTime.now().millisecondsSinceEpoch.toString(),
-        addedAt = addedAt ?? DateTime.now();
+  }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString(),
+       addedAt = addedAt ?? DateTime.now();
 
   // Factory constructor for Firestore
   factory CartItem.fromFirestore(Map<String, dynamic> data, String documentId) {

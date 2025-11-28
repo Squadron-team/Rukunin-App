@@ -206,8 +206,11 @@ class DocumentRequestsRepository {
     final idx = _store.indexWhere((e) => e.id == id);
     if (idx != -1) {
       final cur = _store[idx].attachments;
-      if (cur == null) _store[idx].attachments = [filename];
-      else cur.add(filename);
+      if (cur == null) {
+        _store[idx].attachments = [filename];
+      } else {
+        cur.add(filename);
+      }
     }
   }
 }

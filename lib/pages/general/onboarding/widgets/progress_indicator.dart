@@ -4,10 +4,7 @@ import 'package:rukunin/style/app_colors.dart';
 class OnboardingProgressIndicator extends StatelessWidget {
   final int currentPage;
 
-  const OnboardingProgressIndicator({
-    required this.currentPage,
-    super.key,
-  });
+  const OnboardingProgressIndicator({required this.currentPage, super.key});
 
   @override
   Widget build(BuildContext context) {

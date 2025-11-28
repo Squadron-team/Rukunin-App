@@ -23,7 +23,9 @@ class Warga {
     required this.jenisKelamin,
     required this.tempatLahir,
     required this.tanggalLahir,
-    required this.pekerjaan, required this.statusPerkawinan, this.noTelepon = '-',
+    required this.pekerjaan,
+    required this.statusPerkawinan,
+    this.noTelepon = '-',
     this.fotoUrl = '',
   });
 
@@ -77,7 +79,8 @@ class DummyWargaData {
       noTelepon: '081234567890',
       pekerjaan: 'Wiraswasta',
       statusPerkawinan: 'Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Ahmad+Wijaya&background=4F46E5&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Ahmad+Wijaya&background=4F46E5&color=fff&size=200',
     ),
     Warga(
       id: '2',
@@ -92,7 +95,8 @@ class DummyWargaData {
       noTelepon: '081234567891',
       pekerjaan: 'Guru',
       statusPerkawinan: 'Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Siti+Nurhaliza&background=EC4899&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Siti+Nurhaliza&background=EC4899&color=fff&size=200',
     ),
     Warga(
       id: '3',
@@ -107,7 +111,8 @@ class DummyWargaData {
       noTelepon: '081234567892',
       pekerjaan: 'PNS',
       statusPerkawinan: 'Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Budi+Santoso&background=10B981&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Budi+Santoso&background=10B981&color=fff&size=200',
     ),
     Warga(
       id: '4',
@@ -122,7 +127,8 @@ class DummyWargaData {
       noTelepon: '081234567893',
       pekerjaan: 'Dokter',
       statusPerkawinan: 'Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Dewi+Lestari&background=F59E0B&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Dewi+Lestari&background=F59E0B&color=fff&size=200',
     ),
     Warga(
       id: '5',
@@ -137,7 +143,8 @@ class DummyWargaData {
       noTelepon: '081234567894',
       pekerjaan: 'Software Developer',
       statusPerkawinan: 'Belum Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Eko+Prasetyo&background=6366F1&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Eko+Prasetyo&background=6366F1&color=fff&size=200',
     ),
     Warga(
       id: '6',
@@ -152,7 +159,8 @@ class DummyWargaData {
       noTelepon: '081234567895',
       pekerjaan: 'Pengusaha',
       statusPerkawinan: 'Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Fitri+Handayani&background=EF4444&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Fitri+Handayani&background=EF4444&color=fff&size=200',
     ),
     Warga(
       id: '7',
@@ -167,7 +175,8 @@ class DummyWargaData {
       noTelepon: '081234567896',
       pekerjaan: 'Arsitek',
       statusPerkawinan: 'Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Gunawan+Hidayat&background=8B5CF6&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Gunawan+Hidayat&background=8B5CF6&color=fff&size=200',
     ),
     Warga(
       id: '8',
@@ -182,7 +191,8 @@ class DummyWargaData {
       noTelepon: '081234567897',
       pekerjaan: 'Desainer',
       statusPerkawinan: 'Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Hesti+Pratiwi&background=14B8A6&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Hesti+Pratiwi&background=14B8A6&color=fff&size=200',
     ),
     Warga(
       id: '9',
@@ -197,7 +207,8 @@ class DummyWargaData {
       noTelepon: '081234567898',
       pekerjaan: 'Marketing',
       statusPerkawinan: 'Belum Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Irfan+Maulana&background=F97316&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Irfan+Maulana&background=F97316&color=fff&size=200',
     ),
     Warga(
       id: '10',
@@ -212,7 +223,8 @@ class DummyWargaData {
       noTelepon: '081234567899',
       pekerjaan: 'Akuntan',
       statusPerkawinan: 'Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Julia+Safitri&background=EC4899&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Julia+Safitri&background=EC4899&color=fff&size=200',
     ),
     Warga(
       id: '11',
@@ -227,7 +239,8 @@ class DummyWargaData {
       noTelepon: '081234567800',
       pekerjaan: 'Insinyur',
       statusPerkawinan: 'Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Kurniawan+Setiawan&background=3B82F6&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Kurniawan+Setiawan&background=3B82F6&color=fff&size=200',
     ),
     Warga(
       id: '12',
@@ -242,7 +255,8 @@ class DummyWargaData {
       noTelepon: '081234567801',
       pekerjaan: 'Perawat',
       statusPerkawinan: 'Belum Menikah',
-      fotoUrl: 'https://ui-avatars.com/api/?name=Linda+Wijayanti&background=A855F7&color=fff&size=200',
+      fotoUrl:
+          'https://ui-avatars.com/api/?name=Linda+Wijayanti&background=A855F7&color=fff&size=200',
     ),
   ];
 
@@ -281,12 +295,12 @@ class DummyWargaData {
   // Search warga
   static List<Warga> searchWarga(String query) {
     if (query.isEmpty) return wargaList;
-    
+
     return wargaList.where((w) {
       return w.nama.toLowerCase().contains(query.toLowerCase()) ||
-             w.nik.contains(query) ||
-             w.alamat.toLowerCase().contains(query.toLowerCase()) ||
-             w.rt.contains(query);
+          w.nik.contains(query) ||
+          w.alamat.toLowerCase().contains(query.toLowerCase()) ||
+          w.rt.contains(query);
     }).toList();
   }
 

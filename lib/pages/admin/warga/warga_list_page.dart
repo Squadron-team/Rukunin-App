@@ -77,13 +77,16 @@ class WargaListPage extends StatelessWidget {
   }) {
     return InkWell(
       onTap: () {
-        context.push('/admin/warga/detail', extra: {
-          'name': name,
-          'nik': nik,
-          'alamat': alamat,
-          'noTelp': noTelp,
-          'status': status,
-        });
+        context.push(
+          '/admin/warga/detail',
+          extra: {
+            'name': name,
+            'nik': nik,
+            'alamat': alamat,
+            'noTelp': noTelp,
+            'status': status,
+          },
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
@@ -109,7 +112,11 @@ class WargaListPage extends StatelessWidget {
                 color: AppColors.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(Icons.person, color: AppColors.primary, size: 26),
+              child: const Icon(
+                Icons.person,
+                color: AppColors.primary,
+                size: 26,
+              ),
             ),
 
             const SizedBox(width: 16),
@@ -137,26 +144,16 @@ class WargaListPage extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     alamat,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      Icon(
-                        Icons.phone,
-                        size: 12,
-                        color: Colors.grey[500],
-                      ),
+                      Icon(Icons.phone, size: 12, color: Colors.grey[500]),
                       const SizedBox(width: 4),
                       Text(
                         noTelp,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                       ),
                       const SizedBox(width: 12),
                       Container(
@@ -174,7 +171,9 @@ class WargaListPage extends StatelessWidget {
                           status,
                           style: TextStyle(
                             fontSize: 11,
-                            color: status == 'Aktif' ? Colors.green : Colors.red,
+                            color: status == 'Aktif'
+                                ? Colors.green
+                                : Colors.red,
                             fontWeight: FontWeight.w600,
                           ),
                         ),

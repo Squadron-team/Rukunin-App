@@ -5,10 +5,7 @@ import 'package:rukunin/style/app_colors.dart';
 class RtShell extends StatelessWidget {
   final Widget child;
 
-  const RtShell({
-    required this.child,
-    super.key,
-  });
+  const RtShell({required this.child, super.key});
 
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
@@ -128,9 +125,7 @@ class RtShell extends StatelessWidget {
       onTap: () => _onItemTapped(context, index),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

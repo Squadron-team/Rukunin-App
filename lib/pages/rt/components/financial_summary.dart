@@ -18,9 +18,7 @@ class FinancialSummary extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.green.withOpacity(0.2),
-        ),
+        border: Border.all(color: Colors.green.withOpacity(0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,10 +57,7 @@ class FinancialSummary extends StatelessWidget {
                 children: [
                   Text(
                     'Iuran Terkumpul',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 4),
                   const Text(
@@ -80,10 +75,7 @@ class FinancialSummary extends StatelessWidget {
                 children: [
                   Text(
                     'Target',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 4),
                   const Text(
@@ -105,9 +97,7 @@ class FinancialSummary extends StatelessWidget {
               value: 0.844,
               minHeight: 8,
               backgroundColor: Colors.grey[300],
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                Colors.green,
-              ),
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
             ),
           ),
           const SizedBox(height: 8),
@@ -143,10 +133,7 @@ class FinancialSummary extends StatelessWidget {
                 children: [
                   Text(
                     'Saldo Kas RT',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 4),
                   const Text(

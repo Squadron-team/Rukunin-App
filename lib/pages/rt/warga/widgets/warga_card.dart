@@ -11,6 +11,7 @@ class WargaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
@@ -27,18 +28,31 @@ class WargaCard extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(Icons.person, color: AppColors.primary, size: 28),
+                child: const Icon(
+                  Icons.person,
+                  color: AppColors.primary,
+                  size: 28,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(warga.name, style: const TextStyle(fontWeight: FontWeight.w700)),
+                    Text(
+                      warga.name,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
                     const SizedBox(height: 4),
-                    Text(warga.nik, style: TextStyle(color: Colors.grey[700], fontSize: 13)),
+                    Text(
+                      warga.nik,
+                      style: TextStyle(color: Colors.grey[700], fontSize: 13),
+                    ),
                     const SizedBox(height: 6),
-                    Text(warga.address, style: TextStyle(color: Colors.grey[600], fontSize: 13)),
+                    Text(
+                      warga.address,
+                      style: TextStyle(color: Colors.grey[600], fontSize: 13),
+                    ),
                   ],
                 ),
               ),
@@ -48,15 +62,22 @@ class WargaCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
-                      color: warga.isActive ? AppColors.primary.withOpacity(0.12) : Colors.red.withOpacity(0.12),
+                      color: warga.isActive
+                          ? AppColors.primary.withOpacity(0.12)
+                          : Colors.red.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
                       warga.isActive ? 'Aktif' : 'Non-aktif',
                       style: TextStyle(
-                        color: warga.isActive ? AppColors.primary : Colors.red[700],
+                        color: warga.isActive
+                            ? AppColors.primary
+                            : Colors.red[700],
                         fontWeight: FontWeight.w600,
                         fontSize: 12,
                       ),
@@ -65,7 +86,7 @@ class WargaCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   const Icon(Icons.chevron_right_rounded, color: Colors.grey),
                 ],
-              )
+              ),
             ],
           ),
         ),

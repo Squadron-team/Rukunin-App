@@ -155,19 +155,14 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
               ],
             ),
           ),
-
-          // Floating Create Button
-          Positioned(
-            right: 12,
-            bottom: 12,
-            child: FloatingActionButton(
-              heroTag: 'add-event',
-              backgroundColor: AppColors.primary,
-              onPressed: _openCreate,
-              child: const Icon(Icons.add, color: Colors.white),
-            ),
-          ),
         ],
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'add-event',
+        backgroundColor: AppColors.primary,
+        onPressed: _openCreate,
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
@@ -200,8 +195,9 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
       final aPast = da.isBefore(now);
       final bPast = db.isBefore(now);
 
-      if (aPast != bPast)
+      if (aPast != bPast) {
         return aPast ? 1 : -1; // upcoming (-1) before past (1)
+      }
       return da.compareTo(db);
     });
 

@@ -7,7 +7,11 @@ class KegiatanFilters extends StatelessWidget {
   final Function() onSearchChanged;
 
   const KegiatanFilters({
-    required this.controller, required this.selectedStatus, required this.onStatusChanged, required this.onSearchChanged, super.key,
+    required this.controller,
+    required this.selectedStatus,
+    required this.onStatusChanged,
+    required this.onSearchChanged,
+    super.key,
   });
 
   @override

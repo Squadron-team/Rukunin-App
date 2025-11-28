@@ -26,7 +26,8 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
       'image': '🍛',
       'stock': 20,
       'isActive': true,
-      'description': 'Nasi goreng spesial dengan bumbu rahasia yang lezat dan menggugah selera',
+      'description':
+          'Nasi goreng spesial dengan bumbu rahasia yang lezat dan menggugah selera',
     },
     {
       'id': '2',
@@ -50,7 +51,8 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
       'image': '🏍️',
       'stock': 0,
       'isActive': true,
-      'description': 'Jasa cuci motor dengan peralatan lengkap dan tenaga profesional',
+      'description':
+          'Jasa cuci motor dengan peralatan lengkap dan tenaga profesional',
     },
     {
       'id': '4',
@@ -92,8 +94,11 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
 
   List<Map<String, dynamic>> get filteredProducts {
     return products.where((product) {
-      final matchesCategory = selectedCategory == 'Semua' || product['category'] == selectedCategory;
-      final matchesSearch = product['name'].toLowerCase().contains(searchQuery.toLowerCase()) ||
+      final matchesCategory =
+          selectedCategory == 'Semua' ||
+          product['category'] == selectedCategory;
+      final matchesSearch =
+          product['name'].toLowerCase().contains(searchQuery.toLowerCase()) ||
           product['seller'].toLowerCase().contains(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     }).toList();
@@ -130,7 +135,10 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
@@ -166,9 +174,15 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: AppColors.primary, width: 2),
+                      borderSide: const BorderSide(
+                        color: AppColors.primary,
+                        width: 2,
+                      ),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 14,
+                      horizontal: 16,
+                    ),
                   ),
                   onChanged: (v) => setState(() => searchQuery = v),
                 ),
@@ -196,7 +210,11 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                       padding: const EdgeInsets.all(40),
                       child: Column(
                         children: [
-                          Icon(Icons.search_off, size: 64, color: Colors.grey[400]),
+                          Icon(
+                            Icons.search_off,
+                            size: 64,
+                            color: Colors.grey[400],
+                          ),
                           const SizedBox(height: 16),
                           Text(
                             'Tidak ada produk ditemukan',
@@ -245,7 +263,10 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
             icon: const Icon(Icons.add, color: Colors.white),
             label: const Text(
               'Tambah',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             onPressed: () => context.push('/admin/marketplace/add'),
           ),
@@ -312,18 +333,21 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: () {
-            context.push('/admin/marketplace/detail', extra: {
-              'id': id,
-              'name': name,
-              'seller': seller,
-              'phone': phone,
-              'price': price,
-              'category': category,
-              'image': image,
-              'stock': stock,
-              'isActive': isActive,
-              'description': description,
-            });
+            context.push(
+              '/admin/marketplace/detail',
+              extra: {
+                'id': id,
+                'name': name,
+                'seller': seller,
+                'phone': phone,
+                'price': price,
+                'category': category,
+                'image': image,
+                'stock': stock,
+                'isActive': isActive,
+                'description': description,
+              },
+            );
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -353,16 +377,24 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                           Expanded(
                             child: Text(
                               name,
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           const SizedBox(width: 8),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
-                              color: isActive ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
+                              color: isActive
+                                  ? Colors.green.withOpacity(0.1)
+                                  : Colors.red.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
@@ -384,7 +416,10 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                           Expanded(
                             child: Text(
                               seller,
-                              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey[600],
+                              ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -395,7 +430,10 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                       Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
                             decoration: BoxDecoration(
                               color: AppColors.primary.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(4),
@@ -412,16 +450,23 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
                           const SizedBox(width: 8),
                           if (!isService)
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
                               decoration: BoxDecoration(
-                                color: stock > 0 ? Colors.green.withOpacity(0.1) : Colors.orange.withOpacity(0.1),
+                                color: stock > 0
+                                    ? Colors.green.withOpacity(0.1)
+                                    : Colors.orange.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
                                 'Stok: $stock',
                                 style: TextStyle(
                                   fontSize: 10,
-                                  color: stock > 0 ? Colors.green : Colors.orange,
+                                  color: stock > 0
+                                      ? Colors.green
+                                      : Colors.orange,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -452,8 +497,8 @@ class _MarketplaceListPageState extends State<MarketplaceListPage> {
 
   String _formatCurrency(int amount) {
     return amount.toString().replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]}.',
-        );
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]}.',
+    );
   }
 }

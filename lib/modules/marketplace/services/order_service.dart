@@ -72,9 +72,10 @@ class OrderService {
 
         // Update product stock
         for (var product in sellerProducts) {
-          await _firestore.collection('marketplace_products').doc(product.id).update({
-            'stock': FieldValue.increment(-product.quantity),
-          });
+          await _firestore
+              .collection('marketplace_products')
+              .doc(product.id)
+              .update({'stock': FieldValue.increment(-product.quantity)});
         }
       }
 
@@ -168,10 +169,7 @@ class OrderService {
         .snapshots()
         .map((snapshot) {
           return snapshot.docs.map((doc) {
-            return Order.fromFirestore(
-              doc.data(),
-              doc.id,
-            );
+            return Order.fromFirestore(doc.data(), doc.id);
           }).toList();
         });
   }

@@ -96,4 +96,3 @@ List<Product> cartItems = [
     quantity: 2,
   ),
 ];
-

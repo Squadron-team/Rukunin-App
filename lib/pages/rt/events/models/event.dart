@@ -66,7 +66,9 @@ class Event {
       organizerName: map['organizerName'] ?? '',
       organizerPosition: map['organizerPosition'] ?? '',
       participants: List<String>.from(map['participants'] ?? []),
-      createdAt: DateTime.parse(map['createdAt'] ?? DateTime.now().toIso8601String()),
+      createdAt: DateTime.parse(
+        map['createdAt'] ?? DateTime.now().toIso8601String(),
+      ),
       category: map['category'] ?? 'Sosial',
       categoryColor: map['categoryColorValue'] != null
           ? Color(map['categoryColorValue'])

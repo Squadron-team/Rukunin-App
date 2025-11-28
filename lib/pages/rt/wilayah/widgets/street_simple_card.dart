@@ -3,9 +3,9 @@ import 'package:rukunin/style/app_colors.dart';
 
 class StreetSimpleCard extends StatelessWidget {
   const StreetSimpleCard({
-    super.key,
     required this.streetName,
     required this.totalHouses,
+    super.key,
     this.onTap,
   });
 
@@ -65,18 +65,12 @@ class StreetSimpleCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     '$totalHouses Rumah',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   ),
                 ],
               ),
             ),
-            Icon(
-              Icons.chevron_right,
-              color: AppColors.primary,
-            ),
+            const Icon(Icons.chevron_right, color: AppColors.primary),
           ],
         ),
       ),

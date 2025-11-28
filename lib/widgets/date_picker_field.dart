@@ -17,9 +17,7 @@ class DatePickerField extends StatelessWidget {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now().subtract(
-        const Duration(days: 6570),
-      ),
+      initialDate: DateTime.now().subtract(const Duration(days: 6570)),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
       builder: (context, child) {
@@ -64,11 +62,16 @@ class DatePickerField extends StatelessWidget {
                 const SizedBox(width: 12),
                 Text(
                   selectedDate != null
-                      ? DateFormat('dd MMMM yyyy', 'id_ID').format(selectedDate!)
+                      ? DateFormat(
+                          'dd MMMM yyyy',
+                          'id_ID',
+                        ).format(selectedDate!)
                       : 'Pilih tanggal lahir',
                   style: TextStyle(
                     fontSize: 16,
-                    color: selectedDate != null ? Colors.black : Colors.grey[400],
+                    color: selectedDate != null
+                        ? Colors.black
+                        : Colors.grey[400],
                   ),
                 ),
               ],

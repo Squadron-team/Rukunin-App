@@ -8,7 +8,12 @@ class RequestDetailSheet extends StatefulWidget {
   final Future<void> Function(String note)? onSaveNote;
   final Future<void> Function(String status)? onChangeStatus;
 
-  const RequestDetailSheet({Key? key, required this.request, this.onSaveNote, this.onChangeStatus}) : super(key: key);
+  const RequestDetailSheet({
+    required this.request,
+    super.key,
+    this.onSaveNote,
+    this.onChangeStatus,
+  });
 
   @override
   State<RequestDetailSheet> createState() => _RequestDetailSheetState();
@@ -42,10 +47,18 @@ class _RequestDetailSheetState extends State<RequestDetailSheet> {
       context: context,
       builder: (_) => AlertDialog(
         title: const Text('Konfirmasi'),
-        content: Text(status == 'approved' ? 'Setujui pengajuan?' : 'Tolak pengajuan?'),
+        content: Text(
+          status == 'approved' ? 'Setujui pengajuan?' : 'Tolak pengajuan?',
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Batal')),
-          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Ya')),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Batal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Ya'),
+          ),
         ],
       ),
     );
@@ -56,7 +69,9 @@ class _RequestDetailSheetState extends State<RequestDetailSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final isFinal = widget.request.status == 'approved' || widget.request.status == 'rejected';
+    final isFinal =
+        widget.request.status == 'approved' ||
+        widget.request.status == 'rejected';
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -65,8 +80,16 @@ class _RequestDetailSheetState extends State<RequestDetailSheet> {
           children: [
             Row(
               children: [
-                Expanded(child: Text(widget.request.title, style: Theme.of(context).textTheme.titleLarge)),
-                IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close)),
+                Expanded(
+                  child: Text(
+                    widget.request.title,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close),
+                ),
               ],
             ),
             const SizedBox(height: 8),
@@ -76,7 +99,9 @@ class _RequestDetailSheetState extends State<RequestDetailSheet> {
             const SizedBox(height: 12),
             TextField(
               controller: _noteCtrl,
-              decoration: buildInputDecoration('Catatan untuk pemohon (opsional)'),
+              decoration: buildInputDecoration(
+                'Catatan untuk pemohon (opsional)',
+              ),
               maxLines: 4,
             ),
             const SizedBox(height: 12),
@@ -85,15 +110,27 @@ class _RequestDetailSheetState extends State<RequestDetailSheet> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: _saving ? null : _saveNote,
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: Colors.black),
-                    child: _saving ? const SizedBox(height: 16, width: 16, child: CircularProgressIndicator(strokeWidth: 2)) : const Text('Simpan Catatan'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                    ),
+                    child: _saving
+                        ? const SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Text('Simpan Catatan'),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: isFinal ? null : () => _changeStatus('approved'),
-                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.success, foregroundColor: Colors.white),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.success,
+                      foregroundColor: Colors.white,
+                    ),
                     child: const Text('Setujui'),
                   ),
                 ),
@@ -102,7 +139,10 @@ class _RequestDetailSheetState extends State<RequestDetailSheet> {
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: isFinal ? null : () => _changeStatus('rejected'),
-              style: ElevatedButton.styleFrom(backgroundColor: AppColors.error, foregroundColor: Colors.white),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.error,
+                foregroundColor: Colors.white,
+              ),
               child: const Text('Tolak'),
             ),
           ],

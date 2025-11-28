@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 class StatCard extends StatelessWidget {
   const StatCard({
-    required this.icon, required this.label, required this.value, required this.subtitle, required this.color, super.key,
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.subtitle,
+    required this.color,
+    super.key,
   });
 
   final IconData icon;

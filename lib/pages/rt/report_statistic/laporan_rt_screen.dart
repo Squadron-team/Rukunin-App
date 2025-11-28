@@ -5,7 +5,6 @@ import 'package:rukunin/style/app_colors.dart';
 import 'components/summary_row.dart';
 import 'components/filters_row.dart';
 import 'components/mini_charts.dart';
-// 'donut_chart.dart' types are provided by repository and mini_charts; keep import only if needed elsewhere
 import 'components/sparkline_painter.dart';
 import '../../../repositories/statistik_repository.dart';
 
@@ -88,7 +87,6 @@ class _LaporanRTScreenState extends State<LaporanRTScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // move sample data to repository for cleaner UI
     final repo = ReportRepository();
     final age = repo.getAgeDistribution();
     final gender = repo.getGenderDistribution();

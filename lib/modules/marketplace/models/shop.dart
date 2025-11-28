@@ -13,10 +13,10 @@ class Shop {
   final DateTime? updatedAt;
 
   Shop({
-    String? id,
     required this.name,
     required this.ownerId,
     required this.ownerName,
+    String? id,
     this.description,
     this.imageUrl,
     this.address,
@@ -26,7 +26,7 @@ class Shop {
     DateTime? createdAt,
     this.updatedAt,
   }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString(),
-        createdAt = createdAt ?? DateTime.now();
+       createdAt = createdAt ?? DateTime.now();
 
   // Factory constructor for Firestore
   factory Shop.fromFirestore(Map<String, dynamic> data, String documentId) {

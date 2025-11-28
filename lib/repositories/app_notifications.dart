@@ -33,8 +33,7 @@ final List<AppNotification> appNotifications = [
     type: AppNotificationType.admin,
     icon: Icons.payment,
     title: 'Pengingat Iuran Bulanan',
-    description:
-        'Iuran bulan November akan jatuh tempo pada 30 November 2025.',
+    description: 'Iuran bulan November akan jatuh tempo pada 30 November 2025.',
     time: '1d ago',
     isRead: false,
   ),
@@ -42,8 +41,7 @@ final List<AppNotification> appNotifications = [
     type: AppNotificationType.community,
     icon: Icons.announcement,
     title: 'Pengumuman Rapat RT',
-    description:
-        'Rapat RT akan diadakan Kamis, 21 November 2025 di Balai RW.',
+    description: 'Rapat RT akan diadakan Kamis, 21 November 2025 di Balai RW.',
     time: '2d ago',
     isRead: true,
   ),
@@ -51,8 +49,7 @@ final List<AppNotification> appNotifications = [
     type: AppNotificationType.event,
     icon: Icons.celebration,
     title: '17 Agustus - Lomba Warga',
-    description:
-        'Daftarkan diri Anda untuk mengikuti berbagai lomba menarik!',
+    description: 'Daftarkan diri Anda untuk mengikuti berbagai lomba menarik!',
     time: '3d ago',
     isRead: true,
   ),

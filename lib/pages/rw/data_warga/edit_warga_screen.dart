@@ -5,9 +5,7 @@ import 'package:rukunin/style/app_colors.dart';
 class EditWargaScreen extends StatefulWidget {
   final Warga warga;
 
-  const EditWargaScreen({
-    required this.warga, super.key,
-  });
+  const EditWargaScreen({required this.warga, super.key});
 
   @override
   State<EditWargaScreen> createState() => _EditWargaScreenState();
@@ -15,7 +13,7 @@ class EditWargaScreen extends StatefulWidget {
 
 class _EditWargaScreenState extends State<EditWargaScreen> {
   final _formKey = GlobalKey<FormState>();
-  
+
   // Controllers
   late TextEditingController _namaController;
   late TextEditingController _nikController;
@@ -23,7 +21,7 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
   late TextEditingController _tempatLahirController;
   late TextEditingController _tanggalLahirController;
   late TextEditingController _noTeleponController;
-  
+
   // Dropdown values
   late String _selectedRT;
   late String _selectedJenisKelamin;
@@ -39,10 +37,14 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
     _namaController = TextEditingController(text: widget.warga.nama);
     _nikController = TextEditingController(text: widget.warga.nik);
     _alamatController = TextEditingController(text: widget.warga.alamat);
-    _tempatLahirController = TextEditingController(text: widget.warga.tempatLahir);
-    _tanggalLahirController = TextEditingController(text: widget.warga.tanggalLahir);
+    _tempatLahirController = TextEditingController(
+      text: widget.warga.tempatLahir,
+    );
+    _tanggalLahirController = TextEditingController(
+      text: widget.warga.tanggalLahir,
+    );
     _noTeleponController = TextEditingController(text: widget.warga.noTelepon);
-    
+
     _selectedRT = widget.warga.rt;
     _selectedJenisKelamin = widget.warga.jenisKelamin;
     _selectedPekerjaan = widget.warga.pekerjaan;
@@ -77,7 +79,9 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
         jenisKelamin: _selectedJenisKelamin,
         tempatLahir: _tempatLahirController.text,
         tanggalLahir: _tanggalLahirController.text,
-        noTelepon: _noTeleponController.text.isEmpty ? '-' : _noTeleponController.text,
+        noTelepon: _noTeleponController.text.isEmpty
+            ? '-'
+            : _noTeleponController.text,
         pekerjaan: _selectedPekerjaan,
         statusPerkawinan: _selectedStatusPerkawinan,
         fotoUrl: fotoUrl,
@@ -95,7 +99,9 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
             content: const Text('Data warga berhasil diperbarui'),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       }
@@ -103,7 +109,19 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
   }
 
   String _getRandomColor() {
-    final colors = ['4F46E5', 'EC4899', '10B981', 'F59E0B', '6366F1', 'EF4444', '8B5CF6', '14B8A6', 'F97316', '3B82F6', 'A855F7'];
+    final colors = [
+      '4F46E5',
+      'EC4899',
+      '10B981',
+      'F59E0B',
+      '6366F1',
+      'EF4444',
+      '8B5CF6',
+      '14B8A6',
+      'F97316',
+      '3B82F6',
+      'A855F7',
+    ];
     return colors[DateTime.now().millisecond % colors.length];
   }
 
@@ -149,148 +167,144 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
             // Profile Preview
             _buildProfilePreview(),
             const SizedBox(height: 24),
-            
-            _buildSection(
-              'Data Pribadi',
-              Icons.person,
-              [
-                _buildTextField(
-                  controller: _namaController,
-                  label: 'Nama Lengkap',
-                  icon: Icons.person_outline,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Nama tidak boleh kosong';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                _buildTextField(
-                  controller: _nikController,
-                  label: 'NIK',
-                  icon: Icons.credit_card,
-                  keyboardType: TextInputType.number,
-                  maxLength: 16,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'NIK tidak boleh kosong';
-                    }
-                    if (value.length != 16) {
-                      return 'NIK harus 16 digit';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                _buildDropdown(
-                  label: 'Jenis Kelamin',
-                  icon: Icons.wc,
-                  value: _selectedJenisKelamin,
-                  items: ['Laki-laki', 'Perempuan'],
-                  onChanged: (value) {
-                    setState(() => _selectedJenisKelamin = value!);
-                  },
-                ),
-                const SizedBox(height: 16),
-                _buildTextField(
-                  controller: _tempatLahirController,
-                  label: 'Tempat Lahir',
-                  icon: Icons.location_city,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Tempat lahir tidak boleh kosong';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                _buildDateField(
-                  controller: _tanggalLahirController,
-                  label: 'Tanggal Lahir',
-                  icon: Icons.cake,
-                ),
-                const SizedBox(height: 16),
-                _buildDropdown(
-                  label: 'Status Perkawinan',
-                  icon: Icons.favorite,
-                  value: _selectedStatusPerkawinan,
-                  items: ['Belum Menikah', 'Menikah', 'Cerai Hidup', 'Cerai Mati'],
-                  onChanged: (value) {
-                    setState(() => _selectedStatusPerkawinan = value!);
-                  },
-                ),
-              ],
-            ),
+
+            _buildSection('Data Pribadi', Icons.person, [
+              _buildTextField(
+                controller: _namaController,
+                label: 'Nama Lengkap',
+                icon: Icons.person_outline,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Nama tidak boleh kosong';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              _buildTextField(
+                controller: _nikController,
+                label: 'NIK',
+                icon: Icons.credit_card,
+                keyboardType: TextInputType.number,
+                maxLength: 16,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'NIK tidak boleh kosong';
+                  }
+                  if (value.length != 16) {
+                    return 'NIK harus 16 digit';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              _buildDropdown(
+                label: 'Jenis Kelamin',
+                icon: Icons.wc,
+                value: _selectedJenisKelamin,
+                items: ['Laki-laki', 'Perempuan'],
+                onChanged: (value) {
+                  setState(() => _selectedJenisKelamin = value!);
+                },
+              ),
+              const SizedBox(height: 16),
+              _buildTextField(
+                controller: _tempatLahirController,
+                label: 'Tempat Lahir',
+                icon: Icons.location_city,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Tempat lahir tidak boleh kosong';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              _buildDateField(
+                controller: _tanggalLahirController,
+                label: 'Tanggal Lahir',
+                icon: Icons.cake,
+              ),
+              const SizedBox(height: 16),
+              _buildDropdown(
+                label: 'Status Perkawinan',
+                icon: Icons.favorite,
+                value: _selectedStatusPerkawinan,
+                items: [
+                  'Belum Menikah',
+                  'Menikah',
+                  'Cerai Hidup',
+                  'Cerai Mati',
+                ],
+                onChanged: (value) {
+                  setState(() => _selectedStatusPerkawinan = value!);
+                },
+              ),
+            ]),
             const SizedBox(height: 24),
-            _buildSection(
-              'Alamat & Kontak',
-              Icons.home,
-              [
-                _buildTextField(
-                  controller: _alamatController,
-                  label: 'Alamat Lengkap',
-                  icon: Icons.location_on,
-                  maxLines: 3,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Alamat tidak boleh kosong';
-                    }
-                    return null;
-                  },
+            _buildSection('Alamat & Kontak', Icons.home, [
+              _buildTextField(
+                controller: _alamatController,
+                label: 'Alamat Lengkap',
+                icon: Icons.location_on,
+                maxLines: 3,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Alamat tidak boleh kosong';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              _buildDropdown(
+                label: 'RT',
+                icon: Icons.home_work,
+                value: _selectedRT,
+                items: List.generate(
+                  12,
+                  (i) => (i + 1).toString().padLeft(2, '0'),
                 ),
-                const SizedBox(height: 16),
-                _buildDropdown(
-                  label: 'RT',
-                  icon: Icons.home_work,
-                  value: _selectedRT,
-                  items: List.generate(12, (i) => (i + 1).toString().padLeft(2, '0')),
-                  onChanged: (value) {
-                    setState(() => _selectedRT = value!);
-                  },
-                ),
-                const SizedBox(height: 16),
-                _buildTextField(
-                  controller: _noTeleponController,
-                  label: 'No. Telepon (Opsional)',
-                  icon: Icons.phone,
-                  keyboardType: TextInputType.phone,
-                ),
-              ],
-            ),
+                onChanged: (value) {
+                  setState(() => _selectedRT = value!);
+                },
+              ),
+              const SizedBox(height: 16),
+              _buildTextField(
+                controller: _noTeleponController,
+                label: 'No. Telepon (Opsional)',
+                icon: Icons.phone,
+                keyboardType: TextInputType.phone,
+              ),
+            ]),
             const SizedBox(height: 24),
-            _buildSection(
-              'Pekerjaan',
-              Icons.work,
-              [
-                _buildDropdown(
-                  label: 'Pekerjaan',
-                  icon: Icons.business_center,
-                  value: _selectedPekerjaan,
-                  items: [
-                    'Wiraswasta',
-                    'PNS',
-                    'Karyawan Swasta',
-                    'Guru',
-                    'Dokter',
-                    'Perawat',
-                    'Software Developer',
-                    'Pengusaha',
-                    'Arsitek',
-                    'Desainer',
-                    'Marketing',
-                    'Akuntan',
-                    'Insinyur',
-                    'Pelajar/Mahasiswa',
-                    'Ibu Rumah Tangga',
-                    'Lainnya',
-                  ],
-                  onChanged: (value) {
-                    setState(() => _selectedPekerjaan = value!);
-                  },
-                ),
-              ],
-            ),
+            _buildSection('Pekerjaan', Icons.work, [
+              _buildDropdown(
+                label: 'Pekerjaan',
+                icon: Icons.business_center,
+                value: _selectedPekerjaan,
+                items: [
+                  'Wiraswasta',
+                  'PNS',
+                  'Karyawan Swasta',
+                  'Guru',
+                  'Dokter',
+                  'Perawat',
+                  'Software Developer',
+                  'Pengusaha',
+                  'Arsitek',
+                  'Desainer',
+                  'Marketing',
+                  'Akuntan',
+                  'Insinyur',
+                  'Pelajar/Mahasiswa',
+                  'Ibu Rumah Tangga',
+                  'Lainnya',
+                ],
+                onChanged: (value) {
+                  setState(() => _selectedPekerjaan = value!);
+                },
+              ),
+            ]),
             const SizedBox(height: 32),
             _buildSubmitButton(),
             const SizedBox(height: 20),
@@ -342,14 +356,14 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
                 const SizedBox(height: 4),
                 Text(
                   widget.warga.nik,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 4),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(8),
@@ -484,10 +498,7 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
         fillColor: Colors.grey[50],
       ),
       items: items.map((item) {
-        return DropdownMenuItem(
-          value: item,
-          child: Text(item),
-        );
+        return DropdownMenuItem(value: item, child: Text(item));
       }).toList(),
       onChanged: onChanged,
     );
@@ -510,14 +521,17 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
           builder: (context, child) {
             return Theme(
               data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.light(primary: AppColors.primary),
+                colorScheme: const ColorScheme.light(
+                  primary: AppColors.primary,
+                ),
               ),
               child: child!,
             );
           },
         );
         if (date != null) {
-          controller.text = '${date.day.toString().padLeft(2, '0')}-${date.month.toString().padLeft(2, '0')}-${date.year}';
+          controller.text =
+              '${date.day.toString().padLeft(2, '0')}-${date.month.toString().padLeft(2, '0')}-${date.year}';
         }
       },
       validator: (value) {
@@ -577,10 +591,7 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
               )
             : const Text(
                 'Perbarui Data',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
               ),
       ),
     );
@@ -592,7 +603,9 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('Hapus Data Warga'),
-        content: Text('Apakah Anda yakin ingin menghapus data ${widget.warga.nama}?'),
+        content: Text(
+          'Apakah Anda yakin ingin menghapus data ${widget.warga.nama}?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

@@ -32,12 +32,15 @@ class _FamilyListScreenState extends State<FamilyListScreen> {
       if (w.kkNumber.isEmpty) continue;
       groups.putIfAbsent(w.kkNumber, () => []).add(w);
     }
-    _families = groups.entries.map((e) {
-      final members = e.value;
-      final head = members.first;
-      return {'kk': e.key, 'head': head, 'members': members};
-    }).toList()
-      ..sort((a, b) => (a['head'] as Warga).name.compareTo((b['head'] as Warga).name));
+    _families =
+        groups.entries.map((e) {
+          final members = e.value;
+          final head = members.first;
+          return {'kk': e.key, 'head': head, 'members': members};
+        }).toList()..sort(
+          (a, b) =>
+              (a['head'] as Warga).name.compareTo((b['head'] as Warga).name),
+        );
   }
 
   void _applyFilter(String q) {
@@ -65,7 +68,14 @@ class _FamilyListScreenState extends State<FamilyListScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text('Daftar Keluarga', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black)),
+        title: const Text(
+          'Daftar Keluarga',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -75,7 +85,12 @@ class _FamilyListScreenState extends State<FamilyListScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: _displayedFamilies.isEmpty
-              ? Center(child: Text(_query.isEmpty ? 'Belum ada keluarga' : 'Tidak ada hasil', style: TextStyle(color: Colors.grey[700])))
+              ? Center(
+                  child: Text(
+                    _query.isEmpty ? 'Belum ada keluarga' : 'Tidak ada hasil',
+                    style: TextStyle(color: Colors.grey[700]),
+                  ),
+                )
               : Column(
                   children: [
                     WargaSearchBar(
@@ -89,41 +104,75 @@ class _FamilyListScreenState extends State<FamilyListScreen> {
                         separatorBuilder: (_, __) => const SizedBox(height: 12),
                         itemBuilder: (context, index) {
                           final fam = _displayedFamilies[index];
-                    final Warga head = fam['head'] as Warga;
-                          final List<Warga> members = List<Warga>.from(fam['members'] as List);
-                    return Material(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(12),
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => DataKeluargaScreen.fromFamily(
-                              members: members,
-                              kkNumber: fam['kk'] as String,
-                              head: head.name,
+                          final Warga head = fam['head'] as Warga;
+                          final List<Warga> members = List<Warga>.from(
+                            fam['members'] as List,
+                          );
+                          return Material(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(12),
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DataKeluargaScreen.fromFamily(
+                                    members: members,
+                                    kkNumber: fam['kk'] as String,
+                                    head: head.name,
+                                  ),
+                                ),
+                              ),
+                              child: Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.grey.shade200,
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const CircleAvatar(
+                                      radius: 28,
+                                      backgroundColor: Colors.white,
+                                      child: Icon(
+                                        Icons.family_restroom,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Keluarga ${head.name}',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Text(
+                                            'KK: ${fam['kk']}',
+                                            style: TextStyle(
+                                              color: Colors.grey[700],
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Text(
+                                      '${members.length} anggota',
+                                      style: TextStyle(color: Colors.grey[700]),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey.shade200)),
-                          child: Row(children: [
-                            CircleAvatar(radius: 28, backgroundColor: Colors.white, child: Icon(Icons.family_restroom, color: AppColors.primary)),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                Text('Keluarga ${head.name}', style: const TextStyle(fontWeight: FontWeight.w700)),
-                                const SizedBox(height: 6),
-                                Text('KK: ${fam['kk']}', style: TextStyle(color: Colors.grey[700], fontSize: 13)),
-                              ]),
-                            ),
-                            Text('${members.length} anggota', style: TextStyle(color: Colors.grey[700])),
-                          ]),
-                        ),
-                      ),
-                    );
+                          );
                         },
                       ),
                     ),
