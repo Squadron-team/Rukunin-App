@@ -1,69 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class WargaListPage extends StatelessWidget {
   const WargaListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 96.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Daftar Warga',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      appBar: const RukuninAppBar(title: 'Data Warga'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 96.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Daftar Warga',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
                 ),
-                const SizedBox(height: 16),
+              ),
+              const SizedBox(height: 16),
 
-                _buildWargaCard(
-                  context,
-                  name: 'Budi Santoso',
-                  nik: '3201012345678901',
-                  alamat: 'Jl. Melati No. 12',
-                  noTelp: '081234567890',
-                  status: 'Aktif',
-                ),
-                _buildWargaCard(
-                  context,
-                  name: 'Siti Aminah',
-                  nik: '3201012345678902',
-                  alamat: 'Gang Mawar No. 5',
-                  noTelp: '081234567891',
-                  status: 'Aktif',
-                ),
-                _buildWargaCard(
-                  context,
-                  name: 'Rangga Saputra',
-                  nik: '3201012345678903',
-                  alamat: 'RT 02 / RW 01',
-                  noTelp: '081234567892',
-                  status: 'Nonaktif',
-                ),
-              ],
-            ),
+              _buildWargaCard(
+                context,
+                name: 'Budi Santoso',
+                nik: '3201012345678901',
+                alamat: 'Jl. Melati No. 12',
+                noTelp: '081234567890',
+                status: 'Aktif',
+              ),
+              _buildWargaCard(
+                context,
+                name: 'Siti Aminah',
+                nik: '3201012345678902',
+                alamat: 'Gang Mawar No. 5',
+                noTelp: '081234567891',
+                status: 'Aktif',
+              ),
+              _buildWargaCard(
+                context,
+                name: 'Rangga Saputra',
+                nik: '3201012345678903',
+                alamat: 'RT 02 / RW 01',
+                noTelp: '081234567892',
+                status: 'Nonaktif',
+              ),
+            ],
           ),
         ),
-
-        Positioned(
-          right: 20,
-          bottom: 20,
-          child: FloatingActionButton(
-            backgroundColor: AppColors.primary,
-            child: const Icon(Icons.add, color: Colors.white),
-            onPressed: () => context.push('/admin/warga/add'),
-          ),
-        ),
-      ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primary,
+        child: const Icon(Icons.add, color: Colors.white),
+        onPressed: () => context.push('/admin/warga/add'),
+      ),
     );
   }
 

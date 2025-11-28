@@ -3,6 +3,7 @@ import 'package:rukunin/pages/rw/data_warga/models/warga_model.dart';
 import 'package:rukunin/pages/rw/data_warga/detail_warga_screen.dart';
 import 'package:rukunin/pages/rw/data_warga/tambah_warga_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class DataWargaScreen extends StatefulWidget {
   const DataWargaScreen({super.key});
@@ -453,7 +454,7 @@ class _DataWargaScreenState extends State<DataWargaScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CircularProgressIndicator(color: AppColors.primary),
+          const LoadingIndicator(),
           const SizedBox(height: 16),
           Text(
             'Memuat data warga...',

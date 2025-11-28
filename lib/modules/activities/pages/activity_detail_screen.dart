@@ -6,6 +6,7 @@ import 'package:rukunin/modules/activities/widgets/activity_organizer_card.dart'
 import 'package:rukunin/modules/activities/widgets/small_activity_detail_card.dart';
 import 'package:rukunin/modules/activities/services/activity_service.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class ActivityDetailScreen extends StatefulWidget {
   final Activity event;
@@ -346,10 +347,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                     ? const SizedBox(
                         height: 20,
                         width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
+                        child: LoadingIndicator(),
                       )
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_card.dart';
 import 'package:rukunin/modules/marketplace/services/product_service.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class SearchResultsScreen extends StatefulWidget {
   final String initialQuery;
@@ -100,7 +101,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
               stream: _productService.searchProducts(_searchQuery),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: LoadingIndicator());
                 }
 
                 if (snapshot.hasError) {

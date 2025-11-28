@@ -115,51 +115,6 @@ class RtHomeScreen extends StatelessWidget {
 
               SizedBox(height: 32),
 
-              // Resident Summary by Street/Gang
-              Text(
-                'Wilayah RT 03',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
-              SizedBox(height: 16),
-
-              StreetCard(
-                streetName: 'Gang Mawar',
-                totalHouses: 12,
-                paidDues: 11,
-                status: 'Sangat Baik',
-                statusColor: Colors.blue,
-              ),
-
-              StreetCard(
-                streetName: 'Gang Melati',
-                totalHouses: 15,
-                paidDues: 13,
-                status: 'Baik',
-                statusColor: Colors.green,
-              ),
-
-              StreetCard(
-                streetName: 'Gang Anggrek',
-                totalHouses: 10,
-                paidDues: 8,
-                status: 'Baik',
-                statusColor: Colors.green,
-              ),
-
-              StreetCard(
-                streetName: 'Gang Dahlia',
-                totalHouses: 8,
-                paidDues: 6,
-                status: 'Perlu Perhatian',
-                statusColor: Colors.orange,
-              ),
-
-              SizedBox(height: 32),
-
               Text(
                 'Menu RT',
                 style: TextStyle(

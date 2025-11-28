@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rw/data_warga/models/warga_model.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class EditWargaScreen extends StatefulWidget {
   final Warga warga;
@@ -584,10 +585,7 @@ class _EditWargaScreenState extends State<EditWargaScreen> {
             ? const SizedBox(
                 width: 20,
                 height: 20,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 2,
-                ),
+                child: LoadingIndicator(),
               )
             : const Text(
                 'Perbarui Data',

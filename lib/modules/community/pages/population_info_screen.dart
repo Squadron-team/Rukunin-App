@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class PopulationInfoScreen extends StatefulWidget {
   const PopulationInfoScreen({super.key});
@@ -91,34 +93,14 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return Scaffold(
-        backgroundColor: Colors.grey[50],
-        body: const Center(child: CircularProgressIndicator()),
-      );
-    }
-
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: const Text(
-          'Informasi Kependudukan',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: RefreshIndicator(
+      appBar: const RukuninAppBar(title: 'Informasi Kependudukan'),
+      body: _isLoading
+          ? const Center(
+              child: LoadingIndicator()
+            )
+          : RefreshIndicator(
         onRefresh: _loadPopulationData,
         child: ListView(
           padding: const EdgeInsets.all(16),

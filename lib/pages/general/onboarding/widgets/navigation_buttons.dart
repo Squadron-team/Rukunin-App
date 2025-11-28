@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class NavigationButtons extends StatelessWidget {
   final int currentPage;
@@ -69,10 +70,7 @@ class NavigationButtons extends StatelessWidget {
                   ? const SizedBox(
                       width: 24,
                       height: 24,
-                      child: CircularProgressIndicator(
-                        color: Colors.black,
-                        strokeWidth: 2.5,
-                      ),
+                      child: LoadingIndicator(),
                     )
                   : Text(
                       currentPage == 2 ? 'Selesai' : 'Lanjut',

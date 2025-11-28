@@ -5,6 +5,7 @@ import 'package:rukunin/services/user_cache_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -296,7 +297,7 @@ class _AccountScreenState extends State<AccountScreen> {
     if (_isLoading) {
       return Scaffold(
         backgroundColor: Colors.grey[50],
-        body: const Center(child: CircularProgressIndicator()),
+        body: const Center(child: LoadingIndicator()),
       );
     }
 
@@ -532,10 +533,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           ? const SizedBox(
                               height: 20,
                               width: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
+                              child: LoadingIndicator(),
                             )
                           : const Text(
                               'Simpan Perubahan',

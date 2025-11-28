@@ -6,6 +6,7 @@ import 'package:rukunin/modules/marketplace/services/product_service.dart';
 import 'package:rukunin/widgets/cards/category_chip.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_card.dart';
 import 'package:rukunin/modules/marketplace/widgets/search_bar_market.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class MarketplaceScreen extends StatefulWidget {
   const MarketplaceScreen({super.key});
@@ -131,7 +132,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                         return const Center(
                           child: Padding(
                             padding: EdgeInsets.all(32.0),
-                            child: CircularProgressIndicator(),
+                            child: LoadingIndicator(),
                           ),
                         );
                       }

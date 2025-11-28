@@ -4,6 +4,8 @@ import 'package:rukunin/modules/activities/widgets/activity_card.dart';
 import 'package:rukunin/modules/activities/services/activity_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ActivityScreen extends StatefulWidget {
@@ -67,20 +69,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: const Text(
-          'Kegiatan Warga',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-      ),
+      appBar: const RukuninAppBar(title: 'Kegiatan Warga'),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {
@@ -91,7 +80,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
         },
         child: _isLoading
             ? const Center(
-                child: CircularProgressIndicator(color: AppColors.primary),
+                child: LoadingIndicator(),
               )
             : SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
