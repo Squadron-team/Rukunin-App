@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/rt/surat/models/document_request.dart';
+import 'package:rukunin/pages/rt/surat_form_warga/models/document_request.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class DocumentRequestCard extends StatelessWidget {
@@ -16,8 +16,6 @@ class DocumentRequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Card now displays only title, requester, purpose and submitted time
-    // Card now displays only title, requester, purpose and submitted relative time
     String relativeTime(DateTime dt) {
       final diff = DateTime.now().difference(dt);
       if (diff.inMinutes < 1) return 'Baru saja';
@@ -26,14 +24,13 @@ class DocumentRequestCard extends StatelessWidget {
       return '${diff.inDays} hari yang lalu';
     }
 
-    // display status directly from repository (will be capitalized)
 
     final dateLabel = relativeTime(request.createdAt.toLocal());
 
     Color statusColor(String s) {
       if (s == 'ditolak') return Colors.red;
       if (s == 'diterima') return Colors.green;
-      return Colors.orange; // menunggu
+      return Colors.orange; 
     }
 
     final sColor = statusColor(request.status);
@@ -59,7 +56,6 @@ class DocumentRequestCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 6),
-                  // requester name below title
                   Row(
                     children: [
                       const CircleAvatar(
@@ -82,7 +78,6 @@ class DocumentRequestCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  // time with icon
                   Row(
                     children: [
                       Icon(
@@ -102,7 +97,6 @@ class DocumentRequestCard extends StatelessWidget {
                 ],
               ),
             ),
-            // status badge at top-right
             Positioned(
               top: 8,
               right: 40,
@@ -124,7 +118,6 @@ class DocumentRequestCard extends StatelessWidget {
                 ),
               ),
             ),
-            // center-right arrow (not primary)
             const Positioned.fill(
               child: Align(
                 alignment: Alignment.centerRight,

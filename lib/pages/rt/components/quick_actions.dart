@@ -6,7 +6,7 @@ import 'package:rukunin/pages/rt/warga/list_warga/warga_list_screen.dart';
 import 'package:rukunin/pages/rt/warga/list_keluarga/family_list_screen.dart';
 import 'package:rukunin/pages/rt/events/events_screen.dart';
 import 'package:rukunin/pages/rt/wilayah/wilayah_rt_screen.dart';
-import 'package:rukunin/pages/rt/surat/kelola_pengajuan_surat_screen.dart';
+import 'package:rukunin/pages/rt/surat_form_warga/kelola_pengajuan_surat_screen.dart';
 import 'package:rukunin/pages/rt/surat_to_rw/screen.dart';
 import 'package:rukunin/pages/rt/reports/manage_reports_screen.dart';
 import 'package:rukunin/pages/rt/report_statistic/laporan_rt_screen.dart';

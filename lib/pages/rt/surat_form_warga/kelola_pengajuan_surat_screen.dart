@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/repositories/document_requests_repository.dart';
-import 'package:rukunin/pages/rt/surat/models/document_request.dart';
-import 'package:rukunin/pages/rt/surat/widgets/document_request_card.dart';
-import 'package:rukunin/pages/rt/surat/widgets/request_detail_page.dart';
-import 'package:rukunin/pages/rt/surat/category_requests_screen.dart';
+import 'package:rukunin/pages/rt/surat_form_warga/models/document_request.dart';
+import 'package:rukunin/pages/rt/surat_form_warga/widgets/document_request_card.dart';
+import 'package:rukunin/pages/rt/surat_form_warga/request_detail_page.dart';
+import 'package:rukunin/pages/rt/surat_form_warga/category_requests_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class KelolaPengajuanSuratScreen extends StatefulWidget {
