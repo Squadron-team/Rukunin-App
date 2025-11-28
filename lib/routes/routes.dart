@@ -10,7 +10,7 @@ import 'package:rukunin/routes/auth_routes.dart';
 import 'package:rukunin/routes/admin_routes.dart';
 import 'package:rukunin/routes/resident_routes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rukunin/pages/general/notification_screen.dart';
+import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 
 final router = GoRouter(
   debugLogDiagnostics: true,

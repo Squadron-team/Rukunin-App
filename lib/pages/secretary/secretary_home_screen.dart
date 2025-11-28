@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
-import 'package:rukunin/pages/general/notification_screen.dart';
+import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 
 class SecretaryHomeScreen extends StatelessWidget {
   const SecretaryHomeScreen({super.key});
