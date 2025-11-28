@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class AkunAdminListPage extends StatefulWidget {
   const AkunAdminListPage({super.key});
@@ -156,12 +157,8 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Kelola Akun Admin'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0,
-      ),
+      backgroundColor: Colors.grey[50],
+      appBar: const RukuninAppBar(title: 'Kelola Akun'),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/admin/akun/edit'),
         backgroundColor: AppColors.primary,
