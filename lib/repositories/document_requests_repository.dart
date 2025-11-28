@@ -40,7 +40,7 @@ class DocumentRequestsRepository {
         purpose: 'Mengurus perizinan usaha rumahan',
         createdAt: DateTime.now().subtract(const Duration(days: 3)),
         status: 'diterima',
-        adminNote: 'Silakan ambil ke kantor RT',
+        note: 'Silakan ambil ke kantor RT',
         attachments: ['izin_usaha_budi.pdf'],
       ),
       DocumentRequest(
@@ -61,7 +61,7 @@ class DocumentRequestsRepository {
         purpose: 'Keperluan umum',
         createdAt: DateTime.now().subtract(const Duration(days: 5)),
         status: 'ditolak',
-        adminNote: 'Dokumen tidak lengkap',
+        note: 'Dokumen tidak lengkap',
       ),
       // add more demo requests
       DocumentRequest(
@@ -199,7 +199,7 @@ class DocumentRequestsRepository {
 
   Future<void> addNote(String id, String note) async {
     final idx = _store.indexWhere((e) => e.id == id);
-    if (idx != -1) _store[idx].adminNote = note;
+    if (idx != -1) _store[idx].note = note;
   }
 
   Future<void> addAttachment(String id, String filename) async {
