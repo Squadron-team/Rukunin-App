@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:rukunin/pages/resident/community/models/transaction_model.dart';
-import 'package:rukunin/pages/resident/community/models/financial_summary_model.dart';
-import 'package:rukunin/pages/resident/community/services/report_generator_service.dart';
-import 'package:rukunin/pages/resident/community/widgets/components/financial_summary_card.dart';
-import 'package:rukunin/pages/resident/community/widgets/components/transaction_card.dart';
+import 'package:rukunin/modules/community/models/transaction_model.dart';
+import 'package:rukunin/modules/community/models/financial_summary_model.dart';
+import 'package:rukunin/modules/community/services/report_generator_service.dart';
+import 'package:rukunin/modules/community/widgets/components/financial_summary_card.dart';
+import 'package:rukunin/modules/community/widgets/components/transaction_card.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:rukunin/utils/currency_formatter.dart';
 

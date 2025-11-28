@@ -3,11 +3,11 @@ import 'package:excel/excel.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:rukunin/pages/resident/community/models/transaction_model.dart';
-import 'package:rukunin/pages/resident/community/models/financial_summary_model.dart';
+import 'package:rukunin/modules/community/models/transaction_model.dart';
+import 'package:rukunin/modules/community/models/financial_summary_model.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:typed_data';
-import 'package:rukunin/pages/resident/community/services/web_download_helper.dart';
+import 'package:rukunin/modules/community/services/web_download_helper.dart';
 
 class ReportGeneratorService {
   Future<String?> generatePDF({

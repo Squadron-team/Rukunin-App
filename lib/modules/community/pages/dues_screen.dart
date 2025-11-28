@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/resident/community/widgets/dues_summary_card.dart';
-import 'package:rukunin/pages/resident/community/widgets/announcements_dues_section.dart';
-import 'package:rukunin/pages/resident/community/widgets/communnity_summary_section.dart';
-import 'package:rukunin/pages/resident/community/widgets/payment_history_section.dart';
+import 'package:rukunin/modules/community/widgets/dues_summary_card.dart';
+import 'package:rukunin/modules/community/widgets/announcements_dues_section.dart';
+import 'package:rukunin/modules/community/widgets/communnity_summary_section.dart';
+import 'package:rukunin/modules/community/widgets/payment_history_section.dart';
 
 class DuesScreen extends StatelessWidget {
   const DuesScreen({super.key});
