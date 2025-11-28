@@ -27,6 +27,7 @@ class _ManageReportsScreenState extends State<ManageReportsScreen> {
     final controller = TextEditingController(text: item.note ?? '');
     final res = await showModalBottomSheet<String?>(
       context: context,
+      backgroundColor: Colors.white,
       isScrollControlled: true,
       builder: (ctx) {
         return Padding(

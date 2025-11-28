@@ -155,19 +155,14 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
               ],
             ),
           ),
-
-          // Floating Create Button
-          Positioned(
-            right: 12,
-            bottom: 12,
-            child: FloatingActionButton(
-              heroTag: 'add-event',
-              backgroundColor: AppColors.primary,
-              onPressed: _openCreate,
-              child: const Icon(Icons.add, color: Colors.white),
-            ),
-          ),
         ],
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'add-event',
+        backgroundColor: AppColors.primary,
+        onPressed: _openCreate,
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

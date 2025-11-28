@@ -205,6 +205,7 @@ class ReportCard extends StatelessWidget {
     return showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
+        backgroundColor: Colors.white,
         title: Text(title),
         content: Text(message),
         actions: [
