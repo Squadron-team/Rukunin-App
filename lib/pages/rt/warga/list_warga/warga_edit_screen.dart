@@ -34,6 +34,8 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
   late TextEditingController educationC;
   DateTime? dateOfBirth;
   bool isHead = false;
+  String gender = '';
+  bool isAlive = true;
 
   List<Street> _streets = [];
   Street? _selectedStreet;
@@ -61,6 +63,8 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
     educationC = TextEditingController(text: widget.warga.education);
     dateOfBirth = widget.warga.dateOfBirth;
     isHead = widget.warga.isHead;
+    gender = widget.warga.gender;
+    isAlive = widget.warga.isAlive;
     _streets = List<Street>.from(streetRepo.streets);
     // parse street & house from address if possible
     final addr = widget.warga.address;
@@ -246,6 +250,21 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                                   setState(() => isHead = v),
                             ),
                             const SizedBox(height: 12),
+                            DropdownButtonFormField<String>(
+                              value: gender.isNotEmpty ? gender : null,
+                              decoration: _dec('Jenis Kelamin'),
+                              items: ['Laki-laki', 'Perempuan']
+                                  .map((g) => DropdownMenuItem(
+                                        value: g,
+                                        child: Text(g),
+                                      ))
+                                  .toList(),
+                              onChanged: (v) => setState(() => gender = v ?? ''),
+                              validator: (v) => (v == null || v.isEmpty)
+                                  ? 'Pilih jenis kelamin'
+                                  : null,
+                            ),
+                            const SizedBox(height: 12),
                             Row(
                               children: [
                                 Expanded(
@@ -279,6 +298,15 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                             ),
                             const SizedBox(height: 12),
 
+                            const SizedBox(height: 12),
+                            SwitchListTile(
+                              value: isAlive,
+                              onChanged: (v) => setState(() => isAlive = v),
+                              title: const Text('Status Kehidupan'),
+                              activeThumbColor: AppColors.primary,
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                            const SizedBox(height: 12),
                             // Document uploads (KTP / KK)
                             Row(
                               children: [
@@ -334,6 +362,8 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                               rt: rt,
                               rw: rw,
                               isActive: isActive,
+                              gender: gender,
+                              isAlive: isAlive,
                               ktpUrl: ktpPreview,
                               kkUrl: kkPreview,
                               createdAt: widget.warga.createdAt,

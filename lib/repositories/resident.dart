@@ -12,6 +12,7 @@ class WargaRepository {
       'Pensiunan',
       'Petani',
     ];
+    final genders = ['Laki-laki', 'Perempuan'];
     final marriages = ['Belum Kawin', 'Kawin', 'Cerai', 'Duda/Janda'];
     final educations = ['SD', 'SMP', 'SMA', 'Diploma', 'S1', 'S2'];
 
@@ -29,6 +30,9 @@ class WargaRepository {
       final job = jobs[i % jobs.length];
       final marriage = marriages[i % marriages.length];
       final education = educations[i % educations.length];
+      final gender = genders[i % genders.length];
+      // mark some entries as deceased for sample data
+      final alive = i % 13 != 0;
 
       list.add(
         Warga(
@@ -41,6 +45,8 @@ class WargaRepository {
           rt: '03',
           rw: '05',
           isActive: active,
+          gender: gender,
+          isAlive: alive,
           ktpUrl: ktp,
           kkUrl: kk,
           createdAt: DateTime.now().subtract(Duration(days: i * 3)),
