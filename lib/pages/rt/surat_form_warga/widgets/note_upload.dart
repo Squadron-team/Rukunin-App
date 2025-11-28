@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rukunin/style/app_colors.dart';
 
-class AdminNoteUpload extends StatelessWidget {
+class NoteUpload extends StatelessWidget {
   final TextEditingController noteController;
-  final List<XFile> adminAttachments;
+  final List<XFile> attachments;
   final Future<Widget> Function(XFile file) buildImageWidget;
   final VoidCallback onPick;
   final void Function(int index) onRemove;
 
-  const AdminNoteUpload({required this.noteController, required this.adminAttachments, required this.buildImageWidget, required this.onPick, required this.onRemove, super.key});
+  const NoteUpload({required this.noteController, required this.attachments, required this.buildImageWidget, required this.onPick, required this.onRemove, super.key});
 
   Widget _buildPreview(int index) {
-    final file = adminAttachments[index];
+    final file = attachments[index];
     return FutureBuilder<Widget>(
       future: buildImageWidget(file),
       builder: (context, snapshot) {
@@ -32,10 +33,25 @@ class AdminNoteUpload extends StatelessWidget {
       const SizedBox(height: 12),
       const Text('Kirim Catatan & Lampiran', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black)),
       const SizedBox(height: 8),
-      TextField(controller: noteController, decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Catatan untuk pemohon (opsional)'), maxLines: 4),
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey[300]!),
+        ),
+        child: TextField(
+          controller: noteController,
+          maxLines: 4,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.all(16),
+            hintText: 'Catatan untuk pemohon (opsional)',
+          ),
+        ),
+      ),
       const SizedBox(height: 12),
-      if (adminAttachments.isNotEmpty) ...[
-        Wrap(spacing: 8, runSpacing: 8, children: List.generate(adminAttachments.length, (index) => _buildPreview(index))),
+      if (attachments.isNotEmpty) ...[
+        Wrap(spacing: 8, runSpacing: 8, children: List.generate(attachments.length, (index) => _buildPreview(index))),
         const SizedBox(height: 12),
       ],
       GestureDetector(
@@ -51,9 +67,9 @@ class AdminNoteUpload extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const Icon(Icons.cloud_upload, size: 36, color: Colors.grey),
+                Icon(Icons.cloud_upload, size: 36, color: AppColors.primary),
                 const SizedBox(height: 10),
-                const Text('Tambah Lampiran Catatan', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+                Text('Tambah Lampiran Catatan', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w700)),
                 const SizedBox(height: 6),
                 Text('Pilih foto atau dokumen (maks 5MB)', style: TextStyle(color: Colors.grey[500], fontSize: 13)),
               ],

@@ -27,7 +27,7 @@ class _RequestDetailSheetState extends State<RequestDetailSheet> {
   @override
   void initState() {
     super.initState();
-    _noteCtrl.text = widget.request.adminNote ?? '';
+    _noteCtrl.text = widget.request.note ?? '';
   }
 
   @override

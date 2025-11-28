@@ -3,7 +3,7 @@ import 'package:rukunin/pages/rt/surat_form_warga/models/document_request.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'widgets/header_info.dart';
 import 'widgets/attachments_list.dart';
-import 'widgets/admin_note_upload.dart';
+import 'widgets/note_upload.dart';
 import 'widgets/action_buttons.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
@@ -26,13 +26,13 @@ class RequestDetailPage extends StatefulWidget {
 
 class _RequestDetailPageState extends State<RequestDetailPage> {
   final TextEditingController _noteCtrl = TextEditingController();
-  final List<XFile> _adminAttachments = [];
+  final List<XFile> _attachments = [];
   final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
-    _noteCtrl.text = widget.request.adminNote ?? '';
+    _noteCtrl.text = widget.request.note ?? '';
   }
 
   @override
@@ -41,7 +41,7 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
     super.dispose();
   }
 
-  Future<void> _pickAdminImage() async {
+  Future<void> _pickImage() async {
     try {
       if (kIsWeb) {
         final XFile? image = await _picker.pickImage(
@@ -67,7 +67,7 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
             }
             return;
           }
-          setState(() => _adminAttachments.add(image));
+          setState(() => _attachments.add(image));
         }
       } else {
         final XFile? image = await _picker.pickImage(
@@ -93,7 +93,7 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
             }
             return;
           }
-          setState(() => _adminAttachments.add(image));
+          setState(() => _attachments.add(image));
         }
       }
     } catch (e) {
@@ -113,8 +113,8 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
     }
   }
 
-  void _removeAdminAttachment(int index) {
-    setState(() => _adminAttachments.removeAt(index));
+  void _removeAttachment(int index) {
+    setState(() => _attachments.removeAt(index));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Lampiran dihapus'),
@@ -125,7 +125,7 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
     );
   }
 
-  Future<Widget> _buildAdminImageWidget(XFile file) async {
+  Future<Widget> _buildImageWidget(XFile file) async {
     final bytes = await file.readAsBytes();
     return Image.memory(bytes, fit: BoxFit.cover, width: 100, height: 100);
   }
@@ -285,12 +285,12 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
               ],
 
               // note + upload
-              AdminNoteUpload(
+              NoteUpload(
                 noteController: _noteCtrl,
-                adminAttachments: _adminAttachments,
-                buildImageWidget: _buildAdminImageWidget,
-                onPick: _pickAdminImage,
-                onRemove: _removeAdminAttachment,
+                attachments: _attachments,
+                buildImageWidget: _buildImageWidget,
+                onPick: _pickImage,
+                onRemove: _removeAttachment,
               ),
             ],
           ),
