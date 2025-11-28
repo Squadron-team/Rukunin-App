@@ -8,6 +8,7 @@ import 'package:rukunin/pages/rt/events/events_screen.dart';
 import 'package:rukunin/pages/rt/wilayah/wilayah_rt_screen.dart';
 import 'package:rukunin/pages/rt/surat/kelola_pengajuan_surat_screen.dart';
 import 'package:rukunin/pages/rt/reports/manage_reports_screen.dart';
+import 'package:rukunin/pages/rt/report_statistic/laporan_rt_screen.dart';
 
 class QuickActionsGrid extends StatelessWidget {
   const QuickActionsGrid({super.key});
@@ -118,10 +119,13 @@ class QuickActionsGrid extends StatelessWidget {
             );
           },
         ),
-        const QuickAccessItem(
+        QuickAccessItem(
           icon: Icons.insert_chart,
           label: 'Laporan RT',
           color: AppColors.primary,
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const LaporanRTScreen()));
+          },
         ),
         const QuickAccessItem(
           icon: Icons.people_outline,
