@@ -93,14 +93,17 @@ class _AddHouseScreenState extends State<AddHouseScreen> {
                           decoration: buildInputDecoration('Nomor Rumah'),
                           keyboardType: TextInputType.number,
                           validator: (v) {
-                            if (v == null || v.trim().isEmpty)
+                            if (v == null || v.trim().isEmpty) {
                               return 'Nomor rumah tidak boleh kosong';
+                            }
                             final parsed = int.tryParse(v.trim());
-                            if (parsed == null || parsed <= 0)
+                            if (parsed == null || parsed <= 0) {
                               return 'Masukkan nomor rumah yang valid';
+                            }
                             if (widget.existingHouseNumbers != null &&
-                                widget.existingHouseNumbers!.contains(parsed))
+                                widget.existingHouseNumbers!.contains(parsed)) {
                               return 'Nomor rumah sudah terdaftar';
+                            }
                             return null;
                           },
                         ),

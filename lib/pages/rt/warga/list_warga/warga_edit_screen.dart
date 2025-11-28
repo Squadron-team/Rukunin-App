@@ -202,8 +202,9 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                               decoration: _dec('NIK'),
                               keyboardType: TextInputType.number,
                               validator: (v) {
-                                if (v == null || v.isEmpty)
+                                if (v == null || v.isEmpty) {
                                   return 'NIK tidak boleh kosong';
+                                }
                                 if (v.length < 6) return 'NIK terlalu pendek';
                                 return null;
                               },
@@ -214,8 +215,9 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                               decoration: _dec('No. KK'),
                               keyboardType: TextInputType.number,
                               validator: (v) {
-                                if (v == null || v.isEmpty)
+                                if (v == null || v.isEmpty) {
                                   return 'No. KK tidak boleh kosong';
+                                }
                                 return null;
                               },
                             ),

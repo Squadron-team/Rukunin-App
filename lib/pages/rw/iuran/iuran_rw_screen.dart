@@ -37,12 +37,25 @@ class _IuranRwScreenState extends State<IuranRwScreen> {
     int belumBayar = totalWarga - sudahBayar;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Status Iuran RW')),
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        title: const Text(
+          'Status Iuran RW',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
-            // 🔎 SEARCH FIELD
             TextField(
               onChanged: (value) {
                 setState(() => searchQuery = value);

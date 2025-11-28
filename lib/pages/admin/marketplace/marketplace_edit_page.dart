@@ -180,10 +180,12 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                               keyboardType: TextInputType.number,
                               prefixText: 'Rp ',
                               validator: (v) {
-                                if (v?.isEmpty ?? true)
+                                if (v?.isEmpty ?? true) {
                                   return 'Harga tidak boleh kosong';
-                                if (int.tryParse(v!) == null)
+                                }
+                                if (int.tryParse(v!) == null) {
                                   return 'Harga harus berupa angka';
+                                }
                                 return null;
                               },
                             ),
@@ -225,10 +227,12 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                               phoneC,
                               keyboardType: TextInputType.phone,
                               validator: (v) {
-                                if (v?.isEmpty ?? true)
+                                if (v?.isEmpty ?? true) {
                                   return 'No. Telepon tidak boleh kosong';
-                                if (v!.length < 10)
+                                }
+                                if (v!.length < 10) {
                                   return 'No. Telepon minimal 10 digit';
+                                }
                                 return null;
                               },
                             ),
@@ -273,12 +277,14 @@ class _MarketplaceEditPageState extends State<MarketplaceEditPage> {
                                 stockC,
                                 keyboardType: TextInputType.number,
                                 validator: (v) {
-                                  if (!isService && (v?.isEmpty ?? true))
+                                  if (!isService && (v?.isEmpty ?? true)) {
                                     return 'Stok tidak boleh kosong';
+                                  }
                                   if (v != null &&
                                       v.isNotEmpty &&
-                                      int.tryParse(v) == null)
+                                      int.tryParse(v) == null) {
                                     return 'Stok harus berupa angka';
+                                  }
                                   return null;
                                 },
                               ),

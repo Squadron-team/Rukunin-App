@@ -55,7 +55,20 @@ class _KegiatanRwScreenState extends State<KegiatanRwScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff8f9fc),
-      appBar: AppBar(title: const Text('Kegiatan RW')),
+      appBar: AppBar(
+        title: const Text(
+          'Kegiatan RW',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
