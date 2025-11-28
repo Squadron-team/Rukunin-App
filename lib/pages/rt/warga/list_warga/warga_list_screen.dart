@@ -5,8 +5,10 @@ import 'package:rukunin/pages/rt/warga/list_warga/warga_add_screen.dart';
 import 'package:rukunin/models/resident.dart';
 import 'package:rukunin/repositories/resident.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/pages/rt/warga/widgets/search_bar.dart';
-import 'package:rukunin/pages/rt/warga/widgets/download_button.dart';
+// toolbar uses internal widgets; imports moved to toolbar widget file
+import 'package:rukunin/pages/rt/warga/widgets/warga_toolbar.dart';
+import 'package:rukunin/pages/rt/warga/widgets/delete_background.dart';
+import '../../wilayah/widgets/confirm_dialogs.dart';
 
 class WargaListScreen extends StatefulWidget {
   const WargaListScreen({super.key});
@@ -70,46 +72,25 @@ class _WargaListScreenState extends State<WargaListScreen> {
             children: [
               Column(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: WargaSearchBar(
-                          onChanged: (v) {
-                            query = v;
-                            _applyFilters();
-                          },
+                  WargaToolbar(
+                    onSearchChanged: (v) {
+                      query = v;
+                      _applyFilters();
+                    },
+                    onDownload: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Data warga berhasil diunduh'),
+                          backgroundColor: AppColors.primary,
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      DownloadButton(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text(
-                                'Data warga berhasil diunduh',
-                              ),
-                              backgroundColor: AppColors.primary,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      IconButton(
-                        tooltip: 'Filter',
-                        icon: Icon(
-                          Icons.filter_list,
-                          color: (_showFilter || filter != 'Semua')
-                              ? AppColors.primary
-                              : Colors.grey[700],
-                        ),
-                        onPressed: () =>
-                            setState(() => _showFilter = !_showFilter),
-                      ),
-                    ],
+                      );
+                    },
+                    showFilter: _showFilter || filter != 'Semua',
+                    onToggleFilter: () => setState(() => _showFilter = !_showFilter),
                   ),
                   const SizedBox(height: 12),
                   if (_showFilter)
@@ -158,130 +139,9 @@ class _WargaListScreenState extends State<WargaListScreen> {
                               return Dismissible(
                                 key: ValueKey(warga.id),
                                 direction: DismissDirection.endToStart,
-                                background: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                  ),
-                                  alignment: Alignment.centerRight,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red.withOpacity(0.95),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: const Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(Icons.delete, color: Colors.white),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        'Hapus',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                background: const DeleteBackground(),
                                 confirmDismiss: (dir) async {
-                                  final ok = await showDialog<bool>(
-                                    context: context,
-                                    builder: (c) {
-                                      return Dialog(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                        ),
-                                        child: ConstrainedBox(
-                                          constraints: const BoxConstraints(
-                                            maxWidth: 360,
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 20,
-                                              vertical: 18,
-                                            ),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(
-                                                  Icons.warning_amber_rounded,
-                                                  size: 96,
-                                                  color: Colors.red.shade200,
-                                                ),
-                                                const SizedBox(height: 12),
-                                                const Text(
-                                                  'Hapus warga',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w800,
-                                                    fontSize: 20,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 8),
-                                                Text(
-                                                  'Yakin menghapus ${warga.name}?',
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                                const SizedBox(height: 16),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    OutlinedButton(
-                                                      style: OutlinedButton.styleFrom(
-                                                        side: BorderSide(
-                                                          color: Colors
-                                                              .grey
-                                                              .shade300,
-                                                        ),
-                                                        backgroundColor:
-                                                            Colors.grey[100],
-                                                        padding:
-                                                            const EdgeInsets.symmetric(
-                                                              horizontal: 18,
-                                                              vertical: 12,
-                                                            ),
-                                                      ),
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                            c,
-                                                            false,
-                                                          ),
-                                                      child: Text(
-                                                        'Batal',
-                                                        style: TextStyle(
-                                                          color:
-                                                              Colors.grey[800],
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(width: 12),
-                                                    ElevatedButton(
-                                                      style:
-                                                          ElevatedButton.styleFrom(
-                                                            backgroundColor:
-                                                                Colors.red,
-                                                          ),
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                            c,
-                                                            true,
-                                                          ),
-                                                      child: const Text(
-                                                        'Hapus',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
+                                  final ok = await showConfirmDeleteDialog(context, warga.name);
                                   if (ok ?? false) {
                                     setState(() {
                                       _all.removeWhere((e) => e.id == warga.id);
@@ -289,15 +149,11 @@ class _WargaListScreenState extends State<WargaListScreen> {
                                     });
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content: const Text(
-                                          'Warga berhasil dihapus',
-                                        ),
+                                        content: const Text('Warga berhasil dihapus'),
                                         backgroundColor: AppColors.primary,
                                         behavior: SnackBarBehavior.floating,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            10,
-                                          ),
+                                          borderRadius: BorderRadius.circular(10),
                                         ),
                                       ),
                                     );
@@ -310,8 +166,7 @@ class _WargaListScreenState extends State<WargaListScreen> {
                                     await Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) =>
-                                            WargaDetailScreen(warga: warga),
+                                        builder: (_) => WargaDetailScreen(warga: warga),
                                       ),
                                     );
                                   },
