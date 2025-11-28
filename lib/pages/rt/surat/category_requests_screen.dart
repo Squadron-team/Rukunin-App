@@ -8,7 +8,12 @@ import 'package:rukunin/style/app_colors.dart';
 class CategoryRequestsScreen extends StatefulWidget {
   final String typeKey;
   final String title;
-  const CategoryRequestsScreen({Key? key, required this.typeKey, required this.title}) : super(key: key);
+
+  const CategoryRequestsScreen({
+    required this.typeKey,
+    required this.title,
+    super.key,
+  });
 
   @override
   State<CategoryRequestsScreen> createState() => _CategoryRequestsScreenState();
@@ -28,7 +33,9 @@ class _CategoryRequestsScreenState extends State<CategoryRequestsScreen> {
 
   Future<void> _load() async {
     final all = await _repo.getRequests();
-    setState(() => _items = all.where((e) => e.type == widget.typeKey).toList());
+    setState(
+      () => _items = all.where((e) => e.type == widget.typeKey).toList(),
+    );
   }
 
   Future<void> _updateStatus(DocumentRequest item, String status) async {
@@ -63,15 +70,36 @@ class _CategoryRequestsScreenState extends State<CategoryRequestsScreen> {
                 child: GestureDetector(
                   onTap: () => setState(() => _filter = f['key'] as String),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                    decoration: BoxDecoration(
-                      color: selected ? AppColors.primary.withOpacity(0.12) : Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: selected ? AppColors.primary : Colors.grey.shade300),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 10,
                     ),
-                    child: Row(children: [
-                      Text(f['label'] as String, style: TextStyle(color: selected ? AppColors.primary : Colors.grey[800], fontWeight: selected ? FontWeight.w700 : FontWeight.w500)),
-                    ]),
+                    decoration: BoxDecoration(
+                      color: selected
+                          ? AppColors.primary.withOpacity(0.12)
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: selected
+                            ? AppColors.primary
+                            : Colors.grey.shade300,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          f['label'] as String,
+                          style: TextStyle(
+                            color: selected
+                                ? AppColors.primary
+                                : Colors.grey[800],
+                            fontWeight: selected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -106,7 +134,11 @@ class _CategoryRequestsScreenState extends State<CategoryRequestsScreen> {
       appBar: AppBar(
         title: Text(
           _shortTitle(),
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black),
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -119,66 +151,90 @@ class _CategoryRequestsScreenState extends State<CategoryRequestsScreen> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Builder(builder: (context) {
-                final visible = _items.where((r) => _filter == 'all' ? true : r.status == _filter).toList();
+              child: Builder(
+                builder: (context) {
+                  final visible = _items
+                      .where(
+                        (r) => _filter == 'all' ? true : r.status == _filter,
+                      )
+                      .toList();
 
-                if (visible.isEmpty) {
-                  final subtitle = _filter == 'all'
-                      ? 'Belum ada pengajuan untuk kategori ini.'
-                      : _filter == 'menunggu'
-                          ? 'Belum ada pengajuan menunggu.'
-                          : _filter == 'diterima'
-                              ? 'Belum ada pengajuan yang disetujui.'
-                              : _filter == 'ditolak'
-                                  ? 'Belum ada pengajuan yang ditolak.'
-                                  : 'Belum ada pengajuan untuk filter ini.';
+                  if (visible.isEmpty) {
+                    final subtitle = _filter == 'all'
+                        ? 'Belum ada pengajuan untuk kategori ini.'
+                        : _filter == 'menunggu'
+                        ? 'Belum ada pengajuan menunggu.'
+                        : _filter == 'diterima'
+                        ? 'Belum ada pengajuan yang disetujui.'
+                        : _filter == 'ditolak'
+                        ? 'Belum ada pengajuan yang ditolak.'
+                        : 'Belum ada pengajuan untuk filter ini.';
 
-                  return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 96,
-                          height: 96,
-                          decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.12), shape: BoxShape.circle),
-                          child: Icon(Icons.description_outlined, size: 44, color: AppColors.primary),
-                        ),
-                        const SizedBox(height: 12),
-                        Text('Belum ada pengajuan', style: Theme.of(context).textTheme.titleMedium),
-                        const SizedBox(height: 6),
-                        Text(subtitle, style: Theme.of(context).textTheme.bodySmall),
-                      ],
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 96,
+                            height: 96,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withOpacity(0.12),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.description_outlined,
+                              size: 44,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Belum ada pengajuan',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            subtitle,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  return RefreshIndicator(
+                    onRefresh: _load,
+                    child: ListView.separated(
+                      itemCount: visible.length,
+                      separatorBuilder: (_, __) => const SizedBox(height: 8),
+                      itemBuilder: (c, i) {
+                        final item = visible[i];
+                        return DocumentRequestCard(
+                          request: item,
+                          onView: () async {
+                            await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => RequestDetailPage(
+                                  request: item,
+                                  onSaveNote: (note) async {
+                                    await _repo.addNote(item.id, note);
+                                    await _load();
+                                  },
+                                  onChangeStatus: (status) async {
+                                    await _updateStatus(item, status);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          onChangeStatus: (status) =>
+                              _updateStatus(item, status),
+                        );
+                      },
                     ),
                   );
-                }
-
-                return RefreshIndicator(
-                  onRefresh: _load,
-                  child: ListView.separated(
-                    itemCount: visible.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 8),
-                    itemBuilder: (c, i) {
-                      final item = visible[i];
-                      return DocumentRequestCard(
-                        request: item,
-                        onView: () async {
-                          await Navigator.of(context).push(MaterialPageRoute(builder: (_) => RequestDetailPage(
-                                request: item,
-                                onSaveNote: (note) async {
-                                  await _repo.addNote(item.id, note);
-                                  await _load();
-                                },
-                                onChangeStatus: (status) async {
-                                  await _updateStatus(item, status);
-                                },
-                              )));
-                        },
-                        onChangeStatus: (status) => _updateStatus(item, status),
-                      );
-                    },
-                  ),
-                );
-              }),
+                },
+              ),
             ),
           ),
         ],

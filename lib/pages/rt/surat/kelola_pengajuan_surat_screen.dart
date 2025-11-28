@@ -10,10 +10,12 @@ class KelolaPengajuanSuratScreen extends StatefulWidget {
   const KelolaPengajuanSuratScreen({Key? key}) : super(key: key);
 
   @override
-  State<KelolaPengajuanSuratScreen> createState() => _KelolaPengajuanSuratScreenState();
+  State<KelolaPengajuanSuratScreen> createState() =>
+      _KelolaPengajuanSuratScreenState();
 }
 
-class _KelolaPengajuanSuratScreenState extends State<KelolaPengajuanSuratScreen> {
+class _KelolaPengajuanSuratScreenState
+    extends State<KelolaPengajuanSuratScreen> {
   final DocumentRequestsRepository _repo = DocumentRequestsRepository();
   List<DocumentRequest> _all = [];
 
@@ -33,18 +35,46 @@ class _KelolaPengajuanSuratScreenState extends State<KelolaPengajuanSuratScreen>
     await _load();
   }
 
-
-
   // filters removed: only categories + recent items are shown
 
   Widget _buildCategories() {
     final categories = [
-      {'key': 'domicile', 'label': 'Domisili', 'icon': Icons.home_outlined, 'color': Colors.blue},
-      {'key': 'sktm', 'label': 'Tidak Mampu', 'icon': Icons.people_outline, 'color': Colors.orange},
-      {'key': 'business', 'label': 'Usaha', 'icon': Icons.business_outlined, 'color': Colors.green},
-      {'key': 'correction', 'label': 'Koreksi', 'icon': Icons.edit_document, 'color': Colors.purple},
-      {'key': 'family', 'label': 'Keluarga', 'icon': Icons.family_restroom, 'color': Colors.teal},
-      {'key': 'other', 'label': 'Lainnya', 'icon': Icons.description_outlined, 'color': Colors.grey},
+      {
+        'key': 'domicile',
+        'label': 'Domisili',
+        'icon': Icons.home_outlined,
+        'color': Colors.blue,
+      },
+      {
+        'key': 'sktm',
+        'label': 'Tidak Mampu',
+        'icon': Icons.people_outline,
+        'color': Colors.orange,
+      },
+      {
+        'key': 'business',
+        'label': 'Usaha',
+        'icon': Icons.business_outlined,
+        'color': Colors.green,
+      },
+      {
+        'key': 'correction',
+        'label': 'Koreksi',
+        'icon': Icons.edit_document,
+        'color': Colors.purple,
+      },
+      {
+        'key': 'family',
+        'label': 'Keluarga',
+        'icon': Icons.family_restroom,
+        'color': Colors.teal,
+      },
+      {
+        'key': 'other',
+        'label': 'Lainnya',
+        'icon': Icons.description_outlined,
+        'color': Colors.grey,
+      },
     ];
 
     return Column(
@@ -52,7 +82,10 @@ class _KelolaPengajuanSuratScreenState extends State<KelolaPengajuanSuratScreen>
       children: [
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 4.0),
-          child: Text('Kategori Surat', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+          child: Text(
+            'Kategori Surat',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          ),
         ),
         const SizedBox(height: 6),
         GridView.count(
@@ -63,56 +96,96 @@ class _KelolaPengajuanSuratScreenState extends State<KelolaPengajuanSuratScreen>
           childAspectRatio: 0.9,
           physics: const NeverScrollableScrollPhysics(),
           children: categories.map((cat) {
-              final key = cat['key'] as String;
-              // processed statuses in repo: 'diterima' and 'ditolak'
-              const processed = {'diterima', 'ditolak'};
-              final count = _all.where((r) => r.type == key && !processed.contains(r.status)).length;
-              return GestureDetector(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => CategoryRequestsScreen(typeKey: key, title: cat['label'] as String))),
-                child: Stack(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(4),
-                      padding: const EdgeInsets.all(10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.grey.shade200),
-                        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 6)],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 44,
-                            height: 44,
-                            decoration: BoxDecoration(
-                              color: (cat['color'] as Color).withOpacity(0.08),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Icon(cat['icon'] as IconData, color: (cat['color'] as Color)),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(cat['label'] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.black87), textAlign: TextAlign.center),
-                        ],
-                      ),
+            final key = cat['key'] as String;
+            // processed statuses in repo: 'diterima' and 'ditolak'
+            const processed = {'diterima', 'ditolak'};
+            final count = _all
+                .where((r) => r.type == key && !processed.contains(r.status))
+                .length;
+            return GestureDetector(
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => CategoryRequestsScreen(
+                    typeKey: key,
+                    title: cat['label'] as String,
+                  ),
+                ),
+              ),
+              child: Stack(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(4),
+                    padding: const EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade200),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.02),
+                          blurRadius: 6,
+                        ),
+                      ],
                     ),
-                    if (count > 0)
-                      Positioned(
-                        right: 6,
-                        top: 6,
-                        child: Container(
-                          constraints: const BoxConstraints(minWidth: 20),
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(color: AppColors.error, borderRadius: BorderRadius.circular(12)),
-                          child: Center(child: Text('$count', style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: (cat['color'] as Color).withOpacity(0.08),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            cat['icon'] as IconData,
+                            color: (cat['color'] as Color),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          cat['label'] as String,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (count > 0)
+                    Positioned(
+                      right: 6,
+                      top: 6,
+                      child: Container(
+                        constraints: const BoxConstraints(minWidth: 20),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.error,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '$count',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
-                  ],
-                ),
-              );
-            }).toList(),
+                    ),
+                ],
+              ),
+            );
+          }).toList(),
         ),
       ],
     );
@@ -130,7 +203,14 @@ class _KelolaPengajuanSuratScreenState extends State<KelolaPengajuanSuratScreen>
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text('Kelola Pengajuan Surat', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black)),
+        title: const Text(
+          'Kelola Pengajuan Surat',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -138,46 +218,60 @@ class _KelolaPengajuanSuratScreenState extends State<KelolaPengajuanSuratScreen>
       ),
       body: RefreshIndicator(
         onRefresh: _load,
-        child: Builder(builder: (context) {
-          return SafeArea(
-            bottom: true,
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 24.0),
-              children: [
-              // categories
-              _buildCategories(),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: const Text('Pengajuan Terbaru', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black)),
-              ),
-              const SizedBox(height: 8),
-              ..._recentUnprocessed.map((item) => Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: DocumentRequestCard(
-                      request: item,
-                      onView: () async {
-                        await Navigator.of(context).push(MaterialPageRoute(builder: (_) => RequestDetailPage(
-                          request: item,
-                          onSaveNote: (note) async {
-                            await _repo.addNote(item.id, note);
-                            await _load();
-                          },
-                          onChangeStatus: (status) async {
-                            await _updateStatus(item, status);
-                          },
-                        )));
-                      },
-                      onChangeStatus: (status) => _updateStatus(item, status),
+        child: Builder(
+          builder: (context) {
+            return SafeArea(
+              bottom: true,
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 24.0),
+                children: [
+                  // categories
+                  _buildCategories(),
+                  const SizedBox(height: 8),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Text(
+                      'Pengajuan Terbaru',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
                     ),
-                  )),
-              const SizedBox(height: 24),
-            ],
-          ),
-        );
-        }),
+                  ),
+                  const SizedBox(height: 8),
+                  ..._recentUnprocessed.map(
+                    (item) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: DocumentRequestCard(
+                        request: item,
+                        onView: () async {
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => RequestDetailPage(
+                                request: item,
+                                onSaveNote: (note) async {
+                                  await _repo.addNote(item.id, note);
+                                  await _load();
+                                },
+                                onChangeStatus: (status) async {
+                                  await _updateStatus(item, status);
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                        onChangeStatus: (status) => _updateStatus(item, status),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 }
-
