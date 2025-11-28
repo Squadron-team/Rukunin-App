@@ -26,7 +26,7 @@ class KeuanganDashboardPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-      
+
               // Summary Cards
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -60,9 +60,9 @@ class KeuanganDashboardPage extends StatelessWidget {
                   );
                 },
               ),
-      
+
               const SizedBox(height: 30),
-      
+
               // Statistik Iuran Bulan Ini
               const Text(
                 'Iuran Bulan Ini',
@@ -73,7 +73,7 @@ class KeuanganDashboardPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-      
+
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -145,9 +145,9 @@ class KeuanganDashboardPage extends StatelessWidget {
                   ],
                 ),
               ),
-      
+
               const SizedBox(height: 30),
-      
+
               // Quick Actions
               const Text(
                 'Menu Cepat',
@@ -158,7 +158,7 @@ class KeuanganDashboardPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-      
+
               LayoutBuilder(
                 builder: (context, constraints) {
                   bool isWide = constraints.maxWidth > 600;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rt/components/stat_card.dart';
-import 'package:rukunin/pages/rt/components/street_card.dart';
 import 'package:rukunin/pages/rt/components/activity_card.dart';
 import 'package:rukunin/pages/rt/components/welcome_card.dart';
 import 'package:rukunin/pages/rt/components/financial_summary.dart';

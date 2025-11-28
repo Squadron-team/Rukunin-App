@@ -79,9 +79,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
           await Future.delayed(const Duration(milliseconds: 500));
         },
         child: _isLoading
-            ? const Center(
-                child: LoadingIndicator(),
-              )
+            ? const Center(child: LoadingIndicator())
             : SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(

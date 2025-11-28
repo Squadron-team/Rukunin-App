@@ -420,7 +420,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ? const SizedBox(
                             width: 24,
                             height: 24,
-                            child: LoadingIndicator(color: Colors.white,)
+                            child: LoadingIndicator(color: Colors.white),
                           )
                         : const Text(
                             'Lanjutkan',

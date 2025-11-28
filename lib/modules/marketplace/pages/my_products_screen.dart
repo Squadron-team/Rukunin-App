@@ -312,9 +312,7 @@ class MyProductsScreen extends StatelessWidget {
                             cacheHeight: 200,
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) return child;
-                              return const Center(
-                                child: LoadingIndicator()
-                              );
+                              return const Center(child: LoadingIndicator());
                             },
                             errorBuilder: (context, error, stackTrace) {
                               return Icon(

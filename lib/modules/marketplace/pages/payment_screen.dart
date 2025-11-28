@@ -623,11 +623,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             disabledForegroundColor: Colors.grey[500],
           ),
           child: _isProcessing
-              ? const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: LoadingIndicator(),
-                )
+              ? const SizedBox(height: 20, width: 20, child: LoadingIndicator())
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

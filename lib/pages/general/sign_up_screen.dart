@@ -517,7 +517,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ? const SizedBox(
                             width: 24,
                             height: 24,
-                            child: LoadingIndicator(color: Colors.white,)
+                            child: LoadingIndicator(color: Colors.white),
                           )
                         : const Text(
                             'Daftar',
