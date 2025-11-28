@@ -4,6 +4,7 @@ import 'package:rukunin/modules/marketplace/models/order.dart';
 import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/modules/marketplace/services/order_service.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class OrdersScreen extends StatefulWidget {
   final Shop shop;
@@ -101,7 +102,7 @@ class _OrdersScreenState extends State<OrdersScreen>
       stream: _orderService.getSellerOrders(widget.shop.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: LoadingIndicator());
         }
 
         if (snapshot.hasError) {

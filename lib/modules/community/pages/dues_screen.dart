@@ -3,6 +3,7 @@ import 'package:rukunin/modules/community/widgets/dues_summary_card.dart';
 import 'package:rukunin/modules/community/widgets/announcements_dues_section.dart';
 import 'package:rukunin/modules/community/widgets/communnity_summary_section.dart';
 import 'package:rukunin/modules/community/widgets/payment_history_section.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class DuesScreen extends StatelessWidget {
   const DuesScreen({super.key});
@@ -14,20 +15,7 @@ class DuesScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: const Text(
-          'Iuran Saya',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-      ),
+      appBar: const RukuninAppBar(title: 'Iuran Saya'),
       body: const SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

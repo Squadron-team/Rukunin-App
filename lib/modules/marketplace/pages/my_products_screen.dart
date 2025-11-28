@@ -5,6 +5,7 @@ import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/modules/marketplace/pages/owner_product_detail_screen.dart';
 import 'package:rukunin/modules/marketplace/services/product_service.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class MyProductsScreen extends StatelessWidget {
   final Shop shop;
@@ -140,7 +141,7 @@ class MyProductsScreen extends StatelessWidget {
               stream: ProductService().getProductsByShop(shop.id),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: LoadingIndicator());
                 }
 
                 if (snapshot.hasError) {
@@ -311,16 +312,8 @@ class MyProductsScreen extends StatelessWidget {
                             cacheHeight: 200,
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) return child;
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  value:
-                                      loadingProgress.expectedTotalBytes != null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                      : null,
-                                  color: AppColors.primary,
-                                  strokeWidth: 2,
-                                ),
+                              return const Center(
+                                child: LoadingIndicator()
                               );
                             },
                             errorBuilder: (context, error, stackTrace) {

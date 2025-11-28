@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/modules/community/widgets/finance_transparency_section.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class FinanceTransparencyScreen extends StatelessWidget {
   const FinanceTransparencyScreen({super.key});
@@ -8,20 +9,7 @@ class FinanceTransparencyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: const Text(
-          'Transparansi Keuangan',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-      ),
+      appBar: const RukuninAppBar(title: 'Transparansi Keuangan'),
       body: const FinanceTransparencySection(),
     );
   }

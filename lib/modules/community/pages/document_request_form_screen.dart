@@ -4,6 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/modules/community/services/document_service.dart';
 import 'package:rukunin/services/storage_service.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class DocumentRequestFormScreen extends StatefulWidget {
   final String documentType;
@@ -211,24 +213,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: Text(
-          widget.documentTitle,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+      appBar: RukuninAppBar(title: widget.documentTitle),
       body: Form(
         key: _formKey,
         child: LayoutBuilder(
@@ -458,10 +443,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
                             ? const SizedBox(
                                 height: 20,
                                 width: 20,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
+                                child: LoadingIndicator(),
                               )
                             : const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -510,7 +492,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
               color: Colors.grey[100],
             ),
             child: const Center(
-              child: CircularProgressIndicator(strokeWidth: 2),
+              child: LoadingIndicator(),
             ),
           );
         }

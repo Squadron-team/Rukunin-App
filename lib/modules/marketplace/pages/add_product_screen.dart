@@ -8,6 +8,7 @@ import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/modules/marketplace/services/product_service.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class AddProductScreen extends StatefulWidget {
   final Shop shop;
@@ -389,7 +390,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     elevation: 2,
                   ),
                   child: _isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
+                      ? const LoadingIndicator()
                       : const Text(
                           'Simpan Produk',
                           style: TextStyle(

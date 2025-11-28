@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:intl/intl.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class FamilyDetailsScreen extends StatefulWidget {
   const FamilyDetailsScreen({super.key});
@@ -124,61 +126,46 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: const Text(
-          'Data Keluarga',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: RefreshIndicator(
-        onRefresh: _loadFamilyData,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            // KK Summary Card
-            _buildKKSummaryCard(),
+      appBar: const RukuninAppBar(title: 'Data Keluarga'),
+      body: _isLoading
+          ? const Center(
+              child: LoadingIndicator(),
+            )
+          : RefreshIndicator(
+              onRefresh: _loadFamilyData,
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  // KK Summary Card
+                  _buildKKSummaryCard(),
 
-            const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-            // Family Members Section
-            _buildSectionHeader(
-              'Anggota Keluarga',
-              subtitle: '${_familyMembers.length} orang terdaftar',
+                  // Family Members Section
+                  _buildSectionHeader(
+                    'Anggota Keluarga',
+                    subtitle: '${_familyMembers.length} orang terdaftar',
+                  ),
+                  const SizedBox(height: 12),
+
+                  if (_familyMembers.isEmpty)
+                    _buildEmptyState()
+                  else
+                    ..._familyMembers.map(
+                      (member) => _buildFamilyMemberCard(member),
+                    ),
+
+                  const SizedBox(height: 24),
+
+                  // Request Correction Card
+                  _buildRequestCorrectionCard(),
+
+                  const SizedBox(height: 24),
+                ],
+              ),
             ),
-            const SizedBox(height: 12),
-
-            if (_familyMembers.isEmpty)
-              _buildEmptyState()
-            else
-              ..._familyMembers.map((member) => _buildFamilyMemberCard(member)),
-
-            const SizedBox(height: 24),
-
-            // Request Correction Card
-            _buildRequestCorrectionCard(),
-
-            const SizedBox(height: 24),
-          ],
-        ),
-      ),
     );
   }
 
