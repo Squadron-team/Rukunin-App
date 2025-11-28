@@ -474,11 +474,7 @@ class _TambahWargaScreenState extends State<TambahWargaScreen> {
           elevation: 2,
         ),
         child: _isLoading
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: LoadingIndicator(),
-              )
+            ? const SizedBox(width: 20, height: 20, child: LoadingIndicator())
             : const Text(
                 'Simpan Data',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),

@@ -130,9 +130,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
       backgroundColor: Colors.grey[50],
       appBar: const RukuninAppBar(title: 'Data Keluarga'),
       body: _isLoading
-          ? const Center(
-              child: LoadingIndicator(),
-            )
+          ? const Center(child: LoadingIndicator())
           : RefreshIndicator(
               onRefresh: _loadFamilyData,
               child: ListView(

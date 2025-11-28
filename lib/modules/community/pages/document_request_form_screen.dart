@@ -491,9 +491,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
               border: Border.all(color: Colors.grey[300]!),
               color: Colors.grey[100],
             ),
-            child: const Center(
-              child: LoadingIndicator(),
-            ),
+            child: const Center(child: LoadingIndicator()),
           );
         }
 
