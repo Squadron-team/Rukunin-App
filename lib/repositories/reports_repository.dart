@@ -15,7 +15,8 @@ class ReportsRepository {
       ReportItem(
         id: 'r1',
         title: 'Lampu jalan mati di Gang Dahlia',
-        description: 'Lampu jalan di gang dahlia padam sejak semalam, rawan kecelakaan.',
+        description:
+            'Lampu jalan di gang dahlia padam sejak semalam, rawan kecelakaan.',
         location: 'Gang Dahlia',
         reporter: 'Budi Santoso',
         createdAt: DateTime.now().subtract(const Duration(hours: 20)),
@@ -31,7 +32,8 @@ class ReportsRepository {
       ReportItem(
         id: 'r3',
         title: 'Ular ditemukan di sawah belakang SD',
-        description: 'Ada ular besar di area persawahan dekat SD, mohon ditangani.',
+        description:
+            'Ada ular besar di area persawahan dekat SD, mohon ditangani.',
         location: 'Sawah belakang SD',
         reporter: 'Anton',
         createdAt: DateTime.now().subtract(const Duration(days: 1, hours: 3)),
@@ -39,7 +41,8 @@ class ReportsRepository {
       ReportItem(
         id: 'r4',
         title: 'Jalan berlubang di Jl. Mawar',
-        description: 'Berlubang besar di depan rumah nomor 12, berbahaya untuk motor.',
+        description:
+            'Berlubang besar di depan rumah nomor 12, berbahaya untuk motor.',
         location: 'Jl. Mawar',
         reporter: 'Dewi',
         createdAt: DateTime.now().subtract(const Duration(days: 2)),

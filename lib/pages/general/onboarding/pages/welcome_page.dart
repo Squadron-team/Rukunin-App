@@ -48,7 +48,8 @@ class WelcomePage extends StatelessWidget {
           const InfoCard(
             icon: Icons.badge,
             title: 'Data KTP',
-            description: 'Informasi identitas diri berdasarkan Kartu Tanda Penduduk',
+            description:
+                'Informasi identitas diri berdasarkan Kartu Tanda Penduduk',
           ),
           const SizedBox(height: 16),
           const InfoCard(

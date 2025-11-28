@@ -52,11 +52,11 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _navigateAfterSplash() async {
     await Future.delayed(const Duration(milliseconds: 2500));
-    
+
     if (!mounted) return;
 
     final user = FirebaseAuth.instance.currentUser;
-    
+
     if (user != null) {
       // User is logged in, go to role-based home
       final role = await RoleBasedNavigator.getUserRole(user.uid);
@@ -140,7 +140,9 @@ class _SplashScreenState extends State<SplashScreen>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: List.generate(3, (index) {
                                   return Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 4.0,
+                                    ),
                                     child: _buildLoadingDot(index),
                                   );
                                 }),
@@ -219,7 +221,7 @@ class _SplashScreenState extends State<SplashScreen>
       builder: (context, child) {
         final scale = 0.7 + (animation.value * 0.6);
         final opacity = 0.3 + (animation.value * 0.3);
-        
+
         return Transform.scale(
           scale: scale,
           child: Container(

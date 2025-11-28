@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/modules/marketplace/models/shop.dart';
-import 'package:rukunin/pages/resident/community/pages/community_screen.dart';
-import 'package:rukunin/pages/resident/community/pages/dues_screen.dart';
-import 'package:rukunin/pages/resident/community/pages/finance_transparency_screen.dart';
-import 'package:rukunin/pages/resident/community/pages/population_info_screen.dart';
+import 'package:rukunin/modules/community/pages/community_screen.dart';
+import 'package:rukunin/modules/community/pages/dues_screen.dart';
+import 'package:rukunin/modules/community/pages/finance_transparency_screen.dart';
+import 'package:rukunin/modules/community/pages/population_info_screen.dart';
 import 'package:rukunin/pages/resident/resident_home_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/marketplace_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/shop_dashboard_screen.dart';
@@ -18,10 +18,10 @@ import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/activities/pages/activity_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/resident/resident_shell.dart';
-import 'package:rukunin/pages/resident/community/pages/family_details_screen.dart';
-import 'package:rukunin/pages/resident/community/pages/documents_screen.dart';
-import 'package:rukunin/pages/resident/community/pages/document_request_form_screen.dart';
-import 'package:rukunin/pages/resident/community/pages/home_details_screen.dart';
+import 'package:rukunin/modules/community/pages/family_details_screen.dart';
+import 'package:rukunin/modules/community/pages/documents_screen.dart';
+import 'package:rukunin/modules/community/pages/document_request_form_screen.dart';
+import 'package:rukunin/modules/community/pages/home_details_screen.dart';
 
 final residentRoutes = [
   // Main routes with bottom navigation
@@ -31,37 +31,32 @@ final residentRoutes = [
       GoRoute(
         path: '/resident',
         name: 'resident-home',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: ResidentHomeScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: ResidentHomeScreen()),
       ),
       GoRoute(
         path: '/resident/marketplace',
         name: 'resident-marketplace',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: MarketplaceScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: MarketplaceScreen()),
       ),
       GoRoute(
         path: '/resident/activities',
         name: 'resident-activities',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: ActivityScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: ActivityScreen()),
       ),
       GoRoute(
         path: '/resident/community',
         name: 'resident-community',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: CommunityScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: CommunityScreen()),
       ),
       GoRoute(
         path: '/resident/account',
         name: 'resident-account',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: AccountScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: AccountScreen()),
       ),
     ],
   ),

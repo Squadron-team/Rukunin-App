@@ -140,7 +140,9 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            widget.isActive ? Icons.check_circle : Icons.pending,
+                            widget.isActive
+                                ? Icons.check_circle
+                                : Icons.pending,
                             color: Colors.white,
                             size: 16,
                           ),
@@ -345,7 +347,9 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
                       child: Row(
                         children: [
                           Icon(
-                            widget.stock > 0 ? Icons.inventory_2 : Icons.inventory_2_outlined,
+                            widget.stock > 0
+                                ? Icons.inventory_2
+                                : Icons.inventory_2_outlined,
                             color: widget.stock > 0 ? Colors.green : Colors.red,
                             size: 20,
                           ),
@@ -355,7 +359,9 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: widget.stock > 0 ? Colors.green : Colors.red,
+                              color: widget.stock > 0
+                                  ? Colors.green
+                                  : Colors.red,
                             ),
                           ),
                         ],
@@ -404,7 +410,9 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
           ],
         ),
         child: SafeArea(
-          child: widget.isActive ? _buildApprovedActions() : _buildPendingActions(),
+          child: widget.isActive
+              ? _buildApprovedActions()
+              : _buildPendingActions(),
         ),
       ),
     );
@@ -522,7 +530,9 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -531,7 +541,9 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
                   content: const Text('Produk berhasil disetujui'),
                   backgroundColor: Colors.green,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               );
             },
@@ -544,7 +556,7 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
 
   void _showRejectDialog() {
     final TextEditingController noteController = TextEditingController();
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -579,7 +591,9 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -588,7 +602,9 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
                   content: const Text('Produk berhasil ditolak'),
                   backgroundColor: Colors.red,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               );
             },
@@ -619,7 +635,9 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.orange,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -628,11 +646,16 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
                   content: const Text('Produk berhasil disembunyikan'),
                   backgroundColor: Colors.orange,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               );
             },
-            child: const Text('Sembunyikan', style: TextStyle(color: Colors.white)),
+            child: const Text(
+              'Sembunyikan',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -659,7 +682,9 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -669,7 +694,9 @@ class _MarketplaceDetailPageState extends State<MarketplaceDetailPage> {
                   content: const Text('Produk berhasil dihapus'),
                   backgroundColor: Colors.red,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               );
             },

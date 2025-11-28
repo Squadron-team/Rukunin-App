@@ -13,9 +13,12 @@ class ShopService {
         .limit(1)
         .snapshots()
         .map((snapshot) {
-      if (snapshot.docs.isEmpty) return null;
-      return Shop.fromFirestore(snapshot.docs.first.data(), snapshot.docs.first.id);
-    });
+          if (snapshot.docs.isEmpty) return null;
+          return Shop.fromFirestore(
+            snapshot.docs.first.data(),
+            snapshot.docs.first.id,
+          );
+        });
   }
 
   // Check if user has shop
@@ -36,7 +39,9 @@ class ShopService {
   // Create new shop
   Future<String?> createShop(Shop shop) async {
     try {
-      final docRef = await _firestore.collection(_collectionName).add(shop.toFirestore());
+      final docRef = await _firestore
+          .collection(_collectionName)
+          .add(shop.toFirestore());
       return docRef.id;
     } catch (e) {
       print('Error creating shop: $e');
@@ -70,7 +75,10 @@ class ShopService {
   // Get shop by ID
   Future<Shop?> getShop(String shopId) async {
     try {
-      final doc = await _firestore.collection(_collectionName).doc(shopId).get();
+      final doc = await _firestore
+          .collection(_collectionName)
+          .doc(shopId)
+          .get();
       if (doc.exists) {
         return Shop.fromFirestore(doc.data()!, doc.id);
       }
@@ -89,8 +97,10 @@ class ShopService {
         .where('isApproved', isEqualTo: true)
         .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Shop.fromFirestore(doc.data(), doc.id))
-            .toList());
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => Shop.fromFirestore(doc.data(), doc.id))
+              .toList(),
+        );
   }
 }

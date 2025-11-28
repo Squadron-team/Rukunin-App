@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/modules/community/pages/community_screen.dart';
+import 'package:rukunin/modules/community/pages/document_request_form_screen.dart';
+import 'package:rukunin/modules/community/pages/documents_screen.dart';
+import 'package:rukunin/modules/community/pages/dues_screen.dart';
+import 'package:rukunin/modules/community/pages/family_details_screen.dart';
+import 'package:rukunin/modules/community/pages/finance_transparency_screen.dart';
+import 'package:rukunin/modules/community/pages/population_info_screen.dart';
 import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/pages/marketplace_screen.dart';
@@ -12,13 +19,6 @@ import 'package:rukunin/modules/marketplace/pages/cart_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/product_detail_screen.dart';
 import 'package:rukunin/modules/activities/pages/activity_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
-import 'package:rukunin/pages/treasurer/community/community_screen.dart';
-import 'package:rukunin/pages/treasurer/community/document_request_form_screen.dart';
-import 'package:rukunin/pages/treasurer/community/documents_screen.dart';
-import 'package:rukunin/pages/treasurer/community/dues_screen.dart';
-import 'package:rukunin/pages/treasurer/community/family_details_screen.dart';
-import 'package:rukunin/pages/treasurer/community/finance_transparency_screen.dart';
-import 'package:rukunin/pages/treasurer/community/population_info_screen.dart';
 import 'package:rukunin/pages/treasurer/treasurer_home_screen.dart';
 import 'package:rukunin/pages/treasurer/treasurer_shell.dart';
 

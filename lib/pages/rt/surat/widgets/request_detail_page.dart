@@ -11,7 +11,12 @@ class RequestDetailPage extends StatefulWidget {
   final Future<void> Function(String note)? onSaveNote;
   final Future<void> Function(String status)? onChangeStatus;
 
-  const RequestDetailPage({Key? key, required this.request, this.onSaveNote, this.onChangeStatus}) : super(key: key);
+  const RequestDetailPage({
+    required this.request,
+    super.key,
+    this.onSaveNote,
+    this.onChangeStatus,
+  });
 
   @override
   State<RequestDetailPage> createState() => _RequestDetailPageState();
@@ -47,12 +52,16 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
           final bytes = await image.readAsBytes();
           if (bytes.length > 5 * 1024 * 1024) {
             if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text('Ukuran file maksimal 5MB'),
-                backgroundColor: Colors.orange,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Ukuran file maksimal 5MB'),
+                  backgroundColor: Colors.orange,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              );
             }
             return;
           }
@@ -69,12 +78,16 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
           final bytes = await image.readAsBytes();
           if (bytes.length > 5 * 1024 * 1024) {
             if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text('Ukuran file maksimal 5MB'),
-                backgroundColor: Colors.orange,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Ukuran file maksimal 5MB'),
+                  backgroundColor: Colors.orange,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              );
             }
             return;
           }
@@ -84,34 +97,35 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
     } catch (e) {
       debugPrint('Error picking image: $e');
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Gagal memilih gambar: $e'),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Gagal memilih gambar: $e'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
       }
     }
   }
 
   void _removeAdminAttachment(int index) {
     setState(() => _adminAttachments.removeAt(index));
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: const Text('Lampiran dihapus'),
-      backgroundColor: Colors.grey[800],
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Lampiran dihapus'),
+        backgroundColor: Colors.grey[800],
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
   }
 
   Future<Widget> _buildAdminImageWidget(XFile file) async {
     final bytes = await file.readAsBytes();
-    return Image.memory(
-      bytes,
-      fit: BoxFit.cover,
-      width: 100,
-      height: 100,
-    );
+    return Image.memory(bytes, fit: BoxFit.cover, width: 100, height: 100);
   }
 
   Widget _buildAdminAttachmentPreview(int index) {
@@ -127,7 +141,9 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
               border: Border.all(color: Colors.grey[300]!),
               color: Colors.grey[100],
             ),
-            child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+            child: const Center(
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
           );
         }
 
@@ -136,7 +152,10 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
             Container(
               width: 100,
               height: 100,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey[300]!)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey[300]!),
+              ),
               clipBehavior: Clip.antiAlias,
               child: snapshot.data ?? const Icon(Icons.error),
             ),
@@ -147,7 +166,10 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                 onTap: () => _removeAdminAttachment(index),
                 child: Container(
                   padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
                   child: const Icon(Icons.close, size: 14, color: Colors.white),
                 ),
               ),
@@ -158,13 +180,14 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
     );
   }
 
-
   Future<void> _changeStatus(String status) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (c) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 360),
             child: Padding(
@@ -175,16 +198,25 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                   Icon(
                     status == 'diterima' ? Icons.check_circle : Icons.cancel,
                     size: 96,
-                    color: status == 'diterima' ? AppColors.success : AppColors.error,
+                    color: status == 'diterima'
+                        ? AppColors.success
+                        : AppColors.error,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    status == 'diterima' ? 'Setujui pengajuan' : 'Tolak pengajuan',
-                    style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                    status == 'diterima'
+                        ? 'Setujui pengajuan'
+                        : 'Tolak pengajuan',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 20,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    status == 'diterima' ? 'Yakin ingin menyetujui pengajuan ini?' : 'Yakin ingin menolak pengajuan ini?',
+                    status == 'diterima'
+                        ? 'Yakin ingin menyetujui pengajuan ini?'
+                        : 'Yakin ingin menolak pengajuan ini?',
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
@@ -195,19 +227,35 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(color: Colors.grey.shade300),
                           backgroundColor: Colors.grey[100],
-                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 18,
+                            vertical: 12,
+                          ),
                         ),
                         onPressed: () => Navigator.pop(c, false),
-                        child: Text('Batal', style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600)),
+                        child: Text(
+                          'Batal',
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 12),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: status == 'diterima' ? AppColors.success : AppColors.error),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: status == 'diterima'
+                              ? AppColors.success
+                              : AppColors.error,
+                        ),
                         onPressed: () => Navigator.pop(c, true),
-                        child: Text(status == 'diterima' ? 'Setujui' : 'Tolak', style: const TextStyle(color: Colors.white)),
+                        child: Text(
+                          status == 'diterima' ? 'Setujui' : 'Tolak',
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -224,7 +272,11 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
 
   // (old icon+title+subtitle helper removed; we use label/value rows instead)
 
-  Widget _buildInfoRowLabel(String label, String value, {bool isHighlight = false}) {
+  Widget _buildInfoRowLabel(
+    String label,
+    String value, {
+    bool isHighlight = false,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -232,13 +284,21 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
           width: 140,
           child: Text(
             label,
-            style: TextStyle(fontSize: 14, color: Colors.grey[700], fontWeight: FontWeight.w500),
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[700],
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
         Expanded(
           child: Text(
             value,
-            style: TextStyle(fontSize: 14, color: isHighlight ? AppColors.primary : Colors.black, fontWeight: isHighlight ? FontWeight.w700 : FontWeight.w600),
+            style: TextStyle(
+              fontSize: 14,
+              color: isHighlight ? AppColors.primary : Colors.black,
+              fontWeight: isHighlight ? FontWeight.w700 : FontWeight.w600,
+            ),
           ),
         ),
       ],
@@ -247,7 +307,9 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isFinal = widget.request.status == 'diterima' || widget.request.status == 'ditolak';
+    final isFinal =
+        widget.request.status == 'diterima' ||
+        widget.request.status == 'ditolak';
 
     Color categoryColor(String t) {
       switch (t) {
@@ -277,10 +339,15 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
     final catColor = categoryColor(widget.request.type);
 
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: Text(
           widget.request.type == 'sktm' ? 'SKTM' : widget.request.title,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black),
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -301,11 +368,17 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [catColor.withOpacity(0.20), catColor.withOpacity(0.06)],
+                        colors: [
+                          catColor.withOpacity(0.20),
+                          catColor.withOpacity(0.06),
+                        ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      ),
                       border: Border.all(color: catColor.withOpacity(0.3)),
                     ),
                     child: Row(
@@ -317,18 +390,41 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                           decoration: BoxDecoration(
                             color: catColor,
                             borderRadius: BorderRadius.circular(14),
-                            boxShadow: [BoxShadow(color: catColor.withOpacity(0.25), blurRadius: 8, offset: const Offset(0,4))],
+                            boxShadow: [
+                              BoxShadow(
+                                color: catColor.withOpacity(0.25),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
                           ),
-                          child: const Icon(Icons.description, color: Colors.white, size: 28),
+                          child: const Icon(
+                            Icons.description,
+                            color: Colors.white,
+                            size: 28,
+                          ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(widget.request.title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black)),
+                              Text(
+                                widget.request.title,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
                               const SizedBox(height: 6),
-                              Text('Informasi Pengajuan', style: TextStyle(fontSize: 13, color: Colors.grey[800])),
+                              Text(
+                                'Informasi Pengajuan',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.grey[800],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -339,18 +435,24 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
+                      ),
                       border: Border.all(color: catColor.withOpacity(0.18)),
                     ),
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const SizedBox(height: 12),
-                          _buildInfoRowLabel('Pemohon', widget.request.requester),
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 12),
+                        _buildInfoRowLabel('Pemohon', widget.request.requester),
                         const SizedBox(height: 12),
                         _buildInfoRowLabel('Tujuan', widget.request.purpose),
                         const SizedBox(height: 12),
-                        _buildInfoRowLabel('Dikirim', relativeTime(widget.request.createdAt.toLocal())),
+                        _buildInfoRowLabel(
+                          'Dikirim',
+                          relativeTime(widget.request.createdAt.toLocal()),
+                        ),
                       ],
                     ),
                   ),
@@ -358,7 +460,8 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
               ),
               const SizedBox(height: 12),
               // Resident-submitted attachments: show right below information
-              if (widget.request.attachments != null && widget.request.attachments!.isNotEmpty) ...[
+              if (widget.request.attachments != null &&
+                  widget.request.attachments!.isNotEmpty) ...[
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
@@ -369,25 +472,46 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Text('Lampiran Pemohon', style: TextStyle(fontWeight: FontWeight.bold)),
+                      const Text(
+                        'Lampiran Pemohon',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       const SizedBox(height: 8),
                       Column(
-                        children: widget.request.attachments!.map((a) => ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              leading: Icon(Icons.attachment, color: AppColors.primary),
-                              title: Text(a),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.download, color: AppColors.primary),
-                                onPressed: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text('Fungsi unduh belum tersedia: $a'),
-                                    backgroundColor: AppColors.primary,
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                  ));
-                                },
+                        children: widget.request.attachments!
+                            .map(
+                              (a) => ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                leading: const Icon(
+                                  Icons.attachment,
+                                  color: AppColors.primary,
+                                ),
+                                title: Text(a),
+                                trailing: IconButton(
+                                  icon: const Icon(
+                                    Icons.download,
+                                    color: AppColors.primary,
+                                  ),
+                                  onPressed: () {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Fungsi unduh belum tersedia: $a',
+                                        ),
+                                        backgroundColor: AppColors.primary,
+                                        behavior: SnackBarBehavior.floating,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                            )).toList(),
+                            )
+                            .toList(),
                       ),
                     ],
                   ),
@@ -397,12 +521,21 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
 
               // Header for admin note & attachments
               const SizedBox(height: 12),
-              Text('Kirim Catatan & Lampiran', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black)),
+              const Text(
+                'Kirim Catatan & Lampiran',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
               const SizedBox(height: 8),
               // Note field
               TextField(
                 controller: _noteCtrl,
-                decoration: buildInputDecoration('Catatan untuk pemohon (opsional)'),
+                decoration: buildInputDecoration(
+                  'Catatan untuk pemohon (opsional)',
+                ),
                 maxLines: 4,
               ),
               const SizedBox(height: 12),
@@ -412,7 +545,10 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: List.generate(_adminAttachments.length, (index) => _buildAdminAttachmentPreview(index)),
+                  children: List.generate(
+                    _adminAttachments.length,
+                    (index) => _buildAdminAttachmentPreview(index),
+                  ),
                 ),
                 const SizedBox(height: 12),
               ],
@@ -426,15 +562,35 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 2, style: BorderStyle.solid),
+                      border: Border.all(
+                        color: AppColors.primary.withOpacity(0.3),
+                        width: 2,
+                        style: BorderStyle.solid,
+                      ),
                     ),
                     child: Column(
                       children: [
-                        Icon(Icons.cloud_upload, size: 36, color: AppColors.primary),
+                        const Icon(
+                          Icons.cloud_upload,
+                          size: 36,
+                          color: AppColors.primary,
+                        ),
                         const SizedBox(height: 10),
-                        Text('Tambah Lampiran Catatan', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w700)),
+                        const Text(
+                          'Tambah Lampiran Catatan',
+                          style: TextStyle(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                         const SizedBox(height: 6),
-                        Text('Pilih foto atau dokumen (maks 5MB)', style: TextStyle(color: Colors.grey[500], fontSize: 13)),
+                        Text(
+                          'Pilih foto atau dokumen (maks 5MB)',
+                          style: TextStyle(
+                            color: Colors.grey[500],
+                            fontSize: 13,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -454,7 +610,10 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: isFinal ? null : () => _changeStatus('ditolak'),
-                  style: ElevatedButton.styleFrom(backgroundColor: AppColors.error, foregroundColor: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.error,
+                    foregroundColor: Colors.white,
+                  ),
                   child: const Text('Tolak'),
                 ),
               ),
@@ -462,7 +621,10 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: isFinal ? null : () => _changeStatus('diterima'),
-                  style: ElevatedButton.styleFrom(backgroundColor: AppColors.success, foregroundColor: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.success,
+                    foregroundColor: Colors.white,
+                  ),
                   child: const Text('Setuju'),
                 ),
               ),

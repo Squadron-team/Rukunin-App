@@ -39,10 +39,7 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
       mainAxisSize: MainAxisSize.min,
       children: [
         ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxHeight: 160,
-            minHeight: 120,
-          ),
+          constraints: const BoxConstraints(maxHeight: 160, minHeight: 120),
           child: LayoutBuilder(
             builder: (context, constraints) {
               return ScrollConfiguration(

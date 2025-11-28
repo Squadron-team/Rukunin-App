@@ -22,7 +22,8 @@ class StorageService {
       final bytes = await file.readAsBytes();
       final fileName = path.basename(file.name);
       final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final storagePath = 'document_attachments/${user.uid}/$documentType/$requestId/${timestamp}_$fileName';
+      final storagePath =
+          'document_attachments/${user.uid}/$documentType/$requestId/${timestamp}_$fileName';
 
       // Create reference
       final ref = _storage.ref().child(storagePath);

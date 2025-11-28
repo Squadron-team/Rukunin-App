@@ -681,7 +681,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
         deliveryFee: widget.deliveryFee,
         discount: widget.appliedDiscount,
         paymentMethod: paymentMethodName,
-        shippingAddress: 'Block C No. 15, RW 05, Tegalharjo, Surabaya, Jawa Timur 60261',
+        shippingAddress:
+            'Block C No. 15, RW 05, Tegalharjo, Surabaya, Jawa Timur 60261',
       );
 
       if (orderId == null) {
@@ -863,7 +864,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        Navigator.of(context).popUntil((route) => route.isFirst);
+                        Navigator.of(
+                          context,
+                        ).popUntil((route) => route.isFirst);
                       },
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
@@ -901,7 +904,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   Navigator.of(context).pop();
                   // Navigate to cart screen orders tab
                 },
-                icon: Icon(Icons.receipt_long_rounded, size: 18, color: Colors.grey[700]),
+                icon: Icon(
+                  Icons.receipt_long_rounded,
+                  size: 18,
+                  color: Colors.grey[700],
+                ),
                 label: Text(
                   'Lihat Pesanan Saya',
                   style: TextStyle(

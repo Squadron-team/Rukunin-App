@@ -70,10 +70,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     });
 
     try {
-      await _onboardingService.submitOnboardingData(
-        context,
-        _onboardingState,
-      );
+      await _onboardingService.submitOnboardingData(context, _onboardingState);
     } finally {
       if (mounted) {
         setState(() {

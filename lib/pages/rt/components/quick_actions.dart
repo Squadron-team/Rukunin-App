@@ -15,7 +15,7 @@ class QuickActionsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomSafe = MediaQuery.of(context).viewPadding.bottom;
-    final gridBottom = bottomSafe + 28.0; 
+    final gridBottom = bottomSafe + 28.0;
 
     return SafeArea(
       bottom: true,
@@ -31,104 +31,108 @@ class QuickActionsGrid extends StatelessWidget {
         crossAxisSpacing: 16,
         childAspectRatio: 0.8,
         children: [
-        QuickAccessItem(
-          icon: Icons.person_add,
-          label: 'Daftar Warga',
-          color: AppColors.primary,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const WargaListScreen()),
-            );
-          },
-        ),
-        QuickAccessItem(
-          icon: Icons.family_restroom,
-          label: 'Data Keluarga',
-          color: AppColors.primary,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const FamilyListScreen()),
-            );
-          },
-        ),
-        QuickAccessItem(
-          icon: Icons.map,
-          label: 'Wilayah RT',
-          color: AppColors.primary,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const WilayahRtScreen()),
-            );
-          },
-        ),
-        QuickAccessItem(
-          icon: Icons.event_available,
-          label: 'Kegiatan RT',
-          color: AppColors.primary,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const CommunityHeadEventsScreen()),
-            );
-          },
-        ),
-        const QuickAccessItem(
-          icon: Icons.payment,
-          label: 'Catat Iuran',
-          color: AppColors.primary,
-        ),
-        QuickAccessItem(
-          icon: Icons.report,
-          label: 'Kelola Laporan Warga',
-          color: AppColors.primary,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const ManageReportsScreen()),
-            );
-          },
-        ),
-        const QuickAccessItem(
-          icon: Icons.edit_document,
-          label: 'Buat Surat',
-          color: AppColors.primary,
-        ),
-        QuickAccessItem(
-          icon: Icons.campaign,
-          label: 'Pengumuman RT',
-          color: AppColors.primary,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const AnnouncementsScreen()),
-            );
-          },
-        ),
-        QuickAccessItem(
-          icon: Icons.mail,
-          label: 'Kelola Pengajuan Surat',
-          color: AppColors.primary,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const KelolaPengajuanSuratScreen()),
-            );
-          },
-        ),
-        const QuickAccessItem(
-          icon: Icons.insert_chart,
-          label: 'Laporan RT',
-          color: AppColors.primary,
-        ),
-        const QuickAccessItem(
-          icon: Icons.people_outline,
-          label: 'Rapat RT',
-          color: AppColors.primary,
-        ),
-      ],
+          QuickAccessItem(
+            icon: Icons.person_add,
+            label: 'Daftar Warga',
+            color: AppColors.primary,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const WargaListScreen()),
+              );
+            },
+          ),
+          QuickAccessItem(
+            icon: Icons.family_restroom,
+            label: 'Data Keluarga',
+            color: AppColors.primary,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const FamilyListScreen()),
+              );
+            },
+          ),
+          QuickAccessItem(
+            icon: Icons.map,
+            label: 'Wilayah RT',
+            color: AppColors.primary,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const WilayahRtScreen()),
+              );
+            },
+          ),
+          QuickAccessItem(
+            icon: Icons.event_available,
+            label: 'Kegiatan RT',
+            color: AppColors.primary,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const CommunityHeadEventsScreen(),
+                ),
+              );
+            },
+          ),
+          const QuickAccessItem(
+            icon: Icons.payment,
+            label: 'Catat Iuran',
+            color: AppColors.primary,
+          ),
+          QuickAccessItem(
+            icon: Icons.report,
+            label: 'Kelola Laporan Warga',
+            color: AppColors.primary,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ManageReportsScreen()),
+              );
+            },
+          ),
+          const QuickAccessItem(
+            icon: Icons.edit_document,
+            label: 'Buat Surat',
+            color: AppColors.primary,
+          ),
+          QuickAccessItem(
+            icon: Icons.campaign,
+            label: 'Pengumuman RT',
+            color: AppColors.primary,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const AnnouncementsScreen()),
+              );
+            },
+          ),
+          QuickAccessItem(
+            icon: Icons.mail,
+            label: 'Kelola Pengajuan Surat',
+            color: AppColors.primary,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const KelolaPengajuanSuratScreen(),
+                ),
+              );
+            },
+          ),
+          const QuickAccessItem(
+            icon: Icons.insert_chart,
+            label: 'Laporan RT',
+            color: AppColors.primary,
+          ),
+          const QuickAccessItem(
+            icon: Icons.people_outline,
+            label: 'Rapat RT',
+            color: AppColors.primary,
+          ),
+        ],
       ),
     );
   }

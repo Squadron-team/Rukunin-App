@@ -60,7 +60,8 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: () => setState(() => _selectedCategory = 'Semua'),
+                          onTap: () =>
+                              setState(() => _selectedCategory = 'Semua'),
                           child: CategoryChip(
                             label: 'Semua',
                             icon: '🏪',
@@ -68,7 +69,8 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => setState(() => _selectedCategory = 'Sayur'),
+                          onTap: () =>
+                              setState(() => _selectedCategory = 'Sayur'),
                           child: CategoryChip(
                             label: 'Sayur',
                             icon: '🥬',
@@ -76,7 +78,8 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => setState(() => _selectedCategory = 'Buah'),
+                          onTap: () =>
+                              setState(() => _selectedCategory = 'Buah'),
                           child: CategoryChip(
                             label: 'Buah',
                             icon: '🍎',
@@ -84,7 +87,8 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => setState(() => _selectedCategory = 'Daging'),
+                          onTap: () =>
+                              setState(() => _selectedCategory = 'Daging'),
                           child: CategoryChip(
                             label: 'Daging',
                             icon: '🥩',
@@ -92,7 +96,8 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => setState(() => _selectedCategory = 'Minuman'),
+                          onTap: () =>
+                              setState(() => _selectedCategory = 'Minuman'),
                           child: CategoryChip(
                             label: 'Minuman',
                             icon: '🥤',
@@ -100,7 +105,8 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => setState(() => _selectedCategory = 'Peralatan'),
+                          onTap: () =>
+                              setState(() => _selectedCategory = 'Peralatan'),
                           child: CategoryChip(
                             label: 'Peralatan',
                             icon: '🔧',
@@ -117,7 +123,9 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                   StreamBuilder<List<Product>>(
                     stream: _selectedCategory == 'Semua'
                         ? _productService.getProducts()
-                        : _productService.getProductsByCategory(_selectedCategory),
+                        : _productService.getProductsByCategory(
+                            _selectedCategory,
+                          ),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
@@ -174,11 +182,11 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.55,
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
-                          ),
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.55,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16,
+                              ),
                           itemCount: products.length,
                           itemBuilder: (context, index) {
                             final product = products[index];

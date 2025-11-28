@@ -7,7 +7,7 @@ import 'package:rukunin/pages/rw/pengumuman/pengumuman_screen.dart';
 import 'package:rukunin/pages/rw/rapat/rapat_rw_screen.dart';
 import 'package:rukunin/pages/rw/surat/surat_menyurat_screen.dart';
 import 'package:rukunin/pages/rw/data_warga/data_warga_screen.dart';
-import 'package:rukunin/pages/general/notification_screen.dart';
+import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 
 class RwHomeScreen extends StatelessWidget {
   const RwHomeScreen({super.key});

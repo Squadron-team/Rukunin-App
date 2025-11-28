@@ -5,10 +5,7 @@ class KegiatanCard extends StatelessWidget {
   final Kegiatan kegiatan;
   final VoidCallback? onDaftar;
 
-  const KegiatanCard({
-    required this.kegiatan, super.key,
-    this.onDaftar,
-  });
+  const KegiatanCard({required this.kegiatan, super.key, this.onDaftar});
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +25,7 @@ class KegiatanCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeader(),
-          _buildBody(context),
-        ],
+        children: [_buildHeader(), _buildBody(context)],
       ),
     );
   }
@@ -84,8 +78,10 @@ class KegiatanCard extends StatelessWidget {
                 const SizedBox(height: 6),
 
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: kegiatan.color.withOpacity(0.25),
                     borderRadius: BorderRadius.circular(8),
@@ -110,8 +106,8 @@ class KegiatanCard extends StatelessWidget {
               color: kegiatan.status == 'Akan Datang'
                   ? Colors.blue
                   : kegiatan.status == 'Sedang Berlangsung'
-                      ? Colors.green
-                      : Colors.grey,
+                  ? Colors.green
+                  : Colors.grey,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -142,16 +138,15 @@ class KegiatanCard extends StatelessWidget {
             kegiatan.deskripsi,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: Colors.grey[700],
-              height: 1.4,
-            ),
+            style: TextStyle(color: Colors.grey[700], height: 1.4),
           ),
 
           const SizedBox(height: 16),
 
-          _info(Icons.calendar_today,
-              '${kegiatan.tanggal.day}/${kegiatan.tanggal.month}/${kegiatan.tanggal.year}'),
+          _info(
+            Icons.calendar_today,
+            '${kegiatan.tanggal.day}/${kegiatan.tanggal.month}/${kegiatan.tanggal.year}',
+          ),
           const SizedBox(height: 10),
           _info(Icons.access_time, kegiatan.waktu),
           const SizedBox(height: 10),
@@ -179,7 +174,8 @@ class KegiatanCard extends StatelessWidget {
                   ),
                   elevation: 0,
                 ),
-                onPressed: onDaftar ??
+                onPressed:
+                    onDaftar ??
                     () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

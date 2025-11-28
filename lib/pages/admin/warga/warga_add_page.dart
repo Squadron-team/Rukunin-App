@@ -15,7 +15,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
   final TextEditingController nikC = TextEditingController();
   final TextEditingController noTelpC = TextEditingController();
   String status = 'Aktif';
-  
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -90,7 +90,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
                                   : null,
                             ),
                             const SizedBox(height: 16),
-                            
+
                             _input(
                               'NIK',
                               nikC,
@@ -106,7 +106,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
                               },
                             ),
                             const SizedBox(height: 16),
-                            
+
                             _input(
                               'Alamat',
                               alamatC,
@@ -116,7 +116,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
                                   : null,
                             ),
                             const SizedBox(height: 16),
-                            
+
                             _input(
                               'No. Telepon',
                               noTelpC,
@@ -137,9 +137,13 @@ class _WargaAddPageState extends State<WargaAddPage> {
                               initialValue: status,
                               items: const [
                                 DropdownMenuItem(
-                                    value: 'Aktif', child: Text('Aktif')),
+                                  value: 'Aktif',
+                                  child: Text('Aktif'),
+                                ),
                                 DropdownMenuItem(
-                                    value: 'Nonaktif', child: Text('Nonaktif')),
+                                  value: 'Nonaktif',
+                                  child: Text('Nonaktif'),
+                                ),
                               ],
                               decoration: _dec('Status Warga'),
                               onChanged: (v) => setState(() => status = v!),
@@ -156,7 +160,9 @@ class _WargaAddPageState extends State<WargaAddPage> {
                           Expanded(
                             child: OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
@@ -180,7 +186,9 @@ class _WargaAddPageState extends State<WargaAddPage> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
@@ -215,7 +223,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
     if (_formKey.currentState!.validate()) {
       // Implementasi simpan data
       // Contoh: panggil API atau simpan ke database
-      
+
       // Tampilkan snackbar sukses
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -227,7 +235,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
           ),
         ),
       );
-      
+
       // Kembali ke halaman sebelumnya
       context.pop();
     }
@@ -272,8 +280,7 @@ class _WargaAddPageState extends State<WargaAddPage> {
         borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(color: Colors.red, width: 2),
       ),
-      contentPadding:
-          const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
     );
   }
 }

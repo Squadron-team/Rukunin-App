@@ -107,9 +107,7 @@ class _AkunAdminEditPageState extends State<AkunAdminEditPage> {
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
-                  color: AppColors.primary,
-                ),
+                decoration: const BoxDecoration(color: AppColors.primary),
                 child: Column(
                   children: [
                     CircleAvatar(
@@ -254,7 +252,8 @@ class _AkunAdminEditPageState extends State<AkunAdminEditPage> {
                                   const SizedBox(width: 12),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           role['name'],
@@ -310,7 +309,9 @@ class _AkunAdminEditPageState extends State<AkunAdminEditPage> {
                         obscureText: _obscurePassword,
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             color: Colors.grey,
                           ),
                           onPressed: () {
@@ -347,7 +348,8 @@ class _AkunAdminEditPageState extends State<AkunAdminEditPage> {
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                              _obscureConfirmPassword =
+                                  !_obscureConfirmPassword;
                             });
                           },
                         ),
@@ -567,7 +569,10 @@ class _AkunAdminEditPageState extends State<AkunAdminEditPage> {
             ),
             filled: true,
             fillColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
           ),
         ),
       ],

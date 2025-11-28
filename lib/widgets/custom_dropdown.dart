@@ -22,7 +22,7 @@ class CustomDropdown extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (label.isNotEmpty) ... [
+        if (label.isNotEmpty) ...[
           Text(
             label,
             style: const TextStyle(

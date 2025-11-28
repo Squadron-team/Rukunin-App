@@ -61,7 +61,7 @@ class RoleBasedNavigator {
   /// Navigate to home screen based on user role
   static Future<void> navigateToRoleBasedHome(BuildContext context) async {
     final user = FirebaseAuth.instance.currentUser;
-    
+
     if (user == null) {
       debugPrint('No user logged in');
       return;
@@ -78,7 +78,7 @@ class RoleBasedNavigator {
   /// Navigate to account screen based on user role
   static Future<void> navigateToAccount(BuildContext context) async {
     final user = FirebaseAuth.instance.currentUser;
-    
+
     if (user == null) {
       debugPrint('No user logged in');
       return;

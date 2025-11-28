@@ -11,10 +11,7 @@ import 'package:rukunin/utils/currency_formatter.dart';
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
 
-  const ProductDetailScreen({
-    required this.product,
-    super.key,
-  });
+  const ProductDetailScreen({required this.product, super.key});
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -50,7 +47,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           content: Text('${widget.product.name} ditambahkan ke keranjang'),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           action: SnackBarAction(
             label: 'Lihat',
             textColor: Colors.white,
@@ -78,10 +77,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PaymentScreen(
-          products: [purchaseProduct],
-          fromCart: false,
-        ),
+        builder: (context) =>
+            PaymentScreen(products: [purchaseProduct], fromCart: false),
       ),
     );
   }
@@ -157,7 +154,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '${widget.product.rating.toStringAsFixed(1)}',
+                          widget.product.rating.toStringAsFixed(1),
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -192,7 +189,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         const SizedBox(width: 12),
                         if (widget.product.isDiscount)
                           Text(
-                            CurrencyFormatter.format(widget.product.price * 1.67),
+                            CurrencyFormatter.format(
+                              widget.product.price * 1.67,
+                            ),
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey[400],
@@ -281,10 +280,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ],
                             ),
                           ),
-                          Icon(
-                            Icons.chevron_right,
-                            color: Colors.grey[400],
-                          ),
+                          Icon(Icons.chevron_right, color: Colors.grey[400]),
                         ],
                       ),
                     ),
@@ -440,7 +436,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               Row(
                                 children: List.generate(
                                   5,
-                                  (index) => Icon(
+                                  (index) => const Icon(
                                     Icons.star,
                                     color: AppColors.primary,
                                     size: 16,
@@ -582,11 +578,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ),
           const SizedBox(width: 4),
-          Icon(
-            Icons.star,
-            size: 12,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.star, size: 12, color: Colors.grey[400]),
           const SizedBox(width: 8),
           Expanded(
             child: ClipRRect(
@@ -594,7 +586,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: LinearProgressIndicator(
                 value: percentage / 100,
                 backgroundColor: Colors.grey[200],
-                valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  AppColors.primary,
+                ),
                 minHeight: 6,
               ),
             ),
@@ -604,10 +598,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             width: 32,
             child: Text(
               '$percentage%',
-              style: TextStyle(
-                fontSize: 11,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 11, color: Colors.grey[600]),
               textAlign: TextAlign.right,
             ),
           ),

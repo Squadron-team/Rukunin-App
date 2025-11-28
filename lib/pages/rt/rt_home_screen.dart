@@ -6,7 +6,7 @@ import 'package:rukunin/pages/rt/components/welcome_card.dart';
 import 'package:rukunin/pages/rt/components/financial_summary.dart';
 import 'package:rukunin/pages/rt/components/quick_actions.dart';
 import 'package:rukunin/pages/rt/components/pending_tasks.dart';
-import 'package:rukunin/pages/general/notification_screen.dart';
+import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 
 class RtHomeScreen extends StatelessWidget {
   const RtHomeScreen({super.key});
@@ -42,7 +42,7 @@ class RtHomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(20.0),
           child: Column(
@@ -169,7 +169,7 @@ class RtHomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16),
-              
+
               QuickActionsGrid(),
 
               SizedBox(height: 32),

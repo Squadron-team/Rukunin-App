@@ -1,13 +1,13 @@
 class Review {
-  final String id;               // Unique ID of the review
-  final String userId;           // ID of the user who wrote the review
-  final String userName;         // Display name of the reviewer
-  final String? userAvatar;      // Optional avatar URL
-  final double rating;           // e.g. 4.5
-  final String comment;          // Review text
-  final DateTime createdAt;      // Timestamp of the review
-  final List<String> images;     // Review image URLs
-  final int likes;               // Helpful votes count
+  final String id; // Unique ID of the review
+  final String userId; // ID of the user who wrote the review
+  final String userName; // Display name of the reviewer
+  final String? userAvatar; // Optional avatar URL
+  final double rating; // e.g. 4.5
+  final String comment; // Review text
+  final DateTime createdAt; // Timestamp of the review
+  final List<String> images; // Review image URLs
+  final int likes; // Helpful votes count
   final String? productVariation; // Example: "Color: Red, Size: M"
 
   Review({
