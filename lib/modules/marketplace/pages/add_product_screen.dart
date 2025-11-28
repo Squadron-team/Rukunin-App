@@ -12,9 +12,7 @@ import 'package:rukunin/style/app_colors.dart';
 class AddProductScreen extends StatefulWidget {
   final Shop shop;
 
-  const AddProductScreen({
-    required this.shop, super.key,
-  });
+  const AddProductScreen({required this.shop, super.key});
 
   @override
   State<AddProductScreen> createState() => _AddProductScreenState();
@@ -79,9 +77,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: AppColors.primary.withOpacity(0.2),
-                  ),
+                  border: Border.all(color: AppColors.primary.withOpacity(0.2)),
                 ),
                 child: Row(
                   children: [
@@ -443,10 +439,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   const SizedBox(height: 20),
                   const Text(
                     'Pilih Sumber Gambar',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 20),
                   ListTile(
@@ -599,7 +592,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
             content: const Text('✅ Produk berhasil ditambahkan!'),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         );
         context.pop();
@@ -676,7 +671,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
     required String? value,
     required String label,
     required String hint,
-    required List<String> items, required void Function(String?) onChanged, IconData? icon,
+    required List<String> items,
+    required void Function(String?) onChanged,
+    IconData? icon,
     String? Function(String?)? validator,
   }) {
     return Container(
@@ -709,10 +706,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         style: const TextStyle(fontSize: 14, color: Colors.black),
         icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.primary),
         items: items.map((item) {
-          return DropdownMenuItem(
-            value: item,
-            child: Text(item),
-          );
+          return DropdownMenuItem(value: item, child: Text(item));
         }).toList(),
         onChanged: onChanged,
         validator: validator,

@@ -37,10 +37,11 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
 
   void _loadHomeData() {
     // TODO: Replace with actual data loading
-    _addressController.text = 'Jl. Merdeka No. 45, RT 03/RW 05, Kelurahan Suka Maju';
+    _addressController.text =
+        'Jl. Merdeka No. 45, RT 03/RW 05, Kelurahan Suka Maju';
     _selectedStatus = 'Pemilik';
     _moveInDate = DateTime(2020, 5, 15);
-    
+
     // Store original values
     _originalAddress = _addressController.text;
     _originalStatus = _selectedStatus;
@@ -74,9 +75,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: AppColors.primary,
-            ),
+            colorScheme: const ColorScheme.light(primary: AppColors.primary),
           ),
           child: child!,
         );
@@ -98,7 +97,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
         _originalMoveInDate = _moveInDate;
         _isEditMode = false;
       });
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Data rumah berhasil disimpan'),
@@ -164,7 +163,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: _isEditMode 
+        color: _isEditMode
             ? Colors.orange.withOpacity(0.1)
             : AppColors.primary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
@@ -187,10 +186,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
               _isEditMode
                   ? 'Mode edit: Ubah informasi tempat tinggal Anda'
                   : 'Informasi tempat tinggal Anda untuk keperluan administrasi RT/RW',
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.grey[800],
-              ),
+              style: TextStyle(fontSize: 13, color: Colors.grey[800]),
             ),
           ),
         ],
@@ -255,13 +251,13 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
-                _addressController.text.isEmpty 
+                _addressController.text.isEmpty
                     ? 'Belum ada data alamat'
                     : _addressController.text,
                 style: TextStyle(
                   fontSize: 15,
-                  color: _addressController.text.isEmpty 
-                      ? Colors.grey[400] 
+                  color: _addressController.text.isEmpty
+                      ? Colors.grey[400]
                       : Colors.black87,
                 ),
               ),
@@ -371,10 +367,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                 children: [
                   Text(
                     '${_moveInDate.day}/${_moveInDate.month}/${_moveInDate.year}',
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: Colors.black87,
-                    ),
+                    style: const TextStyle(fontSize: 15, color: Colors.black87),
                   ),
                   Icon(
                     Icons.calendar_today,

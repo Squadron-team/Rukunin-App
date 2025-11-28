@@ -57,10 +57,7 @@ class DocumentsScreen extends StatelessWidget {
           ),
         ),
         body: const TabBarView(
-          children: [
-            _DocumentTypesTab(),
-            _DocumentHistoryTab(),
-          ],
+          children: [_DocumentTypesTab(), _DocumentHistoryTab()],
         ),
       ),
     );
@@ -217,11 +214,7 @@ class _DocumentTypesTab extends StatelessWidget {
                 color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(
-                icon,
-                color: color,
-                size: 28,
-              ),
+              child: Icon(icon, color: color, size: 28),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -239,19 +232,12 @@ class _DocumentTypesTab extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     description,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   ),
                 ],
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: Colors.grey[400],
-            ),
+            Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
           ],
         ),
       ),
@@ -317,9 +303,7 @@ class _DocumentHistoryTabState extends State<_DocumentHistoryTab> {
       stream: _documentService.getUserDocumentRequests(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (snapshot.hasError) {
@@ -327,11 +311,7 @@ class _DocumentHistoryTabState extends State<_DocumentHistoryTab> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.error_outline,
-                  size: 64,
-                  color: Colors.red[300],
-                ),
+                Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
                 const SizedBox(height: 16),
                 Text(
                   'Terjadi kesalahan',
@@ -345,10 +325,7 @@ class _DocumentHistoryTabState extends State<_DocumentHistoryTab> {
                 Text(
                   snapshot.error.toString(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[500],
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey[500]),
                 ),
               ],
             ),
@@ -379,10 +356,7 @@ class _DocumentHistoryTabState extends State<_DocumentHistoryTab> {
                 const SizedBox(height: 8),
                 Text(
                   'Riwayat pengajuan surat akan muncul di sini',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[500],
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey[500]),
                 ),
               ],
             ),
@@ -454,10 +428,7 @@ class _DocumentHistoryTabState extends State<_DocumentHistoryTab> {
                   const SizedBox(height: 8),
                   Text(
                     'Tujuan: ${data['purpose'] as String? ?? '-'}',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[700],
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -472,12 +443,10 @@ class _DocumentHistoryTabState extends State<_DocumentHistoryTab> {
                       const SizedBox(width: 6),
                       Text(
                         _formatTimestamp(data['createdAt'] as Timestamp?),
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                       ),
-                      if (data['attachmentCount'] != null && data['attachmentCount'] > 0) ...[
+                      if (data['attachmentCount'] != null &&
+                          data['attachmentCount'] > 0) ...[
                         const SizedBox(width: 16),
                         Icon(
                           Icons.attach_file,
@@ -495,7 +464,8 @@ class _DocumentHistoryTabState extends State<_DocumentHistoryTab> {
                       ],
                     ],
                   ),
-                  if (data['adminNotes'] != null && (data['adminNotes'] as String).isNotEmpty) ...[
+                  if (data['adminNotes'] != null &&
+                      (data['adminNotes'] as String).isNotEmpty) ...[
                     const SizedBox(height: 8),
                     Container(
                       padding: const EdgeInsets.all(8),

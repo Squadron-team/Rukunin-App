@@ -11,10 +11,7 @@ class WelcomeCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            AppColors.primary,
-            AppColors.primary.withOpacity(0.8),
-          ],
+          colors: [AppColors.primary, AppColors.primary.withOpacity(0.8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -86,11 +83,7 @@ class WelcomeCard extends StatelessWidget {
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      Icons.home,
-                      color: Colors.white,
-                      size: 16,
-                    ),
+                    Icon(Icons.home, color: Colors.white, size: 16),
                     SizedBox(width: 6),
                     Text(
                       '45 KK',
@@ -116,11 +109,7 @@ class WelcomeCard extends StatelessWidget {
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      Icons.people,
-                      color: Colors.white,
-                      size: 16,
-                    ),
+                    Icon(Icons.people, color: Colors.white, size: 16),
                     SizedBox(width: 6),
                     Text(
                       '168 Jiwa',

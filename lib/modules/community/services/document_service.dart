@@ -36,7 +36,8 @@ class DocumentService {
         'notes': notes,
         'attachmentUrls': attachmentUrls,
         'attachmentCount': attachmentUrls.length,
-        'status': 'pending', // pending, processing, approved, rejected, completed
+        'status':
+            'pending', // pending, processing, approved, rejected, completed
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
         'processedAt': null,
@@ -108,10 +109,7 @@ class DocumentService {
   // Cancel document request
   Future<void> cancelDocumentRequest(String requestId) async {
     try {
-      await _firestore
-          .collection('document_requests')
-          .doc(requestId)
-          .update({
+      await _firestore.collection('document_requests').doc(requestId).update({
         'status': 'cancelled',
         'updatedAt': FieldValue.serverTimestamp(),
       });

@@ -7,7 +7,9 @@ class FinancialSummaryCard extends StatelessWidget {
   final bool isCurrentPeriod;
 
   const FinancialSummaryCard({
-    required this.summary, required this.isCurrentPeriod, super.key,
+    required this.summary,
+    required this.isCurrentPeriod,
+    super.key,
   });
 
   @override
@@ -91,13 +93,7 @@ class FinancialSummaryCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.white,
-          ),
-        ),
+        Text(label, style: const TextStyle(fontSize: 14, color: Colors.white)),
         Text(
           'Rp $amount',
           style: const TextStyle(

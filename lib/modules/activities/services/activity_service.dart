@@ -12,11 +12,9 @@ class ActivityService {
         .orderBy('dateTime', descending: false)
         .snapshots()
         .map((snapshot) {
-          return snapshot.docs
-              .map((doc) {
-                return Activity.fromMap(doc.id, doc.data());
-              })
-              .toList();
+          return snapshot.docs.map((doc) {
+            return Activity.fromMap(doc.id, doc.data());
+          }).toList();
         });
   }
 

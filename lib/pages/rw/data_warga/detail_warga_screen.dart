@@ -6,9 +6,7 @@ import 'package:rukunin/style/app_colors.dart';
 class DetailWargaScreen extends StatefulWidget {
   final Warga warga;
 
-  const DetailWargaScreen({
-    required this.warga, super.key,
-  });
+  const DetailWargaScreen({required this.warga, super.key});
 
   @override
   State<DetailWargaScreen> createState() => _DetailWargaScreenState();
@@ -192,11 +190,17 @@ class _DetailWargaScreenState extends State<DetailWargaScreen> {
             _divider(),
             _infoRow(Icons.person, 'Jenis Kelamin', currentWarga.jenisKelamin),
             _divider(),
-            _infoRow(Icons.cake, 'Tempat, Tanggal Lahir',
-                '${currentWarga.tempatLahir}, ${currentWarga.tanggalLahir}'),
+            _infoRow(
+              Icons.cake,
+              'Tempat, Tanggal Lahir',
+              '${currentWarga.tempatLahir}, ${currentWarga.tanggalLahir}',
+            ),
             _divider(),
-            _infoRow(Icons.favorite, 'Status Perkawinan',
-                currentWarga.statusPerkawinan),
+            _infoRow(
+              Icons.favorite,
+              'Status Perkawinan',
+              currentWarga.statusPerkawinan,
+            ),
           ]),
           const SizedBox(height: 20),
           _sectionTitle('Alamat & Kontak'),
@@ -204,8 +208,11 @@ class _DetailWargaScreenState extends State<DetailWargaScreen> {
           _infoCard([
             _infoRow(Icons.home, 'Alamat', currentWarga.alamat),
             _divider(),
-            _infoRow(Icons.location_city, 'RT / RW',
-                'RT ${currentWarga.rt} / RW ${currentWarga.rw}'),
+            _infoRow(
+              Icons.location_city,
+              'RT / RW',
+              'RT ${currentWarga.rt} / RW ${currentWarga.rw}',
+            ),
             _divider(),
             _infoRow(Icons.phone, 'No. Telepon', currentWarga.noTelepon),
           ]),
@@ -228,10 +235,7 @@ class _DetailWargaScreenState extends State<DetailWargaScreen> {
         const SizedBox(width: 10),
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
         ),
       ],
     );
@@ -363,8 +367,9 @@ class _DetailWargaScreenState extends State<DetailWargaScreen> {
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('Hapus Data Warga'),
-        content:
-            Text('Apakah Anda yakin ingin menghapus data ${currentWarga.nama}?'),
+        content: Text(
+          'Apakah Anda yakin ingin menghapus data ${currentWarga.nama}?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

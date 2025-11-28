@@ -34,7 +34,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
 
       // Load current user data
       final userDoc = await _firestore.collection('users').doc(user.uid).get();
-      
+
       if (userDoc.exists) {
         setState(() {
           _userData = userDoc.data();
@@ -52,11 +52,13 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
 
           setState(() {
             _familyMembers = familyQuery.docs
-                .map((doc) => {
-                      ...doc.data(),
-                      'id': doc.id,
-                      'isCurrentUser': doc.id == user.uid,
-                    })
+                .map(
+                  (doc) => {
+                    ...doc.data(),
+                    'id': doc.id,
+                    'isCurrentUser': doc.id == user.uid,
+                  },
+                )
                 .toList();
           });
         }
@@ -104,11 +106,11 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
       } else if (birthdate is String) {
         date = DateTime.parse(birthdate);
       }
-      
+
       if (date != null) {
         final now = DateTime.now();
         int age = now.year - date.year;
-        if (now.month < date.month || 
+        if (now.month < date.month ||
             (now.month == date.month && now.day < date.day)) {
           age--;
         }
@@ -123,9 +125,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
@@ -155,7 +155,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
           children: [
             // KK Summary Card
             _buildKKSummaryCard(),
-            
+
             const SizedBox(height: 24),
 
             // Family Members Section
@@ -237,17 +237,14 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
                     ),
                     Text(
                       'Informasi Lengkap Keluarga',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey,
-                      ),
+                      style: TextStyle(fontSize: 13, color: Colors.grey),
                     ),
                   ],
                 ),
               ),
             ],
           ),
-          
+
           const SizedBox(height: 20),
           const Divider(height: 1),
           const SizedBox(height: 16),
@@ -260,10 +257,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
           const SizedBox(height: 12),
           _buildInfoRow('Kepala Keluarga', _headOfFamily ?? '-'),
           const SizedBox(height: 12),
-          _buildInfoRow(
-            'Jumlah Anggota',
-            '${_familyMembers.length} orang',
-          ),
+          _buildInfoRow('Jumlah Anggota', '${_familyMembers.length} orang'),
           const SizedBox(height: 12),
           _buildInfoRow(
             'RT / RW',
@@ -292,10 +286,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
             const SizedBox(height: 4),
             Text(
               subtitle,
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 13, color: Colors.grey[600]),
             ),
           ],
         ],
@@ -313,7 +304,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isCurrentUser 
+          color: isCurrentUser
               ? AppColors.primary.withOpacity(0.3)
               : Colors.grey[200]!,
           width: isCurrentUser ? 2 : 1,
@@ -344,14 +335,12 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
                   ),
                   child: Icon(
                     Icons.person,
-                    color: isCurrentUser
-                        ? AppColors.primary
-                        : Colors.grey[600],
+                    color: isCurrentUser ? AppColors.primary : Colors.grey[600],
                     size: 32,
                   ),
                 ),
                 const SizedBox(width: 16),
-                
+
                 // Member Info
                 Expanded(
                   child: Column(
@@ -426,10 +415,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
                 ),
 
                 // Expand Icon
-                Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Colors.grey[400],
-                ),
+                Icon(Icons.keyboard_arrow_down, color: Colors.grey[400]),
               ],
             ),
           ),
@@ -447,22 +433,13 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
                 'Tanggal Lahir',
                 _formatBirthdate(member['birthdate']),
               ),
-              _buildDetailRow(
-                'Tempat Lahir',
-                member['birthPlace'] ?? '-',
-              ),
-              _buildDetailRow(
-                'Pekerjaan',
-                member['occupation'] ?? '-',
-              ),
+              _buildDetailRow('Tempat Lahir', member['birthPlace'] ?? '-'),
+              _buildDetailRow('Pekerjaan', member['occupation'] ?? '-'),
               _buildDetailRow(
                 'Status Perkawinan',
                 member['maritalStatus'] ?? '-',
               ),
-              _buildDetailRow(
-                'Pendidikan',
-                member['education'] ?? '-',
-              ),
+              _buildDetailRow('Pendidikan', member['education'] ?? '-'),
             ],
           ),
         ],
@@ -497,10 +474,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
           const SizedBox(height: 8),
           Text(
             'Data anggota keluarga belum tersedia',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[500],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
             textAlign: TextAlign.center,
           ),
         ],
@@ -547,11 +521,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
                 color: AppColors.primary,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(
-                Icons.edit_note,
-                color: Colors.white,
-                size: 24,
-              ),
+              child: const Icon(Icons.edit_note, color: Colors.white, size: 24),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -569,10 +539,7 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
                   const SizedBox(height: 4),
                   Text(
                     'Ada data keluarga yang tidak sesuai? Ajukan perbaikan',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[700],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[700]),
                   ),
                 ],
               ),

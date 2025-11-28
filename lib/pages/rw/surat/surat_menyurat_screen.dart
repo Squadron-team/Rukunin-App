@@ -7,9 +7,7 @@ class SuratMenyuratScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Surat Menyurat')),
-      body: const Center(
-        child: Text('Halaman Surat Menyurat'),
-      ),
+      body: const Center(child: Text('Halaman Surat Menyurat')),
     );
   }
 }

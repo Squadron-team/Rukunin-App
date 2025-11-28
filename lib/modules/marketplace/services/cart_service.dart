@@ -13,9 +13,11 @@ class CartService {
         .where('userId', isEqualTo: userId)
         .orderBy('addedAt', descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => CartItem.fromFirestore(doc.data(), doc.id))
-            .toList());
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => CartItem.fromFirestore(doc.data(), doc.id))
+              .toList(),
+        );
   }
 
   // Add item to cart
@@ -66,10 +68,9 @@ class CartService {
       if (newQuantity <= 0) {
         return await removeFromCart(cartItemId);
       }
-      await _firestore
-          .collection(_collectionName)
-          .doc(cartItemId)
-          .update({'quantity': newQuantity});
+      await _firestore.collection(_collectionName).doc(cartItemId).update({
+        'quantity': newQuantity,
+      });
       return true;
     } catch (e) {
       print('Error updating quantity: $e');

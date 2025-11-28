@@ -20,7 +20,8 @@ class DocumentRequestFormScreen extends StatefulWidget {
   });
 
   @override
-  State<DocumentRequestFormScreen> createState() => _DocumentRequestFormScreenState();
+  State<DocumentRequestFormScreen> createState() =>
+      _DocumentRequestFormScreenState();
 }
 
 class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
@@ -31,7 +32,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
 
   final _purposeController = TextEditingController();
   final _notesController = TextEditingController();
-  
+
   bool _isSubmitting = false;
   double _uploadProgress = 0.0;
   final List<XFile> _attachments = [];
@@ -142,7 +143,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
     try {
       // Generate temporary request ID
       final tempRequestId = DateTime.now().millisecondsSinceEpoch.toString();
-      
+
       // Upload attachments if any
       List<String> attachmentUrls = [];
       if (_attachments.isNotEmpty) {
@@ -233,7 +234,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final isWideScreen = constraints.maxWidth > 600;
-            
+
             return Center(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
@@ -336,7 +337,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
                     // Attachments Section
                     _buildLabel('Lampiran Dokumen Pendukung'),
                     const SizedBox(height: 8),
-                    
+
                     if (_attachments.isNotEmpty) ...[
                       Wrap(
                         spacing: 8,
@@ -465,7 +466,11 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
                             : const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.send, color: Colors.white, size: 20),
+                                  Icon(
+                                    Icons.send,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
                                   SizedBox(width: 8),
                                   Text(
                                     'Kirim Pengajuan',
@@ -559,12 +564,7 @@ class _DocumentRequestFormScreenState extends State<DocumentRequestFormScreen> {
 
   Future<Widget> _buildImageWidget(XFile file) async {
     final bytes = await file.readAsBytes();
-    return Image.memory(
-      bytes,
-      fit: BoxFit.cover,
-      width: 100,
-      height: 100,
-    );
+    return Image.memory(bytes, fit: BoxFit.cover, width: 100, height: 100);
   }
 
   Widget _buildLabel(String label) {

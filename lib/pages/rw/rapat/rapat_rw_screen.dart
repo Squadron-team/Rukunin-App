@@ -7,9 +7,7 @@ class RapatRwScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Rapat RW')),
-      body: const Center(
-        child: Text('Halaman Rapat RW'),
-      ),
+      body: const Center(child: Text('Halaman Rapat RW')),
     );
   }
 }

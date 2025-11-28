@@ -166,7 +166,8 @@ class _NotificationScreenState extends State<NotificationScreen>
                           label: 'Komunitas',
                           icon: Icons.people,
                           isSelected: _selectedTab == 'Community',
-                          onTap: () => setState(() => _selectedTab = 'Community'),
+                          onTap: () =>
+                              setState(() => _selectedTab = 'Community'),
                         ),
                         const SizedBox(width: 8),
                         NotificationTabChip(

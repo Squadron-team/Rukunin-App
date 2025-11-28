@@ -178,7 +178,9 @@ class KeuanganDashboardPage extends StatelessWidget {
                       onTap: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: const Text('Fitur catat pembayaran akan segera tersedia'),
+                            content: const Text(
+                              'Fitur catat pembayaran akan segera tersedia',
+                            ),
                             backgroundColor: Colors.orange,
                             behavior: SnackBarBehavior.floating,
                             shape: RoundedRectangleBorder(
@@ -197,7 +199,9 @@ class KeuanganDashboardPage extends StatelessWidget {
                       onTap: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: const Text('Fitur cetak laporan akan segera tersedia'),
+                            content: const Text(
+                              'Fitur cetak laporan akan segera tersedia',
+                            ),
                             backgroundColor: Colors.orange,
                             behavior: SnackBarBehavior.floating,
                             shape: RoundedRectangleBorder(
@@ -254,20 +258,11 @@ class KeuanganDashboardPage extends StatelessWidget {
             child: Icon(icon, color: color, size: 24),
           ),
           const SizedBox(height: 16),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 13,
-              color: Colors.grey[600],
-            ),
-          ),
+          Text(title, style: TextStyle(fontSize: 13, color: Colors.grey[600])),
           const SizedBox(height: 6),
           Text(
             'Rp ${_formatCurrency(amount)}',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
           ),
         ],
       ),
@@ -282,13 +277,7 @@ class KeuanganDashboardPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey[700],
-          ),
-        ),
+        Text(label, style: TextStyle(fontSize: 14, color: Colors.grey[700])),
         Text(
           value,
           style: TextStyle(
@@ -358,8 +347,8 @@ class KeuanganDashboardPage extends StatelessWidget {
 
   String _formatCurrency(int amount) {
     return amount.toString().replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]}.',
-        );
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]}.',
+    );
   }
 }

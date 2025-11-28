@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TaskItem extends StatelessWidget {
-  const TaskItem(
-    this.text,
-    this.icon,
-    this.color, {
-    super.key,
-  });
+  const TaskItem(this.text, this.icon, this.color, {super.key});
 
   final String text;
   final IconData icon;
@@ -38,11 +33,7 @@ class TaskItem extends StatelessWidget {
               ),
             ),
           ),
-          Icon(
-            Icons.arrow_forward_ios,
-            size: 12,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.arrow_forward_ios, size: 12, color: Colors.grey[400]),
         ],
       ),
     );

@@ -31,37 +31,32 @@ final residentRoutes = [
       GoRoute(
         path: '/resident',
         name: 'resident-home',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: ResidentHomeScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: ResidentHomeScreen()),
       ),
       GoRoute(
         path: '/resident/marketplace',
         name: 'resident-marketplace',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: MarketplaceScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: MarketplaceScreen()),
       ),
       GoRoute(
         path: '/resident/activities',
         name: 'resident-activities',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: ActivityScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: ActivityScreen()),
       ),
       GoRoute(
         path: '/resident/community',
         name: 'resident-community',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: CommunityScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: CommunityScreen()),
       ),
       GoRoute(
         path: '/resident/account',
         name: 'resident-account',
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: AccountScreen(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: AccountScreen()),
       ),
     ],
   ),

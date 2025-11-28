@@ -5,13 +5,21 @@ class DownloadButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String label;
 
-  const DownloadButton({required this.onPressed, super.key, this.label = 'Unduh'});
+  const DownloadButton({
+    required this.onPressed,
+    super.key,
+    this.label = 'Unduh',
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: onPressed,
-      icon: const Icon(Icons.file_download_outlined, size: 18, color: Colors.white),
+      icon: const Icon(
+        Icons.file_download_outlined,
+        size: 18,
+        color: Colors.white,
+      ),
       label: Text(label, style: const TextStyle(color: Colors.white)),
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,

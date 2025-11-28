@@ -98,11 +98,7 @@ class _PaymentHistorySectionState extends State<PaymentHistorySection>
 
   Widget _buildPaymentHistory() {
     List<Map<String, dynamic>> payments = [
-      {
-        'period': 'November 2025', 
-        'amount': 'Rp 50.000', 
-        'status': 'Unpaid',
-      },
+      {'period': 'November 2025', 'amount': 'Rp 50.000', 'status': 'Unpaid'},
       {
         'period': 'Oktober 2025',
         'amount': 'Rp 50.000',

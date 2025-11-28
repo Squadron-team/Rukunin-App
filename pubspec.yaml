@@ -29,6 +29,7 @@ dependencies:
   image_picker_for_web: ^3.1.1
   firebase_storage: ^13.0.4
 
+  path: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

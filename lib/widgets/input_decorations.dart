@@ -9,10 +9,22 @@ InputDecoration buildInputDecoration(String label) {
     filled: true,
     fillColor: Colors.grey.shade50,
     errorStyle: const TextStyle(color: Colors.red),
-    enabledBorder: OutlineInputBorder(borderRadius: borderRadius, borderSide: BorderSide(color: Colors.grey.shade300)),
-    focusedBorder: OutlineInputBorder(borderRadius: borderRadius, borderSide: const BorderSide(color: AppColors.primary, width: 2)),
-    errorBorder: OutlineInputBorder(borderRadius: borderRadius, borderSide: const BorderSide(color: Colors.red)),
-    focusedErrorBorder: OutlineInputBorder(borderRadius: borderRadius, borderSide: const BorderSide(color: Colors.red, width: 2)),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: borderRadius,
+      borderSide: BorderSide(color: Colors.grey.shade300),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: borderRadius,
+      borderSide: const BorderSide(color: AppColors.primary, width: 2),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: borderRadius,
+      borderSide: const BorderSide(color: Colors.red),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: borderRadius,
+      borderSide: const BorderSide(color: Colors.red, width: 2),
+    ),
     contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
   );
 }

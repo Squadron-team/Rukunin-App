@@ -493,7 +493,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white
+                          color: Colors.white,
                         ),
                       ),
                     ),

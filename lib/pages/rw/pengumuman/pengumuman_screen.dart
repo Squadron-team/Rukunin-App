@@ -7,9 +7,7 @@ class PengumumanScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Pengumuman')),
-      body: const Center(
-        child: Text('Halaman Pengumuman'),
-      ),
+      body: const Center(child: Text('Halaman Pengumuman')),
     );
   }
 }

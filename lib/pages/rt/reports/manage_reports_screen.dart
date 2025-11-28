@@ -260,7 +260,7 @@ class _ManageReportsScreenState extends State<ManageReportsScreen> {
                           const Text(
                             'Belum ada laporan',
                             style: TextStyle(
-                              fontWeight: FontWeight.w800, 
+                              fontWeight: FontWeight.w800,
                               fontSize: 20,
                             ),
                           ),

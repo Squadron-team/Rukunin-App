@@ -109,9 +109,9 @@ class AdminHomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-      
+
               const SizedBox(height: 24),
-      
+
               // Statistik -----------------------------------------------------------
               const Text(
                 'Statistik Sistem',
@@ -122,7 +122,7 @@ class AdminHomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-      
+
               Row(
                 children: [
                   Expanded(
@@ -144,9 +144,9 @@ class AdminHomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-      
+
               const SizedBox(height: 12),
-      
+
               Row(
                 children: [
                   Expanded(
@@ -168,9 +168,9 @@ class AdminHomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-      
+
               const SizedBox(height: 32),
-      
+
               // Menu Admin ---------------------------------------------------------
               const Text(
                 'Menu Admin',
@@ -181,7 +181,7 @@ class AdminHomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-      
+
               GridView.count(
                 crossAxisCount: 3,
                 shrinkWrap: true,
@@ -246,9 +246,9 @@ class AdminHomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-      
+
               const SizedBox(height: 32),
-      
+
               // Aktifitas ----------------------------------------------------------
               const Text(
                 'Aktivitas Terbaru',
@@ -259,7 +259,7 @@ class AdminHomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-      
+
               _buildActivityItem(
                 context,
                 icon: Icons.person_add,
@@ -292,7 +292,7 @@ class AdminHomeScreen extends StatelessWidget {
                 time: '2 jam yang lalu',
                 color: Colors.purple,
               ),
-      
+
               const SizedBox(height: 32),
             ],
           ),
@@ -413,17 +413,18 @@ class AdminHomeScreen extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      Icon(Icons.access_time, size: 12, color: Colors.grey[400]),
+                      Icon(
+                        Icons.access_time,
+                        size: 12,
+                        color: Colors.grey[400],
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         time,

@@ -159,9 +159,7 @@ class TreasurerHomeScreen extends StatelessWidget {
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.green.withOpacity(0.3),
-                  ),
+                  border: Border.all(color: Colors.green.withOpacity(0.3)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -533,9 +531,7 @@ class TreasurerHomeScreen extends StatelessWidget {
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.blue.withOpacity(0.2),
-                  ),
+                  border: Border.all(color: Colors.blue.withOpacity(0.2)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -667,9 +663,7 @@ class TreasurerHomeScreen extends StatelessWidget {
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.purple.withOpacity(0.2),
-                  ),
+                  border: Border.all(color: Colors.purple.withOpacity(0.2)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -898,10 +892,7 @@ class TreasurerHomeScreen extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       '$paidKK/$totalKK KK Bayar ($percentage%)',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                     ),
                   ],
                 ),
@@ -931,8 +922,8 @@ class TreasurerHomeScreen extends StatelessWidget {
                       percentage >= 95
                           ? 'Sangat Baik'
                           : percentage >= 85
-                              ? 'Baik'
-                              : 'Perlu Perhatian',
+                          ? 'Baik'
+                          : 'Perlu Perhatian',
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
@@ -1012,10 +1003,7 @@ class TreasurerHomeScreen extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       type,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                     ),
                     const SizedBox(height: 6),
                     Row(
@@ -1145,21 +1133,14 @@ class TreasurerHomeScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    Icon(
-                      Icons.access_time,
-                      size: 12,
-                      color: Colors.grey[400],
-                    ),
+                    Icon(Icons.access_time, size: 12, color: Colors.grey[400]),
                     const SizedBox(width: 4),
                     Text(
                       time,

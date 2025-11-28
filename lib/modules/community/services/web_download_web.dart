@@ -2,7 +2,11 @@ import 'dart:js_interop';
 import 'package:web/web.dart' as web;
 import 'dart:typed_data';
 
-Future<String?> downloadFile(Uint8List bytes, String filename, String mimeType) async {
+Future<String?> downloadFile(
+  Uint8List bytes,
+  String filename,
+  String mimeType,
+) async {
   // Create Blob
   final blob = web.Blob([bytes.toJS].toJS, web.BlobPropertyBag(type: mimeType));
 

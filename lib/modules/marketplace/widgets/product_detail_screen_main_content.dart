@@ -4,7 +4,7 @@ import 'package:rukunin/style/app_colors.dart';
 
 class ProductDetailScreenMainContent extends StatefulWidget {
   final Product product;
-  
+
   const ProductDetailScreenMainContent({required this.product, super.key});
 
   @override

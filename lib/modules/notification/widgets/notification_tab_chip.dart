@@ -9,11 +9,11 @@ class NotificationTabChip extends StatelessWidget {
   final VoidCallback onTap;
 
   const NotificationTabChip({
-    super.key,
     required this.label,
     required this.icon,
     required this.isSelected,
     required this.onTap,
+    super.key,
   });
 
   @override

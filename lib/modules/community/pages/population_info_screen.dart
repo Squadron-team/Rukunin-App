@@ -49,7 +49,7 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
 
       // Load user data
       final userDoc = await _firestore.collection('users').doc(user.uid).get();
-      
+
       if (userDoc.exists) {
         final data = userDoc.data();
         setState(() {
@@ -127,7 +127,7 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
             _buildSectionHeader('Data Pribadi'),
             const SizedBox(height: 12),
             _buildPersonalInfoCard(),
-            
+
             const SizedBox(height: 24),
 
             // KK Info Section
@@ -216,10 +216,7 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
                     ),
                     Text(
                       'Kartu Tanda Penduduk',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -231,15 +228,27 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
           const SizedBox(height: 16),
           _buildInfoRow('NIK', _getStringValue(_userData?['nik'])),
           _buildInfoRow('Nama Lengkap', _getStringValue(_userData?['name'])),
-          _buildInfoRow('Tempat Lahir', _getStringValue(_userData?['birthPlace'])),
-          _buildInfoRow('Tanggal Lahir', _formatTimestamp(_userData?['birthdate'])),
+          _buildInfoRow(
+            'Tempat Lahir',
+            _getStringValue(_userData?['birthPlace']),
+          ),
+          _buildInfoRow(
+            'Tanggal Lahir',
+            _formatTimestamp(_userData?['birthdate']),
+          ),
           _buildInfoRow('Jenis Kelamin', _getStringValue(_userData?['gender'])),
           _buildInfoRow('Alamat', _getStringValue(_userData?['address'])),
-          _buildInfoRow('RT/RW', '${_getStringValue(_userData?['rt'])} / ${_getStringValue(_userData?['rw'])}'),
+          _buildInfoRow(
+            'RT/RW',
+            '${_getStringValue(_userData?['rt'])} / ${_getStringValue(_userData?['rw'])}',
+          ),
           _buildInfoRow('Kelurahan', _getStringValue(_userData?['kelurahan'])),
           _buildInfoRow('Kecamatan', _getStringValue(_userData?['kecamatan'])),
           _buildInfoRow('Agama', _getStringValue(_userData?['religion'])),
-          _buildInfoRow('Status Perkawinan', _getStringValue(_userData?['maritalStatus'])),
+          _buildInfoRow(
+            'Status Perkawinan',
+            _getStringValue(_userData?['maritalStatus']),
+          ),
           _buildInfoRow('Pekerjaan', _getStringValue(_userData?['occupation'])),
         ],
       ),
@@ -294,10 +303,7 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
                     ),
                     Text(
                       'Informasi Kepala Keluarga',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -308,7 +314,10 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
           const Divider(),
           const SizedBox(height: 16),
           _buildInfoRow('No. KK', _getStringValue(_userData?['kkNumber'])),
-          _buildInfoRow('Kepala Keluarga', _getStringValue(_userData?['headOfFamily'] ?? _userData?['name'])),
+          _buildInfoRow(
+            'Kepala Keluarga',
+            _getStringValue(_userData?['headOfFamily'] ?? _userData?['name']),
+          ),
           _buildInfoRow(
             'Jumlah Anggota',
             '${(_familyMembers.length + 1).toString()} orang',
@@ -343,11 +352,7 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
               color: Colors.grey[200],
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              Icons.person,
-              color: Colors.grey[600],
-              size: 28,
-            ),
+            child: Icon(Icons.person, color: Colors.grey[600], size: 28),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -365,19 +370,13 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
                 const SizedBox(height: 4),
                 Text(
                   _getStringValue(member['relationToHead']),
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                 ),
                 if (member['nik'] != null) ...[
                   const SizedBox(height: 2),
                   Text(
                     'NIK: ${_getStringValue(member['nik'])}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[500],
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[500]),
                   ),
                 ],
               ],
@@ -450,10 +449,7 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
                   const SizedBox(height: 4),
                   Text(
                     'Ada data yang tidak sesuai? Ajukan koreksi',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[700],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[700]),
                   ),
                 ],
               ),

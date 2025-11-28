@@ -101,11 +101,7 @@ class ReportCard extends StatelessWidget {
                 const CircleAvatar(
                   radius: 16,
                   backgroundColor: AppColors.primary,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 16,
-                  ),
+                  child: Icon(Icons.person, color: Colors.white, size: 16),
                 ),
                 const SizedBox(width: 8),
                 Text(

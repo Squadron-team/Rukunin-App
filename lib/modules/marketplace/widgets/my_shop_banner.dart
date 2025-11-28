@@ -180,11 +180,18 @@ class MyShopBanner extends StatelessWidget {
                     height: 80,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [AppColors.primary, AppColors.primary.withOpacity(0.7)],
+                        colors: [
+                          AppColors.primary,
+                          AppColors.primary.withOpacity(0.7),
+                        ],
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Icon(Icons.store_rounded, color: Colors.white, size: 40),
+                    child: const Icon(
+                      Icons.store_rounded,
+                      color: Colors.white,
+                      size: 40,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   const Text(
@@ -199,8 +206,13 @@ class MyShopBanner extends StatelessWidget {
                     decoration: InputDecoration(
                       labelText: 'Nama Toko',
                       hintText: 'Masukkan nama toko',
-                      prefixIcon: const Icon(Icons.store, color: AppColors.primary),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      prefixIcon: const Icon(
+                        Icons.store,
+                        color: AppColors.primary,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -218,8 +230,13 @@ class MyShopBanner extends StatelessWidget {
                     decoration: InputDecoration(
                       labelText: 'Deskripsi',
                       hintText: 'Jelaskan tentang toko Anda',
-                      prefixIcon: const Icon(Icons.description, color: AppColors.primary),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      prefixIcon: const Icon(
+                        Icons.description,
+                        color: AppColors.primary,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -239,12 +256,19 @@ class MyShopBanner extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.info_outline, size: 18, color: Colors.blue[700]),
+                        Icon(
+                          Icons.info_outline,
+                          size: 18,
+                          color: Colors.blue[700],
+                        ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
                             'Toko akan aktif setelah disetujui pengurus',
-                            style: TextStyle(fontSize: 12, color: Colors.blue[900]),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.blue[900],
+                            ),
                           ),
                         ),
                       ],
@@ -270,7 +294,8 @@ class MyShopBanner extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              final currentUser = FirebaseAuth.instance.currentUser;
+                              final currentUser =
+                                  FirebaseAuth.instance.currentUser;
                               if (currentUser == null) return;
 
                               final shop = Shop(
@@ -281,7 +306,9 @@ class MyShopBanner extends StatelessWidget {
                                 isApproved: false,
                               );
 
-                              final shopId = await ShopService().createShop(shop);
+                              final shopId = await ShopService().createShop(
+                                shop,
+                              );
 
                               nameController.dispose();
                               descriptionController.dispose();
@@ -290,7 +317,9 @@ class MyShopBanner extends StatelessWidget {
                               if (shopId != null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: const Text('✅ Toko berhasil dibuat!'),
+                                    content: const Text(
+                                      '✅ Toko berhasil dibuat!',
+                                    ),
                                     backgroundColor: Colors.green,
                                     behavior: SnackBarBehavior.floating,
                                     shape: RoundedRectangleBorder(
@@ -312,7 +341,10 @@ class MyShopBanner extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,
                           ),
-                          child: const Text('Buat Toko', style: TextStyle(color: Colors.white)),
+                          child: const Text(
+                            'Buat Toko',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ],

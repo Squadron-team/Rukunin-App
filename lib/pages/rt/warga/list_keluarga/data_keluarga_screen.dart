@@ -10,13 +10,22 @@ class DataKeluargaScreen extends StatefulWidget {
   final String? kkNumber;
   final String? headOfFamily;
 
-  const DataKeluargaScreen({super.key, this.members, this.kkNumber, this.headOfFamily});
+  const DataKeluargaScreen({
+    super.key,
+    this.members,
+    this.kkNumber,
+    this.headOfFamily,
+  });
 
   /// Helper constructor to open the screen with an existing family
-  const DataKeluargaScreen.fromFamily({super.key, required List<Warga> members, required String kkNumber, String? head})
-      : members = members,
-        kkNumber = kkNumber,
-        headOfFamily = head;
+  const DataKeluargaScreen.fromFamily({
+    required List<Warga> members,
+    required String kkNumber,
+    super.key,
+    String? head,
+  }) : members = members,
+       kkNumber = kkNumber,
+       headOfFamily = head;
 
   @override
   State<DataKeluargaScreen> createState() => _DataKeluargaScreenState();
@@ -32,8 +41,14 @@ class _DataKeluargaScreenState extends State<DataKeluargaScreen> {
     super.initState();
     if (widget.members != null) {
       _members = widget.members!;
-      _kkNumber = widget.kkNumber ?? (widget.members!.isNotEmpty ? widget.members!.first.kkNumber : 'KK-');
-      _headOfFamily = widget.headOfFamily ?? (widget.members!.isNotEmpty ? widget.members!.first.name : 'Kepala Keluarga');
+      _kkNumber =
+          widget.kkNumber ??
+          (widget.members!.isNotEmpty ? widget.members!.first.kkNumber : 'KK-');
+      _headOfFamily =
+          widget.headOfFamily ??
+          (widget.members!.isNotEmpty
+              ? widget.members!.first.name
+              : 'Kepala Keluarga');
     } else {
       _generateDummyFamily();
     }
@@ -42,7 +57,8 @@ class _DataKeluargaScreenState extends State<DataKeluargaScreen> {
   void _generateDummyFamily() {
     final base = WargaRepository.generateDummy(count: 8);
     _headOfFamily = base.first.name;
-    _kkNumber = 'KK${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
+    _kkNumber =
+        'KK${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
 
     _members = List.generate(4, (i) {
       final b = base[i % base.length];
@@ -65,7 +81,14 @@ class _DataKeluargaScreenState extends State<DataKeluargaScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text('Data Keluarga', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black)),
+        title: const Text(
+          'Data Keluarga',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -79,9 +102,12 @@ class _DataKeluargaScreenState extends State<DataKeluargaScreen> {
             children: [
               _buildKKSummaryCard(),
               const SizedBox(height: 24),
-              _buildSectionHeader('Anggota Keluarga', subtitle: '${_members.length} orang terdaftar'),
+              _buildSectionHeader(
+                'Anggota Keluarga',
+                subtitle: '${_members.length} orang terdaftar',
+              ),
               const SizedBox(height: 12),
-              ..._members.map((m) => _buildFamilyMemberCard(m)).toList(),
+              ..._members.map((m) => _buildFamilyMemberCard(m)),
             ],
           ),
         ),
@@ -93,54 +119,124 @@ class _DataKeluargaScreenState extends State<DataKeluargaScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [AppColors.primary.withOpacity(0.15), AppColors.primary.withOpacity(0.05)], begin: Alignment.topLeft, end: Alignment.bottomRight),
+        gradient: LinearGradient(
+          colors: [
+            AppColors.primary.withOpacity(0.15),
+            AppColors.primary.withOpacity(0.05),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.primary.withOpacity(0.3)),
       ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          Container(width: 56, height: 56, decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(14)), child: const Icon(Icons.family_restroom, color: Colors.white, size: 28)),
-          const SizedBox(width: 16),
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
-            Text('Kartu Keluarga', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black)),
-            Text('Informasi Lengkap Keluarga', style: TextStyle(fontSize: 13, color: Colors.grey)),
-          ])),
-        ]),
-        const SizedBox(height: 20),
-        const Divider(height: 1),
-        const SizedBox(height: 16),
-        _buildInfoRow('No. Kartu Keluarga', _kkNumber, isHighlight: true),
-        const SizedBox(height: 12),
-        _buildInfoRow('Kepala Keluarga', _headOfFamily),
-        const SizedBox(height: 12),
-        _buildInfoRow('Jumlah Anggota', '${_members.length} orang'),
-        const SizedBox(height: 12),
-        // KK preview (open first member's KK if available)
-        if (_members.isNotEmpty)
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Row(
             children: [
-              _buildKkThumbnail(),
-              const SizedBox(width: 12),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.visibility, color: Colors.white),
-                label: const Text('Lihat KK', style: TextStyle(color: Colors.white)),
-                style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                onPressed: _members.first.kkUrl.isNotEmpty
-                    ? () => showDocPreview(context, type: 'KK', name: _headOfFamily, number: _kkNumber, url: _members.first.kkUrl)
-                    : null,
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(
+                  Icons.family_restroom,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(width: 16),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Kartu Keluarga',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      'Informasi Lengkap Keluarga',
+                      style: TextStyle(fontSize: 13, color: Colors.grey),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-      ]),
+          const SizedBox(height: 20),
+          const Divider(height: 1),
+          const SizedBox(height: 16),
+          _buildInfoRow('No. Kartu Keluarga', _kkNumber, isHighlight: true),
+          const SizedBox(height: 12),
+          _buildInfoRow('Kepala Keluarga', _headOfFamily),
+          const SizedBox(height: 12),
+          _buildInfoRow('Jumlah Anggota', '${_members.length} orang'),
+          const SizedBox(height: 12),
+          // KK preview (open first member's KK if available)
+          if (_members.isNotEmpty)
+            Row(
+              children: [
+                _buildKkThumbnail(),
+                const SizedBox(width: 12),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.visibility, color: Colors.white),
+                  label: const Text(
+                    'Lihat KK',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: _members.first.kkUrl.isNotEmpty
+                      ? () => showDocPreview(
+                          context,
+                          type: 'KK',
+                          name: _headOfFamily,
+                          number: _kkNumber,
+                          url: _members.first.kkUrl,
+                        )
+                      : null,
+                ),
+              ],
+            ),
+        ],
+      ),
     );
   }
+
   Widget _buildSectionHeader(String title, {String? subtitle}) {
     return Padding(
       padding: const EdgeInsets.only(left: 4, bottom: 4),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black87)),
-        if (subtitle != null) ...[const SizedBox(height: 4), Text(subtitle, style: TextStyle(fontSize: 13, color: Colors.grey[600]))]
-      ]),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+            ),
+          ),
+          if (subtitle != null) ...[
+            const SizedBox(height: 4),
+            Text(
+              subtitle,
+              style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+            ),
+          ],
+        ],
+      ),
     );
   }
 
@@ -154,7 +250,10 @@ class _DataKeluargaScreenState extends State<DataKeluargaScreen> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => WargaDetailScreen(warga: member))),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => WargaDetailScreen(warga: member)),
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Row(
@@ -162,32 +261,68 @@ class _DataKeluargaScreenState extends State<DataKeluargaScreen> {
               Container(
                 width: 56,
                 height: 56,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.person, color: AppColors.primary, size: 28),
+                child: const Icon(
+                  Icons.person,
+                  color: AppColors.primary,
+                  size: 28,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(member.name, style: const TextStyle(fontWeight: FontWeight.w700)),
-                  const SizedBox(height: 6),
-                  Text('NIK: ${member.nik}', style: TextStyle(color: Colors.grey[700], fontSize: 13)),
-                ]),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      member.name,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'NIK: ${member.nik}',
+                      style: TextStyle(color: Colors.grey[700], fontSize: 13),
+                    ),
+                  ],
+                ),
               ),
-              Icon(Icons.keyboard_arrow_right, color: AppColors.primary),
+              const Icon(Icons.keyboard_arrow_right, color: AppColors.primary),
             ],
           ),
         ),
       ),
     );
   }
+
   Widget _buildInfoRow(String label, String value, {bool isHighlight = false}) {
-    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      SizedBox(width: 140, child: Text(label, style: TextStyle(fontSize: 14, color: Colors.grey[700], fontWeight: FontWeight.w500))),
-      Expanded(child: Text(value, style: TextStyle(fontSize: 14, color: isHighlight ? AppColors.primary : Colors.black, fontWeight: isHighlight ? FontWeight.w700 : FontWeight.w600)))
-    ]);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 140,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[700],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: TextStyle(
+              fontSize: 14,
+              color: isHighlight ? AppColors.primary : Colors.black,
+              fontWeight: isHighlight ? FontWeight.w700 : FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildKkThumbnail() {
@@ -195,9 +330,28 @@ class _DataKeluargaScreenState extends State<DataKeluargaScreen> {
     if (url.isNotEmpty) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Image.asset(url, width: 84, height: 56, fit: BoxFit.cover, errorBuilder: (c, e, s) => Container(width: 84, height: 56, color: Colors.grey[100], child: const Icon(Icons.image_not_supported, color: Colors.grey))),
+        child: Image.asset(
+          url,
+          width: 84,
+          height: 56,
+          fit: BoxFit.cover,
+          errorBuilder: (c, e, s) => Container(
+            width: 84,
+            height: 56,
+            color: Colors.grey[100],
+            child: const Icon(Icons.image_not_supported, color: Colors.grey),
+          ),
+        ),
       );
     }
-    return Container(width: 84, height: 56, decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(8)), child: const Icon(Icons.image_not_supported, color: Colors.grey));
+    return Container(
+      width: 84,
+      height: 56,
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: const Icon(Icons.image_not_supported, color: Colors.grey),
+    );
   }
 }

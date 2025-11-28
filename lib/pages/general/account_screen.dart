@@ -296,7 +296,7 @@ class _AccountScreenState extends State<AccountScreen> {
     if (_isLoading) {
       return Scaffold(
         backgroundColor: Colors.grey[50],
-        body: const Center(child: CircularProgressIndicator())
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -632,7 +632,8 @@ class _AccountScreenState extends State<AccountScreen> {
                         barrierDismissible: false,
                         builder: (context) => Dialog(
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24)),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
                           elevation: 0,
                           backgroundColor: Colors.transparent,
                           child: Container(
@@ -681,7 +682,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                 // Version
                                 Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 6),
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[100],
                                     borderRadius: BorderRadius.circular(20),
@@ -722,14 +725,19 @@ class _AccountScreenState extends State<AccountScreen> {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       gradient: const LinearGradient(
-                                        colors: [AppColors.primary, Color(0xFFFFBF3C)],
+                                        colors: [
+                                          AppColors.primary,
+                                          Color(0xFFFFBF3C),
+                                        ],
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
                                       ),
                                       borderRadius: BorderRadius.circular(12),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppColors.primary.withOpacity(0.3),
+                                          color: AppColors.primary.withOpacity(
+                                            0.3,
+                                          ),
                                           blurRadius: 8,
                                           offset: const Offset(0, 4),
                                         ),
@@ -741,9 +749,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                         onTap: () => Navigator.pop(context),
                                         borderRadius: BorderRadius.circular(12),
                                         child: Container(
-                                          padding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 14),
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 14,
+                                          ),
                                           alignment: Alignment.center,
                                           child: const Text(
                                             'Tutup',
@@ -985,14 +993,15 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
           elevation: 0,
           backgroundColor: Colors.transparent,
           child: Container(
@@ -1092,7 +1101,11 @@ class _AccountScreenState extends State<AccountScreen> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.logout_rounded, color: Colors.white, size: 18),
+                            Icon(
+                              Icons.logout_rounded,
+                              color: Colors.white,
+                              size: 18,
+                            ),
                             SizedBox(width: 8),
                             Text(
                               'Ya, Keluar',

@@ -17,10 +17,10 @@ class Product {
   int quantity; // for cart functionality
 
   Product({
-    String? id,
     required this.name,
     required this.description,
     required this.price,
+    String? id,
     String? imageUrl,
     String? category,
     String? badge,
@@ -34,12 +34,12 @@ class Product {
     DateTime? createdAt,
     this.quantity = 0,
   }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString(),
-        imageUrl = imageUrl ?? '',
-        category = category ?? badge ?? 'Lainnya',
-        badge = badge ?? category ?? 'Lainnya',
-        seller = seller ?? 'Toko Tidak Diketahui',
-        shopId = shopId ?? '',
-        createdAt = createdAt ?? DateTime.now();
+       imageUrl = imageUrl ?? '',
+       category = category ?? badge ?? 'Lainnya',
+       badge = badge ?? category ?? 'Lainnya',
+       seller = seller ?? 'Toko Tidak Diketahui',
+       shopId = shopId ?? '',
+       createdAt = createdAt ?? DateTime.now();
 
   // Factory constructor for Firestore
   factory Product.fromFirestore(Map<String, dynamic> data, String documentId) {

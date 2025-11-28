@@ -5,10 +5,7 @@ import 'package:rukunin/style/app_colors.dart';
 class AdminActivityDetailScreen extends StatelessWidget {
   final Map<String, dynamic> activity;
 
-  const AdminActivityDetailScreen({
-    required this.activity,
-    super.key,
-  });
+  const AdminActivityDetailScreen({required this.activity, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +93,9 @@ class AdminActivityDetailScreen extends StatelessWidget {
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: _getLevelColor(activity['level']).withOpacity(0.1),
+                            color: _getLevelColor(
+                              activity['level'],
+                            ).withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
@@ -273,10 +272,7 @@ class AdminActivityDetailScreen extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -328,10 +324,7 @@ class AdminActivityDetailScreen extends StatelessWidget {
                 children: [
                   const Text(
                     'Daftar Peserta',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                   Text(
                     '${activity['participants']} orang',

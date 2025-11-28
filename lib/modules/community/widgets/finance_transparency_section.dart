@@ -15,15 +15,17 @@ class FinanceTransparencySection extends StatefulWidget {
   const FinanceTransparencySection({super.key});
 
   @override
-  State<FinanceTransparencySection> createState() => _FinanceTransparencySectionState();
+  State<FinanceTransparencySection> createState() =>
+      _FinanceTransparencySectionState();
 }
 
-class _FinanceTransparencySectionState extends State<FinanceTransparencySection> {
+class _FinanceTransparencySectionState
+    extends State<FinanceTransparencySection> {
   String _selectedLevel = 'RT';
   String _selectedPeriod = 'Month';
   DateTime _currentDate = DateTime.now();
   bool _isDownloading = false;
-  
+
   final _reportService = ReportGeneratorService();
 
   @override
@@ -167,7 +169,8 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
             color: isSelected ? Colors.white : Colors.grey[600],
           ),
         ),
-      ), );
+      ),
+    );
   }
 
   Widget _buildPeriodNavigation() {
@@ -191,7 +194,8 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              onPressed: () => setState(() => _currentDate = _getPreviousPeriod()),
+              onPressed: () =>
+                  setState(() => _currentDate = _getPreviousPeriod()),
               icon: const Icon(Icons.chevron_left_rounded),
               style: IconButton.styleFrom(
                 backgroundColor: Colors.grey[100],
@@ -203,7 +207,10 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                 children: [
                   Text(
                     _getPeriodLabel(),
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 2),
@@ -216,10 +223,14 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
               ),
             ),
             IconButton(
-              onPressed: _isCurrentPeriod() ? null : () => setState(() => _currentDate = _getNextPeriod()),
+              onPressed: _isCurrentPeriod()
+                  ? null
+                  : () => setState(() => _currentDate = _getNextPeriod()),
               icon: const Icon(Icons.chevron_right_rounded),
               style: IconButton.styleFrom(
-                backgroundColor: _isCurrentPeriod() ? Colors.grey[200] : Colors.grey[100],
+                backgroundColor: _isCurrentPeriod()
+                    ? Colors.grey[200]
+                    : Colors.grey[100],
                 padding: const EdgeInsets.all(8),
               ),
             ),
@@ -252,15 +263,22 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
     );
   }
 
-  Widget _buildTransactionList(List<TransactionModel> transactions, {required bool isIncome}) {
+  Widget _buildTransactionList(
+    List<TransactionModel> transactions, {
+    required bool isIncome,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
-        children: transactions.map((transaction) => TransactionCard(
-          transaction: transaction,
-          isIncome: isIncome,
-          onTap: () => _showTransactionDetail(transaction, isIncome),
-        )).toList(),
+        children: transactions
+            .map(
+              (transaction) => TransactionCard(
+                transaction: transaction,
+                isIncome: isIncome,
+                onTap: () => _showTransactionDetail(transaction, isIncome),
+              ),
+            )
+            .toList(),
       ),
     );
   }
@@ -304,7 +322,11 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                       ),
                     )
                   else
-                    const Icon(Icons.download_rounded, color: Colors.white, size: 20),
+                    const Icon(
+                      Icons.download_rounded,
+                      color: Colors.white,
+                      size: 20,
+                    ),
                   const SizedBox(width: 8),
                   Text(
                     _isDownloading ? 'Mengunduh...' : 'Unduh Laporan Keuangan',
@@ -341,7 +363,11 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.flag_outlined, color: Colors.orange[700], size: 20),
+                  Icon(
+                    Icons.flag_outlined,
+                    color: Colors.orange[700],
+                    size: 20,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     'Laporkan Ketidaksesuaian',
@@ -361,9 +387,13 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
   }
 
   // Business Logic Methods
-  
+
   FinancialSummaryModel _getFinancialSummary() {
-    final multiplier = _selectedPeriod == 'Month' ? 1 : _selectedPeriod == 'Quarter' ? 3 : 12;
+    final multiplier = _selectedPeriod == 'Month'
+        ? 1
+        : _selectedPeriod == 'Quarter'
+        ? 3
+        : 12;
     final baseIncome = _selectedLevel == 'RT' ? 5000000 : 25000000;
     final baseExpense = _selectedLevel == 'RT' ? 4000000 : 20000000;
 
@@ -377,25 +407,67 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
 
   List<TransactionModel> _getIncomes() {
     return [
-      TransactionModel(date: '2024-01-15', description: 'Iuran Bulanan Warga', amount: 5000000, category: 'Iuran'),
-      TransactionModel(date: '2024-01-20', description: 'Iuran Kebersihan', amount: 2000000, category: 'Kebersihan'),
-      TransactionModel(date: '2024-01-25', description: 'Donasi Acara RT', amount: 3000000, category: 'Donasi'),
+      TransactionModel(
+        date: '2024-01-15',
+        description: 'Iuran Bulanan Warga',
+        amount: 5000000,
+        category: 'Iuran',
+      ),
+      TransactionModel(
+        date: '2024-01-20',
+        description: 'Iuran Kebersihan',
+        amount: 2000000,
+        category: 'Kebersihan',
+      ),
+      TransactionModel(
+        date: '2024-01-25',
+        description: 'Donasi Acara RT',
+        amount: 3000000,
+        category: 'Donasi',
+      ),
     ];
   }
 
   List<TransactionModel> _getExpenses() {
     return [
-      TransactionModel(date: '2024-01-18', description: 'Pembayaran Satpam', amount: 4000000, category: 'Gaji'),
-      TransactionModel(date: '2024-01-22', description: 'Pembelian Alat Kebersihan', amount: 1500000, category: 'Operasional'),
-      TransactionModel(date: '2024-01-28', description: 'Perbaikan Jalan', amount: 6500000, category: 'Infrastruktur'),
+      TransactionModel(
+        date: '2024-01-18',
+        description: 'Pembayaran Satpam',
+        amount: 4000000,
+        category: 'Gaji',
+      ),
+      TransactionModel(
+        date: '2024-01-22',
+        description: 'Pembelian Alat Kebersihan',
+        amount: 1500000,
+        category: 'Operasional',
+      ),
+      TransactionModel(
+        date: '2024-01-28',
+        description: 'Perbaikan Jalan',
+        amount: 6500000,
+        category: 'Infrastruktur',
+      ),
     ];
   }
 
   String _getPeriodLabel() {
     switch (_selectedPeriod) {
       case 'Month':
-        final monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
-                           'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        final monthNames = [
+          'Januari',
+          'Februari',
+          'Maret',
+          'April',
+          'Mei',
+          'Juni',
+          'Juli',
+          'Agustus',
+          'September',
+          'Oktober',
+          'November',
+          'Desember',
+        ];
         return '${monthNames[_currentDate.month - 1]} ${_currentDate.year}';
       case 'Quarter':
         final quarter = ((_currentDate.month - 1) ~/ 3) + 1;
@@ -410,7 +482,11 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
   String _getDateRangeLabel() {
     switch (_selectedPeriod) {
       case 'Month':
-        final lastDay = DateTime(_currentDate.year, _currentDate.month + 1, 0).day;
+        final lastDay = DateTime(
+          _currentDate.year,
+          _currentDate.month + 1,
+          0,
+        ).day;
         return '1 - $lastDay ${_currentDate.month}/${_currentDate.year}';
       case 'Quarter':
         final quarter = ((_currentDate.month - 1) ~/ 3) + 1;
@@ -426,19 +502,27 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
 
   DateTime _getPreviousPeriod() {
     switch (_selectedPeriod) {
-      case 'Month': return DateTime(_currentDate.year, _currentDate.month - 1, 1);
-      case 'Quarter': return DateTime(_currentDate.year, _currentDate.month - 3, 1);
-      case 'Year': return DateTime(_currentDate.year - 1, _currentDate.month, 1);
-      default: return _currentDate;
+      case 'Month':
+        return DateTime(_currentDate.year, _currentDate.month - 1, 1);
+      case 'Quarter':
+        return DateTime(_currentDate.year, _currentDate.month - 3, 1);
+      case 'Year':
+        return DateTime(_currentDate.year - 1, _currentDate.month, 1);
+      default:
+        return _currentDate;
     }
   }
 
   DateTime _getNextPeriod() {
     switch (_selectedPeriod) {
-      case 'Month': return DateTime(_currentDate.year, _currentDate.month + 1, 1);
-      case 'Quarter': return DateTime(_currentDate.year, _currentDate.month + 3, 1);
-      case 'Year': return DateTime(_currentDate.year + 1, _currentDate.month, 1);
-      default: return _currentDate;
+      case 'Month':
+        return DateTime(_currentDate.year, _currentDate.month + 1, 1);
+      case 'Quarter':
+        return DateTime(_currentDate.year, _currentDate.month + 3, 1);
+      case 'Year':
+        return DateTime(_currentDate.year + 1, _currentDate.month, 1);
+      default:
+        return _currentDate;
     }
   }
 
@@ -450,7 +534,8 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
       case 'Quarter':
         final currentQuarter = ((now.month - 1) ~/ 3) + 1;
         final selectedQuarter = ((_currentDate.month - 1) ~/ 3) + 1;
-        return _currentDate.year == now.year && selectedQuarter == currentQuarter;
+        return _currentDate.year == now.year &&
+            selectedQuarter == currentQuarter;
       case 'Year':
         return _currentDate.year == now.year;
       default:
@@ -477,22 +562,48 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Unduh Laporan', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Unduh Laporan',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
                 IconButton(
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.close_rounded),
-                  style: IconButton.styleFrom(backgroundColor: Colors.grey[100]),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.grey[100],
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 8),
-            Text('Pilih format laporan yang ingin diunduh', style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+            Text(
+              'Pilih format laporan yang ingin diunduh',
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+            ),
             const SizedBox(height: 20),
-            _buildDownloadOption(Icons.picture_as_pdf, Colors.red, 'PDF', 'Laporan dalam format PDF', () => _downloadReport('pdf')),
+            _buildDownloadOption(
+              Icons.picture_as_pdf,
+              Colors.red,
+              'PDF',
+              'Laporan dalam format PDF',
+              () => _downloadReport('pdf'),
+            ),
             const SizedBox(height: 12),
-            _buildDownloadOption(Icons.table_chart_rounded, Colors.green, 'Excel (XLSX)', 'Laporan dalam format spreadsheet', () => _downloadReport('xlsx')),
+            _buildDownloadOption(
+              Icons.table_chart_rounded,
+              Colors.green,
+              'Excel (XLSX)',
+              'Laporan dalam format spreadsheet',
+              () => _downloadReport('xlsx'),
+            ),
             const SizedBox(height: 12),
-            _buildDownloadOption(Icons.description_rounded, Colors.blue, 'CSV', 'Data mentah untuk analisis', () => _downloadReport('csv')),
+            _buildDownloadOption(
+              Icons.description_rounded,
+              Colors.blue,
+              'CSV',
+              'Data mentah untuk analisis',
+              () => _downloadReport('csv'),
+            ),
             const SizedBox(height: 8),
           ],
         ),
@@ -500,7 +611,13 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
     );
   }
 
-  Widget _buildDownloadOption(IconData icon, Color iconColor, String title, String description, VoidCallback onTap) {
+  Widget _buildDownloadOption(
+    IconData icon,
+    Color iconColor,
+    String title,
+    String description,
+    VoidCallback onTap,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -533,9 +650,18 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       const SizedBox(height: 2),
-                      Text(description, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                      Text(
+                        description,
+                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                      ),
                     ],
                   ),
                 ),
@@ -557,11 +683,12 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
         // Check Android version
         if (await _shouldRequestStoragePermission()) {
           final status = await Permission.storage.request();
-          
+
           // For Android 13+, also request photos/media permissions if needed
           if (!status.isGranted) {
             // Try alternative permissions for Android 13+
-            final manageStatus = await Permission.manageExternalStorage.request();
+            final manageStatus = await Permission.manageExternalStorage
+                .request();
             if (!manageStatus.isGranted) {
               // Show user-friendly message with custom styling
               if (mounted) {
@@ -620,7 +747,8 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
         }
       }
 
-      final filename = 'Laporan_Keuangan_${_selectedLevel}_${_getPeriodLabel().replaceAll(' ', '_')}';
+      final filename =
+          'Laporan_Keuangan_${_selectedLevel}_${_getPeriodLabel().replaceAll(' ', '_')}';
       final summary = _getFinancialSummary();
       final incomes = _getIncomes();
       final expenses = _getExpenses();
@@ -797,11 +925,16 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Detail Transaksi', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Detail Transaksi',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
                 IconButton(
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.close_rounded),
-                  style: IconButton.styleFrom(backgroundColor: Colors.grey[100]),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.grey[100],
+                  ),
                 ),
               ],
             ),
@@ -820,9 +953,15 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                   const Divider(height: 24),
                   _buildDetailRow('🏷️ Kategori', transaction.category),
                   const Divider(height: 24),
-                  _buildDetailRow('💰 Jumlah', '${isIncome ? '+' : '-'}Rp ${CurrencyFormatter.format(transaction.amount)}'),
+                  _buildDetailRow(
+                    '💰 Jumlah',
+                    '${isIncome ? '+' : '-'}Rp ${CurrencyFormatter.format(transaction.amount)}',
+                  ),
                   const Divider(height: 24),
-                  _buildDetailRow('👤 Diinput oleh', isIncome ? 'Bendahara RT' : 'Ketua RT'),
+                  _buildDetailRow(
+                    '👤 Diinput oleh',
+                    isIncome ? 'Bendahara RT' : 'Ketua RT',
+                  ),
                 ],
               ),
             ),
@@ -861,10 +1000,16 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
       children: [
         SizedBox(
           width: 120,
-          child: Text(label, style: TextStyle(color: Colors.grey[600], fontSize: 14)),
+          child: Text(
+            label,
+            style: TextStyle(color: Colors.grey[600], fontSize: 14),
+          ),
         ),
         Expanded(
-          child: Text(value, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+          child: Text(
+            value,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+          ),
         ),
       ],
     );
@@ -872,7 +1017,7 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
 
   void _showReportDialog() {
     final reasonController = TextEditingController();
-    
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -935,7 +1080,7 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                 ],
               ),
               const SizedBox(height: 20),
-              
+
               // Description
               Container(
                 padding: const EdgeInsets.all(12),
@@ -946,7 +1091,11 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline, color: Colors.orange[700], size: 20),
+                    Icon(
+                      Icons.info_outline,
+                      color: Colors.orange[700],
+                      size: 20,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
@@ -962,7 +1111,7 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                 ),
               ),
               const SizedBox(height: 20),
-              
+
               // Label
               Text(
                 'Jelaskan alasan pelaporan Anda',
@@ -973,7 +1122,7 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                 ),
               ),
               const SizedBox(height: 12),
-              
+
               // Text field
               Container(
                 decoration: BoxDecoration(
@@ -986,7 +1135,8 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                   maxLines: 5,
                   style: const TextStyle(fontSize: 14),
                   decoration: InputDecoration(
-                    hintText: 'Contoh: Data pengeluaran tidak sesuai dengan bukti yang saya miliki...',
+                    hintText:
+                        'Contoh: Data pengeluaran tidak sesuai dengan bukti yang saya miliki...',
                     hintStyle: TextStyle(
                       fontSize: 13,
                       color: Colors.grey[400],
@@ -998,7 +1148,7 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                 ),
               ),
               const SizedBox(height: 24),
-              
+
               // Action buttons
               Row(
                 children: [
@@ -1057,10 +1207,15 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                                 SnackBar(
                                   content: const Row(
                                     children: [
-                                      Icon(Icons.warning_amber_rounded, color: Colors.white),
+                                      Icon(
+                                        Icons.warning_amber_rounded,
+                                        color: Colors.white,
+                                      ),
                                       SizedBox(width: 12),
                                       Expanded(
-                                        child: Text('Harap jelaskan alasan pelaporan Anda'),
+                                        child: Text(
+                                          'Harap jelaskan alasan pelaporan Anda',
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -1074,9 +1229,9 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                               );
                               return;
                             }
-                            
+
                             Navigator.pop(context);
-                            
+
                             // Show success feedback
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -1098,7 +1253,8 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                                     const SizedBox(width: 12),
                                     const Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text(
@@ -1135,7 +1291,11 @@ class _FinanceTransparencySectionState extends State<FinanceTransparencySection>
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.send_rounded, color: Colors.white, size: 18),
+                                Icon(
+                                  Icons.send_rounded,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
                                 SizedBox(width: 8),
                                 Text(
                                   'Kirim Laporan',

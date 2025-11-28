@@ -67,7 +67,8 @@ class CommunityScreen extends StatelessWidget {
             icon: Icons.trending_up,
             title: 'Transparansi Keuangan',
             subtitle: 'Laporan keuangan RT/RW',
-            onTap: () => context.push('/resident/community/finance-transparency'),
+            onTap: () =>
+                context.push('/resident/community/finance-transparency'),
           ),
           const SizedBox(height: 24),
           _buildSectionHeader('Administrasi'),
@@ -130,11 +131,7 @@ class CommunityScreen extends StatelessWidget {
                 color: AppColors.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
-                icon,
-                color: AppColors.primary,
-                size: 24,
-              ),
+              child: Icon(icon, color: AppColors.primary, size: 24),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -152,19 +149,12 @@ class CommunityScreen extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   ),
                 ],
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: Colors.grey[400],
-            ),
+            Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
           ],
         ),
       ),

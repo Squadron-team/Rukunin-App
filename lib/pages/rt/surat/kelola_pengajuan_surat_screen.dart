@@ -7,7 +7,7 @@ import 'package:rukunin/pages/rt/surat/category_requests_screen.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 class KelolaPengajuanSuratScreen extends StatefulWidget {
-  const KelolaPengajuanSuratScreen({Key? key}) : super(key: key);
+  const KelolaPengajuanSuratScreen({super.key});
 
   @override
   State<KelolaPengajuanSuratScreen> createState() =>

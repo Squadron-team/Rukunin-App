@@ -41,7 +41,11 @@ class ReportGeneratorService {
     final pdfBytes = await pdf.save();
 
     if (kIsWeb) {
-      return await downloadFileWeb(Uint8List.fromList(pdfBytes), '$filename.pdf', 'application/pdf');
+      return await downloadFileWeb(
+        Uint8List.fromList(pdfBytes),
+        '$filename.pdf',
+        'application/pdf',
+      );
     } else {
       final output = await _getDownloadDirectory();
       final file = File('${output.path}/$filename.pdf');
@@ -93,11 +97,21 @@ class ReportGeneratorService {
           ),
           child: pw.Column(
             children: [
-              _buildPDFSummaryRow('Total Pemasukan', 'Rp ${summary.formattedIncome}'),
+              _buildPDFSummaryRow(
+                'Total Pemasukan',
+                'Rp ${summary.formattedIncome}',
+              ),
               pw.SizedBox(height: 8),
-              _buildPDFSummaryRow('Total Pengeluaran', 'Rp ${summary.formattedExpense}'),
+              _buildPDFSummaryRow(
+                'Total Pengeluaran',
+                'Rp ${summary.formattedExpense}',
+              ),
               pw.Divider(),
-              _buildPDFSummaryRow('Saldo Akhir', 'Rp ${summary.formattedBalance}', isBold: true),
+              _buildPDFSummaryRow(
+                'Saldo Akhir',
+                'Rp ${summary.formattedBalance}',
+                isBold: true,
+              ),
             ],
           ),
         ),
@@ -105,7 +119,11 @@ class ReportGeneratorService {
     );
   }
 
-  pw.Widget _buildPDFSummaryRow(String label, String value, {bool isBold = false}) {
+  pw.Widget _buildPDFSummaryRow(
+    String label,
+    String value, {
+    bool isBold = false,
+  }) {
     return pw.Row(
       mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
       children: [
@@ -148,14 +166,16 @@ class ReportGeneratorService {
                 _buildPDFTableHeader('Jumlah'),
               ],
             ),
-            ...incomes.map((item) => pw.TableRow(
-              children: [
-                _buildPDFTableCell(item.date),
-                _buildPDFTableCell(item.description),
-                _buildPDFTableCell(item.category),
-                _buildPDFTableCell('Rp ${_formatCurrency(item.amount)}'),
-              ],
-            )),
+            ...incomes.map(
+              (item) => pw.TableRow(
+                children: [
+                  _buildPDFTableCell(item.date),
+                  _buildPDFTableCell(item.description),
+                  _buildPDFTableCell(item.category),
+                  _buildPDFTableCell('Rp ${_formatCurrency(item.amount)}'),
+                ],
+              ),
+            ),
           ],
         ),
       ],
@@ -183,14 +203,16 @@ class ReportGeneratorService {
                 _buildPDFTableHeader('Jumlah'),
               ],
             ),
-            ...expenses.map((item) => pw.TableRow(
-              children: [
-                _buildPDFTableCell(item.date),
-                _buildPDFTableCell(item.description),
-                _buildPDFTableCell(item.category),
-                _buildPDFTableCell('Rp ${_formatCurrency(item.amount)}'),
-              ],
-            )),
+            ...expenses.map(
+              (item) => pw.TableRow(
+                children: [
+                  _buildPDFTableCell(item.date),
+                  _buildPDFTableCell(item.description),
+                  _buildPDFTableCell(item.category),
+                  _buildPDFTableCell('Rp ${_formatCurrency(item.amount)}'),
+                ],
+              ),
+            ),
           ],
         ),
       ],
@@ -206,7 +228,10 @@ class ReportGeneratorService {
           children: [
             pw.Text('Mengetahui,', style: const pw.TextStyle(fontSize: 12)),
             pw.SizedBox(height: 40),
-            pw.Text('__________________', style: const pw.TextStyle(fontSize: 12)),
+            pw.Text(
+              '__________________',
+              style: const pw.TextStyle(fontSize: 12),
+            ),
             pw.Text('Ketua $level', style: const pw.TextStyle(fontSize: 10)),
           ],
         ),
@@ -215,8 +240,14 @@ class ReportGeneratorService {
           children: [
             pw.Text('Bendahara,', style: const pw.TextStyle(fontSize: 12)),
             pw.SizedBox(height: 40),
-            pw.Text('__________________', style: const pw.TextStyle(fontSize: 12)),
-            pw.Text('Bendahara $level', style: const pw.TextStyle(fontSize: 10)),
+            pw.Text(
+              '__________________',
+              style: const pw.TextStyle(fontSize: 12),
+            ),
+            pw.Text(
+              'Bendahara $level',
+              style: const pw.TextStyle(fontSize: 10),
+            ),
           ],
         ),
       ],
@@ -275,12 +306,28 @@ class ReportGeneratorService {
     var sheet = excel['Ringkasan'];
     sheet.appendRow([TextCellValue('LAPORAN KEUANGAN ${summary.level}')]);
     sheet.appendRow([TextCellValue('Periode: ${summary.period}')]);
-    sheet.appendRow([TextCellValue('Tanggal Cetak: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}')]);
+    sheet.appendRow([
+      TextCellValue(
+        'Tanggal Cetak: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+      ),
+    ]);
     sheet.appendRow([]);
-    sheet.appendRow([TextCellValue('Keterangan'), TextCellValue('Jumlah (Rp)')]);
-    sheet.appendRow([TextCellValue('Total Pemasukan'), IntCellValue(summary.income)]);
-    sheet.appendRow([TextCellValue('Total Pengeluaran'), IntCellValue(summary.expense)]);
-    sheet.appendRow([TextCellValue('Saldo Akhir'), IntCellValue(summary.balance)]);
+    sheet.appendRow([
+      TextCellValue('Keterangan'),
+      TextCellValue('Jumlah (Rp)'),
+    ]);
+    sheet.appendRow([
+      TextCellValue('Total Pemasukan'),
+      IntCellValue(summary.income),
+    ]);
+    sheet.appendRow([
+      TextCellValue('Total Pengeluaran'),
+      IntCellValue(summary.expense),
+    ]);
+    sheet.appendRow([
+      TextCellValue('Saldo Akhir'),
+      IntCellValue(summary.balance),
+    ]);
   }
 
   void _createIncomeSheet(Excel excel, List<TransactionModel> incomes) {
@@ -331,7 +378,9 @@ class ReportGeneratorService {
 
     buffer.writeln('LAPORAN KEUANGAN ${summary.level}');
     buffer.writeln('Periode: ${summary.period}');
-    buffer.writeln('Tanggal Cetak: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}');
+    buffer.writeln(
+      'Tanggal Cetak: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+    );
     buffer.writeln();
 
     buffer.writeln('RINGKASAN');
@@ -344,14 +393,18 @@ class ReportGeneratorService {
     buffer.writeln('PEMASUKAN');
     buffer.writeln('Tanggal,Deskripsi,Kategori,Jumlah');
     for (var item in incomes) {
-      buffer.writeln('${item.date},${item.description},${item.category},${item.amount}');
+      buffer.writeln(
+        '${item.date},${item.description},${item.category},${item.amount}',
+      );
     }
     buffer.writeln();
 
     buffer.writeln('PENGELUARAN');
     buffer.writeln('Tanggal,Deskripsi,Kategori,Jumlah');
     for (var item in expenses) {
-      buffer.writeln('${item.date},${item.description},${item.category},${item.amount}');
+      buffer.writeln(
+        '${item.date},${item.description},${item.category},${item.amount}',
+      );
     }
 
     final csvBytes = Uint8List.fromList(buffer.toString().codeUnits);
@@ -370,14 +423,14 @@ class ReportGeneratorService {
     if (kIsWeb) {
       throw UnsupportedError('File system access not supported on web');
     }
-    
+
     if (Platform.isAndroid) {
       // For Android 13+ (API 33+), use app-specific directory
       // For Android 10-12 (API 29-32), try Downloads folder first
       try {
         // Check Android version
         final directory = Directory('/storage/emulated/0/Download');
-        
+
         // Try to create a test file to check write permission
         if (await directory.exists()) {
           try {
@@ -392,7 +445,7 @@ class ReportGeneratorService {
       } catch (e) {
         // Directory doesn't exist or not accessible
       }
-      
+
       // Fallback: Use app-specific external directory
       // This doesn't require permissions on Android 10+
       try {
@@ -408,13 +461,14 @@ class ReportGeneratorService {
       } catch (e) {
         // If external storage fails, use internal
       }
-      
+
       // Last resort: internal app documents
       return await getApplicationDocumentsDirectory();
     } else if (Platform.isIOS) {
       return await getApplicationDocumentsDirectory();
     } else {
-      return await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
+      return await getDownloadsDirectory() ??
+          await getApplicationDocumentsDirectory();
     }
   }
 

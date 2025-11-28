@@ -17,7 +17,13 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
       'color': Colors.red,
       'description': 'Akses penuh ke seluruh sistem',
       'count': 2,
-      'permissions': ['Kelola Pengguna', 'Kelola Role', 'Kelola Data', 'Kelola Keuangan', 'Kelola Laporan'],
+      'permissions': [
+        'Kelola Pengguna',
+        'Kelola Role',
+        'Kelola Data',
+        'Kelola Keuangan',
+        'Kelola Laporan',
+      ],
     },
     {
       'name': 'Ketua RT',
@@ -25,7 +31,12 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
       'color': Colors.blue,
       'description': 'Mengelola data RT',
       'count': 5,
-      'permissions': ['Kelola Warga RT', 'Kelola Kegiatan', 'Lihat Laporan', 'Verifikasi Data'],
+      'permissions': [
+        'Kelola Warga RT',
+        'Kelola Kegiatan',
+        'Lihat Laporan',
+        'Verifikasi Data',
+      ],
     },
     {
       'name': 'Ketua RW',
@@ -33,7 +44,12 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
       'color': Colors.purple,
       'description': 'Mengelola data RW',
       'count': 1,
-      'permissions': ['Kelola Warga RW', 'Kelola Kegiatan', 'Lihat Laporan', 'Verifikasi Data'],
+      'permissions': [
+        'Kelola Warga RW',
+        'Kelola Kegiatan',
+        'Lihat Laporan',
+        'Verifikasi Data',
+      ],
     },
     {
       'name': 'Bendahara',
@@ -41,7 +57,12 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
       'color': Colors.green,
       'description': 'Mengelola keuangan dan iuran',
       'count': 3,
-      'permissions': ['Kelola Iuran', 'Kelola Kas', 'Lihat Laporan Keuangan', 'Verifikasi Pembayaran'],
+      'permissions': [
+        'Kelola Iuran',
+        'Kelola Kas',
+        'Lihat Laporan Keuangan',
+        'Verifikasi Pembayaran',
+      ],
     },
     {
       'name': 'Sekretaris',
@@ -49,7 +70,12 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
       'color': Colors.orange,
       'description': 'Mengelola administrasi dan arsip',
       'count': 2,
-      'permissions': ['Kelola Pengumuman', 'Kelola Surat', 'Kelola Arsip', 'Lihat Laporan'],
+      'permissions': [
+        'Kelola Pengumuman',
+        'Kelola Surat',
+        'Kelola Arsip',
+        'Lihat Laporan',
+      ],
     },
     {
       'name': 'Warga',
@@ -57,7 +83,12 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
       'color': Colors.grey,
       'description': 'Akses terbatas untuk warga',
       'count': 1234,
-      'permissions': ['Lihat Pengumuman', 'Lihat Kegiatan', 'Bayar Iuran', 'Buat Laporan'],
+      'permissions': [
+        'Lihat Pengumuman',
+        'Lihat Kegiatan',
+        'Bayar Iuran',
+        'Buat Laporan',
+      ],
     },
   ];
 
@@ -336,10 +367,7 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
               const SizedBox(height: 4),
               Text(
                 role['description'],
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey[600],
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
               ),
               const SizedBox(height: 6),
               Container(
@@ -396,7 +424,10 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
                     runSpacing: 8,
                     children: (role['permissions'] as List<String>).map((perm) {
                       return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
@@ -405,7 +436,11 @@ class _RoleManagementPageState extends State<RoleManagementPage> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.check_circle, size: 14, color: role['color']),
+                            Icon(
+                              Icons.check_circle,
+                              size: 14,
+                              color: role['color'],
+                            ),
                             const SizedBox(width: 6),
                             Text(
                               perm,

@@ -482,7 +482,7 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                             .map(
                               (a) => ListTile(
                                 contentPadding: EdgeInsets.zero,
-                                leading: Icon(
+                                leading: const Icon(
                                   Icons.attachment,
                                   color: AppColors.primary,
                                 ),
@@ -521,7 +521,7 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
 
               // Header for admin note & attachments
               const SizedBox(height: 12),
-              Text(
+              const Text(
                 'Kirim Catatan & Lampiran',
                 style: TextStyle(
                   fontSize: 14,
@@ -570,13 +570,13 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                     ),
                     child: Column(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.cloud_upload,
                           size: 36,
                           color: AppColors.primary,
                         ),
                         const SizedBox(height: 10),
-                        Text(
+                        const Text(
                           'Tambah Lampiran Catatan',
                           style: TextStyle(
                             color: AppColors.primary,

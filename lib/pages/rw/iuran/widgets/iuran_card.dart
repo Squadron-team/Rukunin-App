@@ -25,7 +25,9 @@ class IuranCard extends StatelessWidget {
                   Text(
                     status.nama,
                     style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w700),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   Text(
                     status.nik,
@@ -35,7 +37,10 @@ class IuranCard extends StatelessWidget {
                   Text(
                     status.rt,
                     style: TextStyle(
-                        fontSize: 13, color: Colors.grey[700], fontWeight: FontWeight.w600),
+                      fontSize: 13,
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   const SizedBox(height: 10),
 
@@ -43,7 +48,11 @@ class IuranCard extends StatelessWidget {
                   if (status.sudahBayar) ...[
                     Row(
                       children: [
-                        const Icon(Icons.check_circle, color: Colors.green, size: 14),
+                        const Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                          size: 14,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           'Sudah Membayar',
@@ -58,8 +67,11 @@ class IuranCard extends StatelessWidget {
                   ] else ...[
                     const Row(
                       children: [
-                        Icon(Icons.warning_amber_rounded,
-                            color: Colors.orange, size: 14),
+                        Icon(
+                          Icons.warning_amber_rounded,
+                          color: Colors.orange,
+                          size: 14,
+                        ),
                         SizedBox(width: 4),
                         Text(
                           'Belum Membayar',
@@ -101,7 +113,7 @@ class IuranCard extends StatelessWidget {
                   style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

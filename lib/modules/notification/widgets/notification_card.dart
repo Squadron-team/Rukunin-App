@@ -8,16 +8,18 @@ class NotificationCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const NotificationCard({
-    super.key,
     required this.notification,
     required this.onTap,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     bool isRead = notification.isRead;
-    Color backgroundColor =
-        NotificationHelpers.getBackgroundColor(notification.type, isRead);
+    Color backgroundColor = NotificationHelpers.getBackgroundColor(
+      notification.type,
+      isRead,
+    );
 
     return GestureDetector(
       onTap: onTap,
@@ -51,7 +53,8 @@ class NotificationCard extends StatelessWidget {
                 height: 48,
                 decoration: BoxDecoration(
                   color: NotificationHelpers.getIconBackgroundColor(
-                      notification.type),
+                    notification.type,
+                  ),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(

@@ -6,11 +6,11 @@ class DummyKegiatanData {
     // ======================================================
     // 🔵 DATA DUMMY TERBARU
     // ======================================================
-
     Kegiatan(
       id: '1',
       nama: 'Kerja Bakti Bersih Lingkungan',
-      deskripsi: 'Kegiatan gotong royong membersihkan selokan, memotong rumput, dan merapikan taman di wilayah RW 05.',
+      deskripsi:
+          'Kegiatan gotong royong membersihkan selokan, memotong rumput, dan merapikan taman di wilayah RW 05.',
       tanggal: DateTime(2025, 1, 22),
       waktu: '07:00 WIB',
       lokasi: 'Area Taman RW 05',
@@ -27,7 +27,8 @@ class DummyKegiatanData {
     Kegiatan(
       id: '2',
       nama: 'Rapat Koordinasi RW',
-      deskripsi: 'Rapat internal membahas program kerja 2025 dan evaluasi iuran bulanan.',
+      deskripsi:
+          'Rapat internal membahas program kerja 2025 dan evaluasi iuran bulanan.',
       tanggal: DateTime(2025, 1, 16),
       waktu: '19:00 WIB',
       lokasi: 'Balai RW',
@@ -44,7 +45,8 @@ class DummyKegiatanData {
     Kegiatan(
       id: '3',
       nama: 'Senam Pagi Mingguan',
-      deskripsi: 'Senam pagi bersama warga untuk meningkatkan kesehatan jasmani.',
+      deskripsi:
+          'Senam pagi bersama warga untuk meningkatkan kesehatan jasmani.',
       tanggal: DateTime(2025, 2, 3),
       waktu: '06:00 WIB',
       lokasi: 'Lapangan RW 05',
@@ -61,7 +63,8 @@ class DummyKegiatanData {
     Kegiatan(
       id: '4',
       nama: 'Lomba 17 Agustus',
-      deskripsi: 'Perlombaan agustusan untuk memperingati Hari Kemerdekaan Republik Indonesia.',
+      deskripsi:
+          'Perlombaan agustusan untuk memperingati Hari Kemerdekaan Republik Indonesia.',
       tanggal: DateTime(2025, 8, 17),
       waktu: '09:00 WIB',
       lokasi: 'Lapangan RW 05',
@@ -95,7 +98,8 @@ class DummyKegiatanData {
     Kegiatan(
       id: '6',
       nama: 'Donor Darah PMI',
-      deskripsi: 'Kegiatan donor darah rutin bekerja sama dengan PMI Probolinggo.',
+      deskripsi:
+          'Kegiatan donor darah rutin bekerja sama dengan PMI Probolinggo.',
       tanggal: DateTime(2025, 4, 10),
       waktu: '08:00 WIB',
       lokasi: 'Balai RW',

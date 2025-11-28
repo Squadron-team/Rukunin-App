@@ -8,7 +8,10 @@ class TransactionCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const TransactionCard({
-    required this.transaction, required this.isIncome, required this.onTap, super.key,
+    required this.transaction,
+    required this.isIncome,
+    required this.onTap,
+    super.key,
   });
 
   @override
@@ -71,10 +74,7 @@ class TransactionCard extends StatelessWidget {
       children: [
         Text(
           transaction.description,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 4),
         Row(
@@ -97,10 +97,7 @@ class TransactionCard extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               transaction.date,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey[500],
-              ),
+              style: TextStyle(fontSize: 12, color: Colors.grey[500]),
             ),
           ],
         ),

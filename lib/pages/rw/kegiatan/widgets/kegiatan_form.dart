@@ -59,7 +59,9 @@ class _KegiatanFormState extends State<KegiatanForm> {
                   );
                   setState(() {});
                 },
-                child: Text(tanggal == null ? 'Pilih Tanggal' : tanggal.toString()),
+                child: Text(
+                  tanggal == null ? 'Pilih Tanggal' : tanggal.toString(),
+                ),
               ),
 
               ElevatedButton(
@@ -70,7 +72,9 @@ class _KegiatanFormState extends State<KegiatanForm> {
                   );
                   setState(() {});
                 },
-                child: Text(waktu == null ? 'Pilih Waktu' : waktu!.format(context)),
+                child: Text(
+                  waktu == null ? 'Pilih Waktu' : waktu!.format(context),
+                ),
               ),
 
               _input(kuotaC, 'Kuota Peserta', isNumber: true),
@@ -82,7 +86,10 @@ class _KegiatanFormState extends State<KegiatanForm> {
       ),
 
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Batal')),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Batal'),
+        ),
         ElevatedButton(
           onPressed: () {
             if (!_formKey.currentState!.validate()) return;
@@ -114,7 +121,11 @@ class _KegiatanFormState extends State<KegiatanForm> {
     );
   }
 
-  Widget _input(TextEditingController c, String label, {bool isNumber = false}) {
+  Widget _input(
+    TextEditingController c,
+    String label, {
+    bool isNumber = false,
+  }) {
     return TextFormField(
       controller: c,
       decoration: InputDecoration(labelText: label),

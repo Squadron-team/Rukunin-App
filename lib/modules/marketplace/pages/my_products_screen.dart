@@ -9,9 +9,7 @@ import 'package:rukunin/style/app_colors.dart';
 class MyProductsScreen extends StatelessWidget {
   final Shop shop;
 
-  const MyProductsScreen({
-    required this.shop, super.key,
-  });
+  const MyProductsScreen({required this.shop, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +22,7 @@ class MyProductsScreen extends StatelessWidget {
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  AppColors.primary,
-                  AppColors.primary.withOpacity(0.8),
-                ],
+                colors: [AppColors.primary, AppColors.primary.withOpacity(0.8)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -49,7 +44,10 @@ class MyProductsScreen extends StatelessWidget {
                     Row(
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          ),
                           onPressed: () => Navigator.pop(context),
                         ),
                         const Expanded(
@@ -146,9 +144,7 @@ class MyProductsScreen extends StatelessWidget {
                 }
 
                 if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error: ${snapshot.error}'),
-                  );
+                  return Center(child: Text('Error: ${snapshot.error}'));
                 }
 
                 final products = snapshot.data ?? [];
@@ -181,10 +177,7 @@ class MyProductsScreen extends StatelessWidget {
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text(
           'Tambah Produk',
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
+          style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
         ),
       ),
     );
@@ -248,7 +241,10 @@ class MyProductsScreen extends StatelessWidget {
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -282,7 +278,8 @@ class MyProductsScreen extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => OwnerProductDetailScreen(product: product),
+                builder: (context) =>
+                    OwnerProductDetailScreen(product: product),
               ),
             );
           },
@@ -316,9 +313,10 @@ class MyProductsScreen extends StatelessWidget {
                               if (loadingProgress == null) return child;
                               return Center(
                                 child: CircularProgressIndicator(
-                                  value: loadingProgress.expectedTotalBytes != null
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
                                       ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
+                                            loadingProgress.expectedTotalBytes!
                                       : null,
                                   color: AppColors.primary,
                                   strokeWidth: 2,
@@ -420,7 +418,9 @@ class MyProductsScreen extends StatelessWidget {
                               product.isActive ? 'Aktif' : 'Nonaktif',
                               style: TextStyle(
                                 fontSize: 10,
-                                color: product.isActive ? Colors.green[700] : Colors.grey[600],
+                                color: product.isActive
+                                    ? Colors.green[700]
+                                    : Colors.grey[600],
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -432,11 +432,7 @@ class MyProductsScreen extends StatelessWidget {
                 ),
 
                 // Arrow Icon
-                Icon(
-                  Icons.chevron_right,
-                  color: Colors.grey[400],
-                  size: 24,
-                ),
+                Icon(Icons.chevron_right, color: Colors.grey[400], size: 24),
               ],
             ),
           ),
@@ -444,5 +440,4 @@ class MyProductsScreen extends StatelessWidget {
       ),
     );
   }
-
 }

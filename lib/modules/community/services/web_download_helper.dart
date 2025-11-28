@@ -4,6 +4,10 @@ import 'dart:typed_data';
 import 'package:rukunin/modules/community/services/web_download_stub.dart'
     if (dart.library.html) 'web_download_web.dart';
 
-Future<String?> downloadFileWeb(Uint8List bytes, String filename, String mimeType) async {
+Future<String?> downloadFileWeb(
+  Uint8List bytes,
+  String filename,
+  String mimeType,
+) async {
   return downloadFile(bytes, filename, mimeType);
 }

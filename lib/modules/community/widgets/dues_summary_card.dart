@@ -172,7 +172,7 @@ class DuesSummaryCard extends StatelessWidget {
     );
   }
 
-    void _showPaymentBottomSheet(BuildContext context) {
+  void _showPaymentBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -208,9 +208,21 @@ class DuesSummaryCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              _buildPaymentMethod(context, Icons.account_balance, 'Transfer Bank'),
-              _buildPaymentMethod(context, Icons.credit_card, 'Kartu Kredit/Debit'),
-              _buildPaymentMethod(context, Icons.account_balance_wallet, 'E-Wallet'),
+              _buildPaymentMethod(
+                context,
+                Icons.account_balance,
+                'Transfer Bank',
+              ),
+              _buildPaymentMethod(
+                context,
+                Icons.credit_card,
+                'Kartu Kredit/Debit',
+              ),
+              _buildPaymentMethod(
+                context,
+                Icons.account_balance_wallet,
+                'E-Wallet',
+              ),
               _buildPaymentMethod(context, Icons.store, 'Minimarket'),
               const SizedBox(height: 24),
             ],
@@ -220,7 +232,11 @@ class DuesSummaryCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPaymentMethod(BuildContext context, IconData icon, String label) {
+  Widget _buildPaymentMethod(
+    BuildContext context,
+    IconData icon,
+    String label,
+  ) {
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);

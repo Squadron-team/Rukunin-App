@@ -18,7 +18,7 @@ class KegiatanHeader extends StatelessWidget {
             color: Colors.black.withOpacity(0.1),
             blurRadius: 12,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Row(
