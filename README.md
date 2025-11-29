@@ -62,3 +62,24 @@ Below are demo user accounts you can use to sign in:
 | 4. | Secretary | sekretaris@rukunin.app | sekretaris123 |
 | 5. | Treasurer | bendahara@rukunin.app | bendahara123 |
 | 6. | Warga | warga@rukunin.app | warga123 |
+
+## Our Team
+
+We are **Squadron Team**, a group of four developers collaborating to build Rukunin with a shared mission of supporting digital transformation in local communities.
+
+| No. | Name | GitHub | Role | 
+| --- | --- | --- | --- |
+| 1. | Farrel Augusta Dinata | https://github.com/FarrelAD | Project lead, Fullstack developer |
+| 2. | Khoirotun Nisa' | https://github.com/KhoirotunNisa25 | Frontend developer |
+| 3. | Muhammad Nasih | https://github.com/muhnasih | Frontend developer |
+| 4. | Naditya Prastia Andino | https://github.com/Naditya206 | Frontend developer |
+
+## Acknowledgement
+
+This project was developed with assistance from AI tools. We used **ChatGPT 5** for brainstorming ideas, technical planning, and architectural discussions. We used **Claude Sonnet 4.5** for code suggestions and improvements, particularly on the frontend side. All final design choices, implementation, testing, and verification were conducted by the **Squadron Team**.
+
+## Future Direction
+
+Rukunin will continue to evolve with new features, performance improvements, and better user experience. Our goal is to keep expanding the platform to support digital community management and empower RT/RW environments in Indonesia.
+
+We welcome feedback, suggestions, and contributions. Feel free to open an issue or submit a pull request!
