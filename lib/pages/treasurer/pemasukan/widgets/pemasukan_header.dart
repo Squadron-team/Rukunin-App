@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PemasukanHeader extends StatelessWidget {
-  const PemasukanHeader({Key? key}) : super(key: key);
+  const PemasukanHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

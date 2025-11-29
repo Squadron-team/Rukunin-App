@@ -18,7 +18,6 @@ class ProofArea extends StatelessWidget {
   final VoidCallback onClearImage;
 
   const ProofArea({
-    Key? key,
     required this.isPhotoMode,
     required this.pickedBytes,
     required this.detectionRan,
@@ -27,14 +26,15 @@ class ProofArea extends StatelessWidget {
     required this.onPickCamera,
     required this.onRunDetection,
     required this.onClearImage,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     if (!isPhotoMode) {
-      return Card(
+      return const Card(
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12),
           child: Text('Tunai dipilih — tidak perlu mengunggah bukti.'),
         ),
       );
@@ -67,13 +67,13 @@ class ProofArea extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.cloud_upload,
                           size: 36,
                           color: AppColors.primary,
                         ),
                         const SizedBox(height: 10),
-                        Text(
+                        const Text(
                           'Tambah Lampiran',
                           style: TextStyle(
                             color: AppColors.primary,

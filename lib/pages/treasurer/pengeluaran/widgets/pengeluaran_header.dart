@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PengeluaranHeader extends StatelessWidget {
-  const PengeluaranHeader({Key? key}) : super(key: key);
+  const PengeluaranHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

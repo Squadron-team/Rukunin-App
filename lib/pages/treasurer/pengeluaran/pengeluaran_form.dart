@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:rukunin/style/app_colors.dart';
-import '../pemasukan/manual_review_page.dart' as pemasukan_review;
-import '../pemasukan/widgets/proof_area.dart' as pemasukan_widgets;
-import '../pemasukan/widgets/detection_result_sheet.dart' as pemasukan_widgets2;
-import '../pemasukan/widgets/camera_capture.dart' as pemasukan_camera;
-import 'widgets/pengeluaran_header.dart';
-import 'widgets/form_fields_card.dart';
-import 'widgets/notes_card.dart';
-import 'widgets/submit_button.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/manual_review_page.dart'
+    as pemasukan_review;
+import 'package:rukunin/pages/treasurer/pemasukan/widgets/proof_area.dart'
+    as pemasukan_widgets;
+import 'package:rukunin/pages/treasurer/pemasukan/widgets/detection_result_sheet.dart'
+    as pemasukan_widgets2;
+import 'package:rukunin/pages/treasurer/pemasukan/widgets/camera_capture.dart'
+    as pemasukan_camera;
+import 'package:rukunin/pages/treasurer/pengeluaran/widgets/pengeluaran_header.dart';
+import 'package:rukunin/pages/treasurer/pengeluaran/widgets/form_fields_card.dart';
+import 'package:rukunin/pages/treasurer/pengeluaran/widgets/notes_card.dart';
+import 'package:rukunin/pages/treasurer/pengeluaran/widgets/submit_button.dart';
 
 enum ProofMode { photo, manual }
 
@@ -107,7 +110,9 @@ class _PengeluaranFormState extends State<PengeluaranForm> {
   Future<void> _openCameraCapture() async {
     try {
       final bytes = await Navigator.of(context).push<Uint8List?>(
-        MaterialPageRoute(builder: (ctx) => const pemasukan_camera.CameraCapturePage()),
+        MaterialPageRoute(
+          builder: (ctx) => const pemasukan_camera.CameraCapturePage(),
+        ),
       );
       if (bytes != null) {
         if (bytes.length > 5 * 1024 * 1024) {
@@ -241,8 +246,10 @@ class _PengeluaranFormState extends State<PengeluaranForm> {
   void _showDetectionResult() {
     final stateStr = (_detectionState != null)
         ? (_detectionState == DetectionState.success
-            ? 'success'
-            : (_detectionState == DetectionState.warning ? 'warning' : 'error'))
+              ? 'success'
+              : (_detectionState == DetectionState.warning
+                    ? 'warning'
+                    : 'error'))
         : (_detections.isNotEmpty ? 'success' : 'error');
 
     showModalBottomSheet<void>(
@@ -263,9 +270,14 @@ class _PengeluaranFormState extends State<PengeluaranForm> {
           onManualReview: () async {
             Navigator.of(context).pop();
             if (_pickedBytes == null) return;
-            final result = await Navigator.of(context).push<pemasukan_review.ManualReviewResult>(
-              MaterialPageRoute(builder: (ctx) => pemasukan_review.ManualReviewPage(imageBytes: _pickedBytes!)),
-            );
+            final result = await Navigator.of(context)
+                .push<pemasukan_review.ManualReviewResult>(
+                  MaterialPageRoute(
+                    builder: (ctx) => pemasukan_review.ManualReviewPage(
+                      imageBytes: _pickedBytes!,
+                    ),
+                  ),
+                );
             if (result == pemasukan_review.ManualReviewResult.accept) {
               _submit();
             } else if (result == pemasukan_review.ManualReviewResult.reject) {

@@ -14,19 +14,21 @@ class DetectionResultSheet extends StatelessWidget {
   final VoidCallbackNoArgs onReupload;
 
   const DetectionResultSheet({
-    Key? key,
     required this.state,
     required this.imageBytes,
     required this.onAccept,
     required this.onManualReview,
     required this.onReject,
     required this.onReupload,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(16),
@@ -46,13 +48,18 @@ class DetectionResultSheet extends StatelessWidget {
                     const Expanded(
                       child: Text(
                         'Struk Terverifikasi',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text('Struk masuk dinyatakan valid berdasarkan hasil pengecekan sistem.'),
+                const Text(
+                  'Struk masuk dinyatakan valid berdasarkan hasil pengecekan sistem.',
+                ),
                 const SizedBox(height: 16),
                 if (imageBytes != null)
                   SizedBox(
@@ -87,13 +94,18 @@ class DetectionResultSheet extends StatelessWidget {
                     const Expanded(
                       child: Text(
                         'Struk Mencurigakan',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text('Sistem mendeteksi indikasi kejanggalan pada struk yang diunggah.'),
+                const Text(
+                  'Sistem mendeteksi indikasi kejanggalan pada struk yang diunggah.',
+                ),
                 const SizedBox(height: 16),
                 if (imageBytes != null)
                   SizedBox(
@@ -121,7 +133,9 @@ class DetectionResultSheet extends StatelessWidget {
                   width: double.infinity,
                   height: 48,
                   child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(foregroundColor: Colors.red),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.red,
+                    ),
                     onPressed: onReject,
                     child: const Text('Tolak Pemasukan'),
                   ),
@@ -134,13 +148,18 @@ class DetectionResultSheet extends StatelessWidget {
                     const Expanded(
                       child: Text(
                         'Struk Tidak Dapat Dibaca',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text('Gambar blur atau resolusi rendah; ungah ulang struk dengan foto yang lebih jelas.'),
+                const Text(
+                  'Gambar blur atau resolusi rendah; ungah ulang struk dengan foto yang lebih jelas.',
+                ),
                 const SizedBox(height: 16),
                 SizedBox(
                   width: double.infinity,
