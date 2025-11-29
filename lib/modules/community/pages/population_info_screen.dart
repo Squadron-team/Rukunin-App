@@ -97,42 +97,42 @@ class _PopulationInfoScreenState extends State<PopulationInfoScreen> {
       backgroundColor: Colors.grey[50],
       appBar: const RukuninAppBar(title: 'Informasi Kependudukan'),
       body: _isLoading
-          ? const Center(
-              child: LoadingIndicator()
-            )
+          ? const Center(child: LoadingIndicator())
           : RefreshIndicator(
-        onRefresh: _loadPopulationData,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            // Personal Info Section
-            _buildSectionHeader('Data Pribadi'),
-            const SizedBox(height: 12),
-            _buildPersonalInfoCard(),
+              onRefresh: _loadPopulationData,
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  // Personal Info Section
+                  _buildSectionHeader('Data Pribadi'),
+                  const SizedBox(height: 12),
+                  _buildPersonalInfoCard(),
 
-            const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-            // KK Info Section
-            _buildSectionHeader('Kartu Keluarga (KK)'),
-            const SizedBox(height: 12),
-            _buildKKInfoCard(),
+                  // KK Info Section
+                  _buildSectionHeader('Kartu Keluarga (KK)'),
+                  const SizedBox(height: 12),
+                  _buildKKInfoCard(),
 
-            if (_familyMembers.isNotEmpty) ...[
-              const SizedBox(height: 24),
-              _buildSectionHeader('Anggota Keluarga'),
-              const SizedBox(height: 12),
-              ..._familyMembers.map((member) => _buildFamilyMemberCard(member)),
-            ],
+                  if (_familyMembers.isNotEmpty) ...[
+                    const SizedBox(height: 24),
+                    _buildSectionHeader('Anggota Keluarga'),
+                    const SizedBox(height: 12),
+                    ..._familyMembers.map(
+                      (member) => _buildFamilyMemberCard(member),
+                    ),
+                  ],
 
-            const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-            // Request Correction Button
-            _buildRequestCorrectionCard(),
+                  // Request Correction Button
+                  _buildRequestCorrectionCard(),
 
-            const SizedBox(height: 24),
-          ],
-        ),
-      ),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            ),
     );
   }
 

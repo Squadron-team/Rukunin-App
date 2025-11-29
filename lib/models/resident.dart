@@ -18,6 +18,8 @@ class Warga {
   final String pekerjaan;
   final String maritalStatus;
   final String education;
+  final String gender;
+  final bool isAlive;
 
   Warga({
     required this.id,
@@ -37,5 +39,7 @@ class Warga {
     this.pekerjaan = '',
     this.maritalStatus = '',
     this.education = '',
+    this.gender = '',
+    this.isAlive = true,
   });
 }

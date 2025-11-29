@@ -7,7 +7,7 @@ class DocumentRequest {
   final DateTime createdAt;
   String status; // menunggu, diterima, ditolak
   final String? rt;
-  String? adminNote;
+  String? note;
   List<String>? attachments;
 
   DocumentRequest({
@@ -18,7 +18,7 @@ class DocumentRequest {
     required this.purpose,
     required this.createdAt,
     this.status = 'menunggu',
-    this.adminNote,
+    this.note,
     this.rt,
     this.attachments,
   });

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/rt/surat/models/document_request.dart';
+import 'package:rukunin/pages/rt/surat_form_warga/models/document_request.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
@@ -27,7 +27,7 @@ class _RequestDetailSheetState extends State<RequestDetailSheet> {
   @override
   void initState() {
     super.initState();
-    _noteCtrl.text = widget.request.adminNote ?? '';
+    _noteCtrl.text = widget.request.note ?? '';
   }
 
   @override

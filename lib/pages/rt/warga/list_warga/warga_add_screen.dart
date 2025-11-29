@@ -28,6 +28,7 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
   final educationC = TextEditingController();
   DateTime? dateOfBirth;
   bool isHead = false;
+  String gender = 'Laki-laki';
 
   List<Street> _streets = [];
   Street? _selectedStreet;
@@ -207,6 +208,21 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
                                   setState(() => isHead = v),
                             ),
                             const SizedBox(height: 12),
+                            DropdownButtonFormField<String>(
+                              value: gender,
+                              decoration: _dec('Jenis Kelamin'),
+                              items: ['Laki-laki', 'Perempuan']
+                                  .map((g) => DropdownMenuItem(
+                                        value: g,
+                                        child: Text(g),
+                                      ))
+                                  .toList(),
+                              onChanged: (v) => setState(() => gender = v ?? 'Laki-laki'),
+                              validator: (v) => (v == null || v.isEmpty)
+                                  ? 'Pilih jenis kelamin'
+                                  : null,
+                            ),
+                            const SizedBox(height: 12),
                             Row(
                               children: [
                                 Expanded(
@@ -287,6 +303,8 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
                               rt: rt,
                               rw: rw,
                               isActive: true,
+                              gender: gender,
+                              isAlive: true,
                               ktpUrl: ktpPreview,
                               kkUrl: kkPreview,
                               createdAt: DateTime.now(),
