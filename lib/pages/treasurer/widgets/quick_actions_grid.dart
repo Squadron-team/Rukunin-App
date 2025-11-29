@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/pemasukan_screen.dart';
 
 class QuickActionsGrid extends StatelessWidget {
   const QuickActionsGrid({super.key});
@@ -13,11 +14,16 @@ class QuickActionsGrid extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
-      children: const [
+      children: [
         QuickAccessItem(
           icon: Icons.add_card,
           label: 'Catat Pemasukan',
           color: AppColors.primary,
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const PemasukanScreen()),
+            );
+          },
         ),
         QuickAccessItem(
           icon: Icons.remove_circle_outline,
