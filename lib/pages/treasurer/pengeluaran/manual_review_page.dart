@@ -7,7 +7,7 @@ enum ManualReviewResult { accept, reject }
 
 class ManualReviewPage extends StatelessWidget {
   final Uint8List imageBytes;
-  const ManualReviewPage({Key? key, required this.imageBytes}) : super(key: key);
+  const ManualReviewPage({required this.imageBytes, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +24,7 @@ class ManualReviewPage extends StatelessWidget {
                 color: Colors.black,
                 child: Center(
                   child: InteractiveViewer(
-                    child: Image.memory(
-                      imageBytes,
-                      fit: BoxFit.contain,
-                    ),
+                    child: Image.memory(imageBytes, fit: BoxFit.contain),
                   ),
                 ),
               ),
@@ -44,7 +41,9 @@ class ManualReviewPage extends StatelessWidget {
                           backgroundColor: AppColors.primary,
                           foregroundColor: Colors.white,
                         ),
-                        onPressed: () => Navigator.of(context).pop(ManualReviewResult.accept),
+                        onPressed: () => Navigator.of(
+                          context,
+                        ).pop(ManualReviewResult.accept),
                         child: const Text('Catat Pengeluaran'),
                       ),
                     ),
@@ -58,7 +57,9 @@ class ManualReviewPage extends StatelessWidget {
                           foregroundColor: Colors.red,
                           side: const BorderSide(color: Colors.red),
                         ),
-                        onPressed: () => Navigator.of(context).pop(ManualReviewResult.reject),
+                        onPressed: () => Navigator.of(
+                          context,
+                        ).pop(ManualReviewResult.reject),
                         child: const Text('Tolak Pengeluaran'),
                       ),
                     ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pengeluaran_form.dart';
+import 'package:rukunin/pages/treasurer/pengeluaran/pengeluaran_form.dart';
 
 class PengeluaranScreen extends StatelessWidget {
   const PengeluaranScreen({super.key});
@@ -22,10 +22,10 @@ class PengeluaranScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: const PengeluaranForm(),
+          padding: EdgeInsets.all(16),
+          child: PengeluaranForm(),
         ),
       ),
     );

@@ -3,7 +3,7 @@ import 'package:rukunin/widgets/input_decorations.dart';
 
 class NotesCard extends StatelessWidget {
   final TextEditingController notesCtrl;
-  const NotesCard({Key? key, required this.notesCtrl}) : super(key: key);
+  const NotesCard({required this.notesCtrl, super.key});
 
   @override
   Widget build(BuildContext context) {

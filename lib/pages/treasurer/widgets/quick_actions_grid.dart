@@ -21,9 +21,9 @@ class QuickActionsGrid extends StatelessWidget {
           label: 'Catat Pemasukan',
           color: AppColors.primary,
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const PemasukanScreen()),
-            );
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const PemasukanScreen()));
           },
         ),
         QuickAccessItem(
@@ -36,37 +36,37 @@ class QuickActionsGrid extends StatelessWidget {
             );
           },
         ),
-        QuickAccessItem(
+        const QuickAccessItem(
           icon: Icons.receipt_long,
           label: 'Riwayat Transaksi',
           color: AppColors.primary,
         ),
-        QuickAccessItem(
+        const QuickAccessItem(
           icon: Icons.people,
           label: 'Data Iuran',
           color: AppColors.primary,
         ),
-        QuickAccessItem(
+        const QuickAccessItem(
           icon: Icons.warning_amber,
           label: 'Tunggakan',
           color: AppColors.primary,
         ),
-        QuickAccessItem(
+        const QuickAccessItem(
           icon: Icons.summarize,
           label: 'Laporan Keuangan',
           color: AppColors.primary,
         ),
-        QuickAccessItem(
+        const QuickAccessItem(
           icon: Icons.category,
           label: 'Kategori',
           color: AppColors.primary,
         ),
-        QuickAccessItem(
+        const QuickAccessItem(
           icon: Icons.analytics,
           label: 'Analisis',
           color: AppColors.primary,
         ),
-        QuickAccessItem(
+        const QuickAccessItem(
           icon: Icons.print,
           label: 'Cetak Laporan',
           color: AppColors.primary,

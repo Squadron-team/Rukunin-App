@@ -10,13 +10,13 @@ class FormFieldsCard extends StatelessWidget {
   final VoidCallback onPickDate;
 
   const FormFieldsCard({
-    Key? key,
     required this.source,
     required this.onSourceChanged,
     required this.amountCtrl,
     required this.pickedDate,
     required this.onPickDate,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +27,21 @@ class FormFieldsCard extends StatelessWidget {
         child: Column(
           children: [
             DropdownButtonFormField<String>(
-              value: source,
+              initialValue: source,
               decoration: buildInputDecoration('Sumber Pemasukan'),
               items: const [
-                DropdownMenuItem(value: 'bantuan', child: Text('Bantuan / Hibah')),
-                DropdownMenuItem(value: 'donasi', child: Text('Donasi Kegiatan')),
-                DropdownMenuItem(value: 'lainnya', child: Text('Pendapatan Lain')),
+                DropdownMenuItem(
+                  value: 'bantuan',
+                  child: Text('Bantuan / Hibah'),
+                ),
+                DropdownMenuItem(
+                  value: 'donasi',
+                  child: Text('Donasi Kegiatan'),
+                ),
+                DropdownMenuItem(
+                  value: 'lainnya',
+                  child: Text('Pendapatan Lain'),
+                ),
               ],
               onChanged: onSourceChanged,
               validator: (v) => v == null ? 'Pilih sumber pemasukan' : null,
@@ -46,7 +55,9 @@ class FormFieldsCard extends StatelessWidget {
               validator: (v) {
                 if (v == null || v.isEmpty) return 'Masukkan nominal';
                 final parsed = int.tryParse(v.replaceAll(',', ''));
-                if (parsed == null || parsed <= 0) return 'Masukkan angka yang valid';
+                if (parsed == null || parsed <= 0) {
+                  return 'Masukkan angka yang valid';
+                }
                 return null;
               },
             ),
@@ -56,7 +67,9 @@ class FormFieldsCard extends StatelessWidget {
               child: InputDecorator(
                 decoration: buildInputDecoration('Tanggal'),
                 child: Text(
-                  pickedDate == null ? 'Pilih tanggal' : '${pickedDate!.day}/${pickedDate!.month}/${pickedDate!.year}',
+                  pickedDate == null
+                      ? 'Pilih tanggal'
+                      : '${pickedDate!.day}/${pickedDate!.month}/${pickedDate!.year}',
                 ),
               ),
             ),
