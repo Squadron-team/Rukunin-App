@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/pages/treasurer/pemasukan/pemasukan_screen.dart';
+import 'package:rukunin/pages/treasurer/pengeluaran/pengeluaran_screen.dart';
 
 class QuickActionsGrid extends StatelessWidget {
   const QuickActionsGrid({super.key});
@@ -29,6 +30,11 @@ class QuickActionsGrid extends StatelessWidget {
           icon: Icons.remove_circle_outline,
           label: 'Catat Pengeluaran',
           color: AppColors.primary,
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const PengeluaranScreen()),
+            );
+          },
         ),
         QuickAccessItem(
           icon: Icons.receipt_long,

@@ -4,37 +4,36 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:rukunin/style/app_colors.dart';
-import 'manual_review_page.dart';
-import 'widgets/proof_area.dart';
-import 'widgets/detection_result_sheet.dart';
-import 'widgets/pemasukan_header.dart';
+import '../pemasukan/manual_review_page.dart' as pemasukan_review;
+import '../pemasukan/widgets/proof_area.dart' as pemasukan_widgets;
+import '../pemasukan/widgets/detection_result_sheet.dart' as pemasukan_widgets2;
+import '../pemasukan/widgets/camera_capture.dart' as pemasukan_camera;
+import 'widgets/pengeluaran_header.dart';
 import 'widgets/form_fields_card.dart';
 import 'widgets/notes_card.dart';
 import 'widgets/submit_button.dart';
-import 'widgets/camera_capture.dart';
 
 enum ProofMode { photo, manual }
 
 enum DetectionState { success, warning, error }
 
-class PemasukanForm extends StatefulWidget {
-  const PemasukanForm({super.key});
+class PengeluaranForm extends StatefulWidget {
+  const PengeluaranForm({super.key});
 
   @override
-  State<PemasukanForm> createState() => _PemasukanFormState();
+  State<PengeluaranForm> createState() => _PengeluaranFormState();
 }
 
-class _PemasukanFormState extends State<PemasukanForm> {
+class _PengeluaranFormState extends State<PengeluaranForm> {
   final _formKey = GlobalKey<FormState>();
   final _amountCtrl = TextEditingController();
   final _notesCtrl = TextEditingController();
-  String? _source;
+  String? _category;
   DateTime? _pickedDate;
   ProofMode _proofMode = ProofMode.photo;
   final ImagePicker _picker = ImagePicker();
 
   Uint8List? _pickedBytes;
-  // fractional rects (left, top, width, height) used to draw detection boxes
   List<List<double>> _detections = [];
   bool _detectionRan = false;
   DetectionState? _detectionState;
@@ -68,9 +67,7 @@ class _PemasukanFormState extends State<PemasukanForm> {
       if (file == null) return;
       final bytes = await file.readAsBytes();
       if (bytes.length > 5 * 1024 * 1024) {
-        if (mounted) {
-          _showAppSnack('Ukuran file maksimal 5MB');
-        }
+        if (mounted) _showAppSnack('Ukuran file maksimal 5MB');
         return;
       }
       setState(() {
@@ -80,24 +77,22 @@ class _PemasukanFormState extends State<PemasukanForm> {
       });
     } catch (e) {
       debugPrint('Error picking image: $e');
-      if (mounted) {
-        _showAppSnack('Gagal memilih gambar: $e');
-      }
+      if (mounted) _showAppSnack('Gagal memilih gambar: $e');
     }
   }
 
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
     if (_proofMode == ProofMode.photo && _pickedBytes == null) {
-      _showAppSnack('Unggah bukti transfer terlebih dahulu');
+      _showAppSnack('Unggah bukti pengeluaran terlebih dahulu');
       return;
     }
-    _showAppSnack('Catatan pemasukan disimpan');
+    _showAppSnack('Catatan pengeluaran disimpan');
     Navigator.of(context).pop();
   }
 
   Widget _buildProofArea() {
-    return ProofArea(
+    return pemasukan_widgets.ProofArea(
       isPhotoMode: _proofMode == ProofMode.photo,
       pickedBytes: _pickedBytes,
       detectionRan: _detectionRan,
@@ -111,22 +106,23 @@ class _PemasukanFormState extends State<PemasukanForm> {
 
   Future<void> _openCameraCapture() async {
     try {
-      final Uint8List? bytes = await Navigator.of(context).push<Uint8List?>(
-        MaterialPageRoute(builder: (ctx) => const CameraCapturePage()),
+      final bytes = await Navigator.of(context).push<Uint8List?>(
+        MaterialPageRoute(builder: (ctx) => const pemasukan_camera.CameraCapturePage()),
       );
-      if (bytes == null) return;
-      if (bytes.length > 5 * 1024 * 1024) {
-        if (mounted) _showAppSnack('Ukuran file maksimal 5MB');
-        return;
+      if (bytes != null) {
+        if (bytes.length > 5 * 1024 * 1024) {
+          _showAppSnack('Ukuran file maksimal 5MB');
+          return;
+        }
+        setState(() {
+          _pickedBytes = bytes;
+          _detections = [];
+          _detectionRan = false;
+        });
       }
-      setState(() {
-        _pickedBytes = bytes;
-        _detections = [];
-        _detectionRan = false;
-      });
     } catch (e) {
-      debugPrint('Error capturing camera image: $e');
-      if (mounted) _showAppSnack('Gagal mengambil gambar: $e');
+      debugPrint('Camera capture error: $e');
+      if (mounted) _showAppSnack('Gagal membuka kamera');
     }
   }
 
@@ -135,7 +131,6 @@ class _PemasukanFormState extends State<PemasukanForm> {
       if (mounted) _showAppSnack('Pilih foto terlebih dahulu');
       return;
     }
-    // simulate detection 
     setState(() {
       _detections = [];
       _detectionRan = false;
@@ -143,7 +138,6 @@ class _PemasukanFormState extends State<PemasukanForm> {
     });
     await Future.delayed(const Duration(milliseconds: 600));
     if (!mounted) return;
-    // low-size => unreadable
     if (_pickedBytes!.lengthInBytes < 20 * 1024) {
       setState(() {
         _detectionState = DetectionState.error;
@@ -155,18 +149,14 @@ class _PemasukanFormState extends State<PemasukanForm> {
     }
     final r = Random().nextDouble();
     if (r < 0.7) {
-      // success
       setState(() {
         _detectionState = DetectionState.success;
         _detections = [
           [0.08, 0.12, 0.5, 0.12],
-          [0.1, 0.35, 0.35, 0.08],
-          [0.6, 0.6, 0.32, 0.18],
         ];
         _detectionRan = true;
       });
     } else if (r < 0.9) {
-      // warning
       setState(() {
         _detectionState = DetectionState.warning;
         _detections = [
@@ -175,7 +165,6 @@ class _PemasukanFormState extends State<PemasukanForm> {
         _detectionRan = true;
       });
     } else {
-      // error
       setState(() {
         _detectionState = DetectionState.error;
         _detections = [];
@@ -203,17 +192,16 @@ class _PemasukanFormState extends State<PemasukanForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const PemasukanHeader(),
+          const PengeluaranHeader(),
           FormFieldsCard(
-            source: _source,
-            onSourceChanged: (v) => setState(() => _source = v),
+            category: _category,
+            onCategoryChanged: (v) => setState(() => _category = v),
             amountCtrl: _amountCtrl,
             pickedDate: _pickedDate,
             onPickDate: _pickDate,
           ),
 
           const SizedBox(height: 12),
-          // Proof options
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -237,13 +225,10 @@ class _PemasukanFormState extends State<PemasukanForm> {
                 onChanged: (v) => setState(() => _proofMode = v!),
               ),
               const SizedBox(height: 8),
-              // detailed area
               _buildProofArea(),
             ],
           ),
 
-          const SizedBox(height: 12),
-          // Notes
           const SizedBox(height: 12),
           NotesCard(notesCtrl: _notesCtrl),
           const SizedBox(height: 16),
@@ -268,7 +253,7 @@ class _PemasukanFormState extends State<PemasukanForm> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
       ),
       builder: (context) {
-        return DetectionResultSheet(
+        return pemasukan_widgets2.DetectionResultSheet(
           state: stateStr,
           imageBytes: _pickedBytes,
           onAccept: () {
@@ -278,19 +263,19 @@ class _PemasukanFormState extends State<PemasukanForm> {
           onManualReview: () async {
             Navigator.of(context).pop();
             if (_pickedBytes == null) return;
-            final result = await Navigator.of(context).push<ManualReviewResult>(
-              MaterialPageRoute(builder: (ctx) => ManualReviewPage(imageBytes: _pickedBytes!)),
+            final result = await Navigator.of(context).push<pemasukan_review.ManualReviewResult>(
+              MaterialPageRoute(builder: (ctx) => pemasukan_review.ManualReviewPage(imageBytes: _pickedBytes!)),
             );
-            if (result == ManualReviewResult.accept) {
+            if (result == pemasukan_review.ManualReviewResult.accept) {
               _submit();
-            } else if (result == ManualReviewResult.reject) {
+            } else if (result == pemasukan_review.ManualReviewResult.reject) {
               setState(() {
                 _pickedBytes = null;
                 _detections = [];
                 _detectionRan = false;
                 _detectionState = null;
               });
-              _showAppSnack('Pemasukan ditolak');
+              _showAppSnack('Pengeluaran ditolak');
             }
           },
           onReject: () {
@@ -301,7 +286,7 @@ class _PemasukanFormState extends State<PemasukanForm> {
               _detectionState = null;
             });
             Navigator.of(context).pop();
-            _showAppSnack('Pemasukan ditolak');
+            _showAppSnack('Pengeluaran ditolak');
           },
           onReupload: () {
             Navigator.of(context).pop();
