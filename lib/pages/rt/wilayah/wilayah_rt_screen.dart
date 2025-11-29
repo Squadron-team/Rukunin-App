@@ -4,7 +4,7 @@ import 'package:rukunin/models/street.dart';
 import 'package:rukunin/repositories/streets.dart' as repo;
 import 'package:rukunin/pages/rt/wilayah/wilayah_add_screen.dart';
 import 'package:rukunin/pages/rt/wilayah/wilayah_detail_screen.dart';
-import 'widgets/resident_helper.dart' as rh;
+import 'package:rukunin/pages/rt/wilayah/widgets/resident_helper.dart' as rh;
 import 'package:rukunin/pages/rt/wilayah/widgets/street_list.dart';
 import 'package:rukunin/pages/rt/wilayah/widgets/confirm_dialogs.dart';
 
@@ -25,6 +25,7 @@ class _WilayahRtScreenState extends State<WilayahRtScreen> {
     _items = List<Street>.from(repo.streets);
     _prepareResidents();
   }
+
   void _prepareResidents() {
     residents = rh.generateAssignedResidents(_items, count: 60);
   }

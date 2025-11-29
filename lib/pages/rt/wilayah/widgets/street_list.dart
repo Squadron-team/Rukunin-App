@@ -48,10 +48,7 @@ class StreetList extends StatelessWidget {
               children: [
                 Icon(Icons.delete, color: Colors.white),
                 SizedBox(width: 8),
-                Text(
-                  'Hapus',
-                  style: TextStyle(color: Colors.white),
-                ),
+                Text('Hapus', style: TextStyle(color: Colors.white)),
               ],
             ),
           ),

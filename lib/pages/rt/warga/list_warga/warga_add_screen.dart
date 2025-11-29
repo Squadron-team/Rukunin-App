@@ -209,15 +209,18 @@ class _WargaAddScreenState extends State<WargaAddScreen> {
                             ),
                             const SizedBox(height: 12),
                             DropdownButtonFormField<String>(
-                              value: gender,
+                              initialValue: gender,
                               decoration: _dec('Jenis Kelamin'),
                               items: ['Laki-laki', 'Perempuan']
-                                  .map((g) => DropdownMenuItem(
-                                        value: g,
-                                        child: Text(g),
-                                      ))
+                                  .map(
+                                    (g) => DropdownMenuItem(
+                                      value: g,
+                                      child: Text(g),
+                                    ),
+                                  )
                                   .toList(),
-                              onChanged: (v) => setState(() => gender = v ?? 'Laki-laki'),
+                              onChanged: (v) =>
+                                  setState(() => gender = v ?? 'Laki-laki'),
                               validator: (v) => (v == null || v.isEmpty)
                                   ? 'Pilih jenis kelamin'
                                   : null,

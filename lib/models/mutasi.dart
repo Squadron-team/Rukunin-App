@@ -15,10 +15,10 @@ class Mutasi {
     required this.keluargaId,
     required this.keluargaName,
     required this.rumahLama,
-    this.rumahBaru,
     required this.alasan,
     required this.tanggalMutasi,
     required this.createdAt,
+    this.rumahBaru,
   });
 
   @override

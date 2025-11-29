@@ -20,7 +20,8 @@ class HouseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final houseStatus = (residents.isEmpty && (addedHouse.id.isEmpty || !addedHouse.isOccupied))
+    final houseStatus =
+        (residents.isEmpty && (addedHouse.id.isEmpty || !addedHouse.isOccupied))
         ? 'Kosong'
         : 'Berpenghuni';
     final totalMembers = residents.length;
@@ -29,18 +30,14 @@ class HouseTile extends StatelessWidget {
       hoverColor: AppColors.primary.withOpacity(0.06),
       title: Text(
         'No. $houseNo',
-        style: const TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 16,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
       ),
       subtitle: Text(
-        houseStatus == 'Kosong' ? 'Kosong' : 'Berpenghuni — $totalMembers warga',
+        houseStatus == 'Kosong'
+            ? 'Kosong'
+            : 'Berpenghuni — $totalMembers warga',
       ),
-      trailing: const Icon(
-        Icons.chevron_right,
-        color: AppColors.primary,
-      ),
+      trailing: const Icon(Icons.chevron_right, color: AppColors.primary),
       onTap: () => _showFamiliesDialog(context),
     );
   }
@@ -61,12 +58,7 @@ class HouseTile extends StatelessWidget {
         lastDigit = int.tryParse(digits[digits.length - 1]) ?? 0;
       }
       final status = (lastDigit % 2 == 0) ? 'tetap' : 'kontrak';
-      return {
-        'kk': e.key,
-        'head': head,
-        'members': members,
-        'status': status,
-      };
+      return {'kk': e.key, 'head': head, 'members': members, 'status': status};
     }).toList();
 
     showDialog(
@@ -80,12 +72,19 @@ class HouseTile extends StatelessWidget {
         final desiredHeight = baseHeight + (families.length * perFamily);
         final dialogMaxHeight = desiredHeight.clamp(140.0, maxHeight);
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: dialogWidth, maxHeight: dialogMaxHeight),
+            constraints: BoxConstraints(
+              maxWidth: dialogWidth,
+              maxHeight: dialogMaxHeight,
+            ),
             child: Material(
               color: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -93,7 +92,10 @@ class HouseTile extends StatelessWidget {
                   children: [
                     Text(
                       'Rumah No. $houseNo',
-                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Expanded(
@@ -101,42 +103,73 @@ class HouseTile extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (families.isEmpty) const Text('Belum ada keluarga terdaftar di rumah ini.'),
+                            if (families.isEmpty)
+                              const Text(
+                                'Belum ada keluarga terdaftar di rumah ini.',
+                              ),
                             if (families.isNotEmpty)
                               ...families.map((f) {
                                 final Warga head = f['head'] as Warga;
                                 final kk = f['kk'] as String;
-                                final members = List<Warga>.from(f['members'] as List);
+                                final members = List<Warga>.from(
+                                  f['members'] as List,
+                                );
                                 final status = f['status'] as String;
-                                final statusColor = status == 'tetap' ? Colors.green : Colors.orange;
+                                final statusColor = status == 'tetap'
+                                    ? Colors.green
+                                    : Colors.orange;
                                 return ListTile(
-                                  hoverColor: AppColors.primary.withOpacity(0.06),
+                                  hoverColor: AppColors.primary.withOpacity(
+                                    0.06,
+                                  ),
                                   leading: const CircleAvatar(
                                     radius: 20,
                                     backgroundColor: Colors.white,
-                                    child: Icon(Icons.family_restroom, color: AppColors.primary, size: 20),
+                                    child: Icon(
+                                      Icons.family_restroom,
+                                      color: AppColors.primary,
+                                      size: 20,
+                                    ),
                                   ),
-                                  title: Text('Keluarga ${head.name}', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
-                                  subtitle: Text('KK: $kk • ${members.length} anggota'),
+                                  title: Text(
+                                    'Keluarga ${head.name}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    'KK: $kk • ${members.length} anggota',
+                                  ),
                                   trailing: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 6,
+                                    ),
                                     decoration: BoxDecoration(
                                       color: statusColor.withOpacity(0.12),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
-                                    child: Text(status == 'tetap' ? 'Tetap' : 'Kontrak', style: TextStyle(color: statusColor, fontWeight: FontWeight.w700)),
+                                    child: Text(
+                                      status == 'tetap' ? 'Tetap' : 'Kontrak',
+                                      style: TextStyle(
+                                        color: statusColor,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                   ),
                                   onTap: () {
                                     Navigator.pop(dialogContext);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) => DataKeluargaScreen.fromFamily(
-                                          members: members,
-                                          kkNumber: kk,
-                                          head: head.name,
-                                          status: status,
-                                        ),
+                                        builder: (_) =>
+                                            DataKeluargaScreen.fromFamily(
+                                              members: members,
+                                              kkNumber: kk,
+                                              head: head.name,
+                                              status: status,
+                                            ),
                                       ),
                                     );
                                   },
@@ -152,12 +185,20 @@ class HouseTile extends StatelessWidget {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 16,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                           elevation: 0,
                         ),
                         onPressed: () => Navigator.pop(dialogContext),
-                        child: const Text('Tutup', style: TextStyle(color: Colors.white)),
+                        child: const Text(
+                          'Tutup',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ],

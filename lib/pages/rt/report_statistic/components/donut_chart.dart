@@ -28,7 +28,13 @@ class DonutChartPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = stroke
         ..strokeCap = StrokeCap.butt;
-      canvas.drawArc(Rect.fromCircle(center: center, radius: radius - stroke / 2), start, sweep, false, paint);
+      canvas.drawArc(
+        Rect.fromCircle(center: center, radius: radius - stroke / 2),
+        start,
+        sweep,
+        false,
+        paint,
+      );
       start += sweep;
     }
 
@@ -40,10 +46,27 @@ class DonutChartPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-Widget legendItem({required String label, required String value, required Color color}) {
-  return Row(mainAxisSize: MainAxisSize.min, children: [
-    Container(width: 10, height: 10, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(4))),
-    const SizedBox(width: 8),
-    Text('$label ($value)', style: const TextStyle(fontWeight: FontWeight.w600)),
-  ]);
+Widget legendItem({
+  required String label,
+  required String value,
+  required Color color,
+}) {
+  return Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Container(
+        width: 10,
+        height: 10,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
+      const SizedBox(width: 8),
+      Text(
+        '$label ($value)',
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+    ],
+  );
 }

@@ -26,7 +26,9 @@ class _MutasiListScreenState extends State<MutasiListScreen> {
       final jenis = (i % 3 == 0) ? 'Keluar' : 'Pindah Rumah';
       final keluargaName = 'Keluarga Warga ${i + 1}';
       final rumahLama = 'Jalan Mawar No. ${10 + i}';
-      final rumahBaru = jenis == 'Pindah Rumah' ? 'Jalan Melati No. ${20 + i}' : null;
+      final rumahBaru = jenis == 'Pindah Rumah'
+          ? 'Jalan Melati No. ${20 + i}'
+          : null;
       return Mutasi(
         id: 'mutasi_${i + 1}',
         jenis: jenis,
@@ -96,13 +98,20 @@ class _MutasiListScreenState extends State<MutasiListScreen> {
                 final m = list[index];
                 return Card(
                   color: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     leading: CircleAvatar(
                       backgroundColor: Colors.white,
                       child: Icon(
-                        m.jenis == 'Keluar' ? Icons.exit_to_app : Icons.home_work,
+                        m.jenis == 'Keluar'
+                            ? Icons.exit_to_app
+                            : Icons.home_work,
                         color: AppColors.primary,
                       ),
                     ),
@@ -118,14 +127,20 @@ class _MutasiListScreenState extends State<MutasiListScreen> {
                         const SizedBox(height: 4),
                         Text(
                           'Tanggal: ${DateFormat('yyyy-MM-dd').format(m.tanggalMutasi)}',
-                          style: TextStyle(color: Colors.grey[700], fontSize: 12),
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontSize: 12,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           m.jenis == 'Keluar'
                               ? 'Rumah lama: ${m.rumahLama}'
                               : 'Dari: ${m.rumahLama} → Ke: ${m.rumahBaru ?? '-'}',
-                          style: TextStyle(color: Colors.grey[700], fontSize: 12),
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                     ),
@@ -152,7 +167,9 @@ class _MutasiListScreenState extends State<MutasiListScreen> {
                   content: const Text('Mutasi berhasil dicatat'),
                   backgroundColor: AppColors.primary,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               );
             }

@@ -15,9 +15,9 @@ class Meeting {
     required this.dateTime,
     required this.location,
     required this.description,
+    required this.createdAt,
     this.attendeesCount = 0,
     this.isAttending = false,
     this.attendingRTs = const [],
-    required this.createdAt,
   });
 }

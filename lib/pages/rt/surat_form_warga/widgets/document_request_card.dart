@@ -24,13 +24,12 @@ class DocumentRequestCard extends StatelessWidget {
       return '${diff.inDays} hari yang lalu';
     }
 
-
     final dateLabel = relativeTime(request.createdAt.toLocal());
 
     Color statusColor(String s) {
       if (s == 'ditolak') return Colors.red;
       if (s == 'diterima') return Colors.green;
-      return Colors.orange; 
+      return Colors.orange;
     }
 
     final sColor = statusColor(request.status);

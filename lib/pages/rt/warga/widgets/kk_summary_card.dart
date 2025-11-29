@@ -87,10 +87,10 @@ class KkSummaryCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              Expanded(
+              const Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'Kartu Keluarga',
                       style: TextStyle(
@@ -111,7 +111,11 @@ class KkSummaryCard extends StatelessWidget {
           const SizedBox(height: 20),
           const Divider(height: 1),
           const SizedBox(height: 16),
-          InfoRow(label: 'No. Kartu Keluarga', value: kkNumber, isHighlight: true),
+          InfoRow(
+            label: 'No. Kartu Keluarga',
+            value: kkNumber,
+            isHighlight: true,
+          ),
           const SizedBox(height: 12),
           InfoRow(label: 'Kepala Keluarga', value: headOfFamily),
           const SizedBox(height: 12),

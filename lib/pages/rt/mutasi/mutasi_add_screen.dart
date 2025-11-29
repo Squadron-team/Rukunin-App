@@ -116,12 +116,16 @@ class _MutasiAddScreenState extends State<MutasiAddScreen> {
                     child: Column(
                       children: [
                         DropdownButtonFormField<String>(
-                          value: jenis,
+                          initialValue: jenis,
                           decoration: _dec('Jenis Mutasi'),
                           items: ['Pindah Rumah', 'Keluar']
-                              .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                              .map(
+                                (e) =>
+                                    DropdownMenuItem(value: e, child: Text(e)),
+                              )
                               .toList(),
-                          onChanged: (v) => setState(() => jenis = v ?? 'Pindah Rumah'),
+                          onChanged: (v) =>
+                              setState(() => jenis = v ?? 'Pindah Rumah'),
                         ),
 
                         const SizedBox(height: 12),
@@ -132,11 +136,17 @@ class _MutasiAddScreenState extends State<MutasiAddScreen> {
                           child: AbsorbPointer(
                             child: TextFormField(
                               decoration: _dec('Keluarga').copyWith(
-                                hintText: keluargaName.isEmpty ? 'Pilih keluarga' : null,
+                                hintText: keluargaName.isEmpty
+                                    ? 'Pilih keluarga'
+                                    : null,
                                 suffixIcon: const Icon(Icons.search),
                               ),
-                              controller: TextEditingController(text: keluargaName),
-                              validator: (v) => (keluargaId == null) ? 'Pilih keluarga' : null,
+                              controller: TextEditingController(
+                                text: keluargaName,
+                              ),
+                              validator: (v) => (keluargaId == null)
+                                  ? 'Pilih keluarga'
+                                  : null,
                             ),
                           ),
                         ),
@@ -159,9 +169,11 @@ class _MutasiAddScreenState extends State<MutasiAddScreen> {
                               AddressPicker(
                                 streets: _streets,
                                 selectedStreet: _selectedStreet,
-                                onStreetChanged: (v) => setState(() => _selectedStreet = v),
+                                onStreetChanged: (v) =>
+                                    setState(() => _selectedStreet = v),
                                 selectedHouseNo: _selectedHouseNo,
-                                onHouseChanged: (v) => setState(() => _selectedHouseNo = v),
+                                onHouseChanged: (v) =>
+                                    setState(() => _selectedHouseNo = v),
                               ),
                               const SizedBox(height: 12),
                             ],
@@ -171,7 +183,9 @@ class _MutasiAddScreenState extends State<MutasiAddScreen> {
                           controller: alasanC,
                           decoration: _dec('Alasan Mutasi'),
                           maxLines: 3,
-                          validator: (v) => (v == null || v.trim().isEmpty) ? 'Isi alasan mutasi' : null,
+                          validator: (v) => (v == null || v.trim().isEmpty)
+                              ? 'Isi alasan mutasi'
+                              : null,
                         ),
 
                         const SizedBox(height: 12),
@@ -184,9 +198,15 @@ class _MutasiAddScreenState extends State<MutasiAddScreen> {
                               controller: TextEditingController(
                                 text: tanggalMutasi == null
                                     ? ''
-                                    : tanggalMutasi!.toLocal().toString().split(' ').first,
+                                    : tanggalMutasi!
+                                          .toLocal()
+                                          .toString()
+                                          .split(' ')
+                                          .first,
                               ),
-                              validator: (v) => (tanggalMutasi == null) ? 'Pilih tanggal mutasi' : null,
+                              validator: (v) => (tanggalMutasi == null)
+                                  ? 'Pilih tanggal mutasi'
+                                  : null,
                             ),
                           ),
                         ),
@@ -201,7 +221,10 @@ class _MutasiAddScreenState extends State<MutasiAddScreen> {
                     onSave: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         final streetName = _selectedStreet?.name ?? '';
-                        final rumahBaru = (jenis == 'Pindah Rumah' && streetName.isNotEmpty && _selectedHouseNo != null)
+                        final rumahBaru =
+                            (jenis == 'Pindah Rumah' &&
+                                streetName.isNotEmpty &&
+                                _selectedHouseNo != null)
                             ? '$streetName No. ${_selectedHouseNo!}'
                             : null;
 
@@ -246,7 +269,7 @@ class _FamilyPickerSheetState extends State<_FamilyPickerSheet> {
       return {
         'id': 'fam_${i + 1}',
         'name': 'Keluarga Warga ${i + 1}',
-        'house': 'Jalan Bunga No. ${10 + i}'
+        'house': 'Jalan Bunga No. ${10 + i}',
       };
     });
   }
@@ -255,7 +278,11 @@ class _FamilyPickerSheetState extends State<_FamilyPickerSheet> {
   Widget build(BuildContext context) {
     final filtered = q.text.isEmpty
         ? _items
-        : _items.where((e) => e['name']!.toLowerCase().contains(q.text.toLowerCase())).toList();
+        : _items
+              .where(
+                (e) => e['name']!.toLowerCase().contains(q.text.toLowerCase()),
+              )
+              .toList();
     return SafeArea(
       child: Padding(
         padding: MediaQuery.of(context).viewInsets,
@@ -283,10 +310,11 @@ class _FamilyPickerSheetState extends State<_FamilyPickerSheet> {
                   Expanded(
                     child: TextField(
                       controller: q,
-                      decoration: buildInputDecoration('Cari keluarga').copyWith(
-                        prefixIcon: const Icon(Icons.search),
-                        hintText: 'Cari keluarga...',
-                      ),
+                      decoration: buildInputDecoration('Cari keluarga')
+                          .copyWith(
+                            prefixIcon: const Icon(Icons.search),
+                            hintText: 'Cari keluarga...',
+                          ),
                       onChanged: (_) => setState(() {}),
                     ),
                   ),
@@ -294,14 +322,16 @@ class _FamilyPickerSheetState extends State<_FamilyPickerSheet> {
                     icon: const Icon(Icons.close),
                     onPressed: () => Navigator.pop(context),
                     tooltip: 'Tutup',
-                  )
+                  ),
                 ],
               ),
               const SizedBox(height: 8),
               Expanded(
                 child: Card(
                   color: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: ListView.separated(
