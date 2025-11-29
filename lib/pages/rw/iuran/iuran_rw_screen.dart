@@ -37,15 +37,25 @@ class _IuranRwScreenState extends State<IuranRwScreen> {
     int belumBayar = totalWarga - sudahBayar;
 
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text('Status Iuran RW'),
+        title: const Text(
+          'Status Iuran RW',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
-
-            // 🔎 SEARCH FIELD
             TextField(
               onChanged: (value) {
                 setState(() => searchQuery = value);
@@ -53,7 +63,10 @@ class _IuranRwScreenState extends State<IuranRwScreen> {
               decoration: InputDecoration(
                 hintText: 'Cari nama atau NIK...',
                 prefixIcon: const Icon(Icons.search),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 14,
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),

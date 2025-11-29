@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/models/event.dart';
+import 'package:rukunin/pages/rt/events/models/event.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/pages/rt/events/widgets/event_form.dart';
 
@@ -21,11 +21,28 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Row(children: [
-          Container(width: 4, height: 24, decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(2))),
-          const SizedBox(width: 12),
-          Text(isEdit ? 'Edit Kegiatan RT' : 'Buat Kegiatan RT', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20, letterSpacing: -0.5)),
-        ]),
+        title: Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              isEdit ? 'Edit Kegiatan RT' : 'Buat Kegiatan RT',
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+                letterSpacing: -0.5,
+              ),
+            ),
+          ],
+        ),
         leading: const BackButton(color: Colors.black),
       ),
       backgroundColor: Colors.grey[50],
@@ -37,9 +54,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Lengkapi detail kegiatan', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                const Text(
+                  'Lengkapi detail kegiatan',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                ),
                 const SizedBox(height: 8),
-                Text('Isi form di bawah untuk membuat kegiatan RT', style: TextStyle(color: Colors.grey[700])),
+                Text(
+                  'Isi form di bawah untuk membuat kegiatan RT',
+                  style: TextStyle(color: Colors.grey[700]),
+                ),
                 const SizedBox(height: 16),
 
                 // Use shared EventForm widget

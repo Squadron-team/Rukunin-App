@@ -6,6 +6,7 @@ import 'package:rukunin/pages/rt/components/welcome_card.dart';
 import 'package:rukunin/pages/rt/components/financial_summary.dart';
 import 'package:rukunin/pages/rt/components/quick_actions.dart';
 import 'package:rukunin/pages/rt/components/pending_tasks.dart';
+import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 
 class RtHomeScreen extends StatelessWidget {
   const RtHomeScreen({super.key});
@@ -31,15 +32,10 @@ class RtHomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.notifications_outlined, color: Colors.black),
             onPressed: () {
-              // TODO: Navigate to notifications
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Fitur notifikasi akan segera tersedia'),
-                  backgroundColor: Colors.orange,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
                 ),
               );
             },
@@ -119,51 +115,6 @@ class RtHomeScreen extends StatelessWidget {
 
               SizedBox(height: 32),
 
-              // Resident Summary by Street/Gang
-              Text(
-                'Wilayah RT 03',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
-              SizedBox(height: 16),
-
-              StreetCard(
-                streetName: 'Gang Mawar',
-                totalHouses: 12,
-                paidDues: 11,
-                status: 'Sangat Baik',
-                statusColor: Colors.blue,
-              ),
-
-              StreetCard(
-                streetName: 'Gang Melati',
-                totalHouses: 15,
-                paidDues: 13,
-                status: 'Baik',
-                statusColor: Colors.green,
-              ),
-
-              StreetCard(
-                streetName: 'Gang Anggrek',
-                totalHouses: 10,
-                paidDues: 8,
-                status: 'Baik',
-                statusColor: Colors.green,
-              ),
-
-              StreetCard(
-                streetName: 'Gang Dahlia',
-                totalHouses: 8,
-                paidDues: 6,
-                status: 'Perlu Perhatian',
-                statusColor: Colors.orange,
-              ),
-
-              SizedBox(height: 32),
-
               Text(
                 'Menu RT',
                 style: TextStyle(
@@ -173,6 +124,7 @@ class RtHomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16),
+
               QuickActionsGrid(),
 
               SizedBox(height: 32),

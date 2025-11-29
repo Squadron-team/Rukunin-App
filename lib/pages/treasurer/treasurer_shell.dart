@@ -9,57 +9,30 @@ class TreasurerShell extends StatelessWidget {
 
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
-    if (location == '/secretary') return 0;
-    if (location == '/secretary/account') return 4;
+    if (location == '/treasurer') return 0;
+    if (location == '/treasurer/marketplace') return 1;
+    if (location == '/treasurer/activities') return 2;
+    if (location == '/treasurer/community') return 3;
+    if (location == '/treasurer/account') return 4;
     return 0;
   }
 
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.go('/secretary');
+        context.go('/treasurer');
         break;
       case 1:
-        // TODO: Navigate to marketplace when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu pasar belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/treasurer/marketplace');
         break;
       case 2:
-        // TODO: Navigate to events when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu kegiatan belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/treasurer/activities');
         break;
       case 3:
-        // TODO: Navigate to finance when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu keuangan belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/treasurer/community');
         break;
       case 4:
-        context.go('/secretary/account');
+        context.go('/treasurer/account');
         break;
     }
   }
@@ -118,8 +91,8 @@ class TreasurerShell extends StatelessWidget {
                 Expanded(
                   child: _buildNavItem(
                     context,
-                    icon: Icons.attach_money,
-                    label: 'Keuangan',
+                    icon: Icons.groups,
+                    label: 'Komunitas',
                     index: 3,
                     isSelected: currentIndex == 3,
                   ),

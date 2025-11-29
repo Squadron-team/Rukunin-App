@@ -3,7 +3,12 @@ import 'package:rukunin/style/app_colors.dart';
 
 class StreetCard extends StatelessWidget {
   const StreetCard({
-    required this.streetName, required this.totalHouses, required this.paidDues, required this.status, required this.statusColor, super.key,
+    required this.streetName,
+    required this.totalHouses,
+    required this.paidDues,
+    required this.status,
+    required this.statusColor,
+    super.key,
   });
 
   final String streetName;
@@ -62,19 +67,13 @@ class StreetCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   '$totalHouses Rumah • $paidDues/$totalHouses Bayar ($paymentPercentage%)',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                 ),
               ],
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 6,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: statusColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),

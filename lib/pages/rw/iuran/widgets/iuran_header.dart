@@ -6,12 +6,16 @@ class IuranHeader extends StatelessWidget {
   final int belumBayar;
 
   const IuranHeader({
-    required this.totalWarga, required this.sudahBayar, required this.belumBayar, super.key,
+    required this.totalWarga,
+    required this.sudahBayar,
+    required this.belumBayar,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       elevation: 2,
       margin: const EdgeInsets.only(bottom: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -45,7 +49,10 @@ class IuranHeader extends StatelessWidget {
         Text(
           value,
           style: const TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
         ),
         const SizedBox(height: 4),
         Text(title, style: const TextStyle(fontSize: 13)),

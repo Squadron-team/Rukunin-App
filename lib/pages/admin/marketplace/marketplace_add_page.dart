@@ -111,13 +111,21 @@ class _MarketplaceAddPageState extends State<MarketplaceAddPage> {
                               initialValue: category,
                               items: const [
                                 DropdownMenuItem(
-                                    value: 'Makanan', child: Text('Makanan')),
+                                  value: 'Makanan',
+                                  child: Text('Makanan'),
+                                ),
                                 DropdownMenuItem(
-                                    value: 'Minuman', child: Text('Minuman')),
+                                  value: 'Minuman',
+                                  child: Text('Minuman'),
+                                ),
                                 DropdownMenuItem(
-                                    value: 'Jasa', child: Text('Jasa')),
+                                  value: 'Jasa',
+                                  child: Text('Jasa'),
+                                ),
                                 DropdownMenuItem(
-                                    value: 'Lainnya', child: Text('Lainnya')),
+                                  value: 'Lainnya',
+                                  child: Text('Lainnya'),
+                                ),
                               ],
                               decoration: _dec('Kategori'),
                               onChanged: (v) {
@@ -287,8 +295,9 @@ class _MarketplaceAddPageState extends State<MarketplaceAddPage> {
                           Expanded(
                             child: OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
@@ -310,8 +319,9 @@ class _MarketplaceAddPageState extends State<MarketplaceAddPage> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
@@ -399,8 +409,7 @@ class _MarketplaceAddPageState extends State<MarketplaceAddPage> {
         borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(color: Colors.red, width: 2),
       ),
-      contentPadding:
-          const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
     );
   }
 }

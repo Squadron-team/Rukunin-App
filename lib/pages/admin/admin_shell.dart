@@ -11,6 +11,7 @@ class AdminShell extends StatelessWidget {
     final location = GoRouterState.of(context).matchedLocation;
     if (location == '/admin') return 0;
     if (location.startsWith('/admin/marketplace')) return 1;
+    if (location.startsWith('/admin/activities')) return 2;
     if (location == '/admin/account') return 4;
     return 0;
   }
@@ -24,17 +25,7 @@ class AdminShell extends StatelessWidget {
         context.go('/admin/marketplace');
         break;
       case 2:
-        // TODO: Navigate to events screen when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu Kegiatan belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/admin/activities');
         break;
       case 3:
         // TODO: Navigate to admin panel screen when available

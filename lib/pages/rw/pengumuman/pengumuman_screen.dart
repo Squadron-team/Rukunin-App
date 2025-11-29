@@ -28,8 +28,22 @@ class PengumumanScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pengumuman RW"),
+        title: const Text(
+          'Pengumuman RW',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
       ),
+
+      backgroundColor: Colors.grey[50],
+
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: data.length,

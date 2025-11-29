@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:rukunin/repositories/products.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/cards/category_chip.dart';
-import 'package:rukunin/widgets/cards/market_promo_card.dart';
+import 'package:rukunin/widgets/cards/promo_banner_card.dart';
 import 'package:rukunin/pages/admin/marketplace/widgets/admin_product_card.dart';
-import 'package:rukunin/pages/resident/marketplace/widgets/search_bar_market.dart';
+import 'package:rukunin/modules/marketplace/widgets/search_bar_market.dart';
 
 class AdminMarketplaceScreen extends StatefulWidget {
   const AdminMarketplaceScreen({super.key});
@@ -37,7 +37,10 @@ class _AdminMarketplaceScreenState extends State<AdminMarketplaceScreen> {
         surfaceTintColor: Colors.transparent,
         actions: [
           IconButton(
-            icon: const Icon(Icons.admin_panel_settings, color: AppColors.primary),
+            icon: const Icon(
+              Icons.admin_panel_settings,
+              color: AppColors.primary,
+            ),
             onPressed: () {
               _showModerationOptions(context);
             },
@@ -47,7 +50,7 @@ class _AdminMarketplaceScreenState extends State<AdminMarketplaceScreen> {
       body: Column(
         children: [
           const SearchBarMarket(),
-          
+
           // Status Filter Tabs
           Container(
             color: Colors.white,
@@ -68,7 +71,9 @@ class _AdminMarketplaceScreenState extends State<AdminMarketplaceScreen> {
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
-                        color: isSelected ? AppColors.primary : Colors.grey[200],
+                        color: isSelected
+                            ? AppColors.primary
+                            : Colors.grey[200],
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -291,16 +296,15 @@ class _AdminMarketplaceScreenState extends State<AdminMarketplaceScreen> {
           children: [
             const Text(
               'Opsi Moderasi',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 16),
             ListTile(
               leading: const Icon(Icons.pending_actions, color: Colors.orange),
               title: const Text('Lihat Produk Menunggu'),
-              subtitle: Text('${products.where((p) => !p.isActive).length} menunggu persetujuan'),
+              subtitle: Text(
+                '${products.where((p) => !p.isActive).length} menunggu persetujuan',
+              ),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
@@ -311,7 +315,9 @@ class _AdminMarketplaceScreenState extends State<AdminMarketplaceScreen> {
             ListTile(
               leading: const Icon(Icons.check_circle, color: Colors.green),
               title: const Text('Lihat Produk Disetujui'),
-              subtitle: Text('${products.where((p) => p.isActive).length} sudah disetujui'),
+              subtitle: Text(
+                '${products.where((p) => p.isActive).length} sudah disetujui',
+              ),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {

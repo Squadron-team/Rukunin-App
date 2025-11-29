@@ -53,6 +53,7 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
     ),
   ];
 
+  // FILTER LIST
   List<Surat> get _filteredSuratList {
     switch (_selectedFilter) {
       case 'Menunggu':
@@ -66,11 +67,13 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
     }
   }
 
+  // STATISTIK
   int get _total => _suratList.length;
   int get _menunggu => _suratList.where((s) => s.status == StatusSurat.menunggu).length;
   int get _disetujui => _suratList.where((s) => s.status == StatusSurat.disetujui).length;
   int get _ditolak => _suratList.where((s) => s.status == StatusSurat.ditolak).length;
 
+  // REFRESH
   Future<void> _onRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
     if (mounted) setState(() {});
@@ -80,21 +83,35 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Surat Menyurat'),
+        title: const Text(
+          'Surat Menyurat',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.search, color: Colors.black),
             onPressed: () {},
           ),
           IconButton(
-            icon: const Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list, color: Colors.black),
             onPressed: () {},
-          ),
+          )
         ],
       ),
+
+      backgroundColor: Colors.grey[50],
+
       body: Column(
         children: [
+          // --- BAGIAN HEADER STATISTIK ---
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),
@@ -118,6 +135,7 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
 
           const SizedBox(height: 16),
 
+          // FILTER
           FilterChips(
             selectedFilter: _selectedFilter,
             onFilterChanged: (filter) {
@@ -127,6 +145,7 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
 
           const SizedBox(height: 12),
 
+          // LIST SURAT
           Expanded(
             child: RefreshIndicator(
               onRefresh: _onRefresh,
@@ -157,6 +176,7 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
           ),
         ],
       ),
+
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
@@ -170,6 +190,7 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
     );
   }
 
+  // --- WIDGET EMPTY STATE ---
   Widget _buildEmptyState() {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -207,6 +228,7 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
     );
   }
 
+  // --- WIDGET STATISTIK ---
   Widget _buildStatCard(String label, String value, IconData icon, Color iconColor) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),

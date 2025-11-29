@@ -6,9 +6,9 @@ class ModerationProductCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const ModerationProductCard({
-    super.key,
     required this.product,
     required this.onTap,
+    super.key,
   });
 
   @override
@@ -72,7 +72,7 @@ class ModerationProductCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     'Rp ${product.price.toStringAsFixed(0)}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: AppColors.primary,
@@ -81,10 +81,7 @@ class ModerationProductCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     'Seller: ${product.seller}',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 8),
                   Container(
@@ -110,10 +107,7 @@ class ModerationProductCard extends StatelessWidget {
             ),
 
             // Chevron
-            Icon(
-              Icons.chevron_right,
-              color: Colors.grey[400],
-            ),
+            Icon(Icons.chevron_right, color: Colors.grey[400]),
           ],
         ),
       ),

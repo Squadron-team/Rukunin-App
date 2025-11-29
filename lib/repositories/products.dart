@@ -1,4 +1,4 @@
-import 'package:rukunin/models/product.dart';
+import 'package:rukunin/modules/marketplace/models/product.dart';
 
 List<Product> products = [
   Product(

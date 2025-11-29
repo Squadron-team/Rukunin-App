@@ -7,6 +7,7 @@ import 'package:rukunin/pages/rw/pengumuman/pengumuman_screen.dart';
 import 'package:rukunin/pages/rw/rapat/rapat_rw_screen.dart';
 import 'package:rukunin/pages/rw/surat/surat_menyurat_screen.dart';
 import 'package:rukunin/pages/rw/data_warga/data_warga_screen.dart';
+import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 
 class RwHomeScreen extends StatelessWidget {
   const RwHomeScreen({super.key});
@@ -35,15 +36,10 @@ class RwHomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.notifications_outlined, color: Colors.black),
             onPressed: () {
-              // TODO: Navigate to notifications
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Fitur notifikasi akan segera tersedia'),
-                  backgroundColor: Colors.orange,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
                 ),
               );
             },

@@ -9,7 +9,7 @@ class CategoryChip extends StatelessWidget {
   const CategoryChip({
     required this.label,
     required this.icon,
-    super.key, 
+    super.key,
     this.isSelected = false,
   });
 

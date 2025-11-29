@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
+import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 
 class ResidentHomeScreen extends StatelessWidget {
   const ResidentHomeScreen({super.key});
@@ -11,14 +12,14 @@ class ResidentHomeScreen extends StatelessWidget {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text(
-          'Selamat pagi, Pak Eko!',
+          'Beranda',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w800,
             color: Colors.black,
           ),
         ),
-        centerTitle: false,
+        centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
@@ -26,15 +27,10 @@ class ResidentHomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.notifications_outlined, color: Colors.black),
             onPressed: () {
-              // TODO: Navigate to notifications
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Fitur notifikasi akan segera tersedia'),
-                  backgroundColor: Colors.orange,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
                 ),
               );
             },

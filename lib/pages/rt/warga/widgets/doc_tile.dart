@@ -15,7 +15,10 @@ class DocTile extends StatelessWidget {
   final VoidCallbackNullable onRemove;
 
   const DocTile({
-    required this.title, required this.url, required this.onUpload, super.key,
+    required this.title,
+    required this.url,
+    required this.onUpload,
+    super.key,
     this.onView,
     this.height = 110,
     this.showUpload = true,
@@ -33,7 +36,7 @@ class DocTile extends StatelessWidget {
           height: height,
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.grey.withOpacity(0.2)),
             ),
@@ -49,8 +52,14 @@ class DocTile extends StatelessWidget {
                             url,
                             fit: BoxFit.contain,
                             errorBuilder: (c, e, s) => Container(
-                              color: Colors.grey[100],
-                              child: const Center(child: Icon(Icons.image_not_supported, size: 48, color: Colors.grey)),
+                              color: Colors.white,
+                              child: const Center(
+                                child: Icon(
+                                  Icons.image_not_supported,
+                                  size: 48,
+                                  color: Colors.grey,
+                                ),
+                              ),
                             ),
                           ),
                   ),
@@ -67,7 +76,11 @@ class DocTile extends StatelessWidget {
                           onTap: onRemove,
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
-                            child: Icon(Icons.close, size: 16, color: Colors.red[700]),
+                            child: Icon(
+                              Icons.close,
+                              size: 16,
+                              color: Colors.red[700],
+                            ),
                           ),
                         ),
                       ),
@@ -85,34 +98,57 @@ class DocTile extends StatelessWidget {
                 if (showViewButton)
                   OutlinedButton.icon(
                     style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                       minimumSize: const Size(0, 36),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       side: const BorderSide(color: AppColors.primary),
                     ),
                     onPressed: onUpload,
-                    icon: const Icon(Icons.upload_file, size: 18, color: AppColors.primary),
-                    label: const Text('Upload', style: TextStyle(color: AppColors.primary)),
+                    icon: const Icon(
+                      Icons.upload_file,
+                      size: 18,
+                      color: AppColors.primary,
+                    ),
+                    label: const Text(
+                      'Upload',
+                      style: TextStyle(color: AppColors.primary),
+                    ),
                   )
                 else
                   Expanded(
                     child: OutlinedButton.icon(
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 12,
+                        ),
                         minimumSize: const Size(0, 44),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         side: const BorderSide(color: AppColors.primary),
                       ),
                       onPressed: onUpload,
-                      icon: const Icon(Icons.upload_file, size: 18, color: AppColors.primary),
-                      label: const Text('Upload', style: TextStyle(color: AppColors.primary)),
+                      icon: const Icon(
+                        Icons.upload_file,
+                        size: 18,
+                        color: AppColors.primary,
+                      ),
+                      label: const Text(
+                        'Upload',
+                        style: TextStyle(color: AppColors.primary),
+                      ),
                     ),
                   ),
               if (showUpload && showViewButton) const SizedBox(width: 8),
               if (showViewButton)
                 TextButton.icon(
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 8,
+                    ),
                     minimumSize: const Size(0, 36),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     foregroundColor: AppColors.primary,

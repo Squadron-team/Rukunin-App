@@ -11,7 +11,7 @@ class RapatRwScreen extends StatefulWidget {
 }
 
 class _RapatRwScreenState extends State<RapatRwScreen> {
-  // DATA RAPAT (bisa ditambah & dihapus)
+  // DATA RAPAT
   List<Map<String, String>> rapatData = [
     {
       "judul": "Rapat Koordinasi Bulanan RW",
@@ -30,14 +30,14 @@ class _RapatRwScreenState extends State<RapatRwScreen> {
     },
   ];
 
-  // Fungsi menghapus
+  // HAPUS RAPAT
   void hapusRapat(int index) {
     setState(() {
       rapatData.removeAt(index);
     });
   }
 
-  // Fungsi menambah
+  // TAMBAH RAPAT
   void tambahRapat(Map<String, String> rapatBaru) {
     setState(() {
       rapatData.add(rapatBaru);
@@ -47,7 +47,23 @@ class _RapatRwScreenState extends State<RapatRwScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Rapat RW")),
+      appBar: AppBar(
+        title: const Text(
+          'Rapat RW',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
+
+      backgroundColor: Colors.grey[50],
+
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final result = await Navigator.push(
@@ -63,6 +79,7 @@ class _RapatRwScreenState extends State<RapatRwScreen> {
         },
         child: const Icon(Icons.add),
       ),
+
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: rapatData.length,
@@ -71,7 +88,7 @@ class _RapatRwScreenState extends State<RapatRwScreen> {
 
           return GestureDetector(
             onLongPress: () {
-              // Hapus dengan long press
+              // Dialog hapus
               showDialog(
                 context: context,
                 builder: (_) => AlertDialog(

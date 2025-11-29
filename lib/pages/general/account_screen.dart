@@ -5,6 +5,7 @@ import 'package:rukunin/services/user_cache_service.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/widgets/loading_indicator.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -294,7 +295,10 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return Scaffold(
+        backgroundColor: Colors.grey[50],
+        body: const Center(child: LoadingIndicator()),
+      );
     }
 
     return Scaffold(
@@ -529,10 +533,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           ? const SizedBox(
                               height: 20,
                               width: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
+                              child: LoadingIndicator(),
                             )
                           : const Text(
                               'Simpan Perubahan',
@@ -629,7 +630,8 @@ class _AccountScreenState extends State<AccountScreen> {
                         barrierDismissible: false,
                         builder: (context) => Dialog(
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24)),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
                           elevation: 0,
                           backgroundColor: Colors.transparent,
                           child: Container(
@@ -678,7 +680,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                 // Version
                                 Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 6),
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[100],
                                     borderRadius: BorderRadius.circular(20),
@@ -719,14 +723,19 @@ class _AccountScreenState extends State<AccountScreen> {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       gradient: const LinearGradient(
-                                        colors: [AppColors.primary, Color(0xFFFFBF3C)],
+                                        colors: [
+                                          AppColors.primary,
+                                          Color(0xFFFFBF3C),
+                                        ],
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
                                       ),
                                       borderRadius: BorderRadius.circular(12),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppColors.primary.withOpacity(0.3),
+                                          color: AppColors.primary.withOpacity(
+                                            0.3,
+                                          ),
                                           blurRadius: 8,
                                           offset: const Offset(0, 4),
                                         ),
@@ -738,9 +747,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                         onTap: () => Navigator.pop(context),
                                         borderRadius: BorderRadius.circular(12),
                                         child: Container(
-                                          padding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 14),
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 14,
+                                          ),
                                           alignment: Alignment.center,
                                           child: const Text(
                                             'Tutup',
@@ -982,149 +991,15 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  void _showAboutDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        child: Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // App Icon
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Icon(
-                  Icons.info_outline,
-                  color: AppColors.primary,
-                  size: 40,
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // App Name
-              const Text(
-                'Rukunin',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
-                ),
-              ),
-              const SizedBox(height: 8),
-
-              // Version
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  'Versi 1.0.0',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey[700],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Description
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.grey[50],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  'Aplikasi manajemen komunitas untuk memudahkan administrasi RT/RW.',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[700],
-                    height: 1.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Close Button
-              SizedBox(
-                width: double.infinity,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [AppColors.primary, Color(0xFFFFBF3C)],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primary.withOpacity(0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => Navigator.pop(context),
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        padding:
-                            const EdgeInsets.symmetric(vertical: 14),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          'Tutup',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
           elevation: 0,
           backgroundColor: Colors.transparent,
           child: Container(
@@ -1224,7 +1099,11 @@ class _AccountScreenState extends State<AccountScreen> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.logout_rounded, color: Colors.white, size: 18),
+                            Icon(
+                              Icons.logout_rounded,
+                              color: Colors.white,
+                              size: 18,
+                            ),
                             SizedBox(width: 8),
                             Text(
                               'Ya, Keluar',

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/models/event.dart';
+import 'package:rukunin/pages/rt/events/models/event.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/pages/rt/events/widgets/event_form.dart';
 
@@ -13,11 +13,28 @@ class EditEventScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Row(children: [
-          Container(width: 4, height: 24, decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(2))),
-          const SizedBox(width: 12),
-          const Text('Edit Kegiatan RT', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20, letterSpacing: -0.5)),
-        ]),
+        title: Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Edit Kegiatan RT',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+                letterSpacing: -0.5,
+              ),
+            ),
+          ],
+        ),
         leading: const BackButton(color: Colors.black),
       ),
       backgroundColor: Colors.grey[50],
@@ -29,9 +46,15 @@ class EditEventScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Ubah detail kegiatan', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                const Text(
+                  'Ubah detail kegiatan',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                ),
                 const SizedBox(height: 8),
-                Text('Perbarui informasi kegiatan sesuai kebutuhan', style: TextStyle(color: Colors.grey[700])),
+                Text(
+                  'Perbarui informasi kegiatan sesuai kebutuhan',
+                  style: TextStyle(color: Colors.grey[700]),
+                ),
                 const SizedBox(height: 16),
 
                 EventForm(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class AkunAdminListPage extends StatefulWidget {
   const AkunAdminListPage({super.key});
@@ -144,8 +145,10 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
 
   List<Map<String, dynamic>> get filteredAdmins {
     return admins.where((admin) {
-      final matchesRole = selectedRole == 'Semua' || admin['role'] == selectedRole;
-      final matchesSearch = admin['name'].toLowerCase().contains(searchQuery.toLowerCase()) ||
+      final matchesRole =
+          selectedRole == 'Semua' || admin['role'] == selectedRole;
+      final matchesSearch =
+          admin['name'].toLowerCase().contains(searchQuery.toLowerCase()) ||
           admin['email'].toLowerCase().contains(searchQuery.toLowerCase());
       return matchesRole && matchesSearch;
     }).toList();
@@ -154,12 +157,8 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Kelola Akun Admin'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0,
-      ),
+      backgroundColor: Colors.grey[50],
+      appBar: const RukuninAppBar(title: 'Kelola Akun'),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/admin/akun/edit'),
         backgroundColor: AppColors.primary,
@@ -176,10 +175,7 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  AppColors.primary,
-                  AppColors.primary.withOpacity(0.8),
-                ],
+                colors: [AppColors.primary, AppColors.primary.withOpacity(0.8)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -282,7 +278,9 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
                     checkmarkColor: AppColors.primary,
                     labelStyle: TextStyle(
                       color: isSelected ? AppColors.primary : Colors.black87,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w500,
                       fontSize: 13,
                     ),
                     side: BorderSide(
@@ -301,7 +299,11 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.search_off, size: 64, color: Colors.grey[400]),
+                        Icon(
+                          Icons.search_off,
+                          size: 64,
+                          color: Colors.grey[400],
+                        ),
                         const SizedBox(height: 16),
                         Text(
                           'Tidak ada admin ditemukan',
@@ -383,7 +385,10 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: admin['status'] == 'Aktif'
                                 ? Colors.green.withOpacity(0.1)
@@ -395,7 +400,9 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
-                              color: admin['status'] == 'Aktif' ? Colors.green : Colors.red,
+                              color: admin['status'] == 'Aktif'
+                                  ? Colors.green
+                                  : Colors.red,
                             ),
                           ),
                         ),
@@ -404,7 +411,11 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        Icon(admin['roleIcon'], size: 14, color: admin['roleColor']),
+                        Icon(
+                          admin['roleIcon'],
+                          size: 14,
+                          color: admin['roleColor'],
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           admin['role'],
@@ -419,7 +430,11 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        Icon(Icons.email_outlined, size: 12, color: Colors.grey[500]),
+                        Icon(
+                          Icons.email_outlined,
+                          size: 12,
+                          color: Colors.grey[500],
+                        ),
                         const SizedBox(width: 4),
                         Expanded(
                           child: Text(
@@ -436,7 +451,11 @@ class _AkunAdminListPageState extends State<AkunAdminListPage> {
                     const SizedBox(height: 2),
                     Row(
                       children: [
-                        Icon(Icons.access_time, size: 12, color: Colors.grey[500]),
+                        Icon(
+                          Icons.access_time,
+                          size: 12,
+                          color: Colors.grey[500],
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           'Login terakhir: ${admin['lastLogin']}',

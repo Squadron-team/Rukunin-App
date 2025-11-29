@@ -31,7 +31,8 @@ class _KegiatanRwScreenState extends State<KegiatanRwScreen> {
       displayed = DummyKegiatanData.kegiatanList.where((k) {
         final q = searchC.text.toLowerCase();
 
-        final matchSearch = k.nama.toLowerCase().contains(q) ||
+        final matchSearch =
+            k.nama.toLowerCase().contains(q) ||
             k.kategori.toLowerCase().contains(q) ||
             k.lokasi.toLowerCase().contains(q);
 
@@ -55,7 +56,18 @@ class _KegiatanRwScreenState extends State<KegiatanRwScreen> {
     return Scaffold(
       backgroundColor: const Color(0xfff8f9fc),
       appBar: AppBar(
-        title: const Text('Kegiatan RW'),
+        title: const Text(
+          'Kegiatan RW',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
       ),
 
       floatingActionButton: FloatingActionButton(
@@ -90,7 +102,7 @@ class _KegiatanRwScreenState extends State<KegiatanRwScreen> {
                     itemCount: displayed.length,
                     itemBuilder: (_, i) => KegiatanCard(kegiatan: displayed[i]),
                   ),
-          )
+          ),
         ],
       ),
     );

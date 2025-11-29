@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/models/event.dart';
+import 'package:rukunin/pages/rt/events/models/event.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
@@ -11,7 +11,12 @@ class EventForm extends StatefulWidget {
   final EventFormSubmit onSubmit;
   final String submitLabel;
 
-  const EventForm({required this.onSubmit, this.initialEvent, this.submitLabel = 'Simpan', super.key});
+  const EventForm({
+    required this.onSubmit,
+    this.initialEvent,
+    this.submitLabel = 'Simpan',
+    super.key,
+  });
 
   @override
   State<EventForm> createState() => _EventFormState();
@@ -97,10 +102,7 @@ class _EventFormState extends State<EventForm> {
   }
 
   Future<void> _pickTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: _time,
-    );
+    final picked = await showTimePicker(context: context, initialTime: _time);
     if (picked != null) setState(() => _time = picked);
   }
 
@@ -115,6 +117,13 @@ class _EventFormState extends State<EventForm> {
       time: _time.format(context),
       categoryColor: _getCategoryColor(_category),
       description: _descriptionCtrl.text.trim(),
+      createdAt: DateTime.now(),
+      id: '',
+      imageUrl: '',
+      organizerId: '',
+      organizerName: '',
+      organizerPosition: '',
+      participants: [],
     );
 
     widget.onSubmit(event);
@@ -140,81 +149,182 @@ class _EventFormState extends State<EventForm> {
           const SizedBox(height: 4),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: Colors.grey.shade200)),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: Colors.grey.shade200),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Kategori', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                const Text(
+                  'Kategori',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: ['Sosial', 'Rapat', 'Pendidikan', 'Seni', 'Olahraga'].map((c) {
-                    final sel = _category == c;
-                    final color = _getCategoryColor(c);
-                    final icon = _getCategoryIcon(c);
-                    return GestureDetector(
-                      onTap: () => setState(() => _category = c),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: sel ? color.withOpacity(0.18) : Colors.transparent,
-                          border: Border.all(color: sel ? color : Colors.grey.shade300),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(icon, size: 16, color: sel ? color : Colors.grey.shade700),
-                            const SizedBox(width: 8),
-                            Text(c, style: TextStyle(color: sel ? color : Colors.grey.shade800, fontWeight: sel ? FontWeight.w700 : FontWeight.w500)),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                  children:
+                      ['Sosial', 'Rapat', 'Pendidikan', 'Seni', 'Olahraga'].map(
+                        (c) {
+                          final sel = _category == c;
+                          final color = _getCategoryColor(c);
+                          final icon = _getCategoryIcon(c);
+                          return GestureDetector(
+                            onTap: () => setState(() => _category = c),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
+                              decoration: BoxDecoration(
+                                color: sel
+                                    ? color.withOpacity(0.18)
+                                    : Colors.transparent,
+                                border: Border.all(
+                                  color: sel ? color : Colors.grey.shade300,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    icon,
+                                    size: 16,
+                                    color: sel ? color : Colors.grey.shade700,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    c,
+                                    style: TextStyle(
+                                      color: sel ? color : Colors.grey.shade800,
+                                      fontWeight: sel
+                                          ? FontWeight.w700
+                                          : FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(),
                 ),
 
                 const SizedBox(height: 12),
-                const Text('Informasi Kegiatan', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                const Text(
+                  'Informasi Kegiatan',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
                 const SizedBox(height: 8),
-                TextFormField(controller: _titleCtrl, decoration: dec('Judul Kegiatan'), validator: (v) => (v == null || v.trim().isEmpty) ? 'Judul diperlukan' : null),
+                TextFormField(
+                  controller: _titleCtrl,
+                  decoration: dec('Judul Kegiatan'),
+                  validator: (v) => (v == null || v.trim().isEmpty)
+                      ? 'Judul diperlukan'
+                      : null,
+                ),
                 const SizedBox(height: 12),
 
-                Row(children: [
-                  Expanded(child: GestureDetector(onTap: _pickDate, child: AbsorbPointer(child: TextFormField(decoration: dec('Tanggal'), controller: TextEditingController(text: DateFormatter.formatFull(_date)))))),
-                  const SizedBox(width: 12),
-                  Expanded(child: GestureDetector(onTap: _pickTime, child: AbsorbPointer(child: TextFormField(decoration: dec('Waktu'), controller: TextEditingController(text: _time.format(context)))))),
-                ]),
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: _pickDate,
+                        child: AbsorbPointer(
+                          child: TextFormField(
+                            decoration: dec('Tanggal'),
+                            controller: TextEditingController(
+                              text: DateFormatter.formatFull(_date),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: _pickTime,
+                        child: AbsorbPointer(
+                          child: TextFormField(
+                            decoration: dec('Waktu'),
+                            controller: TextEditingController(
+                              text: _time.format(context),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
                 const SizedBox(height: 12),
-                TextFormField(controller: _locationCtrl, decoration: dec('Lokasi'), validator: (v) => (v == null || v.trim().isEmpty) ? 'Lokasi diperlukan' : null),
+                TextFormField(
+                  controller: _locationCtrl,
+                  decoration: dec('Lokasi'),
+                  validator: (v) => (v == null || v.trim().isEmpty)
+                      ? 'Lokasi diperlukan'
+                      : null,
+                ),
                 const SizedBox(height: 12),
-                TextFormField(controller: _descriptionCtrl, decoration: dec('Deskripsi'), maxLines: 6, validator: (v) => (v == null || v.trim().isEmpty) ? 'Deskripsi diperlukan' : null),
+                TextFormField(
+                  controller: _descriptionCtrl,
+                  decoration: dec('Deskripsi'),
+                  maxLines: 6,
+                  validator: (v) => (v == null || v.trim().isEmpty)
+                      ? 'Deskripsi diperlukan'
+                      : null,
+                ),
               ],
             ),
           ),
 
           const SizedBox(height: 20),
 
-          Row(children: [
-            Expanded(
-              child: OutlinedButton(
-                onPressed: () => Navigator.pop(context),
-                style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)), side: BorderSide(color: Colors.grey.shade300)),
-                child: Text('Batal', style: TextStyle(color: Colors.grey[700])),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    side: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  child: Text(
+                    'Batal',
+                    style: TextStyle(color: Colors.grey[700]),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              flex: 2,
-              child: ElevatedButton(
-                onPressed: _handleSubmit,
-                style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)), elevation: 0),
-                child: Text(widget.submitLabel, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+              const SizedBox(width: 12),
+              Expanded(
+                flex: 2,
+                child: ElevatedButton(
+                  onPressed: _handleSubmit,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    widget.submitLabel,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ]),
+            ],
+          ),
         ],
       ),
     );

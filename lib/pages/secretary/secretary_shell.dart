@@ -10,6 +10,9 @@ class SecretaryShell extends StatelessWidget {
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     if (location == '/secretary') return 0;
+    if (location == '/secretary/marketplace') return 1;
+    if (location == '/secretary/activities') return 2;
+    if (location == '/secretary/community') return 3;
     if (location == '/secretary/account') return 4;
     return 0;
   }
@@ -20,43 +23,13 @@ class SecretaryShell extends StatelessWidget {
         context.go('/secretary');
         break;
       case 1:
-        // TODO: Navigate to marketplace when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu pasar belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/secretary/marketplace');
         break;
       case 2:
-        // TODO: Navigate to events when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu kegiatan belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/secretary/activities');
         break;
       case 3:
-        // TODO: Navigate to administration when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu administrasi belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/secretary/community');
         break;
       case 4:
         context.go('/secretary/account');
@@ -118,8 +91,8 @@ class SecretaryShell extends StatelessWidget {
                 Expanded(
                   child: _buildNavItem(
                     context,
-                    icon: Icons.description,
-                    label: 'Administrasi',
+                    icon: Icons.groups,
+                    label: 'Komunitas',
                     index: 3,
                     isSelected: currentIndex == 3,
                   ),

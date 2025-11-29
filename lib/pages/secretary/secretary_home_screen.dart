@@ -1,9 +1,60 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
+import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 
-class SecretaryHomeScreen extends StatelessWidget {
+class SecretaryHomeScreen extends StatefulWidget {
   const SecretaryHomeScreen({super.key});
+
+  @override
+  State<SecretaryHomeScreen> createState() => _SecretaryHomeScreenState();
+}
+
+class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  final List<Map<String, dynamic>> _documents = [
+    {
+      'type': 'Surat Keterangan',
+      'pending': 3,
+      'approved': 8,
+      'rejected': 1,
+      'icon': Icons.article,
+      'color': Colors.blue,
+    },
+    {
+      'type': 'Surat Pengantar',
+      'pending': 2,
+      'approved': 12,
+      'rejected': 0,
+      'icon': Icons.description,
+      'color': Colors.green,
+    },
+    {
+      'type': 'Surat Domisili',
+      'pending': 1,
+      'approved': 5,
+      'rejected': 1,
+      'icon': Icons.home_work,
+      'color': Colors.orange,
+    },
+    {
+      'type': 'Dokumen Lainnya',
+      'pending': 2,
+      'approved': 7,
+      'rejected': 0,
+      'icon': Icons.folder_open,
+      'color': Colors.purple,
+    },
+  ];
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +62,7 @@ class SecretaryHomeScreen extends StatelessWidget {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text(
-          'Selamat pagi, Pak Rudi!',
+          'Beranda',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w800,
@@ -26,15 +77,10 @@ class SecretaryHomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.notifications_outlined, color: Colors.black),
             onPressed: () {
-              // TODO: Navigate to notifications
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Fitur notifikasi akan segera tersedia'),
-                  backgroundColor: Colors.orange,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
                 ),
               );
             },
@@ -219,40 +265,70 @@ class SecretaryHomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              _buildDocumentCard(
-                type: 'Surat Keterangan',
-                pending: 3,
-                approved: 8,
-                rejected: 1,
-                icon: Icons.article,
-                color: Colors.blue,
+              SizedBox(
+                height: 190, // Adjust height as needed
+                child: ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context).copyWith(
+                    dragDevices: {
+                      PointerDeviceKind.touch,
+                      PointerDeviceKind.mouse,
+                      PointerDeviceKind.trackpad,
+                      PointerDeviceKind.stylus,
+                    },
+                    scrollbars: false,
+                  ),
+                  child: PageView.builder(
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _currentPage = index;
+                      });
+                    },
+                    itemCount: _documents.length,
+                    itemBuilder: (context, index) {
+                      final doc = _documents[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: _buildDocumentCard(
+                          type: doc['type'],
+                          pending: doc['pending'],
+                          approved: doc['approved'],
+                          rejected: doc['rejected'],
+                          icon: doc['icon'],
+                          color: doc['color'],
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
-
-              _buildDocumentCard(
-                type: 'Surat Pengantar',
-                pending: 2,
-                approved: 12,
-                rejected: 0,
-                icon: Icons.description,
-                color: Colors.green,
-              ),
-
-              _buildDocumentCard(
-                type: 'Surat Domisili',
-                pending: 1,
-                approved: 5,
-                rejected: 1,
-                icon: Icons.home_work,
-                color: Colors.orange,
-              ),
-
-              _buildDocumentCard(
-                type: 'Dokumen Lainnya',
-                pending: 2,
-                approved: 7,
-                rejected: 0,
-                icon: Icons.folder_open,
-                color: Colors.purple,
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  _documents.length,
+                  (index) => GestureDetector(
+                    onTap: () {
+                      _pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      margin: const EdgeInsets.symmetric(horizontal: 3),
+                      width: index == _currentPage ? 24 : 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: index == _currentPage
+                            ? AppColors.primary
+                            : Colors.grey[300],
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                ),
               ),
 
               const SizedBox(height: 32),
@@ -429,9 +505,7 @@ class SecretaryHomeScreen extends StatelessWidget {
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.purple.withOpacity(0.2),
-                  ),
+                  border: Border.all(color: Colors.purple.withOpacity(0.2)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -502,9 +576,7 @@ class SecretaryHomeScreen extends StatelessWidget {
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.blue.withOpacity(0.2),
-                  ),
+                  border: Border.all(color: Colors.blue.withOpacity(0.2)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -656,7 +728,6 @@ class SecretaryHomeScreen extends StatelessWidget {
     final total = pending + approved + rejected;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -700,19 +771,12 @@ class SecretaryHomeScreen extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       'Total: $total dokumen bulan ini',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                     ),
                   ],
                 ),
               ),
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 14,
-                color: Colors.grey[400],
-              ),
+              Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey[400]),
             ],
           ),
           const SizedBox(height: 16),
@@ -831,10 +895,7 @@ class SecretaryHomeScreen extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       requester,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                     ),
                     const SizedBox(height: 6),
                     Row(
@@ -954,21 +1015,14 @@ class SecretaryHomeScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    Icon(
-                      Icons.access_time,
-                      size: 12,
-                      color: Colors.grey[400],
-                    ),
+                    Icon(Icons.access_time, size: 12, color: Colors.grey[400]),
                     const SizedBox(width: 4),
                     Text(
                       time,
@@ -983,11 +1037,7 @@ class SecretaryHomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          Icon(
-            Icons.arrow_forward_ios,
-            size: 14,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey[400]),
         ],
       ),
     );
@@ -1004,10 +1054,7 @@ class SecretaryHomeScreen extends StatelessWidget {
         Container(
           width: 8,
           height: 8,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -1025,47 +1072,29 @@ class SecretaryHomeScreen extends StatelessWidget {
               const SizedBox(height: 4),
               Row(
                 children: [
-                  Icon(
-                    Icons.access_time,
-                    size: 12,
-                    color: Colors.grey[500],
-                  ),
+                  Icon(Icons.access_time, size: 12, color: Colors.grey[500]),
                   const SizedBox(width: 4),
                   Text(
                     datetime,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                 ],
               ),
               const SizedBox(height: 2),
               Row(
                 children: [
-                  Icon(
-                    Icons.location_on,
-                    size: 12,
-                    color: Colors.grey[500],
-                  ),
+                  Icon(Icons.location_on, size: 12, color: Colors.grey[500]),
                   const SizedBox(width: 4),
                   Text(
                     location,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                 ],
               ),
             ],
           ),
         ),
-        Icon(
-          Icons.arrow_forward_ios,
-          size: 12,
-          color: Colors.grey[400],
-        ),
+        Icon(Icons.arrow_forward_ios, size: 12, color: Colors.grey[400]),
       ],
     );
   }

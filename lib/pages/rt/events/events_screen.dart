@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/models/event.dart';
-import 'package:rukunin/pages/resident/events/widgets/event_card.dart';
+import 'package:rukunin/modules/activities/widgets/activity_card.dart';
+import 'package:rukunin/pages/rt/events/models/event.dart';
 import 'package:rukunin/pages/rt/events/widgets/community_event_card.dart';
-import 'package:rukunin/repositories/events.dart' as repo;
+import 'package:rukunin/repositories/events.dart';
 import 'package:rukunin/pages/rt/events/create_event_screen.dart';
 import 'package:rukunin/pages/rt/events/event_detail_screen.dart';
 import 'package:rukunin/pages/rt/events/widgets/category_chip.dart';
@@ -15,7 +15,8 @@ class CommunityHeadEventsScreen extends StatefulWidget {
   const CommunityHeadEventsScreen({super.key});
 
   @override
-  State<CommunityHeadEventsScreen> createState() => _CommunityHeadEventsScreenState();
+  State<CommunityHeadEventsScreen> createState() =>
+      _CommunityHeadEventsScreenState();
 }
 
 class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
@@ -26,7 +27,7 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
   void initState() {
     super.initState();
     // TODO: new events will be added here
-    _events = List<Event>.from(repo.events);
+    _events = List<Event>.from(events);
   }
 
   void _openCreate() async {
@@ -39,7 +40,7 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
       setState(() {
         _events.insert(0, result);
         // also add to global repo
-        repo.events.insert(0, result);
+        events.insert(0, result);
       });
     }
   }
@@ -73,7 +74,7 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
 
                 const SizedBox(height: 12),
 
-                // Category filters 
+                // Category filters
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SizedBox(
@@ -83,17 +84,41 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
                       child: Row(
                         children: [
                           const SizedBox(width: 4),
-                          CategoryChip(label: 'Semua', selected: _filter == 'Semua', onTap: () => setState(() => _filter = 'Semua')),
+                          CategoryChip(
+                            label: 'Semua',
+                            selected: _filter == 'Semua',
+                            onTap: () => setState(() => _filter = 'Semua'),
+                          ),
                           const SizedBox(width: 8),
-                          CategoryChip(label: 'Sosial', selected: _filter == 'Sosial', onTap: () => setState(() => _filter = 'Sosial')),
+                          CategoryChip(
+                            label: 'Sosial',
+                            selected: _filter == 'Sosial',
+                            onTap: () => setState(() => _filter = 'Sosial'),
+                          ),
                           const SizedBox(width: 8),
-                          CategoryChip(label: 'Rapat', selected: _filter == 'Rapat', onTap: () => setState(() => _filter = 'Rapat')),
+                          CategoryChip(
+                            label: 'Rapat',
+                            selected: _filter == 'Rapat',
+                            onTap: () => setState(() => _filter = 'Rapat'),
+                          ),
                           const SizedBox(width: 8),
-                          CategoryChip(label: 'Pendidikan', selected: _filter == 'Pendidikan', onTap: () => setState(() => _filter = 'Pendidikan')),
+                          CategoryChip(
+                            label: 'Pendidikan',
+                            selected: _filter == 'Pendidikan',
+                            onTap: () => setState(() => _filter = 'Pendidikan'),
+                          ),
                           const SizedBox(width: 8),
-                          CategoryChip(label: 'Seni', selected: _filter == 'Seni', onTap: () => setState(() => _filter = 'Seni')),
+                          CategoryChip(
+                            label: 'Seni',
+                            selected: _filter == 'Seni',
+                            onTap: () => setState(() => _filter = 'Seni'),
+                          ),
                           const SizedBox(width: 8),
-                          CategoryChip(label: 'Olahraga', selected: _filter == 'Olahraga', onTap: () => setState(() => _filter = 'Olahraga')),
+                          CategoryChip(
+                            label: 'Olahraga',
+                            selected: _filter == 'Olahraga',
+                            onTap: () => setState(() => _filter = 'Olahraga'),
+                          ),
                           const SizedBox(width: 8),
                         ],
                       ),
@@ -101,10 +126,9 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
                   ),
                 ),
 
-
                 const SizedBox(height: 8),
 
-                // Total count 
+                // Total count
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
@@ -131,32 +155,27 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
               ],
             ),
           ),
-
-          // Floating Create Button 
-          Positioned(
-            right: 12,
-            bottom: 12,
-            child: FloatingActionButton(
-              heroTag: 'add-event',
-              backgroundColor: AppColors.primary,
-              onPressed: _openCreate,
-              child: const Icon(Icons.add, color: Colors.white),
-            ),
-          ),
         ],
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'add-event',
+        backgroundColor: AppColors.primary,
+        onPressed: _openCreate,
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
-
-  
 
   Widget _buildEventList() {
     // filter by category
     List<Event> visible = _filter == 'Semua'
         ? List<Event>.from(_events)
-        : _events.where((e) => e.category.toLowerCase() == _filter.toLowerCase()).toList();
+        : _events
+              .where((e) => e.category.toLowerCase() == _filter.toLowerCase())
+              .toList();
 
-    if (visible.isEmpty) return const EventCard.empty();
+    if (visible.isEmpty) return const ActivityCard.empty();
 
     // sort upcoming then past
     visible.sort((a, b) {
@@ -176,7 +195,9 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
       final aPast = da.isBefore(now);
       final bPast = db.isBefore(now);
 
-      if (aPast != bPast) return aPast ? 1 : -1; // upcoming (-1) before past (1)
+      if (aPast != bPast) {
+        return aPast ? 1 : -1; // upcoming (-1) before past (1)
+      }
       return da.compareTo(db);
     });
 
@@ -198,28 +219,38 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
               da = DateTime.now();
             }
             if (da.isBefore(DateTime.now())) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text('Tidak dapat menghapus kegiatan yang sudah lewat'),
-                backgroundColor: AppColors.primary,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text(
+                    'Tidak dapat menghapus kegiatan yang sudah lewat',
+                  ),
+                  backgroundColor: AppColors.primary,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              );
               return false;
             }
 
             final ok = await showDeleteConfirm(context);
             if (ok ?? false) {
               setState(() {
-                // remove by object 
-                repo.events.remove(e);
+                // remove by object
+                events.remove(e);
                 _events.remove(e);
               });
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text('Kegiatan berhasil dihapus'),
-                backgroundColor: AppColors.primary,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Kegiatan berhasil dihapus'),
+                  backgroundColor: AppColors.primary,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              );
             }
             return ok ?? false;
           },
@@ -227,14 +258,34 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
             event: e,
             interestedCount: interested,
             onTap: () async {
-              final res = await Navigator.push(context, MaterialPageRoute(builder: (_) => CommunityHeadEventDetailScreen(event: e, interestedCount: interested)));
+              final res = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => CommunityHeadEventDetailScreen(
+                    event: e,
+                    interestedCount: interested,
+                  ),
+                ),
+              );
               if (res is Event) {
                 // update event in lists
                 setState(() {
-                  final idx = _events.indexWhere((it) => it.title == e.title && it.date == e.date && it.time == e.time && it.location == e.location);
+                  final idx = _events.indexWhere(
+                    (it) =>
+                        it.title == e.title &&
+                        it.date == e.date &&
+                        it.time == e.time &&
+                        it.location == e.location,
+                  );
                   if (idx != -1) _events[idx] = res;
-                  final gidx = repo.events.indexWhere((it) => it.title == e.title && it.date == e.date && it.time == e.time && it.location == e.location);
-                  if (gidx != -1) repo.events[gidx] = res;
+                  final gidx = events.indexWhere(
+                    (it) =>
+                        it.title == e.title &&
+                        it.date == e.date &&
+                        it.time == e.time &&
+                        it.location == e.location,
+                  );
+                  if (gidx != -1) events[gidx] = res;
                 });
               }
             },

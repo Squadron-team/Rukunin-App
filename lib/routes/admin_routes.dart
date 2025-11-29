@@ -15,6 +15,8 @@ import 'package:rukunin/pages/admin/marketplace/marketplace_edit_page.dart';
 import 'package:rukunin/pages/admin/administrasi/akun_admin_list_page.dart';
 import 'package:rukunin/pages/admin/administrasi/akun_admin_edit_page.dart';
 import 'package:rukunin/pages/admin/administrasi/role_management_page.dart';
+import 'package:rukunin/pages/admin/activities/admin_activities_screen.dart';
+import 'package:rukunin/pages/admin/activities/admin_activity_detail_screen.dart';
 
 final adminRoutes = ShellRoute(
   builder: (context, state, child) => AdminShell(child: child),
@@ -22,24 +24,21 @@ final adminRoutes = ShellRoute(
     GoRoute(
       path: '/admin',
       name: 'admin-home',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: AdminHomeScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: AdminHomeScreen()),
     ),
     GoRoute(
       path: '/admin/account',
       name: 'admin-account',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: AccountScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: AccountScreen()),
     ),
     // Warga routes
     GoRoute(
       path: '/admin/warga',
       name: 'admin-warga',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: WargaListPage(),
-      ),
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: WargaListPage()),
     ),
     GoRoute(
       path: '/admin/warga/add',
@@ -76,9 +75,8 @@ final adminRoutes = ShellRoute(
     GoRoute(
       path: '/admin/keuangan',
       name: 'admin-keuangan',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: KeuanganDashboardPage(),
-      ),
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: KeuanganDashboardPage()),
     ),
     GoRoute(
       path: '/admin/keuangan/iuran',
@@ -89,9 +87,8 @@ final adminRoutes = ShellRoute(
     GoRoute(
       path: '/admin/marketplace',
       name: 'admin-marketplace',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: AdminMarketplaceScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: AdminMarketplaceScreen()),
     ),
     GoRoute(
       path: '/admin/marketplace/add',
@@ -154,6 +151,21 @@ final adminRoutes = ShellRoute(
       path: '/admin/role',
       name: 'admin-role',
       builder: (context, state) => const RoleManagementPage(),
+    ),
+    // Activities routes
+    GoRoute(
+      path: '/admin/activities',
+      name: 'admin-activities',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: AdminActivitiesScreen()),
+    ),
+    GoRoute(
+      path: '/admin/activities/detail',
+      name: 'admin-activity-detail',
+      builder: (context, state) {
+        final activity = state.extra as Map<String, dynamic>;
+        return AdminActivityDetailScreen(activity: activity);
+      },
     ),
   ],
 );

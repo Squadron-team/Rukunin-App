@@ -8,7 +8,14 @@ class CategoryChip extends StatelessWidget {
   final Color? color;
   final IconData? icon;
 
-  const CategoryChip({required this.label, required this.selected, required this.onTap, this.color, this.icon, super.key});
+  const CategoryChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+    this.color,
+    this.icon,
+    super.key,
+  });
 
   Color _defaultColor(String label) {
     switch (label.toLowerCase()) {
@@ -63,7 +70,13 @@ class CategoryChip extends StatelessWidget {
           children: [
             Icon(ic, size: 16, color: selected ? col : Colors.grey.shade700),
             const SizedBox(width: 8),
-            Text(label, style: TextStyle(color: selected ? col : Colors.grey.shade800, fontWeight: selected ? FontWeight.w700 : FontWeight.w500)),
+            Text(
+              label,
+              style: TextStyle(
+                color: selected ? col : Colors.grey.shade800,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+              ),
+            ),
           ],
         ),
       ),

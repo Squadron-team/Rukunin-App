@@ -5,14 +5,14 @@ import 'package:rukunin/style/app_colors.dart';
 class RtShell extends StatelessWidget {
   final Widget child;
 
-  const RtShell({
-    required this.child,
-    super.key,
-  });
+  const RtShell({required this.child, super.key});
 
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     if (location == '/rt') return 0;
+    if (location == '/rt/marketplace') return 1;
+    if (location == '/rt/activities') return 2;
+    if (location == '/rt/community') return 3;
     if (location == '/rt/account') return 4;
     return 0;
   }
@@ -23,43 +23,13 @@ class RtShell extends StatelessWidget {
         context.go('/rt');
         break;
       case 1:
-        // TODO: Navigate to marketplace screen when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu Pasar belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/rt/marketplace');
         break;
       case 2:
-        // TODO: Navigate to events screen when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu Kegiatan belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/rt/activities');
         break;
       case 3:
-        // TODO: Navigate to community screen when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu Komunitas belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        context.go('/rt/community');
         break;
       case 4:
         context.go('/rt/account');
@@ -95,7 +65,7 @@ class RtShell extends StatelessWidget {
                   child: _buildNavItem(
                     context,
                     icon: Icons.home_rounded,
-                    label: 'Dashboard',
+                    label: 'Beranda',
                     index: 0,
                     isSelected: currentIndex == 0,
                   ),
@@ -103,7 +73,7 @@ class RtShell extends StatelessWidget {
                 Expanded(
                   child: _buildNavItem(
                     context,
-                    icon: Icons.people_rounded,
+                    icon: Icons.store_rounded,
                     label: 'Pasar',
                     index: 1,
                     isSelected: currentIndex == 1,
@@ -155,9 +125,7 @@ class RtShell extends StatelessWidget {
       onTap: () => _onItemTapped(context, index),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

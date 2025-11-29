@@ -9,14 +9,18 @@ import 'package:rukunin/utils/role_based_navigator.dart';
 import 'package:rukunin/routes/auth_routes.dart';
 import 'package:rukunin/routes/admin_routes.dart';
 import 'package:rukunin/routes/resident_routes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 
 final router = GoRouter(
   debugLogDiagnostics: true,
   initialLocation: '/',
   redirect: (context, state) async {
     final user = FirebaseAuth.instance.currentUser;
-    final isAuthRoute = state.matchedLocation == '/sign-in' || 
-                        state.matchedLocation == '/sign-up';
+    final isAuthRoute =
+        state.matchedLocation == '/sign-in' ||
+        state.matchedLocation == '/sign-up';
+    final isOnboardingRoute = state.matchedLocation == '/onboarding';
     final isSplashRoute = state.matchedLocation == '/';
 
     // Allow splash screen to show without redirect
@@ -29,7 +33,27 @@ final router = GoRouter(
       return '/sign-in';
     }
 
-    // If user is logged in and on auth routes, redirect to role-based home
+    // If user is logged in, check if onboarding is completed
+    if (user != null && !isAuthRoute && !isOnboardingRoute) {
+      try {
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+
+        final onboardingCompleted =
+            userDoc.data()?['onboardingCompleted'] ?? false;
+
+        if (!onboardingCompleted) {
+          return '/onboarding';
+        }
+      } catch (e) {
+        // If error checking, allow access
+        return null;
+      }
+    }
+
+    // If user is logged in, onboarding completed, and on auth routes, redirect to role-based home
     if (user != null && isAuthRoute) {
       final role = await RoleBasedNavigator.getUserRole(user.uid);
       return RoleBasedNavigator.getRouteByRole(role);
@@ -39,30 +63,33 @@ final router = GoRouter(
   },
   routes: [
     // Splash screen
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const SplashScreen(),
-    ),
+    GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
 
     // Authentication routes
     ...authRoutes,
-    
+
     // Admin routes
     adminRoutes,
 
     // RT routes
-    rtRoutes,
-    
+    ...rtRoutes,
+
     // RW routes
-    rwRoutes,
+    ...rwRoutes,
 
     // Secretary routes
-    secretaryRoutes,
+    ...secretaryRoutes,
 
     // Treasurer routes
-    treasurerRoutes,
-    
+    ...treasurerRoutes,
+
     // Resident routes
-    residentRoutes,
+    ...residentRoutes,
+
+    // Notification route (accessible by all authenticated users)
+    GoRoute(
+      path: '/notifications',
+      builder: (context, state) => const NotificationScreen(),
+    ),
   ],
 );

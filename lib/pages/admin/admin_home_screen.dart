@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
+import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 
 class AdminHomeScreen extends StatelessWidget {
   const AdminHomeScreen({super.key});
@@ -27,15 +28,10 @@ class AdminHomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.notifications_outlined, color: Colors.black),
             onPressed: () {
-              // TODO: Navigate to notifications
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Fitur notifikasi akan segera tersedia'),
-                  backgroundColor: Colors.orange,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
                 ),
               );
             },
@@ -113,9 +109,9 @@ class AdminHomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-      
+
               const SizedBox(height: 24),
-      
+
               // Statistik -----------------------------------------------------------
               const Text(
                 'Statistik Sistem',
@@ -126,7 +122,7 @@ class AdminHomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-      
+
               Row(
                 children: [
                   Expanded(
@@ -148,9 +144,9 @@ class AdminHomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-      
+
               const SizedBox(height: 12),
-      
+
               Row(
                 children: [
                   Expanded(
@@ -172,9 +168,9 @@ class AdminHomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-      
+
               const SizedBox(height: 32),
-      
+
               // Menu Admin ---------------------------------------------------------
               const Text(
                 'Menu Admin',
@@ -185,7 +181,7 @@ class AdminHomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-      
+
               GridView.count(
                 crossAxisCount: 3,
                 shrinkWrap: true,
@@ -250,9 +246,9 @@ class AdminHomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-      
+
               const SizedBox(height: 32),
-      
+
               // Aktifitas ----------------------------------------------------------
               const Text(
                 'Aktivitas Terbaru',
@@ -263,7 +259,7 @@ class AdminHomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-      
+
               _buildActivityItem(
                 context,
                 icon: Icons.person_add,
@@ -296,7 +292,7 @@ class AdminHomeScreen extends StatelessWidget {
                 time: '2 jam yang lalu',
                 color: Colors.purple,
               ),
-      
+
               const SizedBox(height: 32),
             ],
           ),
@@ -417,17 +413,18 @@ class AdminHomeScreen extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      Icon(Icons.access_time, size: 12, color: Colors.grey[400]),
+                      Icon(
+                        Icons.access_time,
+                        size: 12,
+                        color: Colors.grey[400],
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         time,

@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 class ActivityCard extends StatelessWidget {
   const ActivityCard({
-    required this.icon, required this.title, required this.subtitle, required this.time, required this.color, super.key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.time,
+    required this.color,
+    super.key,
   });
 
   final IconData icon;
@@ -55,21 +60,14 @@ class ActivityCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    Icon(
-                      Icons.access_time,
-                      size: 12,
-                      color: Colors.grey[400],
-                    ),
+                    Icon(Icons.access_time, size: 12, color: Colors.grey[400]),
                     const SizedBox(width: 4),
                     Text(
                       time,
@@ -84,11 +82,7 @@ class ActivityCard extends StatelessWidget {
               ],
             ),
           ),
-          Icon(
-            Icons.arrow_forward_ios,
-            size: 14,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey[400]),
         ],
       ),
     );
