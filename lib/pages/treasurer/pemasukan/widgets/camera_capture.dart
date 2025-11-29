@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 /// Returns captured image bytes as `Uint8List` when a photo is taken,
 /// or `null` if cancelled.
 class CameraCapturePage extends StatefulWidget {
-  const CameraCapturePage({Key? key}) : super(key: key);
+  const CameraCapturePage({super.key});
 
   @override
   State<CameraCapturePage> createState() => _CameraCapturePageState();
@@ -50,7 +50,11 @@ class _CameraCapturePageState extends State<CameraCapturePage> {
   }
 
   Future<void> _takePicture() async {
-    if (_controller == null || !_controller!.value.isInitialized || _takingPicture) return;
+    if (_controller == null ||
+        !_controller!.value.isInitialized ||
+        _takingPicture) {
+      return;
+    }
     setState(() => _takingPicture = true);
     try {
       final XFile file = await _controller!.takePicture();
@@ -59,7 +63,9 @@ class _CameraCapturePageState extends State<CameraCapturePage> {
     } catch (e) {
       if (mounted) {
         setState(() => _takingPicture = false);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gagal mengambil gambar')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Gagal mengambil gambar')));
       }
     }
   }
@@ -100,7 +106,10 @@ class _CameraCapturePageState extends State<CameraCapturePage> {
                             child: Center(
                               child: _takingPicture
                                   ? const CircularProgressIndicator()
-                                  : const Icon(Icons.camera_alt, color: Colors.black),
+                                  : const Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.black,
+                                    ),
                             ),
                           ),
                         ),
