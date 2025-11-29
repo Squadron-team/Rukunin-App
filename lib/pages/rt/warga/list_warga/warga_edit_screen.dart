@@ -251,15 +251,18 @@ class _WargaEditScreenState extends State<WargaEditScreen> {
                             ),
                             const SizedBox(height: 12),
                             DropdownButtonFormField<String>(
-                              value: gender.isNotEmpty ? gender : null,
+                              initialValue: gender.isNotEmpty ? gender : null,
                               decoration: _dec('Jenis Kelamin'),
                               items: ['Laki-laki', 'Perempuan']
-                                  .map((g) => DropdownMenuItem(
-                                        value: g,
-                                        child: Text(g),
-                                      ))
+                                  .map(
+                                    (g) => DropdownMenuItem(
+                                      value: g,
+                                      child: Text(g),
+                                    ),
+                                  )
                                   .toList(),
-                              onChanged: (v) => setState(() => gender = v ?? ''),
+                              onChanged: (v) =>
+                                  setState(() => gender = v ?? ''),
                               validator: (v) => (v == null || v.isEmpty)
                                   ? 'Pilih jenis kelamin'
                                   : null,

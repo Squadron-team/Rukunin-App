@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 class CashBalanceOverview extends StatelessWidget {
   const CashBalanceOverview({super.key});
 
-  Widget _buildBalanceItem(String label, String value, IconData icon, Color color) {
+  Widget _buildBalanceItem(
+    String label,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/rt_letter.dart';
+import 'package:rukunin/models/rt_letter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RtToRwLetterFormScreen extends StatefulWidget {
@@ -55,7 +55,9 @@ class _RtToRwLetterFormScreenState extends State<RtToRwLetterFormScreen> {
           content: const Text('Surat berhasil dibuat'),
           backgroundColor: widget.color,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       );
       Navigator.pop(context, true);
@@ -83,7 +85,9 @@ class _RtToRwLetterFormScreenState extends State<RtToRwLetterFormScreen> {
               content: const Text('Ukuran file maksimal 5MB'),
               backgroundColor: Colors.orange,
               behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           );
         }
@@ -99,7 +103,9 @@ class _RtToRwLetterFormScreenState extends State<RtToRwLetterFormScreen> {
             content: Text('Gagal memilih gambar: $e'),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         );
       }
@@ -136,7 +142,9 @@ class _RtToRwLetterFormScreenState extends State<RtToRwLetterFormScreen> {
               border: Border.all(color: Colors.grey[300]!),
               color: Colors.grey[100],
             ),
-            child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+            child: const Center(
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
           );
         }
 
@@ -159,7 +167,10 @@ class _RtToRwLetterFormScreenState extends State<RtToRwLetterFormScreen> {
                 onTap: () => _removeAttachment(index),
                 child: Container(
                   padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
                   child: const Icon(Icons.close, size: 14, color: Colors.white),
                 ),
               ),
@@ -175,7 +186,14 @@ class _RtToRwLetterFormScreenState extends State<RtToRwLetterFormScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: Text(widget.typeTitle, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16, color: Colors.black)),
+        title: Text(
+          widget.typeTitle,
+          style: const TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 16,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -189,38 +207,98 @@ class _RtToRwLetterFormScreenState extends State<RtToRwLetterFormScreen> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [widget.color.withOpacity(0.12), widget.color.withOpacity(0.05)]),
+                gradient: LinearGradient(
+                  colors: [
+                    widget.color.withOpacity(0.12),
+                    widget.color.withOpacity(0.05),
+                  ],
+                ),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: widget.color.withOpacity(0.3)),
               ),
-              child: Row(children: [
-                Container(width: 56, height: 56, decoration: BoxDecoration(color: widget.color.withOpacity(0.2), borderRadius: BorderRadius.circular(12)), child: Icon(widget.icon, color: widget.color, size: 28)),
-                const SizedBox(width: 12),
-                Expanded(child: Text(widget.typeTitle, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black))),
-              ]),
+              child: Row(
+                children: [
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: widget.color.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(widget.icon, color: widget.color, size: 28),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      widget.typeTitle,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
 
             const SizedBox(height: 20),
 
-            Text('Tujuan / Pokok Surat *', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black)),
+            const Text(
+              'Tujuan / Pokok Surat *',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
             const SizedBox(height: 8),
             Container(
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey[300]!)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey[300]!),
+              ),
               child: TextFormField(
                 controller: _purposeController,
                 maxLines: 2,
-                validator: (v) => (v == null || v.trim().isEmpty) ? 'Tujuan harus diisi' : null,
-                decoration: const InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.all(16), hintText: 'Contoh: Permohonan pengesahan daftar peserta'),
+                validator: (v) => (v == null || v.trim().isEmpty)
+                    ? 'Tujuan harus diisi'
+                    : null,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(16),
+                  hintText: 'Contoh: Permohonan pengesahan daftar peserta',
+                ),
               ),
             ),
 
             const SizedBox(height: 16),
 
-            Text('Catatan / Keterangan', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black)),
+            const Text(
+              'Catatan / Keterangan',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
             const SizedBox(height: 8),
             Container(
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey[300]!)),
-              child: TextFormField(controller: _notesController, maxLines: 4, decoration: const InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.all(16), hintText: 'Tambahkan informasi tambahan (opsional)')), 
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey[300]!),
+              ),
+              child: TextFormField(
+                controller: _notesController,
+                maxLines: 4,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(16),
+                  hintText: 'Tambahkan informasi tambahan (opsional)',
+                ),
+              ),
             ),
 
             const SizedBox(height: 16),
@@ -229,7 +307,10 @@ class _RtToRwLetterFormScreenState extends State<RtToRwLetterFormScreen> {
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
-                children: List.generate(_attachments.length, (index) => _buildAttachmentPreview(index)),
+                children: List.generate(
+                  _attachments.length,
+                  (index) => _buildAttachmentPreview(index),
+                ),
               ),
               const SizedBox(height: 12),
             ],
@@ -251,11 +332,7 @@ class _RtToRwLetterFormScreenState extends State<RtToRwLetterFormScreen> {
                   ),
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.cloud_upload,
-                        size: 36,
-                        color: widget.color,
-                      ),
+                      Icon(Icons.cloud_upload, size: 36, color: widget.color),
                       const SizedBox(height: 10),
                       Text(
                         'Tambah Lampiran',
@@ -267,10 +344,7 @@ class _RtToRwLetterFormScreenState extends State<RtToRwLetterFormScreen> {
                       const SizedBox(height: 6),
                       Text(
                         'Pilih foto atau dokumen (maks 5MB)',
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: 13,
-                        ),
+                        style: TextStyle(color: Colors.grey[500], fontSize: 13),
                       ),
                     ],
                   ),
@@ -284,10 +358,30 @@ class _RtToRwLetterFormScreenState extends State<RtToRwLetterFormScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: _isSubmitting ? null : _submit,
-                style: ElevatedButton.styleFrom(backgroundColor: widget.color, padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: widget.color,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
                 child: _isSubmitting
-                    ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                    : const Text('Kirim Surat', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white)),
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : const Text(
+                        'Kirim Surat',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
               ),
             ),
           ],

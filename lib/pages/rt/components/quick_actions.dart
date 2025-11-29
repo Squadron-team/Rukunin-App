@@ -104,7 +104,9 @@ class QuickActionsGrid extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const CreateRtToRwLetterScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const CreateRtToRwLetterScreen(),
+                ),
               );
             },
           ),

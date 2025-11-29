@@ -8,7 +8,7 @@ import 'package:rukunin/style/app_colors.dart';
 // toolbar uses internal widgets; imports moved to toolbar widget file
 import 'package:rukunin/pages/rt/warga/widgets/warga_toolbar.dart';
 import 'package:rukunin/pages/rt/warga/widgets/delete_background.dart';
-import '../../wilayah/widgets/confirm_dialogs.dart';
+import 'package:rukunin/pages/rt/wilayah/widgets/confirm_dialogs.dart';
 
 class WargaListScreen extends StatefulWidget {
   const WargaListScreen({super.key});
@@ -90,7 +90,8 @@ class _WargaListScreenState extends State<WargaListScreen> {
                       );
                     },
                     showFilter: _showFilter || filter != 'Semua',
-                    onToggleFilter: () => setState(() => _showFilter = !_showFilter),
+                    onToggleFilter: () =>
+                        setState(() => _showFilter = !_showFilter),
                   ),
                   const SizedBox(height: 12),
                   if (_showFilter)
@@ -141,7 +142,10 @@ class _WargaListScreenState extends State<WargaListScreen> {
                                 direction: DismissDirection.endToStart,
                                 background: const DeleteBackground(),
                                 confirmDismiss: (dir) async {
-                                  final ok = await showConfirmDeleteDialog(context, warga.name);
+                                  final ok = await showConfirmDeleteDialog(
+                                    context,
+                                    warga.name,
+                                  );
                                   if (ok ?? false) {
                                     setState(() {
                                       _all.removeWhere((e) => e.id == warga.id);
@@ -149,11 +153,15 @@ class _WargaListScreenState extends State<WargaListScreen> {
                                     });
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content: const Text('Warga berhasil dihapus'),
+                                        content: const Text(
+                                          'Warga berhasil dihapus',
+                                        ),
                                         backgroundColor: AppColors.primary,
                                         behavior: SnackBarBehavior.floating,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
                                         ),
                                       ),
                                     );
@@ -166,7 +174,8 @@ class _WargaListScreenState extends State<WargaListScreen> {
                                     await Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) => WargaDetailScreen(warga: warga),
+                                        builder: (_) =>
+                                            WargaDetailScreen(warga: warga),
                                       ),
                                     );
                                   },

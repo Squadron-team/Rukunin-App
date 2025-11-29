@@ -11,10 +11,7 @@ class WelcomeCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            AppColors.primary,
-            AppColors.primary.withOpacity(0.8),
-          ],
+          colors: [AppColors.primary, AppColors.primary.withOpacity(0.8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -81,11 +78,7 @@ class WelcomeCard extends StatelessWidget {
             child: const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.attach_money,
-                  color: Colors.white,
-                  size: 16,
-                ),
+                Icon(Icons.attach_money, color: Colors.white, size: 16),
                 SizedBox(width: 6),
                 Text(
                   'Pengelolaan Keuangan RW',

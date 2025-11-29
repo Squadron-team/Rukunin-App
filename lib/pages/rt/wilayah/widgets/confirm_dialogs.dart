@@ -6,9 +6,7 @@ Future<void> showCannotDeleteDialog(BuildContext context) async {
     context: context,
     builder: (c) {
       return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 360),
           child: Padding(
@@ -24,10 +22,7 @@ Future<void> showCannotDeleteDialog(BuildContext context) async {
                 const SizedBox(height: 12),
                 const Text(
                   'Tidak dapat menghapus',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 20,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
                 ),
                 const SizedBox(height: 8),
                 const Text(
@@ -59,14 +54,15 @@ Future<void> showCannotDeleteDialog(BuildContext context) async {
   );
 }
 
-Future<bool?> showConfirmDeleteDialog(BuildContext context, String streetName) async {
+Future<bool?> showConfirmDeleteDialog(
+  BuildContext context,
+  String streetName,
+) async {
   final ok = await showDialog<bool>(
     context: context,
     builder: (c) {
       return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 360),
           child: Padding(
