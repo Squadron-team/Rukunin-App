@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:rukunin/style/app_colors.dart';
-import 'manual_review_page.dart';
-import 'widgets/proof_area.dart';
-import 'widgets/detection_result_sheet.dart';
-import 'widgets/pemasukan_header.dart';
-import 'widgets/form_fields_card.dart';
-import 'widgets/notes_card.dart';
-import 'widgets/submit_button.dart';
-import 'widgets/camera_capture.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/manual_review_page.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/widgets/proof_area.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/widgets/detection_result_sheet.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/widgets/pemasukan_header.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/widgets/form_fields_card.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/widgets/notes_card.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/widgets/submit_button.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/widgets/camera_capture.dart';
 
 enum ProofMode { photo, manual }
 
@@ -135,7 +134,7 @@ class _PemasukanFormState extends State<PemasukanForm> {
       if (mounted) _showAppSnack('Pilih foto terlebih dahulu');
       return;
     }
-    // simulate detection 
+    // simulate detection
     setState(() {
       _detections = [];
       _detectionRan = false;
@@ -256,8 +255,10 @@ class _PemasukanFormState extends State<PemasukanForm> {
   void _showDetectionResult() {
     final stateStr = (_detectionState != null)
         ? (_detectionState == DetectionState.success
-            ? 'success'
-            : (_detectionState == DetectionState.warning ? 'warning' : 'error'))
+              ? 'success'
+              : (_detectionState == DetectionState.warning
+                    ? 'warning'
+                    : 'error'))
         : (_detections.isNotEmpty ? 'success' : 'error');
 
     showModalBottomSheet<void>(
@@ -279,7 +280,9 @@ class _PemasukanFormState extends State<PemasukanForm> {
             Navigator.of(context).pop();
             if (_pickedBytes == null) return;
             final result = await Navigator.of(context).push<ManualReviewResult>(
-              MaterialPageRoute(builder: (ctx) => ManualReviewPage(imageBytes: _pickedBytes!)),
+              MaterialPageRoute(
+                builder: (ctx) => ManualReviewPage(imageBytes: _pickedBytes!),
+              ),
             );
             if (result == ManualReviewResult.accept) {
               _submit();

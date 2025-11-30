@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pemasukan_form.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/pemasukan_form.dart';
 
 class PemasukanScreen extends StatelessWidget {
   const PemasukanScreen({super.key});
@@ -22,10 +22,10 @@ class PemasukanScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: const PemasukanForm(),
+          padding: EdgeInsets.all(16),
+          child: PemasukanForm(),
         ),
       ),
     );
