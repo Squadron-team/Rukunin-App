@@ -6,9 +6,9 @@ class LetterTypeSelector extends StatelessWidget {
   final Function(String) onSelect;
 
   const LetterTypeSelector({
-    super.key,
     required this.selectedType,
     required this.onSelect,
+    super.key,
   });
 
   @override
@@ -28,7 +28,10 @@ class LetterTypeSelector extends StatelessWidget {
               onTap: () => onSelect(type),
               child: Container(
                 margin: const EdgeInsets.only(bottom: 10),
-                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 14,
+                  horizontal: 16,
+                ),
                 decoration: BoxDecoration(
                   color: selectedType == type
                       ? AppColors.primary.withOpacity(0.12)

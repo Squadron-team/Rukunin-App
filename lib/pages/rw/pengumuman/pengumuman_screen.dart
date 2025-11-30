@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'pengumuman_card.dart';
-import 'pengumuman_detail.dart';
+import 'package:rukunin/pages/rw/pengumuman/pengumuman_card.dart';
+import 'package:rukunin/pages/rw/pengumuman/pengumuman_detail.dart';
 
 class PengumumanScreen extends StatelessWidget {
   const PengumumanScreen({super.key});
@@ -10,20 +10,20 @@ class PengumumanScreen extends StatelessWidget {
     // Dummy data
     final List<Map<String, String>> data = [
       {
-        "judul": "Kerja Bakti Mingguan",
-        "tanggal": "20 November 2025",
-        "isi": "Warga dimohon hadir kerja bakti membersihkan lingkungan RT/RW."
+        'judul': 'Kerja Bakti Mingguan',
+        'tanggal': '20 November 2025',
+        'isi': 'Warga dimohon hadir kerja bakti membersihkan lingkungan RT/RW.',
       },
       {
-        "judul": "Rapat RW Bulanan",
-        "tanggal": "18 November 2025",
-        "isi": "Rapat rutin bulanan RW akan diadakan di balai warga."
+        'judul': 'Rapat RW Bulanan',
+        'tanggal': '18 November 2025',
+        'isi': 'Rapat rutin bulanan RW akan diadakan di balai warga.',
       },
       {
-        "judul": "Pendistribusian Sembako",
-        "tanggal": "15 November 2025",
-        "isi": "Pembagian bantuan sembako untuk warga yang membutuhkan."
-      }
+        'judul': 'Pendistribusian Sembako',
+        'tanggal': '15 November 2025',
+        'isi': 'Pembagian bantuan sembako untuk warga yang membutuhkan.',
+      },
     ];
 
     return Scaffold(
@@ -51,17 +51,17 @@ class PengumumanScreen extends StatelessWidget {
           final item = data[index];
 
           return PengumumanCard(
-            judul: item["judul"]!,
-            tanggal: item["tanggal"]!,
-            isi: item["isi"]!,
+            judul: item['judul']!,
+            tanggal: item['tanggal']!,
+            isi: item['isi']!,
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => PengumumanDetail(
-                    judul: item["judul"]!,
-                    tanggal: item["tanggal"]!,
-                    isi: item["isi"]!,
+                    judul: item['judul']!,
+                    tanggal: item['tanggal']!,
+                    isi: item['isi']!,
                   ),
                 ),
               );

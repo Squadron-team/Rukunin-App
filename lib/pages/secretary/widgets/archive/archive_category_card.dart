@@ -7,11 +7,11 @@ class ArchiveCategoryCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const ArchiveCategoryCard({
-    super.key,
     required this.icon,
     required this.label,
     required this.color,
     required this.onTap,
+    super.key,
   });
 
   @override

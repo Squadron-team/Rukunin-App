@@ -6,10 +6,10 @@ class PengumumanDetail extends StatelessWidget {
   final String isi;
 
   const PengumumanDetail({
-    super.key,
     required this.judul,
     required this.tanggal,
     required this.isi,
+    super.key,
   });
 
   @override
@@ -29,10 +29,7 @@ class PengumumanDetail extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            Text(
-              isi,
-              style: const TextStyle(fontSize: 16, height: 1.5),
-            ),
+            Text(isi, style: const TextStyle(fontSize: 16, height: 1.5)),
           ],
         ),
       ),

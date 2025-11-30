@@ -6,10 +6,10 @@ class ArchiveRecentCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const ArchiveRecentCard({
-    super.key,
     required this.title,
     required this.date,
     required this.onTap,
+    super.key,
   });
 
   @override
@@ -22,12 +22,12 @@ class ArchiveRecentCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Colors.black12,
               blurRadius: 8,
               offset: Offset(0, 3),
-            )
+            ),
           ],
         ),
         child: Row(
@@ -48,14 +48,11 @@ class ArchiveRecentCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     date,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey,
-                    ),
+                    style: const TextStyle(fontSize: 13, color: Colors.grey),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

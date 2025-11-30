@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'data_iuran_detail.dart';
+import 'package:rukunin/pages/treasurer/data_iuran/data_iuran_detail.dart';
 import 'package:rukunin/repositories/data_iuran_repository.dart';
 
 class DataIuranPage extends StatefulWidget {
@@ -34,14 +34,18 @@ class _DataIuranPageState extends State<DataIuranPage> {
           content: const Text('Verifikasi berhasil'),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       );
     }
   }
 
   void _openDetail(Map<String, String> item) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => DataIuranDetail(item: item)));
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => DataIuranDetail(item: item)));
   }
 
   @override
@@ -52,7 +56,12 @@ class _DataIuranPageState extends State<DataIuranPage> {
       appBar: AppBar(
         title: const Text(
           'Data Iuran',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20, letterSpacing: -0.5),
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
+            letterSpacing: -0.5,
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -75,13 +84,32 @@ class _DataIuranPageState extends State<DataIuranPage> {
                     child: GestureDetector(
                       onTap: () => setState(() => _filterRt = rt),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
-                          color: selected ? AppColors.primary.withOpacity(0.12) : Colors.transparent,
-                          border: Border.all(color: selected ? AppColors.primary : Colors.grey.shade300),
+                          color: selected
+                              ? AppColors.primary.withOpacity(0.12)
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: selected
+                                ? AppColors.primary
+                                : Colors.grey.shade300,
+                          ),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Text(rt, style: TextStyle(fontWeight: selected ? FontWeight.w700 : FontWeight.w500, color: selected ? AppColors.primary : Colors.grey[800])),
+                        child: Text(
+                          rt,
+                          style: TextStyle(
+                            fontWeight: selected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
+                            color: selected
+                                ? AppColors.primary
+                                : Colors.grey[800],
+                          ),
+                        ),
                       ),
                     ),
                   );
@@ -97,19 +125,35 @@ class _DataIuranPageState extends State<DataIuranPage> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                                    Container(
-                                      width: 96,
-                                      height: 96,
-                                      decoration: BoxDecoration(
-                                        color: AppColors.primary.withOpacity(0.12),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: const Center(child: Icon(Icons.receipt_long, size: 44, color: AppColors.primary)),
-                                    ),
+                          Container(
+                            width: 96,
+                            height: 96,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withOpacity(0.12),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.receipt_long,
+                                size: 44,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: 12),
-                          const Text('Tidak ada iuran untuk diverifikasi', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18)),
+                          const Text(
+                            'Tidak ada iuran untuk diverifikasi',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 18,
+                            ),
+                          ),
                           const SizedBox(height: 8),
-                                    Text('Semua pembayaran sudah diverifikasi atau tidak ada data baru.', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey[700])),
+                          Text(
+                            'Semua pembayaran sudah diverifikasi atau tidak ada data baru.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.grey[700]),
+                          ),
                         ],
                       ),
                     )
@@ -118,7 +162,7 @@ class _DataIuranPageState extends State<DataIuranPage> {
                       separatorBuilder: (_, __) => const SizedBox(height: 12),
                       itemBuilder: (ctx, i) {
                         final item = visible[i];
-                        final color = Colors.blue;
+                        const color = Colors.blue;
                         final isPalsu = (item['prediction'] ?? '') == 'palsu';
                         return InkWell(
                           onTap: () => _openDetail(item),
@@ -131,8 +175,16 @@ class _DataIuranPageState extends State<DataIuranPage> {
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(color: color.withOpacity(0.12)),
-                                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0, 2))],
+                                  border: Border.all(
+                                    color: color.withOpacity(0.12),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.04),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,23 +192,48 @@ class _DataIuranPageState extends State<DataIuranPage> {
                                     Row(
                                       children: [
                                         CircleAvatar(
-                                          backgroundColor: AppColors.primary.withOpacity(0.12),
-                                          child: Icon(Icons.person, color: AppColors.primary),
+                                          backgroundColor: AppColors.primary
+                                              .withOpacity(0.12),
+                                          child: const Icon(
+                                            Icons.person,
+                                            color: AppColors.primary,
+                                          ),
                                         ),
                                         const SizedBox(width: 12),
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Text('${item['name']} (${item['rt']})', style: const TextStyle(fontWeight: FontWeight.w700)),
+                                              Text(
+                                                '${item['name']} (${item['rt']})',
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
                                               const SizedBox(height: 4),
-                                              Text(item['type'] ?? '', style: const TextStyle(color: Colors.black54)),
+                                              Text(
+                                                item['type'] ?? '',
+                                                style: const TextStyle(
+                                                  color: Colors.black54,
+                                                ),
+                                              ),
                                               const SizedBox(height: 6),
                                               Row(
                                                 children: [
-                                                  Icon(Icons.access_time, size: 12, color: Colors.grey[600]),
+                                                  Icon(
+                                                    Icons.access_time,
+                                                    size: 12,
+                                                    color: Colors.grey[600],
+                                                  ),
                                                   const SizedBox(width: 6),
-                                                  Text(item['time'] ?? '', style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                                                  Text(
+                                                    item['time'] ?? '',
+                                                    style: TextStyle(
+                                                      color: Colors.grey[600],
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ],
@@ -164,7 +241,7 @@ class _DataIuranPageState extends State<DataIuranPage> {
                                         ),
                                         Text(
                                           item['amount'] ?? '',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w800,
                                             color: color,
@@ -178,7 +255,10 @@ class _DataIuranPageState extends State<DataIuranPage> {
                                         Expanded(
                                           child: ElevatedButton.icon(
                                             onPressed: () => _verifyItem(i),
-                                            icon: const Icon(Icons.check, size: 18),
+                                            icon: const Icon(
+                                              Icons.check,
+                                              size: 18,
+                                            ),
                                             label: const Text('Verifikasi'),
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.green,
@@ -192,7 +272,10 @@ class _DataIuranPageState extends State<DataIuranPage> {
                                           height: 44,
                                           child: IconButton(
                                             onPressed: () => _openDetail(item),
-                                            icon: const Icon(Icons.arrow_forward, color: Colors.blue),
+                                            icon: const Icon(
+                                              Icons.arrow_forward,
+                                              color: Colors.blue,
+                                            ),
                                             tooltip: 'Detail',
                                           ),
                                         ),
@@ -208,7 +291,16 @@ class _DataIuranPageState extends State<DataIuranPage> {
                                   child: Container(
                                     width: 22,
                                     height: 22,
-                                    decoration: BoxDecoration(color: AppColors.error, shape: BoxShape.circle, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.12), blurRadius: 4)]),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.error,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.12),
+                                          blurRadius: 4,
+                                        ),
+                                      ],
+                                    ),
                                     child: const Center(
                                       child: Icon(
                                         Icons.warning_amber_rounded,

@@ -7,11 +7,11 @@ class CustomDropdown extends StatelessWidget {
   final Function(String?)? onChanged;
 
   const CustomDropdown({
-    super.key,
     required this.label,
     required this.value,
     required this.items,
     required this.onChanged,
+    super.key,
   });
 
   @override
@@ -31,13 +31,10 @@ class CustomDropdown extends StatelessWidget {
             border: Border.all(color: Colors.grey[300]!),
           ),
           child: DropdownButtonFormField<String>(
-            value: value,
+            initialValue: value,
             decoration: const InputDecoration(border: InputBorder.none),
             items: items
-                .map((e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e),
-                    ))
+                .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                 .toList(),
             onChanged: onChanged,
           ),

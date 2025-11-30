@@ -7,19 +7,17 @@ class PengumumanCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const PengumumanCard({
-    super.key,
     required this.judul,
     required this.tanggal,
     required this.isi,
     required this.onTap,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 3,
       margin: const EdgeInsets.only(bottom: 16),
       child: InkWell(
@@ -40,17 +38,17 @@ class PengumumanCard extends StatelessWidget {
               const SizedBox(height: 6),
               Row(
                 children: [
-                  const Icon(Icons.calendar_today, size: 14, color: Colors.grey),
+                  const Icon(
+                    Icons.calendar_today,
+                    size: 14,
+                    color: Colors.grey,
+                  ),
                   const SizedBox(width: 5),
                   Text(tanggal, style: const TextStyle(color: Colors.grey)),
                 ],
               ),
               const SizedBox(height: 10),
-              Text(
-                isi,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+              Text(isi, maxLines: 2, overflow: TextOverflow.ellipsis),
             ],
           ),
         ),

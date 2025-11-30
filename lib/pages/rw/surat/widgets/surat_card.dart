@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
-import '../models/surat_model.dart';
+import 'package:rukunin/pages/rw/surat/models/surat_model.dart';
 
 class SuratCard extends StatelessWidget {
   final Surat surat;
   final VoidCallback onTap;
 
-  const SuratCard({
-    super.key,
-    required this.surat,
-    required this.onTap,
-  });
+  const SuratCard({required this.surat, required this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -74,20 +68,14 @@ class SuratCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     surat.pemohon,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[800],
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.grey[800]),
                   ),
                   const Spacer(),
                   Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
                   const SizedBox(width: 8),
                   Text(
                     surat.tanggal,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[800],
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.grey[800]),
                   ),
                 ],
               ),
@@ -104,10 +92,7 @@ class SuratCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: _getStatusColor(status).withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: _getStatusColor(status),
-          width: 1,
-        ),
+        border: Border.all(color: _getStatusColor(status), width: 1),
       ),
       child: Text(
         status.displayName,

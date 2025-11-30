@@ -7,11 +7,11 @@ class QuickAccessItem extends StatelessWidget {
   final VoidCallback onTap;
 
   const QuickAccessItem({
-    super.key,
     required this.title,
     required this.icon,
     required this.color,
     required this.onTap,
+    super.key,
   });
 
   @override
@@ -29,9 +29,14 @@ class QuickAccessItem extends StatelessWidget {
             children: [
               Icon(icon, size: 40, color: color),
               const SizedBox(height: 12),
-              Text(title,
-                  style: TextStyle(
-                      color: color, fontWeight: FontWeight.bold, fontSize: 14)),
+              Text(
+                title,
+                style: TextStyle(
+                  color: color,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
             ],
           ),
         ),

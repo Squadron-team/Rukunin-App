@@ -12,18 +12,18 @@ class OutgoingMailScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.send, size: 80, color: Colors.green),
-            const SizedBox(height: 16),
-            const Text(
+            SizedBox(height: 16),
+            Text(
               'Surat Keluar',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
-            const Text('Halaman untuk mengelola surat keluar'),
+            SizedBox(height: 8),
+            Text('Halaman untuk mengelola surat keluar'),
           ],
         ),
       ),

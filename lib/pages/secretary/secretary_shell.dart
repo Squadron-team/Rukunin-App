@@ -5,23 +5,21 @@ import 'package:rukunin/style/app_colors.dart';
 class SecretaryShell extends StatelessWidget {
   final Widget child;
 
-  const SecretaryShell({
-    super.key,
-    required this.child,
-  });
+  const SecretaryShell({required this.child, super.key});
 
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
-    
+
     // Menggunakan startsWith untuk lebih robust
-    if (location == '/secretary' || location?.startsWith('/secretary/home') == true) {
+    if (location == '/secretary' ||
+        location.startsWith('/secretary/home') == true) {
       return 0;
     }
-    if (location?.startsWith('/secretary/marketplace') == true) return 1;
-    if (location?.startsWith('/secretary/activities') == true) return 2;
-    if (location?.startsWith('/secretary/community') == true) return 3;
-    if (location?.startsWith('/secretary/account') == true) return 4;
-    
+    if (location.startsWith('/secretary/marketplace') == true) return 1;
+    if (location.startsWith('/secretary/activities') == true) return 2;
+    if (location.startsWith('/secretary/community') == true) return 3;
+    if (location.startsWith('/secretary/account') == true) return 4;
+
     return 0;
   }
 
@@ -126,7 +124,7 @@ class SecretaryShell extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: isSelected 
+            color: isSelected
                 ? AppColors.primary.withOpacity(0.1)
                 : Colors.transparent,
           ),

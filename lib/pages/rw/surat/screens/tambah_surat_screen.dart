@@ -26,9 +26,7 @@ class _TambahSuratScreenState extends State<TambahSuratScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Buat Surat Baru'),
-      ),
+      appBar: AppBar(title: const Text('Buat Surat Baru')),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -42,12 +40,9 @@ class _TambahSuratScreenState extends State<TambahSuratScreen> {
                 ),
                 prefixIcon: const Icon(Icons.description),
               ),
-              value: _selectedJenisSurat,
+              initialValue: _selectedJenisSurat,
               items: _jenisSuratList.map((jenis) {
-                return DropdownMenuItem(
-                  value: jenis,
-                  child: Text(jenis),
-                );
+                return DropdownMenuItem(value: jenis, child: Text(jenis));
               }).toList(),
               onChanged: (value) {
                 setState(() {
@@ -123,10 +118,7 @@ class _TambahSuratScreenState extends State<TambahSuratScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text(
-                'Buat Surat',
-                style: TextStyle(fontSize: 16),
-              ),
+              child: const Text('Buat Surat', style: TextStyle(fontSize: 16)),
             ),
           ],
         ),
@@ -138,9 +130,9 @@ class _TambahSuratScreenState extends State<TambahSuratScreen> {
     if (_formKey.currentState!.validate()) {
       // Implementasi simpan surat
       Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Surat berhasil dibuat')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Surat berhasil dibuat')));
     }
   }
 

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 
 // Import Widgets
-import '../widgets/letter/info_card.dart';
-import '../widgets/letter/section_title.dart';
-import '../widgets/letter/letter_type_selector.dart';
-import '../widgets/letter/letter_info_form.dart';
-import '../widgets/letter/applicant_form.dart';
-import '../widgets/letter/additional_info_form.dart';
-import '../widgets/letter/action_buttons.dart';
+import 'package:rukunin/pages/secretary/widgets/letter/info_card.dart';
+import 'package:rukunin/pages/secretary/widgets/letter/section_title.dart';
+import 'package:rukunin/pages/secretary/widgets/letter/letter_type_selector.dart';
+import 'package:rukunin/pages/secretary/widgets/letter/letter_info_form.dart';
+import 'package:rukunin/pages/secretary/widgets/letter/applicant_form.dart';
+import 'package:rukunin/pages/secretary/widgets/letter/additional_info_form.dart';
+import 'package:rukunin/pages/secretary/widgets/letter/action_buttons.dart';
 
 class CreateLetterScreen extends StatefulWidget {
   const CreateLetterScreen({super.key});
@@ -56,31 +56,31 @@ class _CreateLetterScreenState extends State<CreateLetterScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     if (selectedLetterType == null) {
-      showMsg("Silakan pilih jenis surat", Colors.orange);
+      showMsg('Silakan pilih jenis surat', Colors.orange);
       return;
     }
 
     if (selectedDate == null) {
-      showMsg("Silakan pilih tanggal surat", Colors.orange);
+      showMsg('Silakan pilih tanggal surat', Colors.orange);
       return;
     }
 
     if (selectedRT == null || selectedRW == null) {
-      showMsg("Silakan pilih RT dan RW", Colors.orange);
+      showMsg('Silakan pilih RT dan RW', Colors.orange);
       return;
     }
 
-    showMsg("Surat berhasil dibuat!", Colors.green);
+    showMsg('Surat berhasil dibuat!', Colors.green);
     Navigator.pop(context);
   }
 
   void previewLetter() {
     if (!_formKey.currentState!.validate()) return;
-    showMsg("Fitur preview segera hadir", Colors.blue);
+    showMsg('Fitur preview segera hadir', Colors.blue);
   }
 
   void saveDraft() {
-    showMsg("Draft berhasil disimpan", Colors.green);
+    showMsg('Draft berhasil disimpan', Colors.green);
   }
 
   @override
@@ -89,7 +89,7 @@ class _CreateLetterScreenState extends State<CreateLetterScreen> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text(
-          "Buat Surat Baru",
+          'Buat Surat Baru',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w800,
@@ -107,10 +107,8 @@ class _CreateLetterScreenState extends State<CreateLetterScreen> {
           TextButton.icon(
             onPressed: saveDraft,
             icon: const Icon(Icons.drafts, size: 18),
-            label: const Text("Simpan Draft"),
-            style: TextButton.styleFrom(
-              foregroundColor: AppColors.primary,
-            ),
+            label: const Text('Simpan Draft'),
+            style: TextButton.styleFrom(foregroundColor: AppColors.primary),
           ),
         ],
       ),
@@ -123,7 +121,7 @@ class _CreateLetterScreenState extends State<CreateLetterScreen> {
               const InfoCard(),
               const SizedBox(height: 24),
 
-              const SectionTitle(title: "Jenis Surat"),
+              const SectionTitle(title: 'Jenis Surat'),
               const SizedBox(height: 12),
 
               LetterTypeSelector(
@@ -132,7 +130,7 @@ class _CreateLetterScreenState extends State<CreateLetterScreen> {
               ),
 
               const SizedBox(height: 24),
-              const SectionTitle(title: "Informasi Surat"),
+              const SectionTitle(title: 'Informasi Surat'),
               const SizedBox(height: 12),
 
               LetterInfoForm(
@@ -142,7 +140,7 @@ class _CreateLetterScreenState extends State<CreateLetterScreen> {
               ),
 
               const SizedBox(height: 24),
-              const SectionTitle(title: "Data Pemohon"),
+              const SectionTitle(title: 'Data Pemohon'),
               const SizedBox(height: 12),
 
               ApplicantForm(
@@ -156,18 +154,13 @@ class _CreateLetterScreenState extends State<CreateLetterScreen> {
               ),
 
               const SizedBox(height: 24),
-              const SectionTitle(title: "Keterangan Tambahan"),
+              const SectionTitle(title: 'Keterangan Tambahan'),
               const SizedBox(height: 12),
 
-              AdditionalInfoForm(
-                controller: keteranganController,
-              ),
+              AdditionalInfoForm(controller: keteranganController),
 
               const SizedBox(height: 32),
-              ActionButtons(
-                onCreate: createLetter,
-                onPreview: previewLetter,
-              ),
+              ActionButtons(onCreate: createLetter, onPreview: previewLetter),
 
               const SizedBox(height: 24),
             ],

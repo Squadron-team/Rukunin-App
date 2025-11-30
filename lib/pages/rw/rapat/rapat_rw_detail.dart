@@ -8,12 +8,12 @@ class RapatRwDetail extends StatelessWidget {
   final String agenda;
 
   const RapatRwDetail({
-    super.key,
     required this.judul,
     required this.tanggal,
     required this.waktu,
     required this.lokasi,
     required this.agenda,
+    super.key,
   });
 
   @override
@@ -56,16 +56,13 @@ class RapatRwDetail extends StatelessWidget {
             const SizedBox(height: 20),
 
             const Text(
-              "Agenda Rapat",
+              'Agenda Rapat',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 10),
 
-            Text(
-              agenda,
-              style: const TextStyle(fontSize: 16, height: 1.5),
-            )
+            Text(agenda, style: const TextStyle(fontSize: 16, height: 1.5)),
           ],
         ),
       ),

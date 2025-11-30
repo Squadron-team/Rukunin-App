@@ -19,7 +19,7 @@ class _TambahRapatRwScreenState extends State<TambahRapatRwScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tambah Rapat RW")),
+      appBar: AppBar(title: const Text('Tambah Rapat RW')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -28,45 +28,45 @@ class _TambahRapatRwScreenState extends State<TambahRapatRwScreen> {
             children: [
               TextFormField(
                 controller: judulC,
-                decoration: const InputDecoration(labelText: "Judul Rapat"),
-                validator: (v) => v!.isEmpty ? "Wajib diisi" : null,
+                decoration: const InputDecoration(labelText: 'Judul Rapat'),
+                validator: (v) => v!.isEmpty ? 'Wajib diisi' : null,
               ),
               TextFormField(
                 controller: tanggalC,
-                decoration: const InputDecoration(labelText: "Tanggal"),
-                validator: (v) => v!.isEmpty ? "Wajib diisi" : null,
+                decoration: const InputDecoration(labelText: 'Tanggal'),
+                validator: (v) => v!.isEmpty ? 'Wajib diisi' : null,
               ),
               TextFormField(
                 controller: waktuC,
-                decoration: const InputDecoration(labelText: "Waktu"),
-                validator: (v) => v!.isEmpty ? "Wajib diisi" : null,
+                decoration: const InputDecoration(labelText: 'Waktu'),
+                validator: (v) => v!.isEmpty ? 'Wajib diisi' : null,
               ),
               TextFormField(
                 controller: lokasiC,
-                decoration: const InputDecoration(labelText: "Lokasi"),
-                validator: (v) => v!.isEmpty ? "Wajib diisi" : null,
+                decoration: const InputDecoration(labelText: 'Lokasi'),
+                validator: (v) => v!.isEmpty ? 'Wajib diisi' : null,
               ),
               TextFormField(
                 controller: agendaC,
                 maxLines: 4,
-                decoration: const InputDecoration(labelText: "Agenda"),
-                validator: (v) => v!.isEmpty ? "Wajib diisi" : null,
+                decoration: const InputDecoration(labelText: 'Agenda'),
+                validator: (v) => v!.isEmpty ? 'Wajib diisi' : null,
               ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     Navigator.pop(context, {
-                      "judul": judulC.text,
-                      "tanggal": tanggalC.text,
-                      "waktu": waktuC.text,
-                      "lokasi": lokasiC.text,
-                      "agenda": agendaC.text,
+                      'judul': judulC.text,
+                      'tanggal': tanggalC.text,
+                      'waktu': waktuC.text,
+                      'lokasi': lokasiC.text,
+                      'agenda': agendaC.text,
                     });
                   }
                 },
-                child: const Text("Simpan Rapat"),
-              )
+                child: const Text('Simpan Rapat'),
+              ),
             ],
           ),
         ),

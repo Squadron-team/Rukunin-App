@@ -12,18 +12,18 @@ class ReportsScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.assessment, size: 80, color: Colors.deepOrange),
-            const SizedBox(height: 16),
-            const Text(
+            SizedBox(height: 16),
+            Text(
               'Laporan',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
-            const Text('Halaman untuk melihat laporan'),
+            SizedBox(height: 8),
+            Text('Halaman untuk melihat laporan'),
           ],
         ),
       ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'models/surat_model.dart';
-import 'widgets/surat_card.dart';
-import 'widgets/filter_chips.dart';
-import 'screens/tambah_surat_screen.dart';
-import 'screens/detail_surat_screen.dart';
+import 'package:rukunin/pages/rw/surat/models/surat_model.dart';
+import 'package:rukunin/pages/rw/surat/widgets/surat_card.dart';
+import 'package:rukunin/pages/rw/surat/widgets/filter_chips.dart';
+import 'package:rukunin/pages/rw/surat/screens/tambah_surat_screen.dart';
+import 'package:rukunin/pages/rw/surat/screens/detail_surat_screen.dart';
 
 class SuratMenyuratScreen extends StatefulWidget {
   const SuratMenyuratScreen({super.key});
@@ -57,11 +57,17 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
   List<Surat> get _filteredSuratList {
     switch (_selectedFilter) {
       case 'Menunggu':
-        return _suratList.where((s) => s.status == StatusSurat.menunggu).toList();
+        return _suratList
+            .where((s) => s.status == StatusSurat.menunggu)
+            .toList();
       case 'Disetujui':
-        return _suratList.where((s) => s.status == StatusSurat.disetujui).toList();
+        return _suratList
+            .where((s) => s.status == StatusSurat.disetujui)
+            .toList();
       case 'Ditolak':
-        return _suratList.where((s) => s.status == StatusSurat.ditolak).toList();
+        return _suratList
+            .where((s) => s.status == StatusSurat.ditolak)
+            .toList();
       default:
         return _suratList;
     }
@@ -69,9 +75,12 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
 
   // STATISTIK
   int get _total => _suratList.length;
-  int get _menunggu => _suratList.where((s) => s.status == StatusSurat.menunggu).length;
-  int get _disetujui => _suratList.where((s) => s.status == StatusSurat.disetujui).length;
-  int get _ditolak => _suratList.where((s) => s.status == StatusSurat.ditolak).length;
+  int get _menunggu =>
+      _suratList.where((s) => s.status == StatusSurat.menunggu).length;
+  int get _disetujui =>
+      _suratList.where((s) => s.status == StatusSurat.disetujui).length;
+  int get _ditolak =>
+      _suratList.where((s) => s.status == StatusSurat.ditolak).length;
 
   // REFRESH
   Future<void> _onRefresh() async {
@@ -103,7 +112,7 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
           IconButton(
             icon: const Icon(Icons.filter_list, color: Colors.black),
             onPressed: () {},
-          )
+          ),
         ],
       ),
 
@@ -125,10 +134,30 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildStatCard('Total', _total.toString(), Icons.mail_outline, Colors.white),
-                _buildStatCard('Menunggu', _menunggu.toString(), Icons.pending, Colors.orange),
-                _buildStatCard('Disetujui', _disetujui.toString(), Icons.check_circle, Colors.green),
-                _buildStatCard('Ditolak', _ditolak.toString(), Icons.cancel, Colors.red),
+                _buildStatCard(
+                  'Total',
+                  _total.toString(),
+                  Icons.mail_outline,
+                  Colors.white,
+                ),
+                _buildStatCard(
+                  'Menunggu',
+                  _menunggu.toString(),
+                  Icons.pending,
+                  Colors.orange,
+                ),
+                _buildStatCard(
+                  'Disetujui',
+                  _disetujui.toString(),
+                  Icons.check_circle,
+                  Colors.green,
+                ),
+                _buildStatCard(
+                  'Ditolak',
+                  _ditolak.toString(),
+                  Icons.cancel,
+                  Colors.red,
+                ),
               ],
             ),
           ),
@@ -164,7 +193,8 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => DetailSuratScreen(surat: surat),
+                                  builder: (_) =>
+                                      DetailSuratScreen(surat: surat),
                                 ),
                               );
                             },
@@ -203,7 +233,11 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.inbox_outlined, size: 100, color: Colors.grey[400]),
+                    Icon(
+                      Icons.inbox_outlined,
+                      size: 100,
+                      color: Colors.grey[400],
+                    ),
                     const SizedBox(height: 20),
                     Text(
                       'Belum ada surat $_selectedFilter',
@@ -229,7 +263,12 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
   }
 
   // --- WIDGET STATISTIK ---
-  Widget _buildStatCard(String label, String value, IconData icon, Color iconColor) {
+  Widget _buildStatCard(
+    String label,
+    String value,
+    IconData icon,
+    Color iconColor,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       decoration: BoxDecoration(
@@ -250,10 +289,7 @@ class _SuratMenyuratScreenState extends State<SuratMenyuratScreen> {
           ),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.white70,
-            ),
+            style: const TextStyle(fontSize: 12, color: Colors.white70),
           ),
         ],
       ),
