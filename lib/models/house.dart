@@ -21,7 +21,7 @@ class House {
       id: id ?? this.id,
       streetName: streetName ?? this.streetName,
       houseNo: houseNo ?? this.houseNo,
-      
+
       isOccupied: isOccupied ?? this.isOccupied,
     );
   }

@@ -18,10 +18,7 @@ class DeleteBackground extends StatelessWidget {
         children: [
           const Icon(Icons.delete, color: Colors.white),
           const SizedBox(width: 8),
-          Text(
-            label,
-            style: const TextStyle(color: Colors.white),
-          ),
+          Text(label, style: const TextStyle(color: Colors.white)),
         ],
       ),
     );

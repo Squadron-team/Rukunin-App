@@ -84,7 +84,10 @@ class RTPaymentList extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: color.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(6),
@@ -93,8 +96,8 @@ class RTPaymentList extends StatelessWidget {
                       percentage >= 95
                           ? 'Sangat Baik'
                           : percentage >= 85
-                              ? 'Baik'
-                              : 'Perlu Perhatian',
+                          ? 'Baik'
+                          : 'Perlu Perhatian',
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
@@ -125,11 +128,41 @@ class RTPaymentList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildRTPaymentCard(rtNumber: '01', totalKK: 48, paidKK: 42, amount: 'Rp 2.100.000', color: Colors.green),
-        _buildRTPaymentCard(rtNumber: '02', totalKK: 52, paidKK: 45, amount: 'Rp 2.250.000', color: Colors.green),
-        _buildRTPaymentCard(rtNumber: '03', totalKK: 45, paidKK: 38, amount: 'Rp 1.900.000', color: Colors.orange),
-        _buildRTPaymentCard(rtNumber: '04', totalKK: 50, paidKK: 50, amount: 'Rp 2.500.000', color: Colors.blue),
-        _buildRTPaymentCard(rtNumber: '05', totalKK: 50, paidKK: 44, amount: 'Rp 2.200.000', color: Colors.green),
+        _buildRTPaymentCard(
+          rtNumber: '01',
+          totalKK: 48,
+          paidKK: 42,
+          amount: 'Rp 2.100.000',
+          color: Colors.green,
+        ),
+        _buildRTPaymentCard(
+          rtNumber: '02',
+          totalKK: 52,
+          paidKK: 45,
+          amount: 'Rp 2.250.000',
+          color: Colors.green,
+        ),
+        _buildRTPaymentCard(
+          rtNumber: '03',
+          totalKK: 45,
+          paidKK: 38,
+          amount: 'Rp 1.900.000',
+          color: Colors.orange,
+        ),
+        _buildRTPaymentCard(
+          rtNumber: '04',
+          totalKK: 50,
+          paidKK: 50,
+          amount: 'Rp 2.500.000',
+          color: Colors.blue,
+        ),
+        _buildRTPaymentCard(
+          rtNumber: '05',
+          totalKK: 50,
+          paidKK: 44,
+          amount: 'Rp 2.200.000',
+          color: Colors.green,
+        ),
       ],
     );
   }

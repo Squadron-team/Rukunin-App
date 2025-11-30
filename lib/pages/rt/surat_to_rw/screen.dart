@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
-import '../../../models/rt_letter.dart';
-import 'form.dart';
+import 'package:rukunin/models/rt_letter.dart';
+import 'package:rukunin/pages/rt/surat_to_rw/form.dart';
 
 class CreateRtToRwLetterScreen extends StatefulWidget {
   const CreateRtToRwLetterScreen({super.key});
 
   @override
-  State<CreateRtToRwLetterScreen> createState() => _CreateRtToRwLetterScreenState();
+  State<CreateRtToRwLetterScreen> createState() =>
+      _CreateRtToRwLetterScreenState();
 }
 
 class _CreateRtToRwLetterScreenState extends State<CreateRtToRwLetterScreen> {
@@ -20,7 +21,11 @@ class _CreateRtToRwLetterScreenState extends State<CreateRtToRwLetterScreen> {
         appBar: AppBar(
           title: const Text(
             'Buat Surat untuk RW',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+              color: Colors.black,
+            ),
           ),
           centerTitle: true,
           backgroundColor: Colors.white,
@@ -43,9 +48,18 @@ class _CreateRtToRwLetterScreenState extends State<CreateRtToRwLetterScreen> {
           unselectedLabelColor: Colors.grey[600],
           indicatorColor: AppColors.primary,
           indicatorWeight: 3,
-          labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-          unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          tabs: const [Tab(text: 'Jenis Surat'), Tab(text: 'Riwayat')],
+          labelStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+          tabs: const [
+            Tab(text: 'Jenis Surat'),
+            Tab(text: 'Riwayat'),
+          ],
         ),
       ),
     );
@@ -126,7 +140,9 @@ class _TypesTab extends StatelessWidget {
                   content: const Text('Surat berhasil dibuat'),
                   backgroundColor: AppColors.primary,
                   behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               );
             }
@@ -136,12 +152,14 @@ class _TypesTab extends StatelessWidget {
     );
   }
 
-  Widget _buildTypeCard(BuildContext context,
-      {required IconData icon,
-      required String title,
-      required String description,
-      required Color color,
-      required VoidCallback onTap}) {
+  Widget _buildTypeCard(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String description,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -150,23 +168,45 @@ class _TypesTab extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey[200]!),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0, 2))],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         child: Row(
           children: [
             Container(
               width: 56,
               height: 56,
-              decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(14),
+              ),
               child: Icon(icon, color: color, size: 28),
             ),
             const SizedBox(width: 16),
             Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black)),
-                const SizedBox(height: 4),
-                Text(description, style: TextStyle(fontSize: 13, color: Colors.grey[600])),
-              ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
             ),
             Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
           ],
@@ -209,13 +249,29 @@ class _HistoryTabState extends State<_HistoryTab> {
               Container(
                 width: 96,
                 height: 96,
-                decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.12), shape: BoxShape.circle),
-                child: const Center(child: Icon(Icons.description_outlined, size: 40, color: AppColors.primary)),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withOpacity(0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.description_outlined,
+                    size: 40,
+                    color: AppColors.primary,
+                  ),
+                ),
               ),
               const SizedBox(height: 12),
-              const Text('Belum ada riwayat', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20)),
+              const Text(
+                'Belum ada riwayat',
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+              ),
               const SizedBox(height: 8),
-              Text('Belum ada surat yang pernah dibuat', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey[700])),
+              Text(
+                'Belum ada surat yang pernah dibuat',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey[700]),
+              ),
             ],
           ),
         ),
@@ -230,15 +286,58 @@ class _HistoryTabState extends State<_HistoryTab> {
         final it = _items[index] as RtLetter;
         return Container(
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey[200]!)),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [Expanded(child: Text(it.title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700))),
-            Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6), decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(20)), child: Text(it.status, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600))),]),
-            const SizedBox(height: 8),
-            Text(it.purpose, style: TextStyle(fontSize: 14, color: Colors.grey[700]), maxLines: 2, overflow: TextOverflow.ellipsis),
-            const SizedBox(height: 8),
-            Text('${it.createdAt.day}/${it.createdAt.month}/${it.createdAt.year}', style: TextStyle(fontSize: 13, color: Colors.grey[600])),
-          ]),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey[200]!),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      it.title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      it.status,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                it.purpose,
+                style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '${it.createdAt.day}/${it.createdAt.month}/${it.createdAt.year}',
+                style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+              ),
+            ],
+          ),
         );
       },
     );

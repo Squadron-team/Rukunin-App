@@ -21,11 +21,7 @@ class WargaToolbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: WargaSearchBar(
-            onChanged: onSearchChanged,
-          ),
-        ),
+        Expanded(child: WargaSearchBar(onChanged: onSearchChanged)),
         const SizedBox(width: 12),
         DownloadButton(onPressed: onDownload),
         const SizedBox(width: 8),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rt/surat_form_warga/models/document_request.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'widgets/header_info.dart';
-import 'widgets/attachments_list.dart';
-import 'widgets/note_upload.dart';
-import 'widgets/action_buttons.dart';
+import 'package:rukunin/pages/rt/surat_form_warga/widgets/header_info.dart';
+import 'package:rukunin/pages/rt/surat_form_warga/widgets/attachments_list.dart';
+import 'package:rukunin/pages/rt/surat_form_warga/widgets/note_upload.dart';
+import 'package:rukunin/pages/rt/surat_form_warga/widgets/action_buttons.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 
@@ -275,12 +275,29 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // header + info
-              RequestHeaderInfo(request: widget.request, catColor: catColor, relativeTime: relativeTime),
+              RequestHeaderInfo(
+                request: widget.request,
+                catColor: catColor,
+                relativeTime: relativeTime,
+              ),
               const SizedBox(height: 12),
-              if (widget.request.attachments != null && widget.request.attachments!.isNotEmpty) ...[
-                AttachmentsList(attachments: widget.request.attachments!, onDownload: (path) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fungsi unduh belum tersedia: $path'), backgroundColor: AppColors.primary, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))));
-                }),
+              if (widget.request.attachments != null &&
+                  widget.request.attachments!.isNotEmpty) ...[
+                AttachmentsList(
+                  attachments: widget.request.attachments!,
+                  onDownload: (path) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Fungsi unduh belum tersedia: $path'),
+                        backgroundColor: AppColors.primary,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    );
+                  },
+                ),
                 const SizedBox(height: 12),
               ],
 

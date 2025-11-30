@@ -8,6 +8,7 @@ import 'package:rukunin/pages/rw/rapat/rapat_rw_screen.dart';
 import 'package:rukunin/pages/rw/surat/surat_menyurat_screen.dart';
 import 'package:rukunin/pages/rw/data_warga/data_warga_screen.dart';
 import 'package:rukunin/modules/notification/pages/notification_screen.dart';
+import 'package:rukunin/widgets/quick_access_item.dart';
 
 class RwHomeScreen extends StatelessWidget {
   const RwHomeScreen({super.key});
@@ -431,6 +432,7 @@ class RwHomeScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 18),
+
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -439,117 +441,83 @@ class RwHomeScreen extends StatelessWidget {
           mainAxisSpacing: 14,
           childAspectRatio: 0.9,
           children: [
-            _menuItem(
-              context,
-              'Data Warga',
-              Icons.people_rounded,
-              AppColors.primary,
-              const DataWargaScreen(),
+            QuickAccessItem(
+              icon: Icons.people_rounded,
+              label: 'Data Warga',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const DataWargaScreen()),
+                );
+              },
             ),
-            _menuItem(
-              context,
-              'Iuran',
-              Icons.payments_rounded,
-              Colors.green,
-              const IuranRwScreen(),
+            QuickAccessItem(
+              icon: Icons.payments_rounded,
+              label: 'Iuran',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const IuranRwScreen()),
+                );
+              },
             ),
-            _menuItem(
-              context,
-              'Kegiatan',
-              Icons.event_rounded,
-              Colors.purple,
-              const KegiatanRwScreen(),
+            QuickAccessItem(
+              icon: Icons.event_rounded,
+              label: 'Kegiatan',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const KegiatanRwScreen()),
+                );
+              },
             ),
-            _menuItem(
-              context,
-              'Laporan',
-              Icons.receipt_long_rounded,
-              Colors.orange,
-              const KelolaLaporanScreen(),
+            QuickAccessItem(
+              icon: Icons.receipt_long_rounded,
+              label: 'Laporan',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const KelolaLaporanScreen(),
+                  ),
+                );
+              },
             ),
-            _menuItem(
-              context,
-              'Pengumuman',
-              Icons.campaign_rounded,
-              Colors.red,
-              const PengumumanScreen(),
+            QuickAccessItem(
+              icon: Icons.campaign_rounded,
+              label: 'Pengumuman',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PengumumanScreen()),
+                );
+              },
             ),
-            _menuItem(
-              context,
-              'Rapat',
-              Icons.meeting_room_rounded,
-              Colors.teal,
-              const RapatRwScreen(),
+            QuickAccessItem(
+              icon: Icons.meeting_room_rounded,
+              label: 'Rapat',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const RapatRwScreen()),
+                );
+              },
             ),
-            _menuItem(
-              context,
-              'Surat',
-              Icons.description_rounded,
-              Colors.brown,
-              const SuratMenyuratScreen(),
+            QuickAccessItem(
+              icon: Icons.description_rounded,
+              label: 'Surat',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SuratMenyuratScreen(),
+                  ),
+                );
+              },
             ),
           ],
         ),
       ],
-    );
-  }
-
-  Widget _menuItem(
-    BuildContext context,
-    String label,
-    IconData icon,
-    Color color,
-    Widget page,
-  ) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: () =>
-            Navigator.push(context, MaterialPageRoute(builder: (_) => page)),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: color.withOpacity(0.2), width: 1.5),
-            boxShadow: [
-              BoxShadow(
-                color: color.withOpacity(0.1),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.12),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Icon(icon, size: 32, color: color),
-              ),
-              const SizedBox(height: 12),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.grey[800],
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 

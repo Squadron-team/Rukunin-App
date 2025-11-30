@@ -81,7 +81,8 @@ class WargaForm extends StatelessWidget {
           TextFormField(
             controller: nameC,
             decoration: _dec('Nama Lengkap'),
-            validator: (v) => (v?.isEmpty ?? true) ? 'Nama tidak boleh kosong' : null,
+            validator: (v) =>
+                (v?.isEmpty ?? true) ? 'Nama tidak boleh kosong' : null,
           ),
           const SizedBox(height: 12),
           TextFormField(
@@ -99,7 +100,8 @@ class WargaForm extends StatelessWidget {
             controller: kkC,
             decoration: _dec('No. KK'),
             keyboardType: TextInputType.number,
-            validator: (v) => (v == null || v.isEmpty) ? 'No. KK tidak boleh kosong' : null,
+            validator: (v) =>
+                (v == null || v.isEmpty) ? 'No. KK tidak boleh kosong' : null,
           ),
           const SizedBox(height: 12),
           AddressPicker(
@@ -122,28 +124,36 @@ class WargaForm extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
-            value: gender.isNotEmpty ? gender : null,
+            initialValue: gender.isNotEmpty ? gender : null,
             decoration: _dec('Jenis Kelamin'),
-            items: ['Laki-laki', 'Perempuan']
-                .map((g) => DropdownMenuItem(value: g, child: Text(g)))
-                .toList(),
+            items: [
+              'Laki-laki',
+              'Perempuan',
+            ].map((g) => DropdownMenuItem(value: g, child: Text(g))).toList(),
             onChanged: (v) => onGenderChanged(v ?? ''),
-            validator: (v) => (v == null || v.isEmpty) ? 'Pilih jenis kelamin' : null,
+            validator: (v) =>
+                (v == null || v.isEmpty) ? 'Pilih jenis kelamin' : null,
           ),
           const SizedBox(height: 12),
           Row(
             children: [
               Expanded(
                 child: TextFormField(
-                  decoration: _dec('RT').copyWith(fillColor: Colors.grey.shade50),
-                  initialValue: streets.isNotEmpty && selectedStreet != null ? selectedStreet!.name : null,
+                  decoration: _dec(
+                    'RT',
+                  ).copyWith(fillColor: Colors.grey.shade50),
+                  initialValue: streets.isNotEmpty && selectedStreet != null
+                      ? selectedStreet!.name
+                      : null,
                   readOnly: true,
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: TextFormField(
-                  decoration: _dec('RW').copyWith(fillColor: Colors.grey.shade50),
+                  decoration: _dec(
+                    'RW',
+                  ).copyWith(fillColor: Colors.grey.shade50),
                   initialValue: '01',
                   readOnly: true,
                 ),

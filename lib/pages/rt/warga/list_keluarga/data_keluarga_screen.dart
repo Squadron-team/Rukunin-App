@@ -116,12 +116,12 @@ class _DataKeluargaScreenState extends State<DataKeluargaScreen> {
                 onStatusChanged: (v) => setState(() => _familyStatus = v),
                 onViewKk: _members.isNotEmpty && _members.first.kkUrl.isNotEmpty
                     ? () => showDocPreview(
-                          context,
-                          type: 'KK',
-                          name: _headOfFamily,
-                          number: _kkNumber,
-                          url: _members.first.kkUrl,
-                        )
+                        context,
+                        type: 'KK',
+                        name: _headOfFamily,
+                        number: _kkNumber,
+                        url: _members.first.kkUrl,
+                      )
                     : null,
               ),
               const SizedBox(height: 24),
@@ -130,13 +130,17 @@ class _DataKeluargaScreenState extends State<DataKeluargaScreen> {
                 subtitle: '${_members.length} orang terdaftar',
               ),
               const SizedBox(height: 12),
-              ..._members.map((m) => FamilyMemberCard(
-                    member: m,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => WargaDetailScreen(warga: m)),
+              ..._members.map(
+                (m) => FamilyMemberCard(
+                  member: m,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => WargaDetailScreen(warga: m),
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

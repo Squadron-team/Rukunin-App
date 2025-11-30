@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/modules/notification/pages/notification_screen.dart';
-import 'widgets/welcome_card.dart';
-import 'widgets/cash_balance_overview.dart';
-import 'widgets/financial_summary.dart';
-import 'widgets/rt_payment_list.dart';
-import 'widgets/quick_actions_grid.dart';
-import 'widgets/payments_and_transactions.dart';
+import 'package:rukunin/pages/treasurer/widgets/welcome_card.dart';
+import 'package:rukunin/pages/treasurer/widgets/cash_balance_overview.dart';
+import 'package:rukunin/pages/treasurer/widgets/financial_summary.dart';
+import 'package:rukunin/pages/treasurer/widgets/rt_payment_list.dart';
+import 'package:rukunin/pages/treasurer/widgets/quick_actions_grid.dart';
+import 'package:rukunin/pages/treasurer/widgets/payments_and_transactions.dart';
 
 class TreasurerHomeScreen extends StatelessWidget {
   const TreasurerHomeScreen({super.key});
@@ -41,37 +41,50 @@ class TreasurerHomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Welcome + Balance
-              const WelcomeCard(),
-              const SizedBox(height: 24),
-              const CashBalanceOverview(),
-              const SizedBox(height: 24),
+              WelcomeCard(),
+              SizedBox(height: 24),
+              CashBalanceOverview(),
+              SizedBox(height: 24),
 
-              const FinancialSummary(),
-              const SizedBox(height: 24),
+              FinancialSummary(),
+              SizedBox(height: 24),
 
-              const Text('Status Pembayaran RT', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black)),
-              const SizedBox(height: 16),
-              const RTPaymentList(),
-              const SizedBox(height: 32),
+              Text(
+                'Status Pembayaran RT',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 16),
+              RTPaymentList(),
+              SizedBox(height: 32),
 
-              const Text('Menu Bendahara', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black)),
-              const SizedBox(height: 16),
-              const QuickActionsGrid(),
-              const SizedBox(height: 32),
+              Text(
+                'Menu Bendahara',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 16),
+              QuickActionsGrid(),
+              SizedBox(height: 32),
 
-              const PaymentsAndTransactions(),
+              PaymentsAndTransactions(),
             ],
           ),
         ),
       ),
     );
   }
-
 }

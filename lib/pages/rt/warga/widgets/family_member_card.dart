@@ -6,11 +6,7 @@ class FamilyMemberCard extends StatelessWidget {
   final Warga member;
   final VoidCallback? onTap;
 
-  const FamilyMemberCard({
-    required this.member,
-    this.onTap,
-    super.key,
-  });
+  const FamilyMemberCard({required this.member, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -33,7 +33,10 @@ class FamilyStatusEditor extends StatelessWidget {
               Expanded(
                 child: Text(
                   status == 'kontrak' ? 'Kontrak' : 'Tetap',
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               IconButton(
@@ -45,7 +48,9 @@ class FamilyStatusEditor extends StatelessWidget {
                   final choice = await showModalBottomSheet<String>(
                     context: context,
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(12),
+                      ),
                     ),
                     builder: (c) {
                       return SafeArea(
