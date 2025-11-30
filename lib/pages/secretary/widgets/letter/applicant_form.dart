@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'custom_text_field.dart';
-import 'custom_dropdown.dart';
+import 'package:rukunin/pages/secretary/widgets/letter/custom_text_field.dart';
+import 'package:rukunin/pages/secretary/widgets/letter/custom_dropdown.dart';
 
 class ApplicantForm extends StatelessWidget {
   final TextEditingController namaPemohon;
@@ -13,7 +13,6 @@ class ApplicantForm extends StatelessWidget {
   final Function(String?) onChangeRW;
 
   const ApplicantForm({
-    super.key,
     required this.namaPemohon,
     required this.nik,
     required this.alamat,
@@ -21,6 +20,7 @@ class ApplicantForm extends StatelessWidget {
     required this.selectedRW,
     required this.onChangeRT,
     required this.onChangeRW,
+    super.key,
   });
 
   @override
@@ -28,29 +28,28 @@ class ApplicantForm extends StatelessWidget {
     return Column(
       children: [
         CustomTextField(
-          label: "Nama Pemohon",
+          label: 'Nama Pemohon',
           controller: namaPemohon,
-          placeholder: "Masukkan nama lengkap",
-          validator: (v) => v!.isEmpty ? "Nama tidak boleh kosong" : null,
+          placeholder: 'Masukkan nama lengkap',
+          validator: (v) => v!.isEmpty ? 'Nama tidak boleh kosong' : null,
         ),
 
         const SizedBox(height: 14),
 
         CustomTextField(
-          label: "NIK",
+          label: 'NIK',
           controller: nik,
-          placeholder: "Masukkan NIK",
+          placeholder: 'Masukkan NIK',
           keyboardType: TextInputType.number,
-          validator: (v) =>
-              v!.length != 16 ? "NIK harus 16 digit" : null,
+          validator: (v) => v!.length != 16 ? 'NIK harus 16 digit' : null,
         ),
 
         const SizedBox(height: 14),
 
         CustomTextField(
-          label: "Alamat",
+          label: 'Alamat',
           controller: alamat,
-          placeholder: "Masukkan alamat lengkap",
+          placeholder: 'Masukkan alamat lengkap',
           maxLines: 3,
         ),
 
@@ -60,18 +59,18 @@ class ApplicantForm extends StatelessWidget {
           children: [
             Expanded(
               child: CustomDropdown(
-                label: "RT",
+                label: 'RT',
                 value: selectedRT,
-                items: List.generate(10, (i) => "0${i + 1}"),
+                items: List.generate(10, (i) => '0${i + 1}'),
                 onChanged: onChangeRT,
               ),
             ),
             const SizedBox(width: 14),
             Expanded(
               child: CustomDropdown(
-                label: "RW",
+                label: 'RW',
                 value: selectedRW,
-                items: List.generate(10, (i) => "0${i + 1}"),
+                items: List.generate(10, (i) => '0${i + 1}'),
                 onChanged: onChangeRW,
               ),
             ),

@@ -12,18 +12,18 @@ class VerificationScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.approval, size: 80, color: Colors.green),
-            const SizedBox(height: 16),
-            const Text(
+            SizedBox(height: 16),
+            Text(
               'Verifikasi Dokumen',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
-            const Text('Halaman untuk verifikasi dokumen'),
+            SizedBox(height: 8),
+            Text('Halaman untuk verifikasi dokumen'),
           ],
         ),
       ),

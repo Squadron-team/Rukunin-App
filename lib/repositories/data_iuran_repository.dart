@@ -108,7 +108,10 @@ class DataIuranRepository {
 
   /// Return prediction stored for an item id: 'asli' -> true, 'palsu' -> false, otherwise null
   bool? prediction(String id) {
-    final it = _items.firstWhere((e) => e['id'] == id, orElse: () => <String, String>{});
+    final it = _items.firstWhere(
+      (e) => e['id'] == id,
+      orElse: () => <String, String>{},
+    );
     final p = it['prediction'];
     if (p == 'asli') return true;
     if (p == 'palsu') return false;
@@ -127,7 +130,8 @@ class DataIuranRepository {
     for (final it in _items) {
       s.add(it['rt'] ?? 'RT -');
     }
-    final list = ['Semua'] + s.toList()..sort();
+    final list = ['Semua'] + s.toList()
+      ..sort();
     return list;
   }
 

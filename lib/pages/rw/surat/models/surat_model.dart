@@ -1,8 +1,4 @@
-enum StatusSurat {
-  menunggu,
-  disetujui,
-  ditolak,
-}
+enum StatusSurat { menunggu, disetujui, ditolak }
 
 extension StatusSuratExtension on StatusSurat {
   String get displayName {

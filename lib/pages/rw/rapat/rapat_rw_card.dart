@@ -8,12 +8,12 @@ class RapatRwCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const RapatRwCard({
-    super.key,
     required this.judul,
     required this.tanggal,
     required this.waktu,
     required this.lokasi,
     required this.onTap,
+    super.key,
   });
 
   @override
@@ -41,7 +41,11 @@ class RapatRwCard extends StatelessWidget {
 
               Row(
                 children: [
-                  const Icon(Icons.calendar_today, size: 14, color: Colors.grey),
+                  const Icon(
+                    Icons.calendar_today,
+                    size: 14,
+                    color: Colors.grey,
+                  ),
                   const SizedBox(width: 4),
                   Text(tanggal, style: const TextStyle(color: Colors.grey)),
                 ],

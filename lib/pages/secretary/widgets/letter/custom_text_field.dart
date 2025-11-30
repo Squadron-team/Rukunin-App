@@ -9,10 +9,10 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
 
   const CustomTextField({
-    super.key,
     required this.label,
     required this.placeholder,
     required this.controller,
+    super.key,
     this.validator,
     this.maxLines = 1,
     this.keyboardType,
@@ -35,7 +35,10 @@ class CustomTextField extends StatelessWidget {
           validator: validator,
           decoration: InputDecoration(
             hintText: placeholder,
-            contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 14,
+              horizontal: 14,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide(color: Colors.grey[300]!),

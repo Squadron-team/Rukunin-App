@@ -6,9 +6,9 @@ class ActionButtons extends StatelessWidget {
   final VoidCallback onCreate;
 
   const ActionButtons({
-    super.key,
     required this.onPreview,
     required this.onCreate,
+    super.key,
   });
 
   @override
@@ -20,11 +20,13 @@ class ActionButtons extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
             minimumSize: const Size(double.infinity, 50),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
           ),
           icon: const Icon(Icons.check_circle, color: Colors.white),
           label: const Text(
-            "Buat Surat",
+            'Buat Surat',
             style: TextStyle(fontSize: 16, color: Colors.white),
           ),
         ),
@@ -35,12 +37,14 @@ class ActionButtons extends StatelessWidget {
           onPressed: onPreview,
           style: OutlinedButton.styleFrom(
             minimumSize: const Size(double.infinity, 50),
-            side: BorderSide(color: AppColors.primary, width: 1.5),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            side: const BorderSide(color: AppColors.primary, width: 1.5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
           ),
-          icon: Icon(Icons.remove_red_eye, color: AppColors.primary),
-          label: Text(
-            "Preview Surat",
+          icon: const Icon(Icons.remove_red_eye, color: AppColors.primary),
+          label: const Text(
+            'Preview Surat',
             style: TextStyle(fontSize: 16, color: AppColors.primary),
           ),
         ),

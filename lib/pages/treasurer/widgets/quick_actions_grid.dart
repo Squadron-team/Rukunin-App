@@ -46,19 +46,25 @@ class QuickActionsGrid extends StatelessWidget {
         ),
         Builder(
           builder: (ctx) {
-            final hasPalsu = DataIuranRepository().all().any((e) => (e['prediction'] ?? '') == 'palsu');
+            final hasPalsu = DataIuranRepository().all().any(
+              (e) => (e['prediction'] ?? '') == 'palsu',
+            );
             return Stack(
               clipBehavior: Clip.none,
               children: [
                 // Ensure the QuickAccessItem fills the grid cell
                 SizedBox.expand(
                   child: QuickAccessItem(
-                  icon: Icons.people,
-                  label: 'Data Iuran',
-                  color: AppColors.primary,
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DataIuranPage()));
-                  },
+                    icon: Icons.people,
+                    label: 'Data Iuran',
+                    color: AppColors.primary,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const DataIuranPage(),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 if (hasPalsu)
@@ -73,7 +79,12 @@ class QuickActionsGrid extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: AppColors.error,
                           shape: BoxShape.circle,
-                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.12), blurRadius: 4)],
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.12),
+                              blurRadius: 4,
+                            ),
+                          ],
                         ),
                         child: const Center(
                           child: Icon(
