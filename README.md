@@ -19,7 +19,7 @@ Built with a complete mobile-first experience, Rukunin empowers every household 
 **🚀 Try the App Demo**
 
 Want to see how it works? Check out the live preview and experience Rukunin in action:
-[Visit my app demo](#app-demo)
+[Visit our app demo](#app-demo)
 
 
 ---
@@ -47,10 +47,23 @@ All components communicate seamlessly through the Firebase SDK, enabling a scala
 
 ## App Demo
 
-This app is designed to work seamlessly across platforms, especially on native Android and the web, by leveraging the full capabilities of the Flutter framework.  
-You can access our web app for a quick and easy demonstration:
+Rukunin works seamlessly across multiple platforms especially on Android and Web, powered by the Flutter framework.
+
+### 🌐 Try the web version
+
+Access the live demo directly from your browser:
 
 👉🏻 https://rukunin-app.web.app/
+
+### 📱 Try the native app version (recommended)
+
+For the full mobile experience, you can join as an app tester via Firebase App Distribution:
+
+👉🏻 https://appdistribution.firebase.dev/i/7ce26d2800f4022b
+
+> This link is safe and provided by Firebase App Distribution (Google).
+
+### Demo accounts
 
 Below are demo user accounts you can use to sign in:
 
