@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:go_router/go_router.dart';
 
 class IuranListPage extends StatefulWidget {
   const IuranListPage({super.key});
@@ -14,8 +15,12 @@ class _IuranListPageState extends State<IuranListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50], // 🔥 Sama seperti KeuanganDashboardPage
       appBar: AppBar(
-        title: const Text('Daftar Iuran'),
+        title: const Text(
+          'Daftar Iuran',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
@@ -26,7 +31,7 @@ class _IuranListPageState extends State<IuranListPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header dengan filter
+              // Header + Filter
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -38,16 +43,18 @@ class _IuranListPageState extends State<IuranListPage> {
                       color: Colors.black,
                     ),
                   ),
+
+                  // Dropdown Filter
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.primary.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: AppColors.primary.withOpacity(0.3),
+                        color: AppColors.primary.withOpacity(0.2),
                       ),
                     ),
                     child: DropdownButton<String>(
@@ -62,6 +69,7 @@ class _IuranListPageState extends State<IuranListPage> {
                       ],
                       onChanged: (v) => setState(() => selectedFilter = v!),
                       underline: Container(),
+                      isDense: true,
                       icon: const Icon(
                         Icons.filter_list,
                         color: AppColors.primary,
@@ -72,14 +80,14 @@ class _IuranListPageState extends State<IuranListPage> {
                         fontWeight: FontWeight.w600,
                         color: AppColors.primary,
                       ),
-                      isDense: true,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
 
-              // Card Iuran
+              const SizedBox(height: 20),
+
+              // ====== LIST IURAN (CARD BARU) ======
               _buildIuranCard(
                 name: 'Budi Santoso',
                 period: 'Januari 2025',
@@ -101,6 +109,7 @@ class _IuranListPageState extends State<IuranListPage> {
                 status: 'Belum Lunas',
                 paymentDate: null,
               ),
+
               _buildIuranCard(
                 name: 'Budi Santoso',
                 period: 'Desember 2024',
@@ -129,6 +138,9 @@ class _IuranListPageState extends State<IuranListPage> {
     );
   }
 
+  // ===========================================================
+  // 🔥 CARD IURAN STYLE PROFESIONAL (SAMA SEPERTI DASHBOARD)
+  // ===========================================================
   Widget _buildIuranCard({
     required String name,
     required String period,
@@ -139,8 +151,8 @@ class _IuranListPageState extends State<IuranListPage> {
     bool isLunas = status == 'Lunas';
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -153,31 +165,35 @@ class _IuranListPageState extends State<IuranListPage> {
           ),
         ],
       ),
+
+      // === isi card ===
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Nama + Status Badge
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+              // Nama + Periode
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      period,
-                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    period,
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                  ),
+                ],
               ),
+
+              // Badge Status
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
@@ -185,27 +201,31 @@ class _IuranListPageState extends State<IuranListPage> {
                 ),
                 decoration: BoxDecoration(
                   color: isLunas
-                      ? Colors.green.withOpacity(0.1)
-                      : Colors.orange.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
+                      ? Colors.green.withOpacity(0.12)
+                      : Colors.orange.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   status,
                   style: TextStyle(
                     fontSize: 12,
+                    fontWeight: FontWeight.w700,
                     color: isLunas ? Colors.green : Colors.orange,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+
+          const SizedBox(height: 16),
           const Divider(height: 1),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
+
+          // Nominal + Payment Button / Date
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // Nominal
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -213,59 +233,45 @@ class _IuranListPageState extends State<IuranListPage> {
                     'Nominal',
                     style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 6),
                   Text(
                     'Rp ${_formatCurrency(amount)}',
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: AppColors.primary,
                     ),
                   ),
                 ],
               ),
+
+              // Jika sudah bayar → tampilkan tanggal
               if (paymentDate != null)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                Row(
                   children: [
-                    Text(
-                      'Dibayar',
-                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                    const Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                      size: 18,
                     ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.check_circle,
-                          size: 14,
-                          color: Colors.green,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          paymentDate,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
+                    const SizedBox(width: 6),
+                    Text(
+                      paymentDate,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ],
                 )
               else
+                // Jika belum → tombol bayar
                 ElevatedButton.icon(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text(
-                          'Fitur catat pembayaran akan segera tersedia',
-                        ),
-                        backgroundColor: Colors.orange,
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                    // Navigasi ke halaman catat pembayaran
+                    context.push(
+                      '/admin/iuran/payment',
+                      extra: {'name': name, 'period': period, 'amount': amount},
                     );
                   },
                   icon: const Icon(Icons.add, size: 16),
@@ -275,13 +281,13 @@ class _IuranListPageState extends State<IuranListPage> {
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 8,
+                      vertical: 10,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     textStyle: const TextStyle(
-                      fontSize: 12,
+                      fontSize: 13,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -293,10 +299,11 @@ class _IuranListPageState extends State<IuranListPage> {
     );
   }
 
+  // Format angka ribuan
   String _formatCurrency(int amount) {
     return amount.toString().replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]}.',
+      (m) => '${m[1]}.',
     );
   }
 }

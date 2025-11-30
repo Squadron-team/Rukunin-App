@@ -180,18 +180,7 @@ class KeuanganDashboardPage extends StatelessWidget {
                         label: 'Catat Pembayaran',
                         color: Colors.green,
                         onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text(
-                                'Fitur catat pembayaran akan segera tersedia',
-                              ),
-                              backgroundColor: Colors.orange,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          );
+                          context.push('/admin/keuangan/catat-pembayaran');
                         },
                         isWide: isWide,
                       ),
