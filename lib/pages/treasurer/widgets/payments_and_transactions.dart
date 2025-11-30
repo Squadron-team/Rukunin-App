@@ -7,7 +7,8 @@ import 'package:rukunin/repositories/data_iuran_repository.dart';
 class PaymentsAndTransactions extends StatelessWidget {
   const PaymentsAndTransactions({super.key});
 
-  Widget _buildPaymentVerificationCard(BuildContext context, {
+  Widget _buildPaymentVerificationCard(
+    BuildContext context, {
     required String name,
     required String rtInfo,
     required String amount,
@@ -24,161 +25,191 @@ class PaymentsAndTransactions extends StatelessWidget {
           onTap: () {
             // Open detail for this card when the whole card is tapped
             if (item != null) {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) => DataIuranDetail(item: item)));
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => DataIuranDetail(item: item)),
+              );
             } else {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) => DataIuranDetail(item: {
-                'name': 'Nama',
-                'rt': 'RT',
-                'type': 'Iuran Bulanan',
-                'amount': amount,
-                'time': time,
-              })));
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => DataIuranDetail(
+                    item: {
+                      'name': 'Nama',
+                      'rt': 'RT',
+                      'type': 'Iuran Bulanan',
+                      'amount': amount,
+                      'time': time,
+                    },
+                  ),
+                ),
+              );
             }
           },
           borderRadius: BorderRadius.circular(16),
           child: Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: color.withOpacity(0.2)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.04),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: color.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: color.withOpacity(0.2)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.04),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: color.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(Icons.payment, color: color, size: 24),
                     ),
-                    child: Icon(Icons.payment, color: color, size: 24),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '$name ($rtInfo)',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '$name ($rtInfo)',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          type,
-                          style: TextStyle(fontSize: 13, color: Colors.grey[600]),
-                        ),
-                        const SizedBox(height: 6),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.access_time,
-                              size: 12,
-                              color: Colors.grey[400],
+                          const SizedBox(height: 4),
+                          Text(
+                            type,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey[600],
                             ),
-                            const SizedBox(width: 4),
-                            Text(
-                              time,
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey[500],
-                                fontWeight: FontWeight.w500,
+                          ),
+                          const SizedBox(height: 6),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.access_time,
+                                size: 12,
+                                color: Colors.grey[400],
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              const SizedBox(width: 4),
+                              Text(
+                                time,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey[500],
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Text(
-                    amount,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                      color: color,
+                    Text(
+                      amount,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: color,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        // If we have an item, verify directly and show snackbar like DataIuranPage.
-                        if (item != null && item['id'] != null) {
-                          final repo = DataIuranRepository();
-                          repo.verify(item['id']!);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text('Verifikasi berhasil'),
-                              backgroundColor: Colors.green,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          // If we have an item, verify directly and show snackbar like DataIuranPage.
+                          if (item != null && item['id'] != null) {
+                            final repo = DataIuranRepository();
+                            repo.verify(item['id']!);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text('Verifikasi berhasil'),
+                                backgroundColor: Colors.green,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            );
+                            return;
+                          }
+
+                          // Fallback: open the full Data Iuran page
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const DataIuranPage(),
                             ),
                           );
-                          return;
-                        }
-
-                        // Fallback: open the full Data Iuran page
-                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DataIuranPage()));
-                      },
-                      icon: const Icon(Icons.check, size: 18),
-                      label: const Text('Verifikasi'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                        },
+                        icon: const Icon(Icons.check, size: 18),
+                        label: const Text('Verifikasi'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  SizedBox(
-                    width: 44,
-                    height: 44,
-                    child: IconButton(
-                      onPressed: () {
-                        // Open detail for this individual
-                        if (item != null) {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => DataIuranDetail(item: item)));
-                        } else {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => DataIuranDetail(item: {
-                            'name': 'Nama',
-                            'rt': 'RT',
-                            'type': 'Iuran Bulanan',
-                            'amount': amount,
-                            'time': time,
-                          })));
-                        }
-                      },
-                      icon: const Icon(Icons.arrow_forward, color: Colors.blue),
-                      tooltip: 'Detail',
+                    const SizedBox(width: 12),
+                    SizedBox(
+                      width: 44,
+                      height: 44,
+                      child: IconButton(
+                        onPressed: () {
+                          // Open detail for this individual
+                          if (item != null) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => DataIuranDetail(item: item),
+                              ),
+                            );
+                          } else {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => DataIuranDetail(
+                                  item: {
+                                    'name': 'Nama',
+                                    'rt': 'RT',
+                                    'type': 'Iuran Bulanan',
+                                    'amount': amount,
+                                    'time': time,
+                                  },
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.arrow_forward,
+                          color: Colors.blue,
+                        ),
+                        tooltip: 'Detail',
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
         ),
         if (isPalsu)
           Positioned(
@@ -190,7 +221,12 @@ class PaymentsAndTransactions extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.error,
                 shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.12), blurRadius: 4)],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.12),
+                    blurRadius: 4,
+                  ),
+                ],
               ),
               child: const Center(
                 child: Icon(
@@ -215,10 +251,12 @@ class PaymentsAndTransactions extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 6)],
+            boxShadow: [
+              BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 6),
+            ],
           ),
           child: const Text('Tidak ada pembayaran untuk diverifikasi'),
-        )
+        ),
       ];
     }
 

@@ -5,9 +5,9 @@ class FilterChips extends StatelessWidget {
   final Function(String) onFilterChanged;
 
   const FilterChips({
-    super.key,
     required this.selectedFilter,
     required this.onFilterChanged,
+    super.key,
   });
 
   @override

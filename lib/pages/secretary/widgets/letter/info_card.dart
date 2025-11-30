@@ -12,7 +12,7 @@ class InfoCard extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             AppColors.primary.withOpacity(0.1),
-            AppColors.primary.withOpacity(0.05)
+            AppColors.primary.withOpacity(0.05),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
@@ -26,15 +26,15 @@ class InfoCard extends StatelessWidget {
               color: AppColors.primary.withOpacity(0.2),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(Icons.info_outline, color: AppColors.primary),
+            child: const Icon(Icons.info_outline, color: AppColors.primary),
           ),
           const SizedBox(width: 16),
           const Expanded(
             child: Text(
-              "Pastikan data sudah benar sebelum melanjutkan.",
+              'Pastikan data sudah benar sebelum melanjutkan.',
               style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
             ),
-          )
+          ),
         ],
       ),
     );

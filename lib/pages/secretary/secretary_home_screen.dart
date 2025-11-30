@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
 import 'package:rukunin/modules/notification/pages/notification_screen.dart';
-
-// Import semua halaman tujuan
 import 'package:rukunin/pages/secretary/pages/create_letter_screen.dart';
 import 'package:rukunin/pages/secretary/pages/verification_screen.dart';
 import 'package:rukunin/pages/secretary/pages/archive_screen.dart';
@@ -70,8 +68,6 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      extendBody: true,
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text(
@@ -143,22 +139,54 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
       children: [
         const Text(
           'Ringkasan Tugas Hari Ini',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
         ),
         const SizedBox(height: 16),
         Row(
           children: [
-            Expanded(child: _buildStatCard(Icons.pending_actions, 'Tugas Pending', '8', Colors.orange)),
+            Expanded(
+              child: _buildStatCard(
+                Icons.pending_actions,
+                'Tugas Pending',
+                '8',
+                Colors.orange,
+              ),
+            ),
             const SizedBox(width: 12),
-            Expanded(child: _buildStatCard(Icons.check_circle, 'Selesai Hari Ini', '12', Colors.green)),
+            Expanded(
+              child: _buildStatCard(
+                Icons.check_circle,
+                'Selesai Hari Ini',
+                '12',
+                Colors.green,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(child: _buildStatCard(Icons.description, 'Surat Diproses', '5', Colors.blue)),
+            Expanded(
+              child: _buildStatCard(
+                Icons.description,
+                'Surat Diproses',
+                '5',
+                Colors.blue,
+              ),
+            ),
             const SizedBox(width: 12),
-            Expanded(child: _buildStatCard(Icons.event_note, 'Rapat Minggu Ini', '3', Colors.purple)),
+            Expanded(
+              child: _buildStatCard(
+                Icons.event_note,
+                'Rapat Minggu Ini',
+                '3',
+                Colors.purple,
+              ),
+            ),
           ],
         ),
       ],
@@ -171,7 +199,11 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
       children: [
         const Text(
           'Status Dokumen',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
         ),
         const SizedBox(height: 16),
         SizedBox(
@@ -224,7 +256,9 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
                 width: i == _currentPage ? 24 : 8,
                 height: 8,
                 decoration: BoxDecoration(
-                  color: i == _currentPage ? AppColors.primary : Colors.grey[300],
+                  color: i == _currentPage
+                      ? AppColors.primary
+                      : Colors.grey[300],
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -241,7 +275,11 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
       children: [
         const Text(
           'Menu Sekretaris',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
         ),
         const SizedBox(height: 16),
         GridView.count(
@@ -317,7 +355,11 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
       children: [
         const Text(
           'Menunggu Persetujuan',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
         ),
         const SizedBox(height: 16),
         _buildApprovalCard(
@@ -351,7 +393,11 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
       children: [
         const Text(
           'Aktivitas Terbaru',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
         ),
         const SizedBox(height: 16),
         _buildActivityCard(
@@ -399,7 +445,10 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.purple.withOpacity(0.1), Colors.purple.withOpacity(0.05)],
+          colors: [
+            Colors.purple.withOpacity(0.1),
+            Colors.purple.withOpacity(0.05),
+          ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.purple.withOpacity(0.2)),
@@ -407,13 +456,32 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionHeader(Icons.event_note, 'Rapat Mendatang', Colors.purple),
+          _buildSectionHeader(
+            Icons.event_note,
+            'Rapat Mendatang',
+            Colors.purple,
+          ),
           const SizedBox(height: 16),
-          _buildMeetingItem('Rapat Koordinasi RT-RW', 'Jumat, 17 Nov 2023 • 19:00 WIB', 'Balai RW 05', Colors.purple),
+          _buildMeetingItem(
+            'Rapat Koordinasi RT-RW',
+            'Jumat, 17 Nov 2023 • 19:00 WIB',
+            'Balai RW 05',
+            Colors.purple,
+          ),
           const Divider(height: 24),
-          _buildMeetingItem('Evaluasi Program RW', 'Senin, 20 Nov 2023 • 19:30 WIB', 'Balai RW 05', Colors.blue),
+          _buildMeetingItem(
+            'Evaluasi Program RW',
+            'Senin, 20 Nov 2023 • 19:30 WIB',
+            'Balai RW 05',
+            Colors.blue,
+          ),
           const Divider(height: 24),
-          _buildMeetingItem('Rapat Iuran Bulanan', 'Rabu, 22 Nov 2023 • 20:00 WIB', 'Balai RW 05', Colors.green),
+          _buildMeetingItem(
+            'Rapat Iuran Bulanan',
+            'Rabu, 22 Nov 2023 • 20:00 WIB',
+            'Balai RW 05',
+            Colors.green,
+          ),
         ],
       ),
     );
@@ -433,16 +501,35 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionHeader(Icons.assessment, 'Statistik Dokumen Bulan Ini', Colors.blue),
+          _buildSectionHeader(
+            Icons.assessment,
+            'Statistik Dokumen Bulan Ini',
+            Colors.blue,
+          ),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildStatisticItem('Total', '48', Icons.description, Colors.blue),
+              _buildStatisticItem(
+                'Total',
+                '48',
+                Icons.description,
+                Colors.blue,
+              ),
               _verticalDivider(),
-              _buildStatisticItem('Diproses', '32', Icons.pending_actions, Colors.orange),
+              _buildStatisticItem(
+                'Diproses',
+                '32',
+                Icons.pending_actions,
+                Colors.orange,
+              ),
               _verticalDivider(),
-              _buildStatisticItem('Selesai', '14', Icons.check_circle, Colors.green),
+              _buildStatisticItem(
+                'Selesai',
+                '14',
+                Icons.check_circle,
+                Colors.green,
+              ),
               _verticalDivider(),
               _buildStatisticItem('Ditolak', '2', Icons.cancel, Colors.red),
             ],
@@ -484,7 +571,11 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(Icons.work_outline, color: Colors.white, size: 28),
+                child: const Icon(
+                  Icons.work_outline,
+                  color: Colors.white,
+                  size: 28,
+                ),
               ),
               const SizedBox(width: 12),
               const Expanded(
@@ -541,7 +632,12 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
     );
   }
 
-  Widget _buildStatCard(IconData icon, String label, String value, Color color) {
+  Widget _buildStatCard(
+    IconData icon,
+    String label,
+    String value,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -654,11 +750,29 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildDocumentMetric('Pending', pending.toString(), Colors.orange)),
+              Expanded(
+                child: _buildDocumentMetric(
+                  'Pending',
+                  pending.toString(),
+                  Colors.orange,
+                ),
+              ),
               const SizedBox(width: 12),
-              Expanded(child: _buildDocumentMetric('Disetujui', approved.toString(), Colors.green)),
+              Expanded(
+                child: _buildDocumentMetric(
+                  'Disetujui',
+                  approved.toString(),
+                  Colors.green,
+                ),
+              ),
               const SizedBox(width: 12),
-              Expanded(child: _buildDocumentMetric('Ditolak', rejected.toString(), Colors.red)),
+              Expanded(
+                child: _buildDocumentMetric(
+                  'Ditolak',
+                  rejected.toString(),
+                  Colors.red,
+                ),
+              ),
             ],
           ),
         ],
@@ -677,7 +791,11 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
         children: [
           Text(
             value,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: color),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+              color: color,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
@@ -750,7 +868,11 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        Icon(Icons.access_time, size: 12, color: Colors.grey[400]),
+                        Icon(
+                          Icons.access_time,
+                          size: 12,
+                          color: Colors.grey[400],
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           time,
@@ -883,7 +1005,12 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
     );
   }
 
-  Widget _buildMeetingItem(String title, String datetime, String location, Color color) {
+  Widget _buildMeetingItem(
+    String title,
+    String datetime,
+    String location,
+    Color color,
+  ) {
     return Row(
       children: [
         Container(
@@ -934,14 +1061,23 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
     );
   }
 
-  Widget _buildStatisticItem(String label, String value, IconData icon, Color color) {
+  Widget _buildStatisticItem(
+    String label,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Column(
       children: [
         Icon(icon, color: color, size: 20),
         const SizedBox(height: 4),
         Text(
           value,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: color),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+            color: color,
+          ),
         ),
         Text(
           label,
@@ -975,11 +1111,8 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
     );
   }
 
-  Widget _verticalDivider() => Container(
-        width: 1,
-        height: 40,
-        color: Colors.grey[300],
-      );
+  Widget _verticalDivider() =>
+      Container(width: 1, height: 40, color: Colors.grey[300]);
 
   void _navigateToScreen(Widget screen) {
     Navigator.push(context, MaterialPageRoute(builder: (_) => screen));

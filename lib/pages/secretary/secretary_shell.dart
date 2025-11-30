@@ -5,23 +5,21 @@ import 'package:rukunin/style/app_colors.dart';
 class SecretaryShell extends StatelessWidget {
   final Widget child;
 
-  const SecretaryShell({
-    super.key,
-    required this.child,
-  });
+  const SecretaryShell({required this.child, super.key});
 
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
-    
+
     // Menggunakan startsWith untuk lebih robust
-    if (location == '/secretary' || location?.startsWith('/secretary/home') == true) {
+    if (location == '/secretary' ||
+        location.startsWith('/secretary/home') == true) {
       return 0;
     }
-    if (location?.startsWith('/secretary/marketplace') == true) return 1;
-    if (location?.startsWith('/secretary/activities') == true) return 2;
-    if (location?.startsWith('/secretary/community') == true) return 3;
-    if (location?.startsWith('/secretary/account') == true) return 4;
-    
+    if (location.startsWith('/secretary/marketplace') == true) return 1;
+    if (location.startsWith('/secretary/activities') == true) return 2;
+    if (location.startsWith('/secretary/community') == true) return 3;
+    if (location.startsWith('/secretary/account') == true) return 4;
+
     return 0;
   }
 
@@ -119,44 +117,37 @@ class SecretaryShell extends StatelessWidget {
     required int index,
     required bool isSelected,
   }) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => _onItemTapped(context, index),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: isSelected 
-                ? AppColors.primary.withOpacity(0.1)
-                : Colors.transparent,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: isSelected ? AppColors.primary : Colors.transparent,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  icon,
-                  color: isSelected ? Colors.white : Colors.grey[600],
-                  size: 24,
-                ),
+    return GestureDetector(
+      onTap: () => _onItemTapped(context, index),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: isSelected ? AppColors.primary : Colors.transparent,
+                borderRadius: BorderRadius.circular(10),
               ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected ? AppColors.primary : Colors.grey[600],
-                  letterSpacing: -0.2,
-                ),
+              child: Icon(
+                icon,
+                color: isSelected ? Colors.white : Colors.grey[600],
+                size: 24,
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? AppColors.primary : Colors.grey[600],
+                letterSpacing: -0.2,
+              ),
+            ),
+          ],
         ),
       ),
     );

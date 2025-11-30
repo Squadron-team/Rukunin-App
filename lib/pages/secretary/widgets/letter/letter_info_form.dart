@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'custom_text_field.dart';
+import 'package:rukunin/pages/secretary/widgets/letter/custom_text_field.dart';
 
 class LetterInfoForm extends StatelessWidget {
   final TextEditingController nomorSurat;
@@ -7,10 +7,10 @@ class LetterInfoForm extends StatelessWidget {
   final Function(DateTime) onDateSelect;
 
   const LetterInfoForm({
-    super.key,
     required this.nomorSurat,
     required this.selectedDate,
     required this.onDateSelect,
+    super.key,
   });
 
   @override
@@ -18,10 +18,11 @@ class LetterInfoForm extends StatelessWidget {
     return Column(
       children: [
         CustomTextField(
-          label: "Nomor Surat",
+          label: 'Nomor Surat',
           controller: nomorSurat,
-          placeholder: "Contoh: 001/SKD/2024",
-          validator: (v) => v!.isEmpty ? "Nomor surat tidak boleh kosong" : null,
+          placeholder: 'Contoh: 001/SKD/2024',
+          validator: (v) =>
+              v!.isEmpty ? 'Nomor surat tidak boleh kosong' : null,
         ),
 
         const SizedBox(height: 16),
@@ -49,8 +50,8 @@ class LetterInfoForm extends StatelessWidget {
                 Expanded(
                   child: Text(
                     selectedDate == null
-                        ? "Pilih Tanggal Surat"
-                        : "${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}",
+                        ? 'Pilih Tanggal Surat'
+                        : '${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}',
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),

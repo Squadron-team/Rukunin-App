@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../models/surat_model.dart';
+import 'package:rukunin/pages/rw/surat/models/surat_model.dart';
 
 class DetailSuratScreen extends StatelessWidget {
   final Surat surat;
 
-  const DetailSuratScreen({super.key, required this.surat});
+  const DetailSuratScreen({required this.surat, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,8 @@ class DetailSuratScreen extends StatelessWidget {
             const SizedBox(height: 16),
             _buildDetailSection(context),
             const SizedBox(height: 24),
-            if (surat.status == StatusSurat.menunggu) _buildActionButtons(context),
+            if (surat.status == StatusSurat.menunggu)
+              _buildActionButtons(context),
           ],
         ),
       ),
@@ -58,19 +59,13 @@ class DetailSuratScreen extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               surat.jenis,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
               surat.nomor,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
             const SizedBox(height: 16),
             Container(
@@ -104,16 +99,21 @@ class DetailSuratScreen extends StatelessWidget {
           children: [
             const Text(
               'Informasi Detail',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const Divider(height: 24),
             _buildDetailRow(Icons.person, 'Pemohon', surat.pemohon),
             _buildDetailRow(Icons.calendar_today, 'Tanggal', surat.tanggal),
-            _buildDetailRow(Icons.home, 'Alamat', surat.alamat ?? 'Jl. Contoh No. 123, RT 02/RW 05'),
-            _buildDetailRow(Icons.description, 'Keperluan', surat.keperluan ?? 'Administrasi kependudukan'),
+            _buildDetailRow(
+              Icons.home,
+              'Alamat',
+              surat.alamat ?? 'Jl. Contoh No. 123, RT 02/RW 05',
+            ),
+            _buildDetailRow(
+              Icons.description,
+              'Keperluan',
+              surat.keperluan ?? 'Administrasi kependudukan',
+            ),
           ],
         ),
       ),
@@ -134,10 +134,7 @@ class DetailSuratScreen extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -202,7 +199,9 @@ class DetailSuratScreen extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: Text('$action Surat?'),
-        content: Text('Apakah Anda yakin ingin ${action.toLowerCase()} surat ini?'),
+        content: Text(
+          'Apakah Anda yakin ingin ${action.toLowerCase()} surat ini?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -213,7 +212,9 @@ class DetailSuratScreen extends StatelessWidget {
               Navigator.pop(context);
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Surat berhasil di${action.toLowerCase()}')),
+                SnackBar(
+                  content: Text('Surat berhasil di${action.toLowerCase()}'),
+                ),
               );
             },
             style: ElevatedButton.styleFrom(

@@ -5,7 +5,7 @@ import 'package:rukunin/repositories/data_iuran_repository.dart';
 
 class DataIuranDetail extends StatefulWidget {
   final Map<String, String> item;
-  const DataIuranDetail({super.key, required this.item});
+  const DataIuranDetail({required this.item, super.key});
 
   @override
   State<DataIuranDetail> createState() => _DataIuranDetailState();
@@ -59,11 +59,16 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
           minChildSize: 0.2,
           builder: (_, controller) {
             return Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
               ),
-              padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: MediaQuery.of(ctx).viewInsets.bottom + 16),
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 12,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 16,
+              ),
               child: Column(
                 children: [
                   const SizedBox(height: 6),
@@ -74,7 +79,9 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                       controller: _rejectNoteCtrl,
                       minLines: 3,
                       maxLines: 3,
-                      decoration: buildInputDecoration('Alasan penolakan (opsional)'),
+                      decoration: buildInputDecoration(
+                        'Alasan penolakan (opsional)',
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -86,7 +93,9 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.grey[800],
                             side: BorderSide(color: Colors.grey.shade300),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                             padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
                           child: const Text('Batal'),
@@ -99,9 +108,14 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.error,
                             padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
-                          child: const Text('Tolak', style: TextStyle(color: Colors.white)),
+                          child: const Text(
+                            'Tolak',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ],
@@ -117,14 +131,20 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
     if (ok == true) {
       final note = _rejectNoteCtrl.text.trim();
       final id = widget.item['id'];
-      if (id != null) DataIuranRepository().reject(id, note.isEmpty ? null : note);
-      final msg = note.isEmpty ? 'Iuran ditolak' : 'Iuran ditolak. Catatan dikirim';
+      if (id != null) {
+        DataIuranRepository().reject(id, note.isEmpty ? null : note);
+      }
+      final msg = note.isEmpty
+          ? 'Iuran ditolak'
+          : 'Iuran ditolak. Catatan dikirim';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(msg),
           backgroundColor: AppColors.error,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       );
       Navigator.of(context).pop(false);
@@ -143,7 +163,12 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
         centerTitle: true,
         title: const Text(
           'Detail Iuran',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20, letterSpacing: -0.5),
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
+            letterSpacing: -0.5,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -153,7 +178,9 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
           children: [
             Card(
               color: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -163,11 +190,20 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                       children: [
                         CircleAvatar(
                           backgroundColor: AppColors.primary.withOpacity(0.12),
-                          child: Icon(Icons.person, color: AppColors.primary),
+                          child: const Icon(
+                            Icons.person,
+                            color: AppColors.primary,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: Text('${item['name'] ?? '-'}', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+                          child: Text(
+                            item['name'] ?? '-',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -176,25 +212,56 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        SizedBox(width: 120, child: Text('Asal RT', style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w600))),
+                        SizedBox(
+                          width: 120,
+                          child: Text(
+                            'Asal RT',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                         Expanded(child: Text(item['rt'] ?? '-')),
                       ],
                     ),
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        SizedBox(width: 120, child: Text('Jenis Iuran', style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w600))),
+                        SizedBox(
+                          width: 120,
+                          child: Text(
+                            'Jenis Iuran',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                         Expanded(child: Text(item['type'] ?? '-')),
                       ],
                     ),
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        SizedBox(width: 120, child: Text('Jumlah', style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w600))),
+                        SizedBox(
+                          width: 120,
+                          child: Text(
+                            'Jumlah',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                         Expanded(
                           child: Text(
                             item['amount'] ?? '-',
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.blue),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.blue,
+                            ),
                           ),
                         ),
                       ],
@@ -206,17 +273,26 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
             const SizedBox(height: 16),
             Card(
               color: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(
+                    const Row(
                       children: [
-                        Icon(Icons.receipt_long, size: 18, color: AppColors.primary),
-                        const SizedBox(width: 8),
-                        const Text('Bukti Pembayaran', style: TextStyle(fontWeight: FontWeight.w700)),
+                        Icon(
+                          Icons.receipt_long,
+                          size: 18,
+                          color: AppColors.primary,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Bukti Pembayaran',
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -230,7 +306,16 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                               child: Container(
                                 padding: const EdgeInsets.all(12),
                                 color: Colors.white,
-                                child: const SizedBox(height: 300, child: Center(child: Icon(Icons.receipt_long, size: 120, color: Colors.grey))),
+                                child: const SizedBox(
+                                  height: 300,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.receipt_long,
+                                      size: 120,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
                               ),
                             );
                           },
@@ -238,8 +323,17 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                       },
                       child: Container(
                         height: 300,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.grey[100]),
-                        child: const Center(child: Icon(Icons.receipt_long, size: 64, color: Colors.grey)),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey[100],
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.receipt_long,
+                            size: 64,
+                            color: Colors.grey,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -248,24 +342,47 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                       children: [
                         Row(
                           children: [
-                            const Text('Hasil Deteksi: ', style: TextStyle(fontWeight: FontWeight.w700)),
+                            const Text(
+                              'Hasil Deteksi: ',
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
                             const SizedBox(width: 8),
-                            if (_isAsli == true) Text('Asli', style: TextStyle(color: AppColors.success, fontWeight: FontWeight.w700)),
-                            if (_isAsli == false) Text('Palsu', style: TextStyle(color: AppColors.error, fontWeight: FontWeight.w700)),
+                            if (_isAsli == true)
+                              const Text(
+                                'Asli',
+                                style: TextStyle(
+                                  color: AppColors.success,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            if (_isAsli == false)
+                              const Text(
+                                'Palsu',
+                                style: TextStyle(
+                                  color: AppColors.error,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                           ],
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          _isAsli ? 'Sistem memprediksi struk ini asli.' : 'Sistem memprediksi struk ini palsu.',
+                          _isAsli
+                              ? 'Sistem memprediksi struk ini asli.'
+                              : 'Sistem memprediksi struk ini palsu.',
                           style: TextStyle(color: Colors.grey[700]),
                         ),
                         const SizedBox(height: 8),
-                        Text(
+                        const Text(
                           'Catatan: lakukan pengecekan manual pada bukti apabila diperlukan.',
-                          style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic, fontSize: 13),
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 13,
+                          ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -276,16 +393,26 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: _reject,
-                    child: const Text('Tolak', style: TextStyle(color: Colors.white)),
-                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.error,
+                    ),
+                    child: const Text(
+                      'Tolak',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: _accept,
-                    child: const Text('Catat', style: TextStyle(color: Colors.white)),
-                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.success),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.success,
+                    ),
+                    child: const Text(
+                      'Catat',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ],
