@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/modules/community/models/financial_summary_model.dart';
 
 class FinancialSummaryCard extends StatelessWidget {

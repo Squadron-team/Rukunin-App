@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rukunin/firebase_options.dart';
+import 'package:rukunin/theme/rukunin_theme.dart';
 import 'package:rukunin/utils/mobile_preview_wrapper_helper.dart';
 import 'package:rukunin/routes/routes.dart';
 
@@ -63,7 +64,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Rukunin',
-      theme: ThemeData(primarySwatch: Colors.yellow, useMaterial3: true),
+      theme: rukuninTheme,
       routerConfig: router,
     );
   }

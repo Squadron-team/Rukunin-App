@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/general/onboarding/widgets/info_card.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

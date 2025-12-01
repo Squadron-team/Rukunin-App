@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class KeuanganDashboardPage extends StatelessWidget {
@@ -180,18 +180,7 @@ class KeuanganDashboardPage extends StatelessWidget {
                         label: 'Catat Pembayaran',
                         color: Colors.green,
                         onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text(
-                                'Fitur catat pembayaran akan segera tersedia',
-                              ),
-                              backgroundColor: Colors.orange,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          );
+                          context.push('/admin/keuangan/catat-pembayaran');
                         },
                         isWide: isWide,
                       ),

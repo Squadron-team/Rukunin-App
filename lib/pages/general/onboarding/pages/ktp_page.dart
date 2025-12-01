@@ -4,7 +4,7 @@ import 'package:rukunin/widgets/custom_text_field.dart';
 import 'package:rukunin/widgets/custom_dropdown.dart';
 import 'package:rukunin/widgets/date_picker_field.dart';
 import 'package:rukunin/repositories/options.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 class KTPPage extends StatefulWidget {
   final OnboardingState state;

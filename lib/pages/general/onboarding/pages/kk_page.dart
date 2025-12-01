@@ -3,7 +3,7 @@ import 'package:rukunin/pages/general/onboarding/state/onboarding_state.dart';
 import 'package:rukunin/widgets/custom_text_field.dart';
 import 'package:rukunin/widgets/custom_dropdown.dart';
 import 'package:rukunin/repositories/options.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 class KKPage extends StatefulWidget {
   final OnboardingState state;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/repositories/category_repository.dart';
 import 'package:rukunin/models/category.dart';
 import 'package:rukunin/pages/treasurer/kategori/kategori_form_screen.dart';

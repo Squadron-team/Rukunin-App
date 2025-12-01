@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 // Import Widgets
 import 'package:rukunin/pages/secretary/widgets/letter/info_card.dart';

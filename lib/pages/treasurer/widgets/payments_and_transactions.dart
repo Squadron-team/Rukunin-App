@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/repositories/data_iuran_repository.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/widgets/payment_verification_card.dart';
 import 'package:rukunin/repositories/transactions_repository.dart';
-import 'package:rukunin/pages/treasurer/transactions/transaction_detail.dart';
 
 class PaymentsAndTransactions extends StatelessWidget {
   const PaymentsAndTransactions({super.key});
@@ -372,13 +372,8 @@ class PaymentsAndTransactions extends StatelessWidget {
 
             return InkWell(
               borderRadius: BorderRadius.circular(16),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => TransactionDetail(item: it),
-                  ),
-                );
-              },
+              onTap: () =>
+                  context.push('/treasurer/transaction/detail', extra: it),
               child: _buildTransactionCard(
                 icon: icon,
                 title: title,

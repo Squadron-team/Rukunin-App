@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rw/data_warga/models/warga_model.dart';
 import 'package:rukunin/pages/rw/data_warga/edit_warga_screen.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 class DetailWargaScreen extends StatefulWidget {
   final Warga warga;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rt/reports/models/report_item.dart';
 import 'package:rukunin/pages/rt/reports/widgets/report_card.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
 import 'package:rukunin/repositories/reports_repository.dart';
 

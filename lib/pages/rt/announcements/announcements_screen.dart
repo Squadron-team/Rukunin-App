@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/repositories/announcementsRT.dart' as repo;
 import 'package:rukunin/models/announcementRT.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/pages/rt/announcements/create_announcement_screen.dart';
 import 'package:rukunin/pages/rt/announcements/announcement_detail_modal.dart';
 

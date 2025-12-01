@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/repositories/products.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/cards/category_chip.dart';
 import 'package:rukunin/widgets/cards/promo_banner_card.dart';
 import 'package:rukunin/pages/admin/marketplace/widgets/admin_product_card.dart';

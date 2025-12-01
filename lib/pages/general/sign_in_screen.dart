@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/services/user_cache_service.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/utils/firebase_auth_helper.dart';
 import 'package:rukunin/utils/role_based_navigator.dart';
 import 'package:rukunin/widgets/buttons/social_sign_button.dart';

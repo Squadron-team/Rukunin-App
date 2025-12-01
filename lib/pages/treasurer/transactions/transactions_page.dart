@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/pages/treasurer/transactions/widgets/transactions_list.dart';
 import 'package:rukunin/pages/treasurer/transactions/widgets/period_selector.dart';
 import 'package:rukunin/repositories/transactions_repository.dart';

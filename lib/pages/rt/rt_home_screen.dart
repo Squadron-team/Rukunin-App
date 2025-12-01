@@ -5,7 +5,7 @@ import 'package:rukunin/pages/rt/components/welcome_card.dart';
 import 'package:rukunin/pages/rt/components/financial_summary.dart';
 import 'package:rukunin/pages/rt/components/quick_actions.dart';
 import 'package:rukunin/pages/rt/components/pending_tasks.dart';
-import 'package:rukunin/modules/notification/pages/notification_screen.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class RtHomeScreen extends StatelessWidget {
   const RtHomeScreen({super.key});
@@ -14,33 +14,7 @@ class RtHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: const Text(
-          'Selamat pagi, Pak RT!',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: false,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const NotificationScreen(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+      appBar: const RukuninAppBar(title: 'Beranda', showNotification: true),
       body: const SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(20.0),

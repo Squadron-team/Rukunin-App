@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 typedef VoidCallbackNullable = void Function()?;
 

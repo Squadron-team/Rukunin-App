@@ -6,7 +6,7 @@ import 'package:rukunin/modules/marketplace/models/order.dart';
 import 'package:rukunin/modules/marketplace/pages/payment_screen.dart';
 import 'package:rukunin/modules/marketplace/services/cart_service.dart';
 import 'package:rukunin/modules/marketplace/services/order_service.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
 
 class CartScreen extends StatefulWidget {

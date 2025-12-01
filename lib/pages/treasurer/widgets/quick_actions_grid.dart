@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
-import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/pages/treasurer/pemasukan/pemasukan_screen.dart';
-import 'package:rukunin/pages/treasurer/pengeluaran/pengeluaran_screen.dart';
-import 'package:rukunin/pages/treasurer/data_iuran/data_iuran_page.dart';
-import 'package:rukunin/pages/treasurer/kategori/kategori_screen.dart';
-import 'package:rukunin/pages/treasurer/transactions/transactions_page.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/repositories/data_iuran_repository.dart';
 
 class QuickActionsGrid extends StatelessWidget {
@@ -25,31 +21,19 @@ class QuickActionsGrid extends StatelessWidget {
           icon: Icons.add_card,
           label: 'Catat Pemasukan',
           color: AppColors.primary,
-          onTap: () {
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (_) => const PemasukanScreen()));
-          },
+          onTap: () => context.push('/treasurer/incomes'),
         ),
         QuickAccessItem(
           icon: Icons.remove_circle_outline,
           label: 'Catat Pengeluaran',
           color: AppColors.primary,
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const PengeluaranScreen()),
-            );
-          },
+          onTap: () => context.push('/treasurer/expenses'),
         ),
         QuickAccessItem(
           icon: Icons.receipt_long,
           label: 'Riwayat Transaksi',
           color: AppColors.primary,
-          onTap: () {
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (_) => const TransactionsPage()));
-          },
+          onTap: () => context.push('/treasurer/transaction/history'),
         ),
         Builder(
           builder: (ctx) {
@@ -65,13 +49,7 @@ class QuickActionsGrid extends StatelessWidget {
                     icon: Icons.people,
                     label: 'Data Iuran',
                     color: AppColors.primary,
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const DataIuranPage(),
-                        ),
-                      );
-                    },
+                    onTap: () => context.push('/treasurer/dues'),
                   ),
                 ),
                 if (hasPalsu)
@@ -111,11 +89,7 @@ class QuickActionsGrid extends StatelessWidget {
           icon: Icons.category,
           label: 'Kategori',
           color: AppColors.primary,
-          onTap: () {
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (_) => const KategoriScreen()));
-          },
+          onTap: () => context.push('/treasurer/kategori'),
         ),
         const QuickAccessItem(
           icon: Icons.analytics,

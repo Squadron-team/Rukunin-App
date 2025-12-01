@@ -69,7 +69,7 @@ final router = GoRouter(
     ...authRoutes,
 
     // Admin routes
-    adminRoutes,
+    ...adminRoutes,
 
     // RT routes
     ...rtRoutes,
