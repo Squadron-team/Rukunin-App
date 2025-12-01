@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class TransactionDetail extends StatelessWidget {
   final Map<String, dynamic> item;
@@ -45,16 +46,7 @@ class TransactionDetail extends StatelessWidget {
         ? item['status'].toString()
         : null;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        foregroundColor: Colors.black,
-        centerTitle: true,
-        title: const Text(
-          'Detail Transaksi',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
-        ),
-      ),
+      appBar: const RukuninAppBar(title: 'Detail Transaksi'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Card(

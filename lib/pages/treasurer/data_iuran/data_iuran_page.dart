@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
-import 'package:rukunin/pages/treasurer/data_iuran/data_iuran_detail.dart';
 import 'package:rukunin/repositories/data_iuran_repository.dart';
 
 class DataIuranPage extends StatefulWidget {
@@ -40,12 +40,6 @@ class _DataIuranPageState extends State<DataIuranPage> {
         ),
       );
     }
-  }
-
-  void _openDetail(Map<String, String> item) {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (_) => DataIuranDetail(item: item)));
   }
 
   @override
@@ -165,7 +159,10 @@ class _DataIuranPageState extends State<DataIuranPage> {
                         const color = Colors.blue;
                         final isPalsu = (item['prediction'] ?? '') == 'palsu';
                         return InkWell(
-                          onTap: () => _openDetail(item),
+                          onTap: () => context.push(
+                            '/treasurer/dues/detail',
+                            extra: item,
+                          ),
                           borderRadius: BorderRadius.circular(16),
                           child: Stack(
                             children: [
@@ -271,7 +268,10 @@ class _DataIuranPageState extends State<DataIuranPage> {
                                           width: 44,
                                           height: 44,
                                           child: IconButton(
-                                            onPressed: () => _openDetail(item),
+                                            onPressed: () => context.push(
+                                              '/treasurer/dues/detail',
+                                              extra: item,
+                                            ),
                                             icon: const Icon(
                                               Icons.arrow_forward,
                                               color: Colors.blue,

@@ -19,6 +19,11 @@ import 'package:rukunin/modules/marketplace/pages/cart_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/product_detail_screen.dart';
 import 'package:rukunin/modules/activities/pages/activity_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
+import 'package:rukunin/pages/treasurer/data_iuran/data_iuran_detail.dart';
+import 'package:rukunin/pages/treasurer/data_iuran/data_iuran_page.dart';
+import 'package:rukunin/pages/treasurer/pemasukan/pemasukan_screen.dart';
+import 'package:rukunin/pages/treasurer/transactions/transaction_detail.dart';
+import 'package:rukunin/pages/treasurer/transactions/transactions_page.dart';
 import 'package:rukunin/pages/treasurer/treasurer_home_screen.dart';
 import 'package:rukunin/pages/treasurer/treasurer_shell.dart';
 
@@ -200,5 +205,53 @@ final treasurerRoutes = [
       documentIcon: Icons.description_outlined,
       documentColor: Colors.grey,
     ),
+  ),
+
+  // Income feature
+  GoRoute(
+    path: '/treasurer/incomes',
+    name: 'treasurer-incomes',
+    builder: (context, state) => const PemasukanScreen(),
+  ),
+
+  // Expense
+  GoRoute(
+    path: '/treasurer/expenses',
+    name: 'treasurer-expenses',
+    builder: (context, state) => const PemasukanScreen(),
+  ),
+
+  // Transaction
+  GoRoute(
+    path: '/treasurer/transaction/history',
+    name: 'treasurer-transaction-history',
+    builder: (context, state) => const TransactionsPage(),
+  ),
+
+  // Dues
+  GoRoute(
+    path: '/treasurer/dues',
+    name: 'treasurer-dues',
+    builder: (context, state) => const DataIuranPage(),
+  ),
+
+  // Dues Detail
+  GoRoute(
+    path: '/treasurer/dues/detail',
+    name: 'treasurer-dues-detail',
+    builder: (context, state) {
+      final item = state.extra as Map<String, String>;
+      return DataIuranDetail(item: item);
+    },
+  ),
+
+  // Transaction Detail
+  GoRoute(
+    path: '/treasurer/transaction/detail',
+    name: 'treasurer-transaction-detail',
+    builder: (context, state) {
+      final item = state.extra as Map<String, dynamic>;
+      return TransactionDetail(item: item);
+    },
   ),
 ];
