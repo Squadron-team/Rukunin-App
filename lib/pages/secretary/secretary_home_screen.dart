@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
-import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 import 'package:rukunin/pages/secretary/pages/create_letter_screen.dart';
 import 'package:rukunin/pages/secretary/pages/verification_screen.dart';
 import 'package:rukunin/pages/secretary/pages/archive_screen.dart';
@@ -12,6 +11,7 @@ import 'package:rukunin/pages/secretary/pages/incoming_mail_screen.dart';
 import 'package:rukunin/pages/secretary/pages/outgoing_mail_screen.dart';
 import 'package:rukunin/pages/secretary/pages/residents_data_screen.dart';
 import 'package:rukunin/pages/secretary/pages/reports_screen.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class SecretaryHomeScreen extends StatefulWidget {
   const SecretaryHomeScreen({super.key});
@@ -69,26 +69,7 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: const Text(
-          'Beranda',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined, color: Colors.black),
-            onPressed: () => _navigateToNotification(context),
-          ),
-        ],
-      ),
+      appBar: const RukuninAppBar(title: 'Beranda', showNotification: true),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -123,13 +104,6 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  void _navigateToNotification(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const NotificationScreen()),
     );
   }
 

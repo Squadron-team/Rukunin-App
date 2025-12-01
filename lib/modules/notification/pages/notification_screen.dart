@@ -71,10 +71,6 @@ class _NotificationScreenState extends State<NotificationScreen>
         backgroundColor: Colors.white,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
         title: Row(
           children: [
             const Text(
