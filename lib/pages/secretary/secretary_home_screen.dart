@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
 import 'package:rukunin/modules/notification/pages/notification_screen.dart';
-
-// Import semua halaman tujuan
 import 'package:rukunin/pages/secretary/pages/create_letter_screen.dart';
 import 'package:rukunin/pages/secretary/pages/verification_screen.dart';
 import 'package:rukunin/pages/secretary/pages/archive_screen.dart';
@@ -70,8 +68,6 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      extendBody: true,
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text(
