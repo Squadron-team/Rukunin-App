@@ -1,16 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
-import 'package:rukunin/pages/secretary/pages/create_letter_screen.dart';
-import 'package:rukunin/pages/secretary/pages/verification_screen.dart';
-import 'package:rukunin/pages/secretary/pages/archive_screen.dart';
-import 'package:rukunin/pages/secretary/pages/meeting_schedule_screen.dart';
-import 'package:rukunin/pages/secretary/pages/minutes_screen.dart';
-import 'package:rukunin/pages/secretary/pages/incoming_mail_screen.dart';
-import 'package:rukunin/pages/secretary/pages/outgoing_mail_screen.dart';
-import 'package:rukunin/pages/secretary/pages/residents_data_screen.dart';
-import 'package:rukunin/pages/secretary/pages/reports_screen.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class SecretaryHomeScreen extends StatefulWidget {
@@ -68,7 +60,6 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
       appBar: const RukuninAppBar(title: 'Beranda', showNotification: true),
       body: Container(
         width: double.infinity,
@@ -267,55 +258,55 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
               icon: Icons.edit_document,
               label: 'Buat Surat',
               color: AppColors.primary,
-              onTap: () => _navigateToScreen(const CreateLetterScreen()),
+              onTap: () => context.push('/secretary/create-letter'),
             ),
             QuickAccessItem(
               icon: Icons.approval,
               label: 'Verifikasi',
               color: AppColors.primary,
-              onTap: () => _navigateToScreen(const VerificationScreen()),
+              onTap: () => context.push('/secretary/verification'),
             ),
             QuickAccessItem(
               icon: Icons.folder_shared,
               label: 'Arsip',
               color: AppColors.primary,
-              onTap: () => _navigateToScreen(const ArchiveScreen()),
+              onTap: () => context.push('/secretary/archive'),
             ),
             QuickAccessItem(
               icon: Icons.calendar_today,
               label: 'Jadwal Rapat',
               color: AppColors.primary,
-              onTap: () => _navigateToScreen(const MeetingScheduleScreen()),
+              onTap: () => context.push('/secretary/meeting-schedule'),
             ),
             QuickAccessItem(
               icon: Icons.record_voice_over,
               label: 'Notulensi',
               color: AppColors.primary,
-              onTap: () => _navigateToScreen(const MinutesScreen()),
+              onTap: () => context.push('/secretary/minutes'),
             ),
             QuickAccessItem(
               icon: Icons.mail_outline,
               label: 'Surat Masuk',
               color: AppColors.primary,
-              onTap: () => _navigateToScreen(const IncomingMailScreen()),
+              onTap: () => context.push('/secretary/incoming-mail'),
             ),
             QuickAccessItem(
               icon: Icons.send,
               label: 'Surat Keluar',
               color: AppColors.primary,
-              onTap: () => _navigateToScreen(const OutgoingMailScreen()),
+              onTap: () => context.push('/secretary/outgoing-mail'),
             ),
             QuickAccessItem(
               icon: Icons.list_alt,
               label: 'Data Warga',
               color: AppColors.primary,
-              onTap: () => _navigateToScreen(const ResidentsDataScreen()),
+              onTap: () => context.push('/secretary/residents-data'),
             ),
             QuickAccessItem(
               icon: Icons.assessment,
               label: 'Laporan',
               color: AppColors.primary,
-              onTap: () => _navigateToScreen(const ReportsScreen()),
+              onTap: () => context.push('/secretary/reports'),
             ),
           ],
         ),
@@ -1087,8 +1078,4 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
 
   Widget _verticalDivider() =>
       Container(width: 1, height: 40, color: Colors.grey[300]);
-
-  void _navigateToScreen(Widget screen) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
-  }
 }

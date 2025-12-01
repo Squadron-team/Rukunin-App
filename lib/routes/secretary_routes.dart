@@ -21,6 +21,15 @@ import 'package:rukunin/modules/marketplace/pages/shop_dashboard_screen.dart';
 import 'package:rukunin/pages/secretary/secretary_home_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/secretary/secretary_shell.dart';
+import 'package:rukunin/pages/secretary/pages/create_letter_screen.dart';
+import 'package:rukunin/pages/secretary/pages/verification_screen.dart';
+import 'package:rukunin/pages/secretary/pages/archive_screen.dart';
+import 'package:rukunin/pages/secretary/pages/meeting_schedule_screen.dart';
+import 'package:rukunin/pages/secretary/pages/minutes_screen.dart';
+import 'package:rukunin/pages/secretary/pages/incoming_mail_screen.dart';
+import 'package:rukunin/pages/secretary/pages/outgoing_mail_screen.dart';
+import 'package:rukunin/pages/secretary/pages/residents_data_screen.dart';
+import 'package:rukunin/pages/secretary/pages/reports_screen.dart';
 
 final secretaryRoutes = [
   // Main routes with bottom navigation
@@ -200,5 +209,52 @@ final secretaryRoutes = [
       documentIcon: Icons.description_outlined,
       documentColor: Colors.grey,
     ),
+  ),
+
+  // Secretary-specific features
+  GoRoute(
+    path: '/secretary/create-letter',
+    name: 'secretary-create-letter',
+    builder: (context, state) => const CreateLetterScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/verification',
+    name: 'secretary-verification',
+    builder: (context, state) => const VerificationScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/archive',
+    name: 'secretary-archive',
+    builder: (context, state) => const ArchiveScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/meeting-schedule',
+    name: 'secretary-meeting-schedule',
+    builder: (context, state) => const MeetingScheduleScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/minutes',
+    name: 'secretary-minutes',
+    builder: (context, state) => const MinutesScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/incoming-mail',
+    name: 'secretary-incoming-mail',
+    builder: (context, state) => const IncomingMailScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/outgoing-mail',
+    name: 'secretary-outgoing-mail',
+    builder: (context, state) => const OutgoingMailScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/residents-data',
+    name: 'secretary-residents-data',
+    builder: (context, state) => const ResidentsDataScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/reports',
+    name: 'secretary-reports',
+    builder: (context, state) => const ReportsScreen(),
   ),
 ];
