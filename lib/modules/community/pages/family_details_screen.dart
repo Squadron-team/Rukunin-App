@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:intl/intl.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';

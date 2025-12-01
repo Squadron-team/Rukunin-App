@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/resident.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
 import 'package:rukunin/pages/rt/warga/widgets/doc_tile.dart';
 import 'package:rukunin/models/street.dart';

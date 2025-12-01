@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/app_notification.dart';
 import 'package:rukunin/repositories/app_notifications.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/modules/notification/widgets/notification_tab_chip.dart';
 import 'package:rukunin/modules/notification/widgets/notification_card.dart';
 import 'package:rukunin/modules/notification/widgets/notification_empty_state.dart';

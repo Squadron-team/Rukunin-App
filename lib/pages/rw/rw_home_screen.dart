@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/pages/rw/iuran/iuran_rw_screen.dart';
 import 'package:rukunin/pages/rw/kegiatan/kegiatan_rw_screen.dart';
 import 'package:rukunin/pages/rw/laporan/kelola_laporan_screen.dart';

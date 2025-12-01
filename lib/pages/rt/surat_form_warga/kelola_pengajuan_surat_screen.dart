@@ -4,7 +4,7 @@ import 'package:rukunin/pages/rt/surat_form_warga/models/document_request.dart';
 import 'package:rukunin/pages/rt/surat_form_warga/widgets/document_request_card.dart';
 import 'package:rukunin/pages/rt/surat_form_warga/request_detail_page.dart';
 import 'package:rukunin/pages/rt/surat_form_warga/category_requests_screen.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 class KelolaPengajuanSuratScreen extends StatefulWidget {
   const KelolaPengajuanSuratScreen({super.key});

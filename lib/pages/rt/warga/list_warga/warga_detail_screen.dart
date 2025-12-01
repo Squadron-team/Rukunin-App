@@ -3,7 +3,7 @@ import 'package:rukunin/models/resident.dart';
 import 'package:rukunin/pages/rt/warga/list_warga/warga_edit_screen.dart';
 import 'package:rukunin/pages/rt/warga/widgets/doc_tile.dart';
 import 'package:rukunin/pages/rt/warga/widgets/doc_preview_dialog.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 class WargaDetailScreen extends StatelessWidget {
   final Warga warga;

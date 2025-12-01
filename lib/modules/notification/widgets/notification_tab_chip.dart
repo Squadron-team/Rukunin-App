@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/repositories/app_notifications.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 class NotificationTabChip extends StatelessWidget {
   final String label;

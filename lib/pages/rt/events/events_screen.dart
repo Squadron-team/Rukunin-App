@@ -8,7 +8,7 @@ import 'package:rukunin/pages/rt/events/event_detail_screen.dart';
 import 'package:rukunin/pages/rt/events/widgets/category_chip.dart';
 import 'package:rukunin/pages/rt/events/widgets/dismiss_background.dart';
 import 'package:rukunin/pages/rt/events/widgets/delete_confirm_dialog.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
 
 class CommunityHeadEventsScreen extends StatefulWidget {

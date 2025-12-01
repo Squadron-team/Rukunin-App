@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
 import 'package:rukunin/pages/rt/announcements/announcements_screen.dart';
 import 'package:rukunin/pages/rt/warga/list_warga/warga_list_screen.dart';
