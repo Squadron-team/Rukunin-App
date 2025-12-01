@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/widgets/quick_access_item.dart';
+import 'package:rukunin/widgets/menu_card.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class SecretaryHomeScreen extends StatefulWidget {
@@ -254,58 +254,49 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen> {
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,
           children: [
-            QuickAccessItem(
+            MenuCard(
               icon: Icons.edit_document,
               label: 'Buat Surat',
-              color: AppColors.primary,
               onTap: () => context.push('/secretary/create-letter'),
             ),
-            QuickAccessItem(
+            MenuCard(
               icon: Icons.approval,
               label: 'Verifikasi',
-              color: AppColors.primary,
               onTap: () => context.push('/secretary/verification'),
             ),
-            QuickAccessItem(
+            MenuCard(
               icon: Icons.folder_shared,
               label: 'Arsip',
-              color: AppColors.primary,
               onTap: () => context.push('/secretary/archive'),
             ),
-            QuickAccessItem(
+            MenuCard(
               icon: Icons.calendar_today,
               label: 'Jadwal Rapat',
-              color: AppColors.primary,
               onTap: () => context.push('/secretary/meeting-schedule'),
             ),
-            QuickAccessItem(
+            MenuCard(
               icon: Icons.record_voice_over,
               label: 'Notulensi',
-              color: AppColors.primary,
               onTap: () => context.push('/secretary/minutes'),
             ),
-            QuickAccessItem(
+            MenuCard(
               icon: Icons.mail_outline,
               label: 'Surat Masuk',
-              color: AppColors.primary,
               onTap: () => context.push('/secretary/incoming-mail'),
             ),
-            QuickAccessItem(
+            MenuCard(
               icon: Icons.send,
               label: 'Surat Keluar',
-              color: AppColors.primary,
               onTap: () => context.push('/secretary/outgoing-mail'),
             ),
-            QuickAccessItem(
+            MenuCard(
               icon: Icons.list_alt,
               label: 'Data Warga',
-              color: AppColors.primary,
               onTap: () => context.push('/secretary/residents-data'),
             ),
-            QuickAccessItem(
+            MenuCard(
               icon: Icons.assessment,
               label: 'Laporan',
-              color: AppColors.primary,
               onTap: () => context.push('/secretary/reports'),
             ),
           ],

@@ -12,9 +12,9 @@ final rukuninTheme = ThemeData(
     backgroundColor: Colors.white,
     elevation: 0,
     centerTitle: true,
-    iconTheme: IconThemeData(color: Colors.black87),
+    iconTheme: IconThemeData(color: AppColors.textPrimary),
     titleTextStyle: TextStyle(
-      color: Colors.black,
+      color: AppColors.textPrimary,
       fontSize: 18,
       fontWeight: FontWeight.w700,
     ),
@@ -26,7 +26,7 @@ final rukuninTheme = ThemeData(
     elevation: 0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
-      side: BorderSide(color: Colors.grey[200]!),
+      side: const BorderSide(color: AppColors.border),
     ),
     shadowColor: Colors.black.withOpacity(0.04),
   ),
@@ -70,11 +70,11 @@ final rukuninTheme = ThemeData(
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: Colors.grey[300]!),
+      borderSide: const BorderSide(color: AppColors.border),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: Colors.grey[300]!),
+      borderSide: const BorderSide(color: AppColors.border),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
@@ -88,95 +88,95 @@ final rukuninTheme = ThemeData(
       borderRadius: BorderRadius.circular(12),
       borderSide: const BorderSide(color: AppColors.error, width: 2),
     ),
-    labelStyle: TextStyle(color: Colors.grey[600]),
+    labelStyle: const TextStyle(color: AppColors.textSecondary),
     hintStyle: TextStyle(color: Colors.grey[400]),
   ),
 
   // Text Theme
-  textTheme: TextTheme(
-    displayLarge: const TextStyle(
+  textTheme: const TextTheme(
+    displayLarge: TextStyle(
       fontSize: 32,
       fontWeight: FontWeight.w800,
-      color: Colors.black,
+      color: AppColors.textPrimary,
     ),
-    displayMedium: const TextStyle(
+    displayMedium: TextStyle(
       fontSize: 28,
       fontWeight: FontWeight.w700,
-      color: Colors.black,
+      color: AppColors.textPrimary,
     ),
-    displaySmall: const TextStyle(
+    displaySmall: TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.w700,
-      color: Colors.black,
+      color: AppColors.textPrimary,
     ),
-    headlineLarge: const TextStyle(
+    headlineLarge: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w700,
-      color: Colors.black,
+      color: AppColors.textPrimary,
     ),
-    headlineMedium: const TextStyle(
+    headlineMedium: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w700,
-      color: Colors.black,
+      color: AppColors.textPrimary,
     ),
-    headlineSmall: const TextStyle(
+    headlineSmall: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w700,
-      color: Colors.black,
+      color: AppColors.textPrimary,
     ),
-    titleLarge: const TextStyle(
+    titleLarge: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,
-      color: Colors.black,
+      color: AppColors.textPrimary,
     ),
-    titleMedium: const TextStyle(
+    titleMedium: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w600,
-      color: Colors.black87,
+      color: AppColors.textPrimary,
     ),
-    titleSmall: const TextStyle(
+    titleSmall: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w600,
-      color: Colors.black87,
+      color: AppColors.textPrimary,
     ),
     bodyLarge: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w400,
-      color: Colors.grey[800],
+      color: AppColors.textPrimary,
     ),
     bodyMedium: TextStyle(
       fontSize: 13,
       fontWeight: FontWeight.w400,
-      color: Colors.grey[600],
+      color: AppColors.textSecondary,
     ),
     bodySmall: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w400,
-      color: Colors.grey[500],
+      color: AppColors.textSecondary,
     ),
-    labelLarge: const TextStyle(
+    labelLarge: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w600,
-      color: Colors.black87,
+      color: AppColors.textPrimary,
     ),
     labelMedium: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w500,
-      color: Colors.grey[600],
+      color: AppColors.textSecondary,
     ),
     labelSmall: TextStyle(
       fontSize: 11,
       fontWeight: FontWeight.w500,
-      color: Colors.grey[500],
+      color: AppColors.textSecondary,
     ),
   ),
 
   // Icon Theme
-  iconTheme: const IconThemeData(color: Colors.black87, size: 24),
+  iconTheme: const IconThemeData(color: AppColors.textPrimary, size: 24),
 
   // Divider Theme
-  dividerTheme: DividerThemeData(
-    color: Colors.grey[300],
+  dividerTheme: const DividerThemeData(
+    color: AppColors.border,
     thickness: 1,
     space: 24,
   ),
@@ -201,7 +201,7 @@ final rukuninTheme = ThemeData(
     titleTextStyle: const TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w700,
-      color: Colors.black,
+      color: AppColors.textPrimary,
     ),
   ),
 
@@ -218,7 +218,7 @@ final rukuninTheme = ThemeData(
     backgroundColor: Colors.white,
     headerBackgroundColor: AppColors.primary,
     headerForegroundColor: Colors.white,
-    dayForegroundColor: WidgetStateProperty.all(Colors.black87),
+    dayForegroundColor: WidgetStateProperty.all(AppColors.textPrimary),
     todayForegroundColor: WidgetStateProperty.all(AppColors.primary),
     rangeSelectionBackgroundColor: AppColors.primary.withOpacity(0.2),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -230,8 +230,8 @@ final rukuninTheme = ThemeData(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     tileColor: Colors.white,
     selectedTileColor: AppColors.primary.withOpacity(0.1),
-    iconColor: Colors.black87,
-    textColor: Colors.black87,
+    iconColor: AppColors.textPrimary,
+    textColor: AppColors.textPrimary,
   ),
 
   // Progress Indicator Theme
