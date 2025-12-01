@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
 import 'package:rukunin/repositories/data_iuran_repository.dart';
+import 'package:rukunin/pages/treasurer/data_iuran/widgets/iuran_info_card.dart';
+import 'package:rukunin/pages/treasurer/data_iuran/widgets/bukti_pembayaran_card.dart';
 
 class DataIuranDetail extends StatefulWidget {
   final Map<String, String> item;
@@ -18,10 +20,8 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
   @override
   void initState() {
     super.initState();
-    // read deterministic prediction from repository (dummy data)
     final id = widget.item['id'];
     final p = id == null ? null : DataIuranRepository().prediction(id);
-    // if repository does not have a prediction, default to `true` (asli)
     _isAsli = p ?? true;
   }
 
@@ -72,7 +72,6 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
               child: Column(
                 children: [
                   const SizedBox(height: 6),
-                  // plain input without the extra card background
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: TextFormField(
@@ -176,99 +175,12 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Card(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: AppColors.primary.withOpacity(0.12),
-                          child: const Icon(
-                            Icons.person,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            item['name'] ?? '-',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    const Divider(height: 1),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 120,
-                          child: Text(
-                            'Asal RT',
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Expanded(child: Text(item['rt'] ?? '-')),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 120,
-                          child: Text(
-                            'Jenis Iuran',
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Expanded(child: Text(item['type'] ?? '-')),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 120,
-                          child: Text(
-                            'Jumlah',
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            item['amount'] ?? '-',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+            IuranInfoCard(
+              name: item['name'] ?? '-',
+              rt: item['rt'] ?? '-',
+              type: item['type'] ?? '-',
+              amount: item['amount'] ?? '-',
+              time: item['time'] ?? '-',
             ),
             const SizedBox(height: 16),
             Card(
@@ -296,46 +208,7 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) {
-                            return Dialog(
-                              insetPadding: const EdgeInsets.all(16),
-                              child: Container(
-                                padding: const EdgeInsets.all(12),
-                                color: Colors.white,
-                                child: const SizedBox(
-                                  height: 300,
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.receipt_long,
-                                      size: 120,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Container(
-                        height: 300,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey[100],
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.receipt_long,
-                            size: 64,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    ),
+                    const BuktiPembayaranCard(proofUrl: null, height: 300),
                     const SizedBox(height: 12),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

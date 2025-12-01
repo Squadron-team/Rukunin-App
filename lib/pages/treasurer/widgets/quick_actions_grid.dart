@@ -4,6 +4,7 @@ import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/pages/treasurer/pemasukan/pemasukan_screen.dart';
 import 'package:rukunin/pages/treasurer/pengeluaran/pengeluaran_screen.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/data_iuran_page.dart';
+import 'package:rukunin/pages/treasurer/transactions/transactions_page.dart';
 import 'package:rukunin/repositories/data_iuran_repository.dart';
 
 class QuickActionsGrid extends StatelessWidget {
@@ -39,10 +40,15 @@ class QuickActionsGrid extends StatelessWidget {
             );
           },
         ),
-        const QuickAccessItem(
+        QuickAccessItem(
           icon: Icons.receipt_long,
           label: 'Riwayat Transaksi',
           color: AppColors.primary,
+          onTap: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const TransactionsPage()));
+          },
         ),
         Builder(
           builder: (ctx) {
@@ -101,16 +107,6 @@ class QuickActionsGrid extends StatelessWidget {
           },
         ),
         const QuickAccessItem(
-          icon: Icons.warning_amber,
-          label: 'Tunggakan',
-          color: AppColors.primary,
-        ),
-        const QuickAccessItem(
-          icon: Icons.summarize,
-          label: 'Laporan Keuangan',
-          color: AppColors.primary,
-        ),
-        const QuickAccessItem(
           icon: Icons.category,
           label: 'Kategori',
           color: AppColors.primary,
@@ -118,11 +114,6 @@ class QuickActionsGrid extends StatelessWidget {
         const QuickAccessItem(
           icon: Icons.analytics,
           label: 'Analisis',
-          color: AppColors.primary,
-        ),
-        const QuickAccessItem(
-          icon: Icons.print,
-          label: 'Cetak Laporan',
           color: AppColors.primary,
         ),
       ],
