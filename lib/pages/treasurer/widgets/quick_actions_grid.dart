@@ -4,6 +4,7 @@ import 'package:rukunin/style/app_colors.dart';
 import 'package:rukunin/pages/treasurer/pemasukan/pemasukan_screen.dart';
 import 'package:rukunin/pages/treasurer/pengeluaran/pengeluaran_screen.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/data_iuran_page.dart';
+import 'package:rukunin/pages/treasurer/kategori/kategori_screen.dart';
 import 'package:rukunin/pages/treasurer/transactions/transactions_page.dart';
 import 'package:rukunin/repositories/data_iuran_repository.dart';
 
@@ -106,10 +107,15 @@ class QuickActionsGrid extends StatelessWidget {
             );
           },
         ),
-        const QuickAccessItem(
+        QuickAccessItem(
           icon: Icons.category,
           label: 'Kategori',
           color: AppColors.primary,
+          onTap: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const KategoriScreen()));
+          },
         ),
         const QuickAccessItem(
           icon: Icons.analytics,

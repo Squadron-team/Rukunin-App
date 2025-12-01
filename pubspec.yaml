@@ -32,6 +32,7 @@ dependencies:
   path: any
   git_hooks: any
   camera: ^0.11.3
+  collection: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
