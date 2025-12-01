@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/pages/rt/report_statistic/components/summary_row.dart';
 import 'package:rukunin/pages/rt/report_statistic/components/filters_row.dart';
 import 'package:rukunin/pages/rt/report_statistic/components/mini_charts.dart';

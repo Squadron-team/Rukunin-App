@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/modules/activities/widgets/activity_card.dart';
 import 'package:rukunin/modules/activities/services/activity_service.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';

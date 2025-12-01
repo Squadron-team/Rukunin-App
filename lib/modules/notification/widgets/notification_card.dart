@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/app_notification.dart';
 import 'package:rukunin/modules/notification/utils/notification_helpers.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 class NotificationCard extends StatelessWidget {
   final AppNotification notification;

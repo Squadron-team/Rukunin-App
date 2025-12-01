@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/treasurer/transactions/transaction_detail.dart';
+import 'package:go_router/go_router.dart';
 
 class TransactionItem extends StatelessWidget {
   final Map<String, dynamic> item;
@@ -16,9 +16,7 @@ class TransactionItem extends StatelessWidget {
         : (item['note'] ?? '-');
 
     return InkWell(
-      onTap: () => Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (_) => TransactionDetail(item: item))),
+      onTap: () => context.push('/treasurer/transaction/detail', extra: item),
       borderRadius: BorderRadius.circular(12),
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),

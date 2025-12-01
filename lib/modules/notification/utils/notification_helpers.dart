@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/app_notification.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 class NotificationHelpers {
   static Color getBackgroundColor(AppNotificationType type, bool isRead) {

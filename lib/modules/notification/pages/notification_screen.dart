@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rukunin/models/app_notification.dart';
 import 'package:rukunin/repositories/app_notifications.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/modules/notification/widgets/notification_tab_chip.dart';
 import 'package:rukunin/modules/notification/widgets/notification_card.dart';
 import 'package:rukunin/modules/notification/widgets/notification_empty_state.dart';
@@ -71,10 +71,6 @@ class _NotificationScreenState extends State<NotificationScreen>
         backgroundColor: Colors.white,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
         title: Row(
           children: [
             const Text(

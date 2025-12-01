@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rt/report_statistic/components/donut_chart.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 class MiniDonutCard extends StatelessWidget {
   final String title;

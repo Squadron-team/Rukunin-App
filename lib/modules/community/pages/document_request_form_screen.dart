@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/modules/community/services/document_service.dart';
 import 'package:rukunin/services/storage_service.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';

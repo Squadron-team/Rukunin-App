@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 
 class RtShell extends StatelessWidget {
   final Widget child;
@@ -42,7 +42,6 @@ class RtShell extends StatelessWidget {
     final currentIndex = _getCurrentIndex(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: child,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

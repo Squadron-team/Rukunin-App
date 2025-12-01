@@ -1,7 +1,7 @@
 // lib/pages/kegiatan_warga/kegiatan_add_page.dart
 
 import 'package:flutter/material.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class KegiatanAddPage extends StatefulWidget {

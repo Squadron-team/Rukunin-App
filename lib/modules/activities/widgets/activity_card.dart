@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/modules/activities/pages/activity_detail_screen.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/utils/icon_mapper.dart';
 
 class ActivityCard extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/pages/rw/iuran/iuran_rw_screen.dart';
 import 'package:rukunin/pages/rw/kegiatan/kegiatan_rw_screen.dart';
 import 'package:rukunin/pages/rw/laporan/kelola_laporan_screen.dart';
@@ -7,8 +7,8 @@ import 'package:rukunin/pages/rw/pengumuman/pengumuman_screen.dart';
 import 'package:rukunin/pages/rw/rapat/rapat_rw_screen.dart';
 import 'package:rukunin/pages/rw/surat/surat_menyurat_screen.dart';
 import 'package:rukunin/pages/rw/data_warga/data_warga_screen.dart';
-import 'package:rukunin/modules/notification/pages/notification_screen.dart';
 import 'package:rukunin/widgets/quick_access_item.dart';
+import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
 class RwHomeScreen extends StatelessWidget {
   const RwHomeScreen({super.key});
@@ -20,33 +20,7 @@ class RwHomeScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: const Text(
-          'Selamat pagi, Bu RW!',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: false,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const NotificationScreen(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+      appBar: const RukuninAppBar(title: 'Beranda', showNotification: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

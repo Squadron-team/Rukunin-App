@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/style/app_colors.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
 import 'package:rukunin/repositories/data_iuran_repository.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/widgets/iuran_info_card.dart';
@@ -42,7 +43,7 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
-    Navigator.of(context).pop(true);
+    context.pop(true);
   }
 
   Future<void> _reject() async {
@@ -136,6 +137,7 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
       final msg = note.isEmpty
           ? 'Iuran ditolak'
           : 'Iuran ditolak. Catatan dikirim';
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(msg),
@@ -146,7 +148,7 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
           ),
         ),
       );
-      Navigator.of(context).pop(false);
+      context.pop(false);
     }
   }
 
@@ -154,7 +156,6 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
   Widget build(BuildContext context) {
     final item = widget.item;
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
