@@ -154,7 +154,6 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
   Widget build(BuildContext context) {
     final item = widget.item;
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,

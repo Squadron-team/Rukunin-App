@@ -42,7 +42,6 @@ class RtShell extends StatelessWidget {
     final currentIndex = _getCurrentIndex(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: child,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

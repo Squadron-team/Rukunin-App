@@ -63,7 +63,11 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Rukunin',
-      theme: ThemeData(primarySwatch: Colors.yellow, useMaterial3: true),
+      theme: ThemeData(
+        primarySwatch: Colors.yellow,
+        useMaterial3: true,
+        scaffoldBackgroundColor: Colors.grey[50],
+      ),
       routerConfig: router,
     );
   }
