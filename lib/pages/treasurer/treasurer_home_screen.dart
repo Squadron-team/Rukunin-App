@@ -331,7 +331,11 @@ class TreasurerHomeScreen extends StatelessWidget {
               label: 'Data Iuran',
               onTap: () => context.push('/treasurer/dues'),
             ),
-            MenuCard(icon: Icons.category, label: 'Kategori', onTap: () {}),
+            MenuCard(
+              icon: Icons.category,
+              label: 'Kategori',
+              onTap: () => context.push('/treasurer/kategori'),
+            ),
             MenuCard(icon: Icons.analytics, label: 'Analisis', onTap: () {}),
           ],
         ),
