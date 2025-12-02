@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/widgets/cards/payment_item_card.dart';
+import 'package:rukunin/modules/community/widgets/components/payment_item_card.dart';
 
 class PaymentHistorySection extends StatefulWidget {
   const PaymentHistorySection({super.key});

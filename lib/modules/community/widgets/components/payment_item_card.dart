@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/theme/app_colors.dart';
+import 'package:rukunin/modules/community/pages/payment_confirmation_screen.dart';
 
 class PaymentItemCard extends StatelessWidget {
   final String period;
@@ -202,7 +203,16 @@ class PaymentItemCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);
-        // TODO: Navigate to payment screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PaymentConfirmationScreen(
+              period: period,
+              amount: amount,
+              paymentMethod: label,
+            ),
+          ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
