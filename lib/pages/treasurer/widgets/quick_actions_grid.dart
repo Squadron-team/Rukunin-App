@@ -85,10 +85,11 @@ class QuickActionsGrid extends StatelessWidget {
             );
           },
         ),
-        const QuickAccessItem(
+        QuickAccessItem(
           icon: Icons.category,
           label: 'Kategori',
           color: AppColors.primary,
+          onTap: () => context.push('/treasurer/kategori'),
         ),
         const QuickAccessItem(
           icon: Icons.analytics,
