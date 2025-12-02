@@ -91,10 +91,11 @@ class QuickActionsGrid extends StatelessWidget {
           color: AppColors.primary,
           onTap: () => context.push('/treasurer/kategori'),
         ),
-        const QuickAccessItem(
+        QuickAccessItem(
           icon: Icons.analytics,
           label: 'Analisis',
           color: AppColors.primary,
+          onTap: () => context.push('/treasurer/analisis'),
         ),
       ],
     );

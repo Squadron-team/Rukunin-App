@@ -217,7 +217,7 @@ class TreasurerHomeScreen extends StatelessWidget {
             Expanded(
               child: _buildSummaryCard(
                 icon: Icons.check_circle,
-                label: 'RT Sudah Bayar',
+                label: 'RT Sudah Lunas',
                 value: '8/10 RT',
                 color: AppColors.success,
               ),
@@ -226,7 +226,7 @@ class TreasurerHomeScreen extends StatelessWidget {
             Expanded(
               child: _buildSummaryCard(
                 icon: Icons.pending,
-                label: 'RT Belum Bayar',
+                label: 'RT Belum Lunas',
                 value: '2 RT',
                 color: AppColors.warning,
               ),
