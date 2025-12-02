@@ -1,7 +1,7 @@
 name: rukunin
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0+33
+version: 0.1.0+35
 
 environment:
   sdk: ^3.9.2
@@ -32,6 +32,7 @@ dependencies:
   path: any
   git_hooks: any
   camera: ^0.11.3
+  collection: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

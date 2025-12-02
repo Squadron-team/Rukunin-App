@@ -26,6 +26,7 @@ import 'package:rukunin/pages/treasurer/transactions/transaction_detail.dart';
 import 'package:rukunin/pages/treasurer/transactions/transactions_page.dart';
 import 'package:rukunin/pages/treasurer/treasurer_home_screen.dart';
 import 'package:rukunin/pages/treasurer/treasurer_shell.dart';
+import 'package:rukunin/pages/treasurer/kategori/kategori_screen.dart';
 
 final treasurerRoutes = [
   // Main routes with bottom navigation
@@ -233,6 +234,13 @@ final treasurerRoutes = [
     path: '/treasurer/dues',
     name: 'treasurer-dues',
     builder: (context, state) => const DataIuranPage(),
+  ),
+
+  // Kategori
+  GoRoute(
+    path: '/treasurer/kategori',
+    name: 'treasurer-kategori',
+    builder: (context, state) => const KategoriScreen(),
   ),
 
   // Dues Detail
