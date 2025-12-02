@@ -2,50 +2,32 @@ import 'package:go_router/go_router.dart';
 import 'package:rukunin/pages/admin/admin_home_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/admin/admin_shell.dart';
-
-// Warga
 import 'package:rukunin/pages/admin/warga/warga_list_page.dart';
 import 'package:rukunin/pages/admin/warga/warga_detail_page.dart';
 import 'package:rukunin/pages/admin/warga/warga_add_page.dart';
 import 'package:rukunin/pages/admin/warga/warga_edit_page.dart';
-
-// Keuangan & Iuran
 import 'package:rukunin/pages/admin/iuran/keuangan_dashboard_page.dart';
 import 'package:rukunin/pages/admin/iuran/iuran_list_page.dart';
 import 'package:rukunin/pages/admin/iuran/iuran_payment_page.dart';
 import 'package:rukunin/pages/admin/iuran/catat_pembayaran_page.dart';
-
-// Marketplace
 import 'package:rukunin/pages/admin/marketplace/admin_marketplace_screen.dart';
 import 'package:rukunin/pages/admin/marketplace/marketplace_detail_page.dart';
 import 'package:rukunin/pages/admin/marketplace/marketplace_add_page.dart';
 import 'package:rukunin/pages/admin/marketplace/marketplace_edit_page.dart';
-
-// Administrasi
 import 'package:rukunin/pages/admin/administrasi/akun_admin_list_page.dart';
 import 'package:rukunin/pages/admin/administrasi/akun_admin_edit_page.dart';
 import 'package:rukunin/pages/admin/administrasi/role_management_page.dart';
-
-// Kegiatan Admin (lain)
 import 'package:rukunin/pages/admin/activities/admin_activities_screen.dart';
 import 'package:rukunin/pages/admin/activities/admin_activity_detail_screen.dart';
-
-// Laporan
 import 'package:rukunin/pages/admin/laporan/laporan_list_page.dart';
 import 'package:rukunin/pages/admin/laporan/laporan_detail_page.dart';
 import 'package:rukunin/pages/admin/laporan/laporan_add_page.dart';
-
-// Pengumuman
 import 'package:rukunin/pages/admin/pengumuman/pengumuman_add_page.dart';
 import 'package:rukunin/pages/admin/pengumuman/pengumuman_detail_page.dart';
 import 'package:rukunin/pages/admin/pengumuman/pengumuman_list_page.dart';
-
-// Kegiatan Warga
 import 'package:rukunin/pages/admin/kegiatan_warga/kegiatan_list_page.dart';
 import 'package:rukunin/pages/admin/kegiatan_warga/kegiatan_add_page.dart';
 import 'package:rukunin/pages/admin/kegiatan_warga/kegiatan_detail_page.dart';
-
-// Verifikasi & Analitik
 import 'package:rukunin/pages/admin/verifikasi/verifikasi_detail_page.dart';
 import 'package:rukunin/pages/admin/verifikasi/verifikasi_list_page.dart';
 import 'package:rukunin/pages/admin/analitik/analytics_screen.dart';

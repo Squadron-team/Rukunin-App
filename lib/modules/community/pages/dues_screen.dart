@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/modules/community/widgets/dues_summary_card.dart';
-import 'package:rukunin/modules/community/widgets/announcements_dues_section.dart';
 import 'package:rukunin/modules/community/widgets/communnity_summary_section.dart';
 import 'package:rukunin/modules/community/widgets/payment_history_section.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
@@ -27,7 +26,6 @@ class DuesScreen extends StatelessWidget {
             SizedBox(height: 24),
             CommunnitySummarySection(),
             SizedBox(height: 16),
-            AnnouncementsDuesSection(),
             SizedBox(height: 24),
           ],
         ),

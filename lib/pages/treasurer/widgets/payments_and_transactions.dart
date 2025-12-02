@@ -9,7 +9,8 @@ class PaymentsAndTransactions extends StatelessWidget {
 
   List<Widget> _buildTopPayments(BuildContext context) {
     final repo = DataIuranRepository();
-    final items = repo.all().take(2).toList();
+    final items = repo.pendingByRt('Semua').take(2).toList();
+
     if (items.isEmpty) {
       return [
         Container(
@@ -17,16 +18,29 @@ class PaymentsAndTransactions extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey[200]!),
             boxShadow: [
               BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 6),
             ],
           ),
-          child: const Text('Tidak ada pembayaran untuk diverifikasi'),
+          child: Center(
+            child: Text(
+              'Tidak ada pembayaran untuk diverifikasi',
+              style: TextStyle(color: Colors.grey[600], fontSize: 14),
+            ),
+          ),
         ),
       ];
     }
 
-    return items.map((it) => PaymentVerificationCard(item: it)).toList();
+    return items.map((item) {
+      return PaymentVerificationCard(
+        payment: item,
+        onTap: () {
+          context.push('/treasurer/dues/detail', extra: item);
+        },
+      );
+    }).toList();
   }
 
   Widget _buildTransactionCard({
@@ -302,15 +316,24 @@ class PaymentsAndTransactions extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 24),
-        const Text(
-          'Pembayaran Menunggu Verifikasi',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.black,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Pembayaran Menunggu Verifikasi',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+              ),
+            ),
+            TextButton(
+              onPressed: () => context.push('/treasurer/dues'),
+              child: const Text('Lihat Semua', style: TextStyle(fontSize: 13)),
+            ),
+          ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
         // Render top 2 recent payments from repository
         ..._buildTopPayments(context),
         const SizedBox(height: 32),
