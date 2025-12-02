@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rukunin/firebase_options.dart';
@@ -12,6 +13,9 @@ Future<void> main() async {
   await initializeDateFormatting('id_ID', null);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Lock device orientation (portrait)
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(
     MobilePreviewWrapperHelper.shouldUseMobilePreview()
