@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/pages/rt/components/stat_card.dart';
 import 'package:rukunin/pages/rt/components/activity_card.dart';
-import 'package:rukunin/pages/rt/components/welcome_card.dart';
 import 'package:rukunin/pages/rt/components/financial_summary.dart';
 import 'package:rukunin/pages/rt/components/quick_actions.dart';
 import 'package:rukunin/pages/rt/components/pending_tasks.dart';
+import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
+import 'package:rukunin/widgets/welcome_role_card.dart';
 
 class RtHomeScreen extends StatelessWidget {
   const RtHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: const RukuninAppBar(title: 'Beranda', showNotification: true),
-      body: const SingleChildScrollView(
+    return const Scaffold(
+      appBar: RukuninAppBar(title: 'Beranda', showNotification: true),
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              WelcomeCard(),
+              WelcomeRoleCard(
+                greeting: 'Selamat datang kembali!',
+                role: 'Ketua RT 03',
+                icon: Icons.home,
+              ),
 
               SizedBox(height: 24),
 
@@ -44,7 +48,7 @@ class RtHomeScreen extends StatelessWidget {
                       label: 'Iuran Terbayar',
                       value: '38/45',
                       subtitle: '84%',
-                      color: Colors.green,
+                      color: AppColors.success,
                     ),
                   ),
                   SizedBox(width: 12),
@@ -54,7 +58,7 @@ class RtHomeScreen extends StatelessWidget {
                       label: 'Laporan Aktif',
                       value: '3',
                       subtitle: 'Perlu tindakan',
-                      color: Colors.orange,
+                      color: AppColors.warning,
                     ),
                   ),
                 ],
@@ -70,7 +74,7 @@ class RtHomeScreen extends StatelessWidget {
                       label: 'Kegiatan Bulan Ini',
                       value: '4',
                       subtitle: '2 mendatang',
-                      color: Colors.purple,
+                      color: AppColors.primary,
                     ),
                   ),
                   SizedBox(width: 12),
@@ -80,7 +84,7 @@ class RtHomeScreen extends StatelessWidget {
                       label: 'Pengajuan Surat',
                       value: '5',
                       subtitle: '2 pending',
-                      color: Colors.blue,
+                      color: AppColors.primary,
                     ),
                   ),
                 ],
@@ -118,7 +122,7 @@ class RtHomeScreen extends StatelessWidget {
                 title: 'Pembayaran Iuran',
                 subtitle: 'Pak Budi (Gang Mawar 15) membayar iuran November',
                 time: '5 menit yang lalu',
-                color: Colors.blue,
+                color: AppColors.primary,
               ),
 
               ActivityCard(
@@ -126,7 +130,7 @@ class RtHomeScreen extends StatelessWidget {
                 title: 'Pengajuan Surat',
                 subtitle: 'Ibu Siti mengajukan surat pengantar RT',
                 time: '30 menit yang lalu',
-                color: Colors.teal,
+                color: AppColors.primary,
               ),
 
               ActivityCard(
@@ -134,7 +138,7 @@ class RtHomeScreen extends StatelessWidget {
                 title: 'Laporan Baru',
                 subtitle: 'Lampu jalan mati di Gang Dahlia',
                 time: '1 jam yang lalu',
-                color: Colors.orange,
+                color: AppColors.warning,
               ),
 
               ActivityCard(
@@ -142,7 +146,7 @@ class RtHomeScreen extends StatelessWidget {
                 title: 'Warga Baru',
                 subtitle: 'Keluarga Wijaya pindah ke Gang Melati 08',
                 time: '2 jam yang lalu',
-                color: Colors.green,
+                color: AppColors.success,
               ),
 
               ActivityCard(
@@ -150,7 +154,7 @@ class RtHomeScreen extends StatelessWidget {
                 title: 'Kegiatan Terjadwal',
                 subtitle: 'Posyandu RT 03, Kamis 16 Nov pukul 08:00',
                 time: '3 jam yang lalu',
-                color: Colors.purple,
+                color: AppColors.primary,
               ),
 
               SizedBox(height: 32),

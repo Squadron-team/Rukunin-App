@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rukunin/widgets/quick_access_item.dart';
+import 'package:rukunin/widgets/menu_card.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/repositories/data_iuran_repository.dart';
 
@@ -17,22 +17,19 @@ class QuickActionsGrid extends StatelessWidget {
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
       children: [
-        QuickAccessItem(
+        MenuCard(
           icon: Icons.add_card,
           label: 'Catat Pemasukan',
-          color: AppColors.primary,
           onTap: () => context.push('/treasurer/incomes'),
         ),
-        QuickAccessItem(
+        MenuCard(
           icon: Icons.remove_circle_outline,
           label: 'Catat Pengeluaran',
-          color: AppColors.primary,
           onTap: () => context.push('/treasurer/expenses'),
         ),
-        QuickAccessItem(
+        MenuCard(
           icon: Icons.receipt_long,
           label: 'Riwayat Transaksi',
-          color: AppColors.primary,
           onTap: () => context.push('/treasurer/transaction/history'),
         ),
         Builder(
@@ -43,12 +40,11 @@ class QuickActionsGrid extends StatelessWidget {
             return Stack(
               clipBehavior: Clip.none,
               children: [
-                // Ensure the QuickAccessItem fills the grid cell
+                // Ensure the MenuCard fills the grid cell
                 SizedBox.expand(
-                  child: QuickAccessItem(
+                  child: MenuCard(
                     icon: Icons.people,
                     label: 'Data Iuran',
-                    color: AppColors.primary,
                     onTap: () => context.push('/treasurer/dues'),
                   ),
                 ),
@@ -85,16 +81,14 @@ class QuickActionsGrid extends StatelessWidget {
             );
           },
         ),
-        QuickAccessItem(
+        MenuCard(
           icon: Icons.category,
           label: 'Kategori',
-          color: AppColors.primary,
           onTap: () => context.push('/treasurer/kategori'),
         ),
-        QuickAccessItem(
+        MenuCard(
           icon: Icons.analytics,
           label: 'Analisis',
-          color: AppColors.primary,
           onTap: () => context.push('/treasurer/analisis'),
         ),
       ],
