@@ -6,25 +6,11 @@ class ResidentsDataScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Data Warga'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0,
-      ),
+      appBar: AppBar(title: const Text('Data Warga')),
       body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.list_alt, size: 80, color: Colors.indigo),
-            SizedBox(height: 16),
-            Text(
-              'Data Warga',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text('Halaman untuk mengelola data warga'),
-          ],
+        child: Text(
+          'Halaman Data Warga Belum Dibuat',
+          style: TextStyle(fontSize: 18),
         ),
       ),
     );
