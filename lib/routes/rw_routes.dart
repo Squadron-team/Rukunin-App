@@ -12,7 +12,12 @@ import 'package:rukunin/modules/marketplace/pages/search_results_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/shop_dashboard_screen.dart';
 import 'package:rukunin/modules/community/pages/community_screen.dart';
 import 'package:rukunin/pages/rw/data_warga/data_warga_screen.dart';
+import 'package:rukunin/pages/rw/iuran/iuran_rw_screen.dart';
+import 'package:rukunin/pages/rw/kegiatan/kegiatan_rw_screen.dart';
 import 'package:rukunin/pages/rw/laporan/kelola_laporan_screen.dart';
+import 'package:rukunin/pages/rw/pengumuman/pengumuman_screen.dart';
+import 'package:rukunin/pages/rw/rapat/rapat_rw_screen.dart';
+import 'package:rukunin/pages/rw/surat/surat_menyurat_screen.dart';
 import 'package:rukunin/pages/rw/rw_home_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/rw/rw_shell.dart';
@@ -110,17 +115,40 @@ final rwRoutes = [
     },
   ),
 
-  // Resident data management
+  // RW Feature routes
   GoRoute(
-    path: '/rw/warga',
-    name: 'rw-warga',
-    pageBuilder: (context, state) =>
-        const NoTransitionPage(child: DataWargaScreen()),
+    path: '/rw/data-warga',
+    name: 'rw-data-warga',
+    builder: (context, state) => const DataWargaScreen(),
+  ),
+  GoRoute(
+    path: '/rw/iuran',
+    name: 'rw-iuran',
+    builder: (context, state) => const IuranRwScreen(),
+  ),
+  GoRoute(
+    path: '/rw/kegiatan',
+    name: 'rw-kegiatan',
+    builder: (context, state) => const KegiatanRwScreen(),
   ),
   GoRoute(
     path: '/rw/laporan',
     name: 'rw-laporan',
-    pageBuilder: (context, state) =>
-        const NoTransitionPage(child: KelolaLaporanScreen()),
+    builder: (context, state) => const KelolaLaporanScreen(),
+  ),
+  GoRoute(
+    path: '/rw/pengumuman',
+    name: 'rw-pengumuman',
+    builder: (context, state) => const PengumumanScreen(),
+  ),
+  GoRoute(
+    path: '/rw/rapat',
+    name: 'rw-rapat',
+    builder: (context, state) => const RapatRwScreen(),
+  ),
+  GoRoute(
+    path: '/rw/surat',
+    name: 'rw-surat',
+    builder: (context, state) => const SuratMenyuratScreen(),
   ),
 ];

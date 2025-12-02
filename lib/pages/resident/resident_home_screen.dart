@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/widgets/quick_access_item.dart';
+import 'package:rukunin/widgets/menu_card.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
+import 'package:rukunin/widgets/welcome_role_card.dart';
 
 class ResidentHomeScreen extends StatelessWidget {
   const ResidentHomeScreen({super.key});
@@ -17,50 +18,35 @@ class ResidentHomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Welcome Card
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      AppColors.primary,
-                      AppColors.primary.withOpacity(0.8),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+              const WelcomeRoleCard(
+                greeting: 'Selamat datang kembali!',
+                role: 'Warga RW 05',
+                icon: Icons.home,
+              ),
+
+              const SizedBox(height: 24),
+
+              // Quick Stats
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildStatCard(
+                      icon: Icons.payment,
+                      label: 'Iuran Bulan Ini',
+                      value: 'Lunas',
+                      color: AppColors.success,
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withOpacity(0.3),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildStatCard(
+                      icon: Icons.event,
+                      label: 'Kegiatan Aktif',
+                      value: '3',
+                      color: AppColors.primary,
                     ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Selamat Datang!',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Kelola aktivitas RT/RW Anda dengan mudah',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.9),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
 
               const SizedBox(height: 32),
@@ -71,7 +57,7 @@ class ResidentHomeScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 16),
@@ -82,36 +68,28 @@ class ResidentHomeScreen extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
-                children: const [
-                  QuickAccessItem(
-                    icon: Icons.payment,
-                    label: 'Iuran',
-                    color: AppColors.primary,
-                  ),
-                  QuickAccessItem(
+                children: [
+                  MenuCard(icon: Icons.payment, label: 'Iuran', onTap: () {}),
+                  MenuCard(
                     icon: Icons.article_outlined,
                     label: 'Pengumuman',
-                    color: AppColors.primary,
+                    onTap: () {},
                   ),
-                  QuickAccessItem(
-                    icon: Icons.event,
-                    label: 'Kegiatan',
-                    color: AppColors.primary,
-                  ),
-                  QuickAccessItem(
+                  MenuCard(icon: Icons.event, label: 'Kegiatan', onTap: () {}),
+                  MenuCard(
                     icon: Icons.people_outline,
                     label: 'Warga',
-                    color: AppColors.primary,
+                    onTap: () {},
                   ),
-                  QuickAccessItem(
+                  MenuCard(
                     icon: Icons.report_problem_outlined,
                     label: 'Laporan',
-                    color: AppColors.primary,
+                    onTap: () {},
                   ),
-                  QuickAccessItem(
+                  MenuCard(
                     icon: Icons.more_horiz,
                     label: 'Lainnya',
-                    color: AppColors.primary,
+                    onTap: () {},
                   ),
                 ],
               ),
@@ -124,7 +102,7 @@ class ResidentHomeScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: Colors.black,
+                  color: AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 16),
@@ -134,27 +112,81 @@ class ResidentHomeScreen extends StatelessWidget {
                 icon: Icons.event,
                 title: 'Gotong Royong',
                 subtitle: 'Minggu, 15 Januari 2024',
-                color: Colors.green,
+                color: AppColors.success,
               ),
               const SizedBox(height: 12),
               _buildActivityCard(
                 icon: Icons.payment,
                 title: 'Iuran Bulanan',
                 subtitle: 'Jatuh tempo: 20 Januari 2024',
-                color: Colors.orange,
+                color: AppColors.warning,
               ),
               const SizedBox(height: 12),
               _buildActivityCard(
                 icon: Icons.article,
                 title: 'Pengumuman Baru',
                 subtitle: 'Perubahan jadwal keamanan',
-                color: Colors.blue,
+                color: AppColors.primary,
               ),
 
               const SizedBox(height: 24),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildStatCard({
+    required IconData icon,
+    required String label,
+    required String value,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, color: color, size: 24),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              color: AppColors.textSecondary,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -169,8 +201,8 @@ class ResidentHomeScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[200]!),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -198,18 +230,17 @@ class ResidentHomeScreen extends StatelessWidget {
                 Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[600],
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
                   ),
                 ),
               ],
