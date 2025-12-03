@@ -31,7 +31,10 @@ import 'package:rukunin/pages/secretary/pages/outgoing_mail_screen.dart';
 import 'package:rukunin/pages/secretary/pages/residents_data_screen.dart';
 import 'package:rukunin/pages/secretary/pages/reports_screen.dart';
 import 'package:rukunin/pages/secretary/pages/letter_templates_screen.dart';
-import 'package:rukunin/pages/secretary/pages/letter_archive_screen.dart'; // ← IMPORT BARU
+import 'package:rukunin/pages/secretary/pages/letter_archive_screen.dart';
+import 'package:rukunin/pages/secretary/pages/meeting_invitations_screen.dart';
+import 'package:rukunin/pages/secretary/pages/letter_approvals_screen.dart';
+import 'package:rukunin/pages/secretary/widgets/letter_approvals/letter_approval_detail_screen.dart';
 
 final secretaryRoutes = [
   // Main routes with bottom navigation
@@ -70,8 +73,6 @@ final secretaryRoutes = [
       ),
     ],
   ),
-
-  // Deep-link routes without bottom navigation - Marketplace
   GoRoute(
     path: '/secretary/marketplace/product/:productId',
     name: 'secretary-product-detail',
@@ -125,8 +126,6 @@ final secretaryRoutes = [
       return OrdersScreen(shop: shop);
     },
   ),
-
-  // Deep-link routes without bottom navigation - Community
   GoRoute(
     path: '/secretary/community/dues',
     name: 'secretary-community-dues',
@@ -212,7 +211,6 @@ final secretaryRoutes = [
       documentColor: Colors.grey,
     ),
   ),
-
   // Secretary-specific features
   GoRoute(
     path: '/secretary/create-letter',
@@ -224,12 +222,31 @@ final secretaryRoutes = [
     name: 'secretary-letter-templates',
     builder: (context, state) => const LetterTemplatesScreen(),
   ),
-  // ← ROUTE BARU UNTUK LETTER ARCHIVE
   GoRoute(
     path: '/secretary/letter-archive',
     name: 'secretary-letter-archive',
     builder: (context, state) => const LetterArchiveScreen(),
   ),
+  GoRoute(
+    path: '/secretary/letter-approvals',
+    name: 'secretary-letter-approvals',
+    builder: (context, state) => const LetterApprovalsScreen(),
+  ),
+
+  GoRoute(
+    path: '/secretary/widgets/letter-approvals/detail/:requestId',
+    name: 'secretary-letter-approval-detail',
+    builder: (context, state) {
+      final requestId = state.pathParameters['requestId']!;
+      final requestData = state.extra as Map<String, dynamic>?;
+
+      return LetterApprovalDetailScreen(
+        requestId: requestId,
+        requestData: requestData,
+      );
+    },
+  ),
+
   GoRoute(
     path: '/secretary/verification',
     name: 'secretary-verification',
@@ -244,6 +261,11 @@ final secretaryRoutes = [
     path: '/secretary/meeting-schedule',
     name: 'secretary-meeting-schedule',
     builder: (context, state) => const MeetingScheduleScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/meeting-invitations',
+    name: 'secretary-meeting-invitations',
+    builder: (context, state) => const MeetingInvitationsScreen(),
   ),
   GoRoute(
     path: '/secretary/minutes',
