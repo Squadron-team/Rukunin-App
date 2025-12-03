@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/modules/marketplace/widgets/promo_banner_card.dart';
+import 'dart:async';
 
 class PromoBannerCarousel extends StatefulWidget {
   const PromoBannerCarousel({super.key});
@@ -13,6 +14,7 @@ class PromoBannerCarousel extends StatefulWidget {
 class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  Timer? _carouselTimer;
 
   final List<Map<String, dynamic>> _promos = [
     {
@@ -28,7 +30,27 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _startAutoScroll();
+  }
+
+  void _startAutoScroll() {
+    _carouselTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      if (_pageController.hasClients) {
+        final nextPage = (_currentPage + 1) % _promos.length;
+        _pageController.animateToPage(
+          nextPage,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
+
+  @override
   void dispose() {
+    _carouselTimer?.cancel();
     _pageController.dispose();
     super.dispose();
   }

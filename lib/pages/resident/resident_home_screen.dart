@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/theme/app_colors.dart';
@@ -16,6 +17,7 @@ class _ResidentHomeScreenState extends State<ResidentHomeScreen>
   late TabController _tabController;
   final PageController _carouselController = PageController();
   int _currentCarouselPage = 0;
+  Timer? _carouselTimer;
 
   final List<_CarouselItem> _carouselItems = [
     _CarouselItem(
@@ -45,10 +47,25 @@ class _ResidentHomeScreenState extends State<ResidentHomeScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _startAutoScroll();
+  }
+
+  void _startAutoScroll() {
+    _carouselTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      if (_carouselController.hasClients) {
+        final nextPage = (_currentCarouselPage + 1) % _carouselItems.length;
+        _carouselController.animateToPage(
+          nextPage,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 
   @override
   void dispose() {
+    _carouselTimer?.cancel();
     _tabController.dispose();
     _carouselController.dispose();
     super.dispose();
@@ -62,17 +79,15 @@ class _ResidentHomeScreenState extends State<ResidentHomeScreen>
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: Column(
                 children: [
-                  const WelcomeRoleCard(
+                  WelcomeRoleCard(
                     greeting: 'Selamat datang kembali!',
                     role: 'Warga RW 05',
                     icon: Icons.home,
                   ),
-                  const SizedBox(height: 20),
-                  _compactStats(context),
                 ],
               ),
             ),
@@ -83,88 +98,6 @@ class _ResidentHomeScreenState extends State<ResidentHomeScreen>
             const SizedBox(height: 24),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _compactStats(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: _compactStatCard(
-            'Lunas',
-            'Iuran',
-            Icons.check_circle_rounded,
-            AppColors.success,
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: _compactStatCard(
-            '3',
-            'Kegiatan',
-            Icons.event_rounded,
-            AppColors.primary,
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: _compactStatCard(
-            '2',
-            'Notifikasi',
-            Icons.notifications_rounded,
-            AppColors.warning,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _compactStatCard(
-    String value,
-    String label,
-    IconData icon,
-    Color color,
-  ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Icon(icon, color: color, size: 20),
-          const SizedBox(height: 6),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-              color: color,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 10,
-              color: AppColors.textSecondary,
-              fontWeight: FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
       ),
     );
   }
@@ -345,7 +278,7 @@ class _ResidentHomeScreenState extends State<ResidentHomeScreen>
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            'Layanan Warga',
+            'Menu Warga',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
