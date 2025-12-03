@@ -22,6 +22,7 @@ import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/data_iuran_detail.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/data_iuran_page.dart';
 import 'package:rukunin/pages/treasurer/pemasukan/pemasukan_screen.dart';
+import 'package:rukunin/pages/treasurer/pengeluaran/pengeluaran_screen.dart';
 import 'package:rukunin/pages/treasurer/transactions/transaction_detail.dart';
 import 'package:rukunin/pages/treasurer/transactions/transactions_page.dart';
 import 'package:rukunin/pages/treasurer/treasurer_home_screen.dart';
@@ -220,7 +221,7 @@ final treasurerRoutes = [
   GoRoute(
     path: '/treasurer/expenses',
     name: 'treasurer-expenses',
-    builder: (context, state) => const PemasukanScreen(),
+    builder: (context, state) => const PengeluaranScreen(),
   ),
 
   // Transaction

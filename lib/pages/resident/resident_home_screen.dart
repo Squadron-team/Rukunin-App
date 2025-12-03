@@ -1,11 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/widgets/menu_card.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 import 'package:rukunin/widgets/welcome_role_card.dart';
 
-class ResidentHomeScreen extends StatelessWidget {
+class ResidentHomeScreen extends StatefulWidget {
   const ResidentHomeScreen({super.key});
+
+  @override
+  State<ResidentHomeScreen> createState() => _ResidentHomeScreenState();
+}
+
+class _ResidentHomeScreenState extends State<ResidentHomeScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  final PageController _carouselController = PageController();
+  int _currentCarouselPage = 0;
+
+  final List<_CarouselItem> _carouselItems = [
+    _CarouselItem(
+      title: 'Kerja Bakti Minggu Ini',
+      subtitle: 'Minggu, 15 Januari 2024 • 07:00 WIB',
+      icon: Icons.cleaning_services_rounded,
+      color: AppColors.success,
+      type: 'event',
+    ),
+    _CarouselItem(
+      title: 'Pengumuman: Jadwal Ronda',
+      subtitle: 'Perubahan jadwal keamanan malam',
+      icon: Icons.campaign_rounded,
+      color: AppColors.warning,
+      type: 'announcement',
+    ),
+    _CarouselItem(
+      title: 'Jatuh Tempo Iuran',
+      subtitle: 'Segera bayar iuran bulan ini',
+      icon: Icons.payments_rounded,
+      color: AppColors.error,
+      type: 'payment',
+    ),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _carouselController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,141 +60,77 @@ class ResidentHomeScreen extends StatelessWidget {
       backgroundColor: Colors.grey[50],
       appBar: const RukuninAppBar(title: 'Beranda', showNotification: true),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const WelcomeRoleCard(
-                greeting: 'Selamat datang kembali!',
-                role: 'Warga RW 05',
-                icon: Icons.home,
-              ),
-
-              const SizedBox(height: 24),
-
-              // Quick Stats
-              Row(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Column(
                 children: [
-                  Expanded(
-                    child: _buildStatCard(
-                      icon: Icons.payment,
-                      label: 'Iuran Bulan Ini',
-                      value: 'Lunas',
-                      color: AppColors.success,
-                    ),
+                  const WelcomeRoleCard(
+                    greeting: 'Selamat datang kembali!',
+                    role: 'Warga RW 05',
+                    icon: Icons.home,
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard(
-                      icon: Icons.event,
-                      label: 'Kegiatan Aktif',
-                      value: '3',
-                      color: AppColors.primary,
-                    ),
-                  ),
+                  const SizedBox(height: 20),
+                  _compactStats(context),
                 ],
               ),
-
-              const SizedBox(height: 32),
-
-              // Quick Access
-              const Text(
-                'Menu Cepat',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              GridView.count(
-                crossAxisCount: 3,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                children: [
-                  MenuCard(icon: Icons.payment, label: 'Iuran', onTap: () {}),
-                  MenuCard(
-                    icon: Icons.article_outlined,
-                    label: 'Pengumuman',
-                    onTap: () {},
-                  ),
-                  MenuCard(icon: Icons.event, label: 'Kegiatan', onTap: () {}),
-                  MenuCard(
-                    icon: Icons.people_outline,
-                    label: 'Warga',
-                    onTap: () {},
-                  ),
-                  MenuCard(
-                    icon: Icons.report_problem_outlined,
-                    label: 'Laporan',
-                    onTap: () {},
-                  ),
-                  MenuCard(
-                    icon: Icons.more_horiz,
-                    label: 'Lainnya',
-                    onTap: () {},
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 32),
-
-              // Recent Activities Section
-              const Text(
-                'Aktivitas Terbaru',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              // Activity Cards
-              _buildActivityCard(
-                icon: Icons.event,
-                title: 'Gotong Royong',
-                subtitle: 'Minggu, 15 Januari 2024',
-                color: AppColors.success,
-              ),
-              const SizedBox(height: 12),
-              _buildActivityCard(
-                icon: Icons.payment,
-                title: 'Iuran Bulanan',
-                subtitle: 'Jatuh tempo: 20 Januari 2024',
-                color: AppColors.warning,
-              ),
-              const SizedBox(height: 12),
-              _buildActivityCard(
-                icon: Icons.article,
-                title: 'Pengumuman Baru',
-                subtitle: 'Perubahan jadwal keamanan',
-                color: AppColors.primary,
-              ),
-
-              const SizedBox(height: 24),
-            ],
-          ),
+            ),
+            const SizedBox(height: 24),
+            _communityUpdatesCarousel(),
+            const SizedBox(height: 24),
+            _divisionsSection(context),
+            const SizedBox(height: 24),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildStatCard({
-    required IconData icon,
-    required String label,
-    required String value,
-    required Color color,
-  }) {
+  Widget _compactStats(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: _compactStatCard(
+            'Lunas',
+            'Iuran',
+            Icons.check_circle_rounded,
+            AppColors.success,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: _compactStatCard(
+            '3',
+            'Kegiatan',
+            Icons.event_rounded,
+            AppColors.primary,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: _compactStatCard(
+            '2',
+            'Notifikasi',
+            Icons.notifications_rounded,
+            AppColors.warning,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _compactStatCard(
+    String value,
+    String label,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.border),
         boxShadow: [
           BoxShadow(
@@ -158,32 +141,196 @@ class ResidentHomeScreen extends StatelessWidget {
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(icon, color: color, size: 24),
-          ),
-          const SizedBox(height: 12),
+          Icon(icon, color: color, size: 20),
+          const SizedBox(height: 6),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 20,
+            style: TextStyle(
+              fontSize: 16,
               fontWeight: FontWeight.w800,
-              color: AppColors.textPrimary,
+              color: color,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           Text(
             label,
             style: const TextStyle(
-              fontSize: 12,
+              fontSize: 10,
               color: AppColors.textSecondary,
               fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _communityUpdatesCarousel() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            children: [
+              Icon(Icons.star_rounded, color: AppColors.warning, size: 20),
+              SizedBox(width: 8),
+              Text(
+                'Info Penting',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 200,
+          child: PageView.builder(
+            controller: _carouselController,
+            onPageChanged: (index) {
+              setState(() => _currentCarouselPage = index);
+            },
+            itemCount: _carouselItems.length,
+            itemBuilder: (context, index) {
+              final item = _carouselItems[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: _buildCarouselCard(item),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+            _carouselItems.length,
+            (index) => AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              width: index == _currentCarouselPage ? 24 : 8,
+              height: 8,
+              decoration: BoxDecoration(
+                color: index == _currentCarouselPage
+                    ? AppColors.primary
+                    : Colors.grey[300],
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCarouselCard(_CarouselItem item) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [item.color, item.color.withOpacity(0.8)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: item.color.withOpacity(0.3),
+            blurRadius: 16,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(item.icon, color: Colors.white, size: 28),
+              ),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  item.type == 'event'
+                      ? 'KEGIATAN'
+                      : item.type == 'announcement'
+                      ? 'PENGUMUMAN'
+                      : 'PEMBAYARAN',
+                  style: const TextStyle(
+                    fontSize: 9,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Text(
+            item.title,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+              height: 1.2,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 6),
+          Text(
+            item.subtitle,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: Colors.white.withOpacity(0.9),
+              height: 1.3,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const Spacer(),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: item.color,
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(vertical: 11),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text(
+                'Lihat Detail',
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+              ),
             ),
           ),
         ],
@@ -191,64 +338,358 @@ class ResidentHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActivityCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required Color color,
+  Widget _divisionsSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Layanan Warga',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textPrimary,
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: TabBar(
+            controller: _tabController,
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            indicator: BoxDecoration(
+              color: AppColors.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            labelColor: AppColors.primary,
+            unselectedLabelColor: AppColors.textSecondary,
+            labelStyle: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+            ),
+            unselectedLabelStyle: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
+            indicatorSize: TabBarIndicatorSize.tab,
+            dividerColor: Colors.transparent,
+            padding: const EdgeInsets.all(4),
+            labelPadding: const EdgeInsets.symmetric(horizontal: 4),
+            tabs: [
+              _buildTab('Iuran', Icons.payments_rounded, hasNotification: true),
+              _buildTab(
+                'Layanan',
+                Icons.description_rounded,
+                hasNotification: false,
+              ),
+              _buildTab(
+                'Komunitas',
+                Icons.groups_rounded,
+                hasNotification: false,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        AnimatedBuilder(
+          animation: _tabController,
+          builder: (context, child) {
+            return _buildTabContent(
+              context: context,
+              items: _getItemsForTab(_tabController.index),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  List<_DivisionItem> _getItemsForTab(int index) {
+    switch (index) {
+      case 0: // Iuran
+        return [
+          _DivisionItem(
+            'Bayar Iuran',
+            Icons.payment_rounded,
+            () => context.push('/resident/community/dues'),
+            badge: '1',
+          ),
+          _DivisionItem(
+            'Riwayat Pembayaran',
+            Icons.history_rounded,
+            () => context.push('/resident/payment-history'),
+          ),
+          _DivisionItem(
+            'Kwitansi Digital',
+            Icons.receipt_long_rounded,
+            () => context.push('/resident/digital-receipts'),
+          ),
+        ];
+      case 1: // Layanan
+        return [
+          _DivisionItem(
+            'Ajukan Surat',
+            Icons.description_rounded,
+            () => context.push('/resident/community/documents'),
+          ),
+          _DivisionItem(
+            'Lapor Masalah',
+            Icons.report_problem_rounded,
+            () => context.push('/resident/report-issue'),
+          ),
+          _DivisionItem(
+            'Kirim Saran',
+            Icons.feedback_rounded,
+            () => context.push('/resident/submit-suggestion'),
+          ),
+          _DivisionItem(
+            'Status Pengajuan',
+            Icons.checklist_rounded,
+            () => context.push('/resident/submission-status'),
+          ),
+        ];
+      case 2: // Komunitas
+        return [
+          _DivisionItem(
+            'Kalender Kegiatan',
+            Icons.event_rounded,
+            () => context.push('/resident/event-calendar'),
+          ),
+          _DivisionItem(
+            'Pengumuman',
+            Icons.campaign_rounded,
+            () => context.push('/resident/announcements'),
+          ),
+          _DivisionItem(
+            'Data Warga',
+            Icons.people_rounded,
+            () => context.push('/resident/residents-directory'),
+          ),
+          _DivisionItem(
+            'Kontak Penting',
+            Icons.contact_phone_rounded,
+            () => context.push('/resident/emergency-contacts'),
+          ),
+        ];
+      default:
+        return [];
+    }
+  }
+
+  Widget _buildTab(
+    String label,
+    IconData icon, {
+    bool hasNotification = false,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: color, size: 24),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
-                  ),
+    return Tab(
+      height: 44,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 18),
+            const SizedBox(width: 6),
+            Text(label),
+            if (hasNotification) ...[
+              const SizedBox(width: 6),
+              Container(
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                  color: AppColors.error,
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
-        ],
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
+
+  Widget _buildTabContent({
+    required BuildContext context,
+    required List<_DivisionItem> items,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: items
+            .map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _menuItem(
+                  context: context,
+                  label: item.label,
+                  icon: item.icon,
+                  onTap: item.onTap,
+                  badge: item.badge,
+                ),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  Widget _menuItem({
+    required BuildContext context,
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+    String? badge,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [AppColors.primary, AppColors.primary.withOpacity(0.85)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withOpacity(0.4),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.95),
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Icon(icon, color: AppColors.primary, size: 28),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                        letterSpacing: -0.3,
+                        height: 1.2,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Ketuk untuk membuka',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white.withOpacity(0.85),
+                        height: 1.2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (badge != null) ...[
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 11,
+                    vertical: 7,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    badge,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.error,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+              ],
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DivisionItem {
+  final String label;
+  final IconData icon;
+  final VoidCallback onTap;
+  final String? badge;
+
+  _DivisionItem(this.label, this.icon, this.onTap, {this.badge});
+}
+
+class _CarouselItem {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color color;
+  final String type;
+
+  _CarouselItem({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.color,
+    required this.type,
+  });
 }

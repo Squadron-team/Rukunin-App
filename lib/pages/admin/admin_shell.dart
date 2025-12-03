@@ -27,19 +27,6 @@ class AdminShell extends StatelessWidget {
       case 2:
         context.go('/admin/activities');
         break;
-      case 3:
-        // TODO: Navigate to admin panel screen when available
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Menu Panel admin belum tersedia'),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
-        break;
       case 4:
         context.go('/admin/account');
         break;
@@ -95,15 +82,6 @@ class AdminShell extends StatelessWidget {
                     label: 'Kegiatan',
                     index: 2,
                     isSelected: currentIndex == 2,
-                  ),
-                ),
-                Expanded(
-                  child: _buildNavItem(
-                    context,
-                    icon: Icons.admin_panel_settings,
-                    label: 'Panel Admin',
-                    index: 3,
-                    isSelected: currentIndex == 3,
                   ),
                 ),
                 Expanded(
