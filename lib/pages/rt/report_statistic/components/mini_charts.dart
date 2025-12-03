@@ -85,6 +85,10 @@ class MiniDonutCard extends StatelessWidget {
 
   Color _pickColor(String key) {
     switch (key) {
+      case 'Lunas':
+        return AppColors.primary;
+      case 'Belum':
+        return Colors.redAccent;
       case 'Anak':
         return Colors.blue;
       case 'Remaja':
@@ -105,8 +109,22 @@ class MiniDonutCard extends StatelessWidget {
         return Colors.orange;
       case 'Tetap':
         return Colors.green;
-      default:
+      case 'Iuran':
+        return Colors.blue;
+      case 'Donasi':
+        return Colors.green;
+      case 'Lain-lain':
         return Colors.grey;
+      case 'Gaji':
+        return Colors.deepPurple;
+      case 'Operasional':
+        return Colors.teal;
+      case 'Acara':
+        return Colors.amber;
+      case 'Infrastruktur':
+        return Colors.brown;
+      default:
+        return AppColors.primary.withOpacity(0.9);
     }
   }
 }
