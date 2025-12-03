@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/pages/splash_screen.dart';
 import 'package:rukunin/routes/rw_routes.dart';
-import 'package:rukunin/routes/rt_route.dart';
+import 'package:rukunin/routes/rt_routes.dart';
 import 'package:rukunin/routes/secretary_routes.dart';
 import 'package:rukunin/routes/treasurer_routes.dart';
 import 'package:rukunin/utils/role_based_navigator.dart';

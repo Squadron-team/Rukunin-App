@@ -22,11 +22,13 @@ import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/data_iuran_detail.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/data_iuran_page.dart';
 import 'package:rukunin/pages/treasurer/pemasukan/pemasukan_screen.dart';
+import 'package:rukunin/pages/treasurer/pengeluaran/pengeluaran_screen.dart';
 import 'package:rukunin/pages/treasurer/transactions/transaction_detail.dart';
 import 'package:rukunin/pages/treasurer/transactions/transactions_page.dart';
 import 'package:rukunin/pages/treasurer/treasurer_home_screen.dart';
 import 'package:rukunin/pages/treasurer/treasurer_shell.dart';
 import 'package:rukunin/pages/treasurer/kategori/kategori_screen.dart';
+import 'package:rukunin/pages/treasurer/analysis/treasurer_analysis_screen.dart';
 
 final treasurerRoutes = [
   // Main routes with bottom navigation
@@ -219,7 +221,7 @@ final treasurerRoutes = [
   GoRoute(
     path: '/treasurer/expenses',
     name: 'treasurer-expenses',
-    builder: (context, state) => const PemasukanScreen(),
+    builder: (context, state) => const PengeluaranScreen(),
   ),
 
   // Transaction
@@ -241,6 +243,13 @@ final treasurerRoutes = [
     path: '/treasurer/kategori',
     name: 'treasurer-kategori',
     builder: (context, state) => const KategoriScreen(),
+  ),
+
+  // Analisis Bendahara
+  GoRoute(
+    path: '/treasurer/analisis',
+    name: 'treasurer-analisis',
+    builder: (context, state) => const TreasurerAnalysisScreen(),
   ),
 
   // Dues Detail

@@ -777,28 +777,29 @@ class _AccountScreenState extends State<AccountScreen> {
                   // Logout Button
                   SizedBox(
                     width: double.infinity,
-                    child: OutlinedButton(
+                    child: ElevatedButton(
                       onPressed: () {
                         _showLogoutDialog(context);
                       },
-                      style: OutlinedButton.styleFrom(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        side: const BorderSide(color: Colors.red, width: 2),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
+                        elevation: 2,
                       ),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.logout, color: Colors.red),
+                          Icon(Icons.logout, color: Colors.white),
                           SizedBox(width: 8),
                           Text(
                             'Keluar',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: Colors.red,
+                              color: Colors.white,
                             ),
                           ),
                         ],

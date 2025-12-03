@@ -422,14 +422,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             height: 24,
                             child: LoadingIndicator(color: Colors.white),
                           )
-                        : const Text(
-                            'Lanjutkan',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
+                        : const Text('Lanjutkan'),
                   ),
                 ),
 

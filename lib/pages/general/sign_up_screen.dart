@@ -519,14 +519,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             height: 24,
                             child: LoadingIndicator(color: Colors.white),
                           )
-                        : const Text(
-                            'Daftar',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
+                        : const Text('Daftar'),
                   ),
                 ),
 

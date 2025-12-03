@@ -2,108 +2,109 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
-import 'package:rukunin/widgets/menu_card.dart';
+import 'package:rukunin/widgets/welcome_role_card.dart';
 
-class TreasurerHomeScreen extends StatelessWidget {
+class TreasurerHomeScreen extends StatefulWidget {
   const TreasurerHomeScreen({super.key});
+
+  @override
+  State<TreasurerHomeScreen> createState() => _TreasurerHomeScreenState();
+}
+
+class _TreasurerHomeScreenState extends State<TreasurerHomeScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const RukuninAppBar(title: 'Beranda', showNotification: true),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildWelcomeCard(),
-              const SizedBox(height: 24),
-              _buildBalanceCard(),
-              const SizedBox(height: 24),
-              _buildFinancialSummary(),
-              const SizedBox(height: 32),
-              _buildMenuSection(context),
-              const SizedBox(height: 32),
-              _buildRecentTransactions(),
-              const SizedBox(height: 24),
-            ],
-          ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Column(
+                children: [
+                  const WelcomeRoleCard(
+                    greeting: 'Selamat datang kembali!',
+                    role: 'Bendahara RW 05',
+                    icon: Icons.account_balance_wallet,
+                  ),
+                  const SizedBox(height: 20),
+                  _compactStats(context),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            _divisionsSection(context),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+              child: _recentActivity(),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildWelcomeCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.primary, AppColors.primary.withOpacity(0.8)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+  Widget _compactStats(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: _compactStatCard(
+            'Rp 45.7 Jt',
+            'Saldo Kas',
+            Icons.account_balance_wallet_rounded,
+            AppColors.primary,
+          ),
         ),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+        const SizedBox(width: 10),
+        Expanded(
+          child: _compactStatCard(
+            '8/10',
+            'Lunas',
+            Icons.check_circle_rounded,
+            AppColors.success,
           ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.account_balance_wallet,
-              color: Colors.white,
-              size: 28,
-            ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: _compactStatCard(
+            '2',
+            'Belum',
+            Icons.pending_rounded,
+            AppColors.warning,
           ),
-          const SizedBox(width: 12),
-          const Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Selamat datang kembali',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Bendahara RW 05',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  Widget _buildBalanceCard() {
+  Widget _compactStatCard(
+    String value,
+    String label,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.border),
         boxShadow: [
           BoxShadow(
@@ -114,69 +115,9 @@ class TreasurerHomeScreen extends StatelessWidget {
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Saldo Kas RW',
-            style: TextStyle(
-              fontSize: 14,
-              color: AppColors.textSecondary,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Rp 45.750.000',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.w800,
-              color: AppColors.textPrimary,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _buildBalanceMetric(
-                  'Pemasukan Bulan Ini',
-                  'Rp 12.5 Jt',
-                  AppColors.success,
-                  Icons.trending_up,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildBalanceMetric(
-                  'Pengeluaran Bulan Ini',
-                  'Rp 8.2 Jt',
-                  AppColors.error,
-                  Icons.trending_down,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBalanceMetric(
-    String label,
-    String value,
-    Color color,
-    IconData icon,
-  ) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: color, size: 20),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
           Text(
             value,
             style: TextStyle(
@@ -185,221 +126,413 @@ class TreasurerHomeScreen extends StatelessWidget {
               color: color,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           Text(
             label,
             style: const TextStyle(
-              fontSize: 11,
+              fontSize: 10,
               color: AppColors.textSecondary,
               fontWeight: FontWeight.w500,
             ),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildFinancialSummary() {
+  Widget _divisionsSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Ringkasan Keuangan',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: _buildSummaryCard(
-                icon: Icons.check_circle,
-                label: 'RT Sudah Bayar',
-                value: '8/10 RT',
-                color: AppColors.success,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _buildSummaryCard(
-                icon: Icons.pending,
-                label: 'RT Belum Bayar',
-                value: '2 RT',
-                color: AppColors.warning,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSummaryCard({
-    required IconData icon,
-    required String label,
-    required String value,
-    required Color color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.2)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(icon, color: color, size: 24),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Menu Bendahara',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 12,
-              color: AppColors.textSecondary,
-              fontWeight: FontWeight.w500,
-            ),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.border),
           ),
-        ],
+          child: TabBar(
+            controller: _tabController,
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            indicator: BoxDecoration(
+              color: AppColors.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            labelColor: AppColors.primary,
+            unselectedLabelColor: AppColors.textSecondary,
+            labelStyle: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+            ),
+            unselectedLabelStyle: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
+            indicatorSize: TabBarIndicatorSize.tab,
+            dividerColor: Colors.transparent,
+            padding: const EdgeInsets.all(4),
+            labelPadding: const EdgeInsets.symmetric(horizontal: 4),
+            tabs: [
+              _buildTab('Iuran', Icons.payments_rounded, hasNotification: true),
+              _buildTab(
+                'Transaksi',
+                Icons.receipt_long_rounded,
+                hasNotification: false,
+              ),
+              _buildTab(
+                'Laporan',
+                Icons.analytics_rounded,
+                hasNotification: false,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        AnimatedBuilder(
+          animation: _tabController,
+          builder: (context, child) {
+            return _buildTabContent(
+              context: context,
+              items: _getItemsForTab(_tabController.index),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  List<_DivisionItem> _getItemsForTab(int index) {
+    switch (index) {
+      case 0: // Iuran
+        return [
+          _DivisionItem(
+            'Data Iuran',
+            Icons.payments_rounded,
+            () => context.push('/treasurer/dues'),
+            badge: '2',
+          ),
+          _DivisionItem(
+            'Buat Kwitansi',
+            Icons.receipt_rounded,
+            () => context.push('/treasurer/create-receipt'),
+          ),
+          _DivisionItem(
+            'Riwayat Iuran',
+            Icons.history_rounded,
+            () => context.push('/treasurer/dues-history'),
+          ),
+        ];
+      case 1: // Transaksi
+        return [
+          _DivisionItem(
+            'Riwayat Transaksi',
+            Icons.receipt_long_rounded,
+            () => context.push('/treasurer/transaction/history'),
+          ),
+          _DivisionItem(
+            'Pemasukan',
+            Icons.arrow_downward_rounded,
+            () => context.push('/treasurer/incomes'),
+          ),
+          _DivisionItem(
+            'Pengeluaran',
+            Icons.arrow_upward_rounded,
+            () => context.push('/treasurer/expenses'),
+          ),
+          _DivisionItem(
+            'Mutasi Kas',
+            Icons.swap_horiz_rounded,
+            () => context.push('/treasurer/cash-mutation'),
+          ),
+        ];
+      case 2: // Laporan
+        return [
+          _DivisionItem(
+            'Ringkasan Bulanan',
+            Icons.summarize_rounded,
+            () => context.push('/treasurer/monthly-summary'),
+          ),
+          _DivisionItem(
+            'Laporan Keuangan',
+            Icons.assessment_rounded,
+            () => context.push('/treasurer/financial-reports'),
+          ),
+          _DivisionItem(
+            'Analisis & Grafik',
+            Icons.analytics_rounded,
+            () => context.push('/treasurer/analisis'),
+          ),
+        ];
+      default:
+        return [];
+    }
+  }
+
+  Widget _buildTab(
+    String label,
+    IconData icon, {
+    bool hasNotification = false,
+  }) {
+    return Tab(
+      height: 44,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 18),
+            const SizedBox(width: 6),
+            Text(label),
+            if (hasNotification) ...[
+              const SizedBox(width: 6),
+              Container(
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                  color: AppColors.error,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildMenuSection(BuildContext context) {
+  Widget _buildTabContent({
+    required BuildContext context,
+    required List<_DivisionItem> items,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: items
+            .map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _menuItem(
+                  context: context,
+                  label: item.label,
+                  icon: item.icon,
+                  onTap: item.onTap,
+                  badge: item.badge,
+                ),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  Widget _menuItem({
+    required BuildContext context,
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+    String? badge,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [AppColors.primary, AppColors.primary.withOpacity(0.85)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withOpacity(0.4),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.95),
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Icon(icon, color: AppColors.primary, size: 28),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                        letterSpacing: -0.3,
+                        height: 1.2,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Ketuk untuk membuka',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white.withOpacity(0.85),
+                        height: 1.2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (badge != null) ...[
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 11,
+                    vertical: 7,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    badge,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.error,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+              ],
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _recentActivity() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Menu Bendahara',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        const SizedBox(height: 16),
-        GridView.count(
-          crossAxisCount: 3,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            MenuCard(
-              icon: Icons.add_card,
-              label: 'Catat Pemasukan',
-              onTap: () => context.push('/treasurer/incomes'),
+            const Text(
+              'Transaksi Terbaru',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary,
+              ),
             ),
-            MenuCard(
-              icon: Icons.remove_circle_outline,
-              label: 'Catat Pengeluaran',
-              onTap: () => context.push('/treasurer/expenses'),
+            TextButton(
+              onPressed: () {},
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                minimumSize: const Size(50, 30),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: const Text(
+                'Lihat Semua',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              ),
             ),
-            MenuCard(
-              icon: Icons.receipt_long,
-              label: 'Riwayat Transaksi',
-              onTap: () => context.push('/treasurer/transaction/history'),
-            ),
-            MenuCard(
-              icon: Icons.people,
-              label: 'Data Iuran',
-              onTap: () => context.push('/treasurer/dues'),
-            ),
-            MenuCard(
-              icon: Icons.category,
-              label: 'Kategori',
-              onTap: () => context.push('/treasurer/kategori'),
-            ),
-            MenuCard(icon: Icons.analytics, label: 'Analisis', onTap: () {}),
           ],
         ),
-      ],
-    );
-  }
-
-  Widget _buildRecentTransactions() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Transaksi Terbaru',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
-          ),
+        const SizedBox(height: 12),
+        _compactActivityItem(
+          'Iuran RT 03 - Rp 500.000',
+          '10 menit',
+          Icons.arrow_downward_rounded,
+          AppColors.success,
         ),
-        const SizedBox(height: 16),
-        _buildTransactionItem(
-          icon: Icons.arrow_downward,
-          title: 'Iuran RT 03',
-          subtitle: 'Pembayaran iuran bulan November',
-          amount: '+ Rp 500.000',
-          time: '10 menit yang lalu',
-          isIncome: true,
+        const SizedBox(height: 8),
+        _compactActivityItem(
+          'Biaya Kebersihan - Rp 300.000',
+          '1 jam',
+          Icons.arrow_upward_rounded,
+          AppColors.error,
         ),
-        _buildTransactionItem(
-          icon: Icons.arrow_upward,
-          title: 'Biaya Kebersihan',
-          subtitle: 'Pembayaran petugas kebersihan',
-          amount: '- Rp 300.000',
-          time: '1 jam yang lalu',
-          isIncome: false,
-        ),
-        _buildTransactionItem(
-          icon: Icons.arrow_downward,
-          title: 'Iuran RT 07',
-          subtitle: 'Pembayaran iuran bulan November',
-          amount: '+ Rp 500.000',
-          time: '2 jam yang lalu',
-          isIncome: true,
+        const SizedBox(height: 8),
+        _compactActivityItem(
+          'Iuran RT 07 - Rp 500.000',
+          '2 jam',
+          Icons.arrow_downward_rounded,
+          AppColors.success,
         ),
       ],
     );
   }
 
-  Widget _buildTransactionItem({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required String amount,
-    required String time,
-    required bool isIncome,
-  }) {
-    final color = isIncome ? AppColors.success : AppColors.error;
-
+  Widget _compactActivityItem(
+    String title,
+    String time,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.border),
         boxShadow: [
           BoxShadow(
@@ -412,15 +545,14 @@ class TreasurerHomeScreen extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 48,
-            height: 48,
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, color: color, size: 24),
+            child: Icon(icon, color: color, size: 18),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -428,41 +560,40 @@ class TreasurerHomeScreen extends StatelessWidget {
                 Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
                     color: AppColors.textPrimary,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 2),
                 Text(
                   time,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 11,
-                    color: Colors.grey[500],
-                    fontWeight: FontWeight.w500,
+                    color: AppColors.textSecondary,
                   ),
                 ),
               ],
             ),
           ),
-          Text(
-            amount,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: color,
-            ),
+          Icon(
+            Icons.arrow_forward_ios_rounded,
+            size: 12,
+            color: Colors.grey[400],
           ),
         ],
       ),
     );
   }
+}
+
+class _DivisionItem {
+  final String label;
+  final IconData icon;
+  final VoidCallback onTap;
+  final String? badge;
+
+  _DivisionItem(this.label, this.icon, this.onTap, {this.badge});
 }

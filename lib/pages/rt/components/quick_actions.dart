@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/widgets/quick_access_item.dart';
-import 'package:rukunin/pages/rt/announcements/announcements_screen.dart';
-import 'package:rukunin/pages/rt/warga/list_warga/warga_list_screen.dart';
-import 'package:rukunin/pages/rt/warga/list_keluarga/family_list_screen.dart';
-import 'package:rukunin/pages/rt/events/events_screen.dart';
-import 'package:rukunin/pages/rt/wilayah/wilayah_rt_screen.dart';
-import 'package:rukunin/pages/rt/surat_form_warga/kelola_pengajuan_surat_screen.dart';
-import 'package:rukunin/pages/rt/surat_to_rw/screen.dart';
-import 'package:rukunin/pages/rt/reports/manage_reports_screen.dart';
-import 'package:rukunin/pages/rt/report_statistic/laporan_rt_screen.dart';
-import 'package:rukunin/pages/rt/mutasi/mutasi_list_screen.dart';
-import 'package:rukunin/pages/rt/meetings/meetings_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rukunin/widgets/menu_card.dart';
 
 class QuickActionsGrid extends StatelessWidget {
   const QuickActionsGrid({super.key});
@@ -35,137 +24,65 @@ class QuickActionsGrid extends StatelessWidget {
         crossAxisSpacing: 16,
         childAspectRatio: 0.8,
         children: [
-          QuickAccessItem(
+          MenuCard(
             icon: Icons.person_add,
             label: 'Daftar Warga',
-            color: AppColors.primary,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const WargaListScreen()),
-              );
-            },
+            onTap: () => context.push('/rt/warga/list'),
           ),
-          QuickAccessItem(
+          MenuCard(
             icon: Icons.family_restroom,
             label: 'Data Keluarga',
-            color: AppColors.primary,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const FamilyListScreen()),
-              );
-            },
+            onTap: () => context.push('/rt/warga/family'),
           ),
-          QuickAccessItem(
+          MenuCard(
             icon: Icons.map,
             label: 'Wilayah RT',
-            color: AppColors.primary,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const WilayahRtScreen()),
-              );
-            },
+            onTap: () => context.push('/rt/wilayah'),
           ),
-          QuickAccessItem(
+          MenuCard(
             icon: Icons.event_available,
             label: 'Kegiatan RT',
-            color: AppColors.primary,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const CommunityHeadEventsScreen(),
-                ),
-              );
-            },
+            onTap: () => context.push('/rt/events'),
           ),
-          const QuickAccessItem(
+          MenuCard(
             icon: Icons.payment,
             label: 'Catat Iuran',
-            color: AppColors.primary,
+            onTap: () => context.push('/rt/iuran'),
           ),
-          QuickAccessItem(
+          MenuCard(
             icon: Icons.report,
             label: 'Kelola Laporan Warga',
-            color: AppColors.primary,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const ManageReportsScreen()),
-              );
-            },
+            onTap: () => context.push('/rt/reports/manage'),
           ),
-          QuickAccessItem(
+          MenuCard(
             icon: Icons.edit_document,
             label: 'Buat Surat',
-            color: AppColors.primary,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const CreateRtToRwLetterScreen(),
-                ),
-              );
-            },
+            onTap: () => context.push('/rt/surat/create'),
           ),
-          QuickAccessItem(
+          MenuCard(
             icon: Icons.campaign,
             label: 'Pengumuman RT',
-            color: AppColors.primary,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const AnnouncementsScreen()),
-              );
-            },
+            onTap: () => context.push('/rt/announcements'),
           ),
-          QuickAccessItem(
+          MenuCard(
             icon: Icons.mail,
             label: 'Kelola Pengajuan Surat',
-            color: AppColors.primary,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const KelolaPengajuanSuratScreen(),
-                ),
-              );
-            },
+            onTap: () => context.push('/rt/surat/pengajuan'),
           ),
-          QuickAccessItem(
+          MenuCard(
             icon: Icons.swap_horiz,
             label: 'Catat Mutasi',
-            color: AppColors.primary,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const MutasiListScreen()),
-              );
-            },
+            onTap: () => context.push('/rt/mutasi'),
           ),
-          QuickAccessItem(
+          MenuCard(
             icon: Icons.insert_chart,
             label: 'Laporan RT',
-            color: AppColors.primary,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const LaporanRTScreen()),
-              );
-            },
+            onTap: () => context.push('/rt/reports/statistic'),
           ),
-          QuickAccessItem(
+          MenuCard(
             icon: Icons.people_outline,
             label: 'Rapat RT',
-            color: AppColors.primary,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const MeetingsScreen()),
-              );
-            },
+            onTap: () => context.push('/rt/meetings'),
           ),
         ],
       ),
