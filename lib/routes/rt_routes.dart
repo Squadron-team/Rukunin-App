@@ -138,8 +138,8 @@ final rtRoutes = [
     builder: (context, state) => const WilayahRtScreen(),
   ),
   GoRoute(
-    path: '/rt/events',
-    name: 'rt-events',
+    path: '/rt/activity',
+    name: 'rt-activity',
     builder: (context, state) => const CommunityHeadEventsScreen(),
   ),
   GoRoute(
