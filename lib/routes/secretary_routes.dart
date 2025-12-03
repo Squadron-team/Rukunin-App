@@ -30,6 +30,8 @@ import 'package:rukunin/pages/secretary/pages/incoming_mail_screen.dart';
 import 'package:rukunin/pages/secretary/pages/outgoing_mail_screen.dart';
 import 'package:rukunin/pages/secretary/pages/residents_data_screen.dart';
 import 'package:rukunin/pages/secretary/pages/reports_screen.dart';
+import 'package:rukunin/pages/secretary/pages/letter_templates_screen.dart';
+import 'package:rukunin/pages/secretary/pages/letter_archive_screen.dart'; // ← IMPORT BARU
 
 final secretaryRoutes = [
   // Main routes with bottom navigation
@@ -216,6 +218,17 @@ final secretaryRoutes = [
     path: '/secretary/create-letter',
     name: 'secretary-create-letter',
     builder: (context, state) => const CreateLetterScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/letter-templates',
+    name: 'secretary-letter-templates',
+    builder: (context, state) => const LetterTemplatesScreen(),
+  ),
+  // ← ROUTE BARU UNTUK LETTER ARCHIVE
+  GoRoute(
+    path: '/secretary/letter-archive',
+    name: 'secretary-letter-archive',
+    builder: (context, state) => const LetterArchiveScreen(),
   ),
   GoRoute(
     path: '/secretary/verification',
