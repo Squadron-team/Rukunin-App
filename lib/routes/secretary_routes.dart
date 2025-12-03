@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:rukunin/modules/activities/pages/activity_screen.dart';
 import 'package:rukunin/modules/community/pages/community_screen.dart';
 import 'package:rukunin/modules/community/pages/document_request_form_screen.dart';
@@ -18,11 +19,13 @@ import 'package:rukunin/modules/marketplace/pages/orders_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/product_detail_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/search_results_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/shop_dashboard_screen.dart';
+
 import 'package:rukunin/pages/secretary/secretary_home_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/secretary/secretary_shell.dart';
+
+// Hanya import yang masih dibutuhkan Sekretaris
 import 'package:rukunin/pages/secretary/pages/create_letter_screen.dart';
-import 'package:rukunin/pages/secretary/pages/verification_screen.dart';
 import 'package:rukunin/pages/secretary/pages/archive_screen.dart';
 import 'package:rukunin/pages/secretary/pages/meeting_schedule_screen.dart';
 import 'package:rukunin/pages/secretary/pages/minutes_screen.dart';
@@ -30,6 +33,10 @@ import 'package:rukunin/pages/secretary/pages/incoming_mail_screen.dart';
 import 'package:rukunin/pages/secretary/pages/outgoing_mail_screen.dart';
 import 'package:rukunin/pages/secretary/pages/residents_data_screen.dart';
 import 'package:rukunin/pages/secretary/pages/reports_screen.dart';
+import 'package:rukunin/pages/secretary/pages/letter_templates_screen.dart';
+import 'package:rukunin/pages/secretary/pages/letter_archive_screen.dart';
+import 'package:rukunin/pages/secretary/pages/meeting_invitations_screen.dart';
+import 'package:rukunin/pages/secretary/pages/certificates_screen.dart';
 
 final secretaryRoutes = [
   // Main routes with bottom navigation
@@ -69,7 +76,7 @@ final secretaryRoutes = [
     ],
   ),
 
-  // Deep-link routes without bottom navigation - Marketplace
+  // Marketplace routes
   GoRoute(
     path: '/secretary/marketplace/product/:productId',
     name: 'secretary-product-detail',
@@ -124,7 +131,7 @@ final secretaryRoutes = [
     },
   ),
 
-  // Deep-link routes without bottom navigation - Community
+  // Community routes
   GoRoute(
     path: '/secretary/community/dues',
     name: 'secretary-community-dues',
@@ -211,16 +218,21 @@ final secretaryRoutes = [
     ),
   ),
 
-  // Secretary-specific features
+  // Secretary Features
   GoRoute(
     path: '/secretary/create-letter',
     name: 'secretary-create-letter',
     builder: (context, state) => const CreateLetterScreen(),
   ),
   GoRoute(
-    path: '/secretary/verification',
-    name: 'secretary-verification',
-    builder: (context, state) => const VerificationScreen(),
+    path: '/secretary/letter-templates',
+    name: 'secretary-letter-templates',
+    builder: (context, state) => const LetterTemplatesScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/letter-archive',
+    name: 'secretary-letter-archive',
+    builder: (context, state) => const LetterArchiveScreen(),
   ),
   GoRoute(
     path: '/secretary/archive',
@@ -231,6 +243,11 @@ final secretaryRoutes = [
     path: '/secretary/meeting-schedule',
     name: 'secretary-meeting-schedule',
     builder: (context, state) => const MeetingScheduleScreen(),
+  ),
+  GoRoute(
+    path: '/secretary/meeting-invitations',
+    name: 'secretary-meeting-invitations',
+    builder: (context, state) => const MeetingInvitationsScreen(),
   ),
   GoRoute(
     path: '/secretary/minutes',
@@ -256,5 +273,12 @@ final secretaryRoutes = [
     path: '/secretary/reports',
     name: 'secretary-reports',
     builder: (context, state) => const ReportsScreen(),
+  ),
+
+  // ✅ Tambahan baru: Certificates / Surat Keterangan
+  GoRoute(
+    path: '/secretary/certificates',
+    name: 'secretary-certificates',
+    builder: (context, state) => const CertificatesScreen(),
   ),
 ];
