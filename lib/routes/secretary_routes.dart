@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:rukunin/modules/activities/pages/activity_screen.dart';
 import 'package:rukunin/modules/community/pages/community_screen.dart';
 import 'package:rukunin/modules/community/pages/document_request_form_screen.dart';
@@ -18,11 +19,13 @@ import 'package:rukunin/modules/marketplace/pages/orders_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/product_detail_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/search_results_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/shop_dashboard_screen.dart';
+
 import 'package:rukunin/pages/secretary/secretary_home_screen.dart';
 import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/secretary/secretary_shell.dart';
+
+// Hanya import yang masih dibutuhkan Sekretaris
 import 'package:rukunin/pages/secretary/pages/create_letter_screen.dart';
-import 'package:rukunin/pages/secretary/pages/verification_screen.dart';
 import 'package:rukunin/pages/secretary/pages/archive_screen.dart';
 import 'package:rukunin/pages/secretary/pages/meeting_schedule_screen.dart';
 import 'package:rukunin/pages/secretary/pages/minutes_screen.dart';
@@ -33,8 +36,6 @@ import 'package:rukunin/pages/secretary/pages/reports_screen.dart';
 import 'package:rukunin/pages/secretary/pages/letter_templates_screen.dart';
 import 'package:rukunin/pages/secretary/pages/letter_archive_screen.dart';
 import 'package:rukunin/pages/secretary/pages/meeting_invitations_screen.dart';
-import 'package:rukunin/pages/secretary/pages/letter_approvals_screen.dart';
-import 'package:rukunin/pages/secretary/widgets/letter_approvals/letter_approval_detail_screen.dart';
 
 final secretaryRoutes = [
   // Main routes with bottom navigation
@@ -73,6 +74,8 @@ final secretaryRoutes = [
       ),
     ],
   ),
+
+  // Marketplace routes
   GoRoute(
     path: '/secretary/marketplace/product/:productId',
     name: 'secretary-product-detail',
@@ -126,6 +129,8 @@ final secretaryRoutes = [
       return OrdersScreen(shop: shop);
     },
   ),
+
+  // Community routes
   GoRoute(
     path: '/secretary/community/dues',
     name: 'secretary-community-dues',
@@ -211,7 +216,7 @@ final secretaryRoutes = [
       documentColor: Colors.grey,
     ),
   ),
-  // Secretary-specific features
+
   GoRoute(
     path: '/secretary/create-letter',
     name: 'secretary-create-letter',
@@ -226,31 +231,6 @@ final secretaryRoutes = [
     path: '/secretary/letter-archive',
     name: 'secretary-letter-archive',
     builder: (context, state) => const LetterArchiveScreen(),
-  ),
-  GoRoute(
-    path: '/secretary/letter-approvals',
-    name: 'secretary-letter-approvals',
-    builder: (context, state) => const LetterApprovalsScreen(),
-  ),
-
-  GoRoute(
-    path: '/secretary/widgets/letter-approvals/detail/:requestId',
-    name: 'secretary-letter-approval-detail',
-    builder: (context, state) {
-      final requestId = state.pathParameters['requestId']!;
-      final requestData = state.extra as Map<String, dynamic>?;
-
-      return LetterApprovalDetailScreen(
-        requestId: requestId,
-        requestData: requestData,
-      );
-    },
-  ),
-
-  GoRoute(
-    path: '/secretary/verification',
-    name: 'secretary-verification',
-    builder: (context, state) => const VerificationScreen(),
   ),
   GoRoute(
     path: '/secretary/archive',

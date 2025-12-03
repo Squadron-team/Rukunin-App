@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/pages/secretary/pages/incoming_mail_screen.dart';
 import 'package:rukunin/pages/secretary/pages/outgoing_mail_screen.dart';
 import 'package:rukunin/pages/secretary/pages/residents_data_screen.dart';
-import 'package:rukunin/pages/secretary/pages/finance_report_screen.dart';
 
 import 'package:rukunin/pages/secretary/widgets/reports/report_card.dart';
 
@@ -67,16 +66,6 @@ class ReportsMenu extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (_) => const ResidentsDataScreen(),
-                    ),
-                  ),
-                ),
-                ReportCard(
-                  icon: Icons.attach_money,
-                  title: 'Keuangan',
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const FinanceReportScreen(),
                     ),
                   ),
                 ),
