@@ -36,6 +36,7 @@ import 'package:rukunin/pages/secretary/pages/reports_screen.dart';
 import 'package:rukunin/pages/secretary/pages/letter_templates_screen.dart';
 import 'package:rukunin/pages/secretary/pages/letter_archive_screen.dart';
 import 'package:rukunin/pages/secretary/pages/meeting_invitations_screen.dart';
+import 'package:rukunin/pages/secretary/pages/certificates_screen.dart';
 
 final secretaryRoutes = [
   // Main routes with bottom navigation
@@ -217,6 +218,7 @@ final secretaryRoutes = [
     ),
   ),
 
+  // Secretary Features
   GoRoute(
     path: '/secretary/create-letter',
     name: 'secretary-create-letter',
@@ -271,5 +273,12 @@ final secretaryRoutes = [
     path: '/secretary/reports',
     name: 'secretary-reports',
     builder: (context, state) => const ReportsScreen(),
+  ),
+
+  // ✅ Tambahan baru: Certificates / Surat Keterangan
+  GoRoute(
+    path: '/secretary/certificates',
+    name: 'secretary-certificates',
+    builder: (context, state) => const CertificatesScreen(),
   ),
 ];
