@@ -61,6 +61,7 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
     );
   }
 
+  // ==================== STAT CARD (SAMA PERSIS) ====================
   Widget _compactStats(BuildContext context) {
     return Row(
       children: [
@@ -143,6 +144,7 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
     );
   }
 
+  // ==================== MENU UTAMA (DESAIN SAMA PERSIS) ====================
   Widget _divisionsSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,21 +196,9 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
                 Icons.description_rounded,
                 hasNotification: true,
               ),
-              _buildTab(
-                'Rapat',
-                Icons.event_note_rounded,
-                hasNotification: false,
-              ),
-              _buildTab(
-                'Permohonan',
-                Icons.approval_rounded,
-                hasNotification: true,
-              ),
-              _buildTab(
-                'Administrasi',
-                Icons.folder_rounded,
-                hasNotification: false,
-              ),
+              _buildTab('Rapat', Icons.event_note_rounded),
+              _buildTab('Data Warga', Icons.people_rounded),
+              _buildTab('Administrasi', Icons.folder_rounded),
             ],
           ),
         ),
@@ -275,27 +265,7 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
             () => context.push('/secretary/meeting-invitations'),
           ),
         ];
-      case 2: // Permohonan
-        return [
-          _DivisionItem(
-            'Persetujuan Surat',
-            Icons.approval_rounded,
-            () => context.push('/secretary/letter-approvals'),
-            badge: '8',
-          ),
-          _DivisionItem(
-            'Verifikasi Dokumen',
-            Icons.verified_rounded,
-            () => context.push('/secretary/document-verification'),
-            badge: '3',
-          ),
-          _DivisionItem(
-            'Riwayat Permohonan',
-            Icons.history_rounded,
-            () => context.push('/secretary/request-history'),
-          ),
-        ];
-      case 3: // Administrasi
+      case 2: // Data Warga
         return [
           _DivisionItem(
             'Data Warga',
@@ -303,19 +273,27 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
             () => context.push('/secretary/residents-data'),
           ),
           _DivisionItem(
-            'Arsip Dokumen',
-            Icons.folder_shared_rounded,
-            () => context.push('/secretary/archive'),
+            'Surat Keterangan',
+            Icons.badge_rounded,
+            () => context.push('/secretary/certificates'),
           ),
+        ];
+      case 3: // Administrasi (sebelumnya "Permohonan")
+        return [
           _DivisionItem(
             'Laporan Bulanan',
             Icons.assessment_rounded,
             () => context.push('/secretary/monthly-reports'),
           ),
           _DivisionItem(
-            'Surat Keterangan',
-            Icons.badge_rounded,
-            () => context.push('/secretary/certificates'),
+            'Arsip Dokumen',
+            Icons.folder_shared_rounded,
+            () => context.push('/secretary/archive'),
+          ),
+          _DivisionItem(
+            'Riwayat Surat',
+            Icons.history_rounded,
+            () => context.push('/secretary/letter-history'),
           ),
         ];
       default:
@@ -380,6 +358,7 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
     );
   }
 
+  // MENU CARD (DESAIN 100% SAMA DENGAN VERSI LAMA)
   Widget _menuItem({
     required BuildContext context,
     required String label,
@@ -507,6 +486,7 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
     );
   }
 
+  // ==================== AKTIVITAS TERBARU (SAMA PERSIS) ====================
   Widget _recentActivity() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

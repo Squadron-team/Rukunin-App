@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/pages/secretary/pages/incoming_mail_screen.dart';
 import 'package:rukunin/pages/secretary/pages/outgoing_mail_screen.dart';
 import 'package:rukunin/pages/secretary/pages/residents_data_screen.dart';
-import 'package:rukunin/pages/secretary/pages/verification_screen.dart';
 import 'package:rukunin/pages/secretary/pages/meeting_schedule_screen.dart';
 import 'package:rukunin/pages/secretary/pages/minutes_screen.dart';
 
@@ -96,19 +95,6 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (_) => const ResidentsDataScreen(),
-                      ),
-                    );
-                  },
-                ),
-                ArchiveCategoryCard(
-                  icon: Icons.fact_check,
-                  color: Colors.purple,
-                  label: 'Verifikasi',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const VerificationScreen(),
                       ),
                     );
                   },
