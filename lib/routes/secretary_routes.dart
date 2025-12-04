@@ -37,6 +37,7 @@ import 'package:rukunin/pages/secretary/pages/letter_templates_screen.dart';
 import 'package:rukunin/pages/secretary/pages/letter_archive_screen.dart';
 import 'package:rukunin/pages/secretary/pages/meeting_invitations_screen.dart';
 import 'package:rukunin/pages/secretary/pages/certificates_screen.dart';
+import 'package:rukunin/pages/secretary/pages/monthly-reports_screen.dart';
 
 final secretaryRoutes = [
   // Main routes with bottom navigation
@@ -280,5 +281,12 @@ final secretaryRoutes = [
     path: '/secretary/certificates',
     name: 'secretary-certificates',
     builder: (context, state) => const CertificatesScreen(),
+  ),
+
+  // ✅ Tambahan baru: Monthly Reports
+  GoRoute(
+    path: '/secretary/monthly-reports',
+    name: 'secretary-monthly-reports',
+    builder: (context, state) => const MonthlyReportsScreen(),
   ),
 ];
