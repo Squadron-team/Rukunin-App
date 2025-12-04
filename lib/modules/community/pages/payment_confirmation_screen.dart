@@ -1,7 +1,11 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rukunin/modules/community/services/dues_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
 
 class PaymentConfirmationScreen extends StatefulWidget {
@@ -23,8 +27,10 @@ class PaymentConfirmationScreen extends StatefulWidget {
 
 class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
   File? _proofImage;
+  XFile? _pickedFile;
   final _notesController = TextEditingController();
   bool _isUploading = false;
+  final DuesService _duesService = DuesService();
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -37,7 +43,10 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
 
     if (pickedFile != null) {
       setState(() {
-        _proofImage = File(pickedFile.path);
+        _pickedFile = pickedFile;
+        if (!kIsWeb) {
+          _proofImage = File(pickedFile.path);
+        }
       });
     }
   }
@@ -119,11 +128,106 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
     );
   }
 
+  Widget _buildProofImageWidget() {
+    if (_pickedFile == null) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.cloud_upload_outlined, size: 48, color: Colors.grey[400]),
+          const SizedBox(height: 12),
+          Text(
+            'Tap untuk upload bukti',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey[600],
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'JPG, PNG (Max 5MB)',
+            style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+          ),
+        ],
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(14),
+      child: Stack(
+        children: [
+          kIsWeb
+              ? Image.network(
+                  _pickedFile!.path,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    // For web, use FutureBuilder to load bytes
+                    return FutureBuilder<Uint8List>(
+                      future: _pickedFile!.readAsBytes(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Image.memory(
+                            snapshot.data!,
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                          );
+                        }
+                        return const Center(child: CircularProgressIndicator());
+                      },
+                    );
+                  },
+                )
+              : Image.file(
+                  _proofImage!,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _proofImage = null;
+                  _pickedFile = null;
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(Icons.close, color: Colors.white, size: 20),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _submitPayment() async {
-    if (_proofImage == null) {
+    if (_pickedFile == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Mohon upload bukti pembayaran terlebih dahulu'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Get current user
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Anda harus login terlebih dahulu'),
           backgroundColor: Colors.red,
         ),
       );
@@ -134,24 +238,87 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
       _isUploading = true;
     });
 
-    // TODO: Implement upload to backend and create transaction
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      // Get user data from Firestore
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .get();
 
-    if (mounted) {
-      setState(() {
-        _isUploading = false;
-      });
+      final userData = userDoc.data();
+      final userName = userData?['name'] ?? 'Unknown';
+      final userPhone = userData?['phone'] ?? '';
+      final rt = userData?['rt'] ?? '1';
+      final rw = userData?['rw'] ?? '1';
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Pembayaran berhasil dikirim, menunggu konfirmasi bendahara',
-          ),
-          backgroundColor: Colors.green,
-        ),
+      // Parse amount from string (remove "Rp" and convert to double)
+      final amountString = widget.amount
+          .replaceAll('Rp ', '')
+          .replaceAll('.', '')
+          .replaceAll(',', '');
+      final amount = double.tryParse(amountString) ?? 0.0;
+
+      // Parse period to get month and year
+      final periodParts = widget.period.split(' ');
+      final month = periodParts.isNotEmpty ? periodParts[0] : 'Unknown';
+      final year = periodParts.length > 1
+          ? int.tryParse(periodParts[1]) ?? DateTime.now().year
+          : DateTime.now().year;
+
+      // Submit payment using the service
+      final paymentId = await _duesService.submitPaymentWithFile(
+        userId: currentUser.uid,
+        userName: userName,
+        userPhone: userPhone,
+        rt: rt,
+        rw: rw,
+        amount: amount,
+        month: month,
+        year: year,
+        receiptFile: _pickedFile!,
+        notes: _notesController.text.trim(),
       );
 
-      Navigator.pop(context);
+      if (mounted) {
+        setState(() {
+          _isUploading = false;
+        });
+
+        if (paymentId != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Pembayaran berhasil dikirim, menunggu konfirmasi bendahara',
+              ),
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 3),
+            ),
+          );
+
+          // Navigate back with success result
+          Navigator.pop(context, true);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Gagal mengirim pembayaran. Silakan coba lagi.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isUploading = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terjadi kesalahan: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -680,76 +847,13 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: _proofImage != null
+                    color: _pickedFile != null
                         ? AppColors.primary
                         : Colors.grey[300]!,
                     width: 2,
                   ),
                 ),
-                child: _proofImage != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(14),
-                        child: Stack(
-                          children: [
-                            Image.file(
-                              _proofImage!,
-                              width: double.infinity,
-                              height: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              top: 8,
-                              right: 8,
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _proofImage = null;
-                                  });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: const Icon(
-                                    Icons.close,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.cloud_upload_outlined,
-                            size: 48,
-                            color: Colors.grey[400],
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Tap untuk upload bukti',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'JPG, PNG (Max 5MB)',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey[500],
-                            ),
-                          ),
-                        ],
-                      ),
+                child: _buildProofImageWidget(),
               ),
             ),
 

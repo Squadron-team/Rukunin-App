@@ -29,6 +29,7 @@ import 'package:rukunin/pages/treasurer/treasurer_home_screen.dart';
 import 'package:rukunin/pages/treasurer/treasurer_shell.dart';
 import 'package:rukunin/pages/treasurer/kategori/kategori_screen.dart';
 import 'package:rukunin/pages/treasurer/analysis/analysis_screen.dart';
+import 'package:rukunin/modules/community/models/dues_payment.dart';
 
 final treasurerRoutes = [
   // Main routes with bottom navigation
@@ -257,8 +258,8 @@ final treasurerRoutes = [
     path: '/treasurer/dues/detail',
     name: 'treasurer-dues-detail',
     builder: (context, state) {
-      final item = state.extra as Map<String, String>;
-      return DataIuranDetail(item: item);
+      final payment = state.extra as DuesPayment;
+      return DataIuranDetail(payment: payment);
     },
   ),
 
