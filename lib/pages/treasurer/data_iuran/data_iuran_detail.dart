@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
-import 'package:rukunin/repositories/data_iuran_repository.dart';
+import 'package:rukunin/modules/community/models/dues_payment.dart';
+import 'package:rukunin/modules/community/services/dues_service.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/widgets/iuran_info_card.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/widgets/bukti_pembayaran_card.dart';
 
 class DataIuranDetail extends StatefulWidget {
-  final Map<String, String> item;
-  const DataIuranDetail({required this.item, super.key});
+  final DuesPayment payment;
+  const DataIuranDetail({required this.payment, super.key});
 
   @override
   State<DataIuranDetail> createState() => _DataIuranDetailState();
 }
 
 class _DataIuranDetailState extends State<DataIuranDetail> {
-  late bool _isAsli;
+  final DuesService _duesService = DuesService();
   bool _isRevalidating = false;
+  bool _isProcessing = false;
   final TextEditingController _rejectNoteCtrl = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    final id = widget.item['id'];
-    final p = id == null ? null : DataIuranRepository().prediction(id);
-    _isAsli = p ?? true;
-  }
 
   @override
   void dispose() {
@@ -44,8 +39,6 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
     if (mounted) {
       setState(() {
         _isRevalidating = false;
-        // Simulate result change for demo
-        // _isAsli = !_isAsli;
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -61,21 +54,67 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
     }
   }
 
-  void _accept() {
-    final id = widget.item['id'];
-    if (id != null) DataIuranRepository().verify(id);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Pembayaran berhasil dikonfirmasi dan dicatat'),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
+  Future<void> _accept() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Anda harus login terlebih dahulu'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _isProcessing = true;
+    });
+
+    final success = await _duesService.verifyPayment(
+      widget.payment.id!,
+      currentUser.uid,
     );
-    context.pop(true);
+
+    if (mounted) {
+      setState(() {
+        _isProcessing = false;
+      });
+
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Pembayaran berhasil dikonfirmasi dan dicatat'),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+        context.pop(true);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Gagal mengkonfirmasi pembayaran'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   Future<void> _reject() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Anda harus login terlebih dahulu'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     _rejectNoteCtrl.text = '';
     final ok = await showModalBottomSheet<bool?>(
       context: context,
@@ -192,26 +231,46 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
     );
 
     if (ok == true) {
+      setState(() {
+        _isProcessing = true;
+      });
+
       final note = _rejectNoteCtrl.text.trim();
-      final id = widget.item['id'];
-      if (id != null) {
-        DataIuranRepository().reject(id, note.isEmpty ? null : note);
-      }
-      final msg = note.isEmpty
-          ? 'Pembayaran ditolak'
-          : 'Pembayaran ditolak. Notifikasi dikirim ke warga';
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(msg),
-          backgroundColor: AppColors.error,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
+      final success = await _duesService.rejectPayment(
+        widget.payment.id!,
+        currentUser.uid,
+        note.isEmpty ? 'Bukti pembayaran tidak valid' : note,
       );
-      context.pop(false);
+
+      if (mounted) {
+        setState(() {
+          _isProcessing = false;
+        });
+
+        if (success) {
+          final msg = note.isEmpty
+              ? 'Pembayaran ditolak'
+              : 'Pembayaran ditolak. Notifikasi dikirim ke warga';
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(msg),
+              backgroundColor: AppColors.error,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          );
+          context.pop(true);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Gagal menolak pembayaran'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
     }
   }
 
@@ -229,8 +288,8 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                   constraints: const BoxConstraints(maxHeight: 600),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: const BuktiPembayaranCard(
-                      proofUrl: null,
+                    child: BuktiPembayaranCard(
+                      proofUrl: widget.payment.receiptImageUrl,
                       height: 600,
                     ),
                   ),
@@ -264,8 +323,9 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final item = widget.item;
-    final hasNotes = item['notes']?.isNotEmpty ?? false;
+    final payment = widget.payment;
+    final isAsli =
+        payment.verificationScore != null && payment.verificationScore! >= 0.7;
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -291,11 +351,12 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
           children: [
             // Payment Info Card
             IuranInfoCard(
-              name: item['name'] ?? '-',
-              rt: item['rt'] ?? '-',
-              type: item['type'] ?? '-',
-              amount: item['amount'] ?? '-',
-              time: item['time'] ?? '-',
+              name: payment.userName,
+              rt: 'RT ${payment.rt}',
+              type: '${payment.month} ${payment.year}',
+              amount: 'Rp ${payment.amount.toStringAsFixed(0)}',
+              time:
+                  '${payment.createdAt.day}/${payment.createdAt.month}/${payment.createdAt.year} ${payment.createdAt.hour}:${payment.createdAt.minute.toString().padLeft(2, '0')}',
             ),
 
             const SizedBox(height: 16),
@@ -350,51 +411,6 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
               ),
             ),
 
-            if (hasNotes) ...[
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.04),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.note_alt_outlined,
-                          size: 18,
-                          color: Colors.grey[700],
-                        ),
-                        const SizedBox(width: 8),
-                        const Text(
-                          'Catatan dari Warga',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      item['notes'] ?? '',
-                      style: TextStyle(color: Colors.grey[700], fontSize: 14),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-
             const SizedBox(height: 16),
 
             // Receipt Validation Card
@@ -407,7 +423,7 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: _isAsli
+                    color: isAsli
                         ? AppColors.success.withOpacity(0.2)
                         : AppColors.error.withOpacity(0.2),
                     width: 1.5,
@@ -455,8 +471,8 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                       const SizedBox(height: 12),
                       GestureDetector(
                         onTap: _showFullImage,
-                        child: const BuktiPembayaranCard(
-                          proofUrl: null,
+                        child: BuktiPembayaranCard(
+                          proofUrl: payment.receiptImageUrl,
                           height: 300,
                         ),
                       ),
@@ -466,12 +482,12 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: _isAsli
+                          color: isAsli
                               ? AppColors.success.withOpacity(0.08)
                               : AppColors.error.withOpacity(0.08),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: _isAsli
+                            color: isAsli
                                 ? AppColors.success.withOpacity(0.3)
                                 : AppColors.error.withOpacity(0.3),
                           ),
@@ -484,13 +500,13 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                                 Container(
                                   padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
-                                    color: _isAsli
+                                    color: isAsli
                                         ? AppColors.success
                                         : AppColors.error,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Icon(
-                                    _isAsli
+                                    isAsli
                                         ? Icons.verified_outlined
                                         : Icons.warning_amber_rounded,
                                     size: 18,
@@ -512,17 +528,28 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        _isAsli
+                                        isAsli
                                             ? 'Bukti Valid'
                                             : 'Perlu Pemeriksaan',
                                         style: TextStyle(
-                                          color: _isAsli
+                                          color: isAsli
                                               ? AppColors.success
                                               : AppColors.error,
                                           fontWeight: FontWeight.w800,
                                           fontSize: 16,
                                         ),
                                       ),
+                                      if (payment.verificationScore !=
+                                          null) ...[
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'Skor: ${(payment.verificationScore! * 100).toStringAsFixed(0)}%',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey[600],
+                                          ),
+                                        ),
+                                      ],
                                     ],
                                   ),
                                 ),
@@ -558,7 +585,7 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              _isAsli
+                              isAsli
                                   ? 'Sistem AI menganalisis bukti ini sebagai gambar asli dan tidak terdeteksi adanya manipulasi digital.'
                                   : 'Sistem AI mendeteksi kemungkinan manipulasi pada bukti ini. Harap lakukan pemeriksaan manual dengan teliti.',
                               style: TextStyle(
@@ -604,8 +631,17 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: _reject,
-                    icon: const Icon(Icons.close, size: 20),
+                    onPressed: _isProcessing ? null : _reject,
+                    icon: _isProcessing
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Icon(Icons.close, size: 20),
                     label: const Text(
                       'Tolak',
                       style: TextStyle(
@@ -627,8 +663,17 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: _accept,
-                    icon: const Icon(Icons.check_circle, size: 20),
+                    onPressed: _isProcessing ? null : _accept,
+                    icon: _isProcessing
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Icon(Icons.check_circle, size: 20),
                     label: const Text(
                       'Konfirmasi',
                       style: TextStyle(
