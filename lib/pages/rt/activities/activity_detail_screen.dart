@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/rt/events/models/event.dart';
+import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/pages/rt/events/widgets/community_small_detail_card.dart';
-import 'package:rukunin/pages/rt/events/event_edit_screen.dart';
-import 'package:rukunin/utils/date_formatter.dart';
+import 'package:rukunin/pages/rt/activities/widgets/community_small_detail_card.dart';
+import 'package:rukunin/pages/rt/activities/activity_edit_screen.dart';
 
-class CommunityHeadEventDetailScreen extends StatefulWidget {
-  final Event event;
+class RtActivityDetailScreen extends StatefulWidget {
+  final Activity activity;
   final int interestedCount;
 
-  const CommunityHeadEventDetailScreen({
-    required this.event,
+  const RtActivityDetailScreen({
+    required this.activity,
     this.interestedCount = 0,
     super.key,
   });
 
   @override
-  State<CommunityHeadEventDetailScreen> createState() =>
-      _CommunityHeadEventDetailScreenState();
+  State<RtActivityDetailScreen> createState() => _RtActivityDetailScreenState();
 }
 
-class _CommunityHeadEventDetailScreenState
-    extends State<CommunityHeadEventDetailScreen> {
+class _RtActivityDetailScreenState extends State<RtActivityDetailScreen> {
   bool _showAllInterested = false;
 
   IconData _getCategoryIcon(String category) {
@@ -43,15 +40,10 @@ class _CommunityHeadEventDetailScreenState
 
   @override
   Widget build(BuildContext context) {
-    final event = widget.event;
+    final activity = widget.activity;
     final interestedCount = widget.interestedCount;
-    DateTime eventDate;
-    try {
-      eventDate = DateFormatter.fullDate.parse(event.date);
-    } catch (_) {
-      eventDate = DateTime.now();
-    }
-    final isPast = eventDate.isBefore(DateTime.now());
+    final isPast = activity.isPast;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -63,7 +55,7 @@ class _CommunityHeadEventDetailScreenState
               width: 4,
               height: 24,
               decoration: BoxDecoration(
-                color: event.categoryColor,
+                color: activity.categoryColor,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -125,7 +117,7 @@ class _CommunityHeadEventDetailScreenState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        event.title,
+                        activity.title,
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w800,
@@ -142,26 +134,26 @@ class _CommunityHeadEventDetailScreenState
                             decoration: BoxDecoration(
                               color: isPast
                                   ? Colors.grey.withAlpha(20)
-                                  : event.categoryColor.withAlpha(20),
+                                  : activity.categoryColor.withAlpha(20),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
-                                  _getCategoryIcon(event.category),
+                                  _getCategoryIcon(activity.category),
                                   size: 16,
                                   color: isPast
                                       ? Colors.grey[700]
-                                      : event.categoryColor,
+                                      : activity.categoryColor,
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  event.category,
+                                  activity.category,
                                   style: TextStyle(
                                     color: isPast
                                         ? Colors.grey[700]
-                                        : event.categoryColor,
+                                        : activity.categoryColor,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -187,19 +179,19 @@ class _CommunityHeadEventDetailScreenState
                 CommunitySmallDetailCard(
                   icon: Icons.calendar_today,
                   title: 'Tanggal',
-                  subtitle: event.date,
+                  subtitle: activity.date,
                   color: Colors.blue,
                 ),
                 CommunitySmallDetailCard(
                   icon: Icons.access_time,
                   title: 'Waktu',
-                  subtitle: event.time,
+                  subtitle: activity.time,
                   color: Colors.green,
                 ),
                 CommunitySmallDetailCard(
                   icon: Icons.location_on,
                   title: 'Lokasi',
-                  subtitle: event.location,
+                  subtitle: activity.location,
                   color: AppColors.primary,
                   hasAction: false,
                 ),
@@ -233,7 +225,7 @@ class _CommunityHeadEventDetailScreenState
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        event.description,
+                        activity.description,
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey[700],
@@ -334,10 +326,13 @@ class _CommunityHeadEventDetailScreenState
                       final res = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => EditEventScreen(event: event),
+                          builder: (_) =>
+                              EditActivityScreen(activity: activity),
                         ),
                       );
-                      if (res is Event) Navigator.pop(context, res);
+                      if (res is Activity && mounted) {
+                        Navigator.pop(context, res);
+                      }
                     },
               child: const Icon(Icons.edit, color: Colors.white),
             ),

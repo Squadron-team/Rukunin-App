@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/rt/events/models/event.dart';
+import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
 
 class CommunityEventCard extends StatelessWidget {
-  final Event event;
+  final Activity activity;
   final int interestedCount;
   final VoidCallback? onTap;
   final VoidCallback? onDelete;
 
   const CommunityEventCard({
-    required this.event,
+    required this.activity,
     this.interestedCount = 0,
     this.onTap,
     this.onDelete,
@@ -19,22 +19,15 @@ class CommunityEventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime eventDate;
-    try {
-      eventDate = DateFormatter.fullDate.parse(event.date);
-    } catch (_) {
-      eventDate = DateTime.now();
-    }
+    final eventDate = activity.dateTime;
+    final isPast = activity.isPast;
 
-    final isPast = eventDate.isBefore(DateTime.now());
-
-    // category chip colors
     final Color chipBg = isPast
         ? Colors.grey.withAlpha(20)
-        : event.categoryColor.withAlpha(20);
+        : activity.categoryColor.withAlpha(20);
     final Color? chipTextColor = isPast
         ? Colors.grey[700]
-        : event.categoryColor;
+        : activity.categoryColor;
 
     return InkWell(
       onTap: onTap,
@@ -61,7 +54,7 @@ class CommunityEventCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isPast
                     ? Colors.grey.withAlpha(30)
-                    : event.categoryColor.withAlpha(20),
+                    : activity.categoryColor.withAlpha(20),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(14),
                   bottomLeft: Radius.circular(14),
@@ -75,7 +68,7 @@ class CommunityEventCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.w900,
-                      color: isPast ? Colors.grey[700] : event.categoryColor,
+                      color: isPast ? Colors.grey[700] : activity.categoryColor,
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -106,7 +99,7 @@ class CommunityEventCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            event.category,
+                            activity.category,
                             style: TextStyle(
                               color: chipTextColor,
                               fontWeight: FontWeight.w700,
@@ -126,7 +119,7 @@ class CommunityEventCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      event.title,
+                      activity.title,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
@@ -142,7 +135,7 @@ class CommunityEventCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          event.time,
+                          activity.time,
                           style: TextStyle(color: Colors.grey[700]),
                         ),
                       ],
@@ -158,7 +151,7 @@ class CommunityEventCard extends StatelessWidget {
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
-                            event.location,
+                            activity.location,
                             style: TextStyle(color: Colors.grey[700]),
                             overflow: TextOverflow.ellipsis,
                           ),
