@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:ui_web' as ui_web;
-import 'package:web/web.dart' as web;
+import 'package:rukunin/pages/general/guide_screen_stub.dart'
+    if (dart.library.html) 'guide_screen_web.dart';
 
 class GuideScreen extends StatefulWidget {
   const GuideScreen({super.key});
@@ -14,12 +14,13 @@ class GuideScreen extends StatefulWidget {
 }
 
 class _GuideScreenState extends State<GuideScreen> {
-  late final WebViewController? _controller;
+  WebViewController? _controller;
   bool _isLoading = true;
 
   // TODO: Replace with the actual URL!
   static const String _guideUrl = 'https://example.com';
   static const String _iframeViewType = 'guide-iframe';
+  bool _iframeRegistered = false;
 
   @override
   void initState() {
@@ -32,30 +33,15 @@ class _GuideScreenState extends State<GuideScreen> {
   }
 
   void _initializeIFrame() {
-    // Register the IFrame view factory for web
-    ui_web.platformViewRegistry.registerViewFactory(_iframeViewType, (
-      int viewId,
-    ) {
-      final iframe = web.HTMLIFrameElement()
-        ..src = _guideUrl
-        ..style.border = 'none'
-        ..style.height = '100%'
-        ..style.width = '100%';
-
-      iframe.onLoad.listen((event) {
-        if (mounted) {
-          setState(() => _isLoading = false);
-        }
-      });
-
-      iframe.onError.listen((event) {
-        if (mounted) {
-          setState(() => _isLoading = false);
-          _showErrorSnackBar('Gagal memuat halaman');
-        }
-      });
-
-      return iframe;
+    if (!_iframeRegistered) {
+      registerIFrameViewFactory(_iframeViewType, _guideUrl);
+      _iframeRegistered = true;
+    }
+    // Simulate loading completion for web
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     });
   }
 
@@ -65,13 +51,19 @@ class _GuideScreenState extends State<GuideScreen> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: (String url) {
-            setState(() => _isLoading = true);
+            if (mounted) {
+              setState(() => _isLoading = true);
+            }
           },
           onPageFinished: (String url) {
-            setState(() => _isLoading = false);
+            if (mounted) {
+              setState(() => _isLoading = false);
+            }
           },
           onWebResourceError: (WebResourceError error) {
-            _showErrorSnackBar('Gagal memuat halaman: ${error.description}');
+            if (mounted) {
+              _showErrorSnackBar('Gagal memuat halaman: ${error.description}');
+            }
           },
         ),
       )
@@ -99,6 +91,22 @@ class _GuideScreenState extends State<GuideScreen> {
     );
   }
 
+  void _reloadContent() {
+    if (kIsWeb) {
+      setState(() {
+        _isLoading = true;
+        _iframeRegistered = false;
+      });
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (mounted) {
+          _initializeIFrame();
+        }
+      });
+    } else {
+      _controller?.reload();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,22 +126,7 @@ class _GuideScreenState extends State<GuideScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () {
-              if (kIsWeb) {
-                // Reload the current page to refresh the iframe
-                setState(() {
-                  _isLoading = true;
-                });
-                // Trigger a rebuild to reload iframe
-                Future.delayed(const Duration(milliseconds: 100), () {
-                  if (mounted) {
-                    setState(() {});
-                  }
-                });
-              } else {
-                _controller?.reload();
-              }
-            },
+            onPressed: _reloadContent,
           ),
           if (kIsWeb)
             IconButton(
@@ -145,9 +138,10 @@ class _GuideScreenState extends State<GuideScreen> {
       ),
       body: Stack(
         children: [
-          kIsWeb
-              ? const HtmlElementView(viewType: _iframeViewType)
-              : WebViewWidget(controller: _controller!),
+          if (kIsWeb)
+            const HtmlElementView(viewType: _iframeViewType)
+          else
+            WebViewWidget(controller: _controller!),
           if (_isLoading) const Center(child: LoadingIndicator()),
         ],
       ),
