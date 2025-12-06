@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/rt/events/models/event.dart';
+import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
+import 'package:rukunin/modules/activities/services/activity_service.dart';
 
-typedef EventFormSubmit = void Function(Event event);
+typedef ActivityFormSubmit = void Function(Activity activity);
 
 class EventForm extends StatefulWidget {
-  final Event? initialEvent;
-  final EventFormSubmit onSubmit;
+  final Activity? initialActivity;
+  final ActivityFormSubmit onSubmit;
   final String submitLabel;
 
   const EventForm({
     required this.onSubmit,
-    this.initialEvent,
+    this.initialActivity,
     this.submitLabel = 'Simpan',
     super.key,
   });
@@ -27,30 +28,23 @@ class _EventFormState extends State<EventForm> {
   final _titleCtrl = TextEditingController();
   final _locationCtrl = TextEditingController();
   final _descriptionCtrl = TextEditingController();
+  final ActivityService _activityService = ActivityService();
 
   String _category = 'Sosial';
   DateTime _date = DateTime.now();
   TimeOfDay _time = const TimeOfDay(hour: 9, minute: 0);
+  bool _isSubmitting = false;
 
-  bool get isEdit => widget.initialEvent != null;
+  bool get isEdit => widget.initialActivity != null;
 
   @override
   void initState() {
     super.initState();
-    final i = widget.initialEvent;
+    final i = widget.initialActivity;
     if (i != null) {
       _category = i.category;
-      try {
-        _date = DateFormatter.fullDate.parse(i.date);
-      } catch (_) {
-        _date = DateTime.now();
-      }
-      try {
-        final parts = i.time.split(':');
-        final h = int.parse(parts[0]);
-        final m = int.parse(parts.length > 1 ? parts[1] : '0');
-        _time = TimeOfDay(hour: h, minute: m);
-      } catch (_) {}
+      _date = i.dateTime;
+      _time = TimeOfDay(hour: i.dateTime.hour, minute: i.dateTime.minute);
       _titleCtrl.text = i.title;
       _locationCtrl.text = i.location;
       _descriptionCtrl.text = i.description;
@@ -106,27 +100,87 @@ class _EventFormState extends State<EventForm> {
     if (picked != null) setState(() => _time = picked);
   }
 
-  void _handleSubmit() {
+  Future<void> _handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final event = Event(
-      category: _category,
-      title: _titleCtrl.text.trim(),
-      location: _locationCtrl.text.trim(),
-      date: DateFormatter.formatFull(_date),
-      time: _time.format(context),
-      categoryColor: _getCategoryColor(_category),
-      description: _descriptionCtrl.text.trim(),
-      createdAt: DateTime.now(),
-      id: '',
-      imageUrl: '',
-      organizerId: '',
-      organizerName: '',
-      organizerPosition: '',
-      participants: [],
-    );
+    setState(() => _isSubmitting = true);
 
-    widget.onSubmit(event);
+    try {
+      final eventDateTime = DateTime(
+        _date.year,
+        _date.month,
+        _date.day,
+        _time.hour,
+        _time.minute,
+      );
+
+      final activity = Activity(
+        id: isEdit ? widget.initialActivity!.id : '',
+        title: _titleCtrl.text.trim(),
+        description: _descriptionCtrl.text.trim(),
+        category: _category,
+        location: _locationCtrl.text.trim(),
+        dateTime: eventDateTime,
+        organizerId: isEdit ? widget.initialActivity!.organizerId : '',
+        organizerName: isEdit ? widget.initialActivity!.organizerName : '',
+        organizerPosition: isEdit
+            ? widget.initialActivity!.organizerPosition
+            : '',
+        imageUrl: isEdit ? widget.initialActivity!.imageUrl : '',
+        participants: isEdit ? widget.initialActivity!.participants : [],
+        categoryColor: _getCategoryColor(_category),
+        createdAt: isEdit ? widget.initialActivity!.createdAt : null,
+      );
+
+      String? docId;
+      if (isEdit) {
+        final success = await _activityService.updateEvent(
+          activity.id,
+          activity,
+        );
+        if (success) {
+          docId = activity.id;
+        }
+      } else {
+        docId = await _activityService.createEvent(activity);
+      }
+
+      if (!mounted) return;
+
+      if (docId != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              isEdit
+                  ? 'Kegiatan berhasil diperbarui'
+                  : 'Kegiatan berhasil dibuat',
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        final finalActivity = activity.copyWith(id: docId);
+        widget.onSubmit(finalActivity);
+        Navigator.pop(context, finalActivity);
+      } else {
+        throw Exception('Failed to ${isEdit ? 'update' : 'create'} activity');
+      }
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Gagal ${isEdit ? 'memperbarui' : 'membuat'} kegiatan: $e',
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isSubmitting = false);
+      }
+    }
   }
 
   @override
@@ -287,7 +341,9 @@ class _EventFormState extends State<EventForm> {
             children: [
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: _isSubmitting
+                      ? null
+                      : () => Navigator.pop(context),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -305,7 +361,7 @@ class _EventFormState extends State<EventForm> {
               Expanded(
                 flex: 2,
                 child: ElevatedButton(
-                  onPressed: _handleSubmit,
+                  onPressed: _isSubmitting ? null : _handleSubmit,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -314,13 +370,24 @@ class _EventFormState extends State<EventForm> {
                     ),
                     elevation: 0,
                   ),
-                  child: Text(
-                    widget.submitLabel,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  child: _isSubmitting
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
+                          ),
+                        )
+                      : Text(
+                          widget.submitLabel,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                 ),
               ),
             ],

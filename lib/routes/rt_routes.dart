@@ -6,7 +6,7 @@ import 'package:rukunin/pages/general/account_screen.dart';
 import 'package:rukunin/pages/rt/warga/list_warga/warga_list_screen.dart';
 import 'package:rukunin/pages/rt/warga/list_keluarga/family_list_screen.dart';
 import 'package:rukunin/pages/rt/wilayah/wilayah_rt_screen.dart';
-import 'package:rukunin/pages/rt/events/events_screen.dart';
+import 'package:rukunin/pages/rt/activities/activities_screen.dart';
 import 'package:rukunin/pages/rt/reports/manage_reports_screen.dart';
 import 'package:rukunin/pages/rt/surat_to_rw/screen.dart';
 import 'package:rukunin/pages/rt/announcements/announcements_screen.dart';
@@ -140,7 +140,7 @@ final rtRoutes = [
   GoRoute(
     path: '/rt/activity',
     name: 'rt-activity',
-    builder: (context, state) => const CommunityHeadEventsScreen(),
+    builder: (context, state) => const RtActivitiesScreen(),
   ),
   GoRoute(
     path: '/rt/iuran',
