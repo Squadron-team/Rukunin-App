@@ -17,8 +17,8 @@ class _GuideScreenState extends State<GuideScreen> {
   WebViewController? _controller;
   bool _isLoading = true;
 
-  // TODO: Replace with the actual URL!
-  static const String _guideUrl = 'https://example.com';
+  static const String _guideUrl =
+      'https://squadron-team.github.io/Rukunin-Docs';
   static const String _iframeViewType = 'guide-iframe';
   bool _iframeRegistered = false;
 
