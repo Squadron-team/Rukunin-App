@@ -1,0 +1,4 @@
+<resources>
+    <!-- ...existing code... -->
+    <string name="widget_description">Lihat kegiatan warga terkini di layar utama</string>
+</resources>

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/modules/activities/widgets/activity_card.dart';
 import 'package:rukunin/modules/activities/services/activity_service.dart';
+import 'package:rukunin/modules/activities/services/activity_widget_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/utils/date_formatter.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
@@ -20,6 +21,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   DateTime? _selectedDay;
   final CalendarFormat _calendarFormat = CalendarFormat.month;
   final ActivityService _activityService = ActivityService();
+  final ActivityWidgetService _widgetService = ActivityWidgetService();
 
   List<Activity> _allEvents = [];
   bool _isLoading = true;
@@ -29,6 +31,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
     super.initState();
     _selectedDay = _focusedDay;
     _loadEvents();
+    _widgetService.registerInteractivity();
   }
 
   void _loadEvents() {
@@ -39,6 +42,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
             _allEvents = events;
             _isLoading = false;
           });
+          // Update widget with new data
+          _widgetService.updateWidget(events);
         }
       },
       onError: (error) {
