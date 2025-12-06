@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ...existing code... -->
+    <string name="app_name">Rukunin</string>
     <string name="widget_description">Lihat kegiatan warga terkini di layar utama</string>
+    <string name="widget_name">Kegiatan Warga</string>
 </resources>

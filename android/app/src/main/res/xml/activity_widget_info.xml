@@ -11,4 +11,4 @@
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
     android:description="@string/widget_description"
-    android:previewImage="@mipmap/ic_launcher" />
+    android:previewImage="@drawable/widget_kegiatan_warga_preview" />
