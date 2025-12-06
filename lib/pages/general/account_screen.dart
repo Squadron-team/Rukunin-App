@@ -11,7 +11,6 @@ import 'package:rukunin/widgets/dialogs/logout_dialog.dart';
 import 'package:rukunin/widgets/dialogs/about_app_dialog.dart';
 import 'package:rukunin/services/account_service.dart';
 import 'package:rukunin/utils/role_helper.dart';
-import 'package:rukunin/pages/general/guide_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -314,14 +313,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   SettingItem(
                     icon: Icons.book_outlined,
                     title: 'Panduan Pengguna',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const GuideScreen(),
-                        ),
-                      );
-                    },
+                    onTap: () => context.push('/user-guides'),
                   ),
                   SettingItem(
                     icon: Icons.info_outline,
