@@ -312,7 +312,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     onTap: () => _showComingSoonSnackBar('bantuan'),
                   ),
                   SettingItem(
-                    icon: Icons.book,
+                    icon: Icons.book_outlined,
                     title: 'Panduan Pengguna',
                     onTap: () {
                       Navigator.push(
