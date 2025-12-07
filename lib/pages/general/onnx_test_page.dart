@@ -1,9 +1,10 @@
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image/image.dart' as img;
-import 'package:rukunin/native/feature_extractor_ffi.dart';
-import 'package:rukunin/services/onnx_service.dart';
+import 'package:rukunin/services/ml/data_preprocessor.dart';
+import 'package:rukunin/services/ml/hog_extractor.dart';
+import 'package:rukunin/services/ml/onnx_service.dart';
 
 class OnnxTestPage extends StatefulWidget {
   const OnnxTestPage({super.key});
@@ -14,11 +15,20 @@ class OnnxTestPage extends StatefulWidget {
 
 class _OnnxTestPageState extends State<OnnxTestPage> {
   String status = 'Not loaded';
-  String inferenceResult = '';
   bool isLoading = false;
-  final _extractor = FeatureExtractorFfi();
   String? currentImagePath;
   Uint8List? currentImageBytes;
+  final _dataPreprocessor = DataPreprocessor();
+  final _hogExtractor = HogExtractor();
+
+  // Inference results
+  String? testName;
+  List<double>? inputFeatures;
+  int? predictedClass;
+  double? confidence;
+  List<double>? allProbabilities;
+  int? imageWidth;
+  int? imageHeight;
 
   Future<void> _load() async {
     setState(() {
@@ -47,133 +57,108 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
     }
   }
 
-  Future<void> _runTestInference(List<double> features, String testName) async {
+  Future<void> _runTestInference(List<double> features, String name) async {
     setState(() {
       isLoading = true;
-      inferenceResult = 'Running inference...';
+      testName = name;
+      inputFeatures = features;
+      predictedClass = null;
+      confidence = null;
+      allProbabilities = null;
+      imageWidth = null;
+      imageHeight = null;
     });
 
     try {
       final input = Float32List.fromList(features);
       final outputs = await OnnxService.runInference(input);
 
-      // Find predicted class (highest probability)
-      int predictedClass = 0;
+      int predClass = 0;
       double maxProb = outputs[0];
       for (int i = 1; i < outputs.length; i++) {
         if (outputs[i] > maxProb) {
           maxProb = outputs[i];
-          predictedClass = i;
+          predClass = i;
         }
       }
 
       if (!mounted) return;
 
       setState(() {
-        inferenceResult =
-            '''
-Test: $testName
-Input Features: ${features.map((e) => e.toStringAsFixed(3)).join(', ')}
-
-Predicted Class: $predictedClass
-Confidence: ${(maxProb * 100).toStringAsFixed(2)}%
-
-All Class Probabilities:
-${outputs.asMap().entries.map((e) => '  Class ${e.key}: ${(e.value * 100).toStringAsFixed(2)}%').join('\n')}
-        ''';
+        predictedClass = predClass;
+        confidence = maxProb;
+        allProbabilities = outputs;
         isLoading = false;
       });
     } catch (e) {
       if (!mounted) return;
 
       setState(() {
-        inferenceResult = 'Error during inference: $e';
+        testName = 'Error: $e';
         isLoading = false;
       });
     }
   }
 
-  Future<void> _runImageInference(String assetPath, String testName) async {
+  Future<void> _runImageInference(String assetPath, String name) async {
     setState(() {
       isLoading = true;
-      inferenceResult = 'Loading and processing image...';
       currentImagePath = assetPath;
+      testName = name;
+      inputFeatures = null;
+      predictedClass = null;
+      confidence = null;
+      allProbabilities = null;
+      imageWidth = null;
+      imageHeight = null;
     });
 
     try {
-      // Load image from assets
       final ByteData data = await rootBundle.load(assetPath);
       final Uint8List bytes = data.buffer.asUint8List();
 
-      // Store original image bytes for display
+      final codec = await instantiateImageCodec(bytes);
+      final frame = await codec.getNextFrame();
+      final image = frame.image;
+
       setState(() {
         currentImageBytes = bytes;
       });
 
-      // Decode image
-      final image = img.decodeImage(bytes);
-      if (image == null) {
-        throw Exception('Failed to decode image');
-      }
+      final preprocessedImage = _dataPreprocessor.compute(bytes);
+      final features = _hogExtractor.compute(preprocessedImage);
 
-      // Convert to grayscale
-      final grayscale = img.grayscale(image);
-      final width = grayscale.width;
-      final height = grayscale.height;
+      setState(() {
+        inputFeatures = features.take(4).toList();
+        imageWidth = image.width;
+        imageHeight = image.height;
+      });
 
-      // Extract grayscale bytes
-      final Uint8List grayscaleBytes = Uint8List(width * height);
-      for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-          final pixel = grayscale.getPixel(x, y);
-          grayscaleBytes[y * width + x] = pixel.r.toInt();
-        }
-      }
-
-      // Extract features using native code
-      final features = _extractor.compute(grayscaleBytes, width, height);
-
-      // Run inference
       final outputs = await OnnxService.runInference(features);
 
-      // Find predicted class
-      int predictedClass = 0;
-      double maxProb = outputs[0];
-      for (int i = 1; i < outputs.length; i++) {
+      int predClass = 0;
+      double maxProb = -double.infinity;
+
+      for (int i = 0; i < outputs.length; i++) {
         if (outputs[i] > maxProb) {
           maxProb = outputs[i];
-          predictedClass = i;
+          predClass = i;
         }
       }
 
       if (!mounted) return;
 
       setState(() {
-        inferenceResult =
-            '''
-Test: $testName
-Image: $assetPath
-Image Size: ${width}x$height
-
-Extracted Features:
-  Mean: ${features[0].toStringAsFixed(3)}
-  Std Dev: ${features[1].toStringAsFixed(3)}
-  Min: ${features[2].toStringAsFixed(3)}
-  Max: ${features[3].toStringAsFixed(3)}
-
-Predicted Class: $predictedClass
-Confidence: ${(maxProb * 100).toStringAsFixed(2)}%
-
-All Class Probabilities:
-${outputs.asMap().entries.map((e) => '  Class ${e.key}: ${(e.value * 100).toStringAsFixed(2)}%').join('\n')}
-        ''';
+        predictedClass = predClass;
+        confidence = maxProb;
+        allProbabilities = outputs;
         isLoading = false;
       });
     } catch (e) {
       if (!mounted) return;
 
       setState(() {
-        inferenceResult = 'Error during image inference: $e';
+        testName = 'Error: $e';
         isLoading = false;
       });
     }
@@ -183,6 +168,119 @@ ${outputs.asMap().entries.map((e) => '  Class ${e.key}: ${(e.value * 100).toStri
   void initState() {
     super.initState();
     _load();
+  }
+
+  Widget _buildResultsCard() {
+    if (isLoading) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(32.0),
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    if (testName == null) {
+      return const Text(
+        'Click a test button to run inference',
+        style: TextStyle(
+          fontSize: 14,
+          fontStyle: FontStyle.italic,
+          color: Colors.grey,
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildResultRow('Test', testName!),
+        if (currentImagePath != null) ...[
+          const SizedBox(height: 8),
+          _buildResultRow('Image', currentImagePath!),
+          if (imageWidth != null && imageHeight != null)
+            _buildResultRow('Image Size', '${imageWidth}x$imageHeight'),
+        ],
+        if (inputFeatures != null) ...[
+          const SizedBox(height: 8),
+          const Text(
+            'Extracted Features:',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 4),
+          _buildResultRow('  Mean', inputFeatures![0].toStringAsFixed(3)),
+          if (inputFeatures!.length > 1)
+            _buildResultRow('  Std Dev', inputFeatures![1].toStringAsFixed(3)),
+          if (inputFeatures!.length > 2)
+            _buildResultRow('  Min', inputFeatures![2].toStringAsFixed(3)),
+          if (inputFeatures!.length > 3)
+            _buildResultRow('  Max', inputFeatures![3].toStringAsFixed(3)),
+        ],
+        if (predictedClass != null && confidence != null) ...[
+          const SizedBox(height: 12),
+          _buildResultRow(
+            'Predicted Class',
+            predictedClass.toString(),
+            isHighlight: true,
+          ),
+          _buildResultRow(
+            'Confidence',
+            '${(confidence! * 100).toStringAsFixed(2)}%',
+            isHighlight: true,
+          ),
+        ],
+        if (allProbabilities != null) ...[
+          const SizedBox(height: 12),
+          const Text(
+            'All Class Probabilities:',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 4),
+          ...allProbabilities!.asMap().entries.map((e) {
+            return _buildResultRow(
+              '  Class ${e.key}',
+              '${(e.value * 100).toStringAsFixed(2)}%',
+            );
+          }),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildResultRow(
+    String label,
+    String value, {
+    bool isHighlight = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 140,
+            child: Text(
+              '$label:',
+              style: TextStyle(
+                fontWeight: isHighlight ? FontWeight.bold : FontWeight.normal,
+                fontSize: isHighlight ? 15 : 14,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(
+                fontFamily: 'monospace',
+                fontWeight: isHighlight ? FontWeight.bold : FontWeight.normal,
+                fontSize: isHighlight ? 15 : 14,
+                color: isHighlight ? Colors.blue : null,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -381,30 +479,7 @@ ${outputs.asMap().entries.map((e) => '  Class ${e.key}: ${(e.value * 100).toStri
                           ),
                         ),
                         const SizedBox(height: 8),
-                        if (isLoading)
-                          const Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(32.0),
-                              child: CircularProgressIndicator(),
-                            ),
-                          )
-                        else if (inferenceResult.isEmpty)
-                          const Text(
-                            'Click a test button to run inference',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontStyle: FontStyle.italic,
-                              color: Colors.grey,
-                            ),
-                          )
-                        else
-                          Text(
-                            inferenceResult,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'monospace',
-                            ),
-                          ),
+                        _buildResultsCard(),
                       ],
                     ),
                   ),

@@ -6,8 +6,7 @@ import ai.onnxruntime.OrtSession
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
+import java.nio.FloatBuffer
 
 class MainActivity : FlutterFragmentActivity() {
     private val CHANNEL = "onnx_runtime"
@@ -44,66 +43,29 @@ class MainActivity : FlutterFragmentActivity() {
                             return@setMethodCallHandler
                         }
 
-                        val inputArray = call.argument<List<Double>>("input")!!
-                        val floatArray =
-                                FloatArray(inputArray.size) { i -> inputArray[i].toFloat() }
+                        val inputArray = call.argument<FloatArray>("input")!!
+                        val floatArray = inputArray
 
-                        val shape = longArrayOf(1, inputArray.size.toLong())
+                        val inputName = sess.inputNames.iterator().next()
+                        val shape = longArrayOf(1, floatArray.size.toLong())
 
-                        // Build ByteBuffer for ORT Mobile
-                        val byteBuffer = ByteBuffer.allocateDirect(4 * floatArray.size)
-                        byteBuffer.order(ByteOrder.nativeOrder())
-                        for (f in floatArray) {
-                            byteBuffer.putFloat(f)
-                        }
-                        byteBuffer.rewind()
-
-                        // Create tensor using ByteBuffer
-                        val tensor = OnnxTensor.createTensor(ortEnv, byteBuffer, shape)
+                        // Create tensor
+                        val floatBuffer = FloatBuffer.wrap(floatArray)
+                        val tensor = OnnxTensor.createTensor(ortEnv, floatBuffer, shape)
 
                         // Run inference
-                        val outputs = sess.run(mapOf("input" to tensor))
+                        val outputs = sess.run(mapOf(inputName to tensor))
 
-                        // Extract results
-                        val outputVal = outputs[0].value
+                        val output = outputs[0].value
 
                         val resultList: List<Double> =
-                                when (outputVal) {
-                                    is FloatArray -> {
-                                        // ONNX model outputs [N]
-                                        outputVal.map { it.toDouble() }
-                                    }
-                                    is Array<*> -> {
-                                        if (outputVal.isNotEmpty()) {
-                                            when (val first = outputVal[0]) {
-                                                is FloatArray -> {
-                                                    // 2D: float[][]
-                                                    first.map { it.toDouble() }
-                                                }
-                                                is Array<*> -> {
-                                                    // 3D (rare): Float[][]
-                                                    (first as Array<*>).map {
-                                                        (it as Float).toDouble()
-                                                    }
-                                                }
-                                                is Float -> {
-                                                    // 1D boxed Float[]
-                                                    outputVal.map { (it as Float).toDouble() }
-                                                }
-                                                else ->
-                                                        throw IllegalStateException(
-                                                                "Unsupported inner type: ${first!!::class.java}"
-                                                        )
-                                            }
-                                        } else {
-                                            emptyList()
-                                        }
-                                    }
-                                    else -> {
-                                        throw IllegalStateException(
-                                                "Unexpected ONNX output type: ${outputVal!!::class.java}"
-                                        )
-                                    }
+                                when (output) {
+                                    is FloatArray -> output.map { it.toDouble() }
+                                    is Array<*> -> (output[0] as FloatArray).map { it.toDouble() }
+                                    else ->
+                                            throw IllegalStateException(
+                                                    "Unexpected ONNX output type: ${output::class.java}"
+                                            )
                                 }
 
                         result.success(resultList)
