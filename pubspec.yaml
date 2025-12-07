@@ -32,6 +32,7 @@ dependencies:
   webview_flutter_android: ^3.13.0
   webview_flutter_wkwebview: ^3.10.0
   url_launcher: ^6.2.0
+  local_auth: ^3.0.0
 
   path: any
   git_hooks: any
