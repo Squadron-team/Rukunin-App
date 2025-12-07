@@ -1,10 +1,11 @@
-import 'dart:typed_data';
 import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rukunin/services/ml/data_preprocessor.dart';
-import 'package:rukunin/services/ml/hog_extractor.dart';
+import 'package:rukunin/services/ml/hog_isolate.dart';
 import 'package:rukunin/services/ml/onnx_service.dart';
+import 'package:rukunin/utils/image_helper.dart';
 
 class OnnxTestPage extends StatefulWidget {
   const OnnxTestPage({super.key});
@@ -19,10 +20,10 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
   String? currentImagePath;
   Uint8List? currentImageBytes;
   final _dataPreprocessor = DataPreprocessor();
-  final _hogExtractor = HogExtractor();
 
   // Inference results
   String? testName;
+  Uint8List? imgPreprocessedPng;
   List<double>? inputFeatures;
   int? predictedClass;
   double? confidence;
@@ -67,6 +68,7 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
       allProbabilities = null;
       imageWidth = null;
       imageHeight = null;
+      imgPreprocessedPng = null; // Clear preprocessed image for manual tests
     });
 
     try {
@@ -126,7 +128,17 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
       });
 
       final preprocessedImage = _dataPreprocessor.compute(bytes);
-      final features = _hogExtractor.compute(preprocessedImage);
+
+      final imgPrePng = ImageHelper.float32ToPng(preprocessedImage, 64, 64);
+
+      setState(() {
+        imgPreprocessedPng = imgPrePng;
+      });
+
+      final features = await compute(
+        hogIsolateEntry,
+        preprocessedImage,
+      ); // Float32List(4096)
 
       setState(() {
         inputFeatures = features.take(4).toList();
@@ -360,7 +372,7 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Test Image',
+                        'Original Image',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -389,6 +401,51 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
                 ),
               ),
             if (currentImageBytes != null) const SizedBox(height: 16),
+
+            // Preprocessed Image Card
+            if (imgPreprocessedPng != null)
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Preprocessed Image (64x64 Grayscale)',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: Image.memory(
+                            imgPreprocessedPng!,
+                            width: 128,
+                            height: 128,
+                            filterQuality: FilterQuality.none,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      const Text(
+                        'Resized to 64x64 and converted to grayscale',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            if (imgPreprocessedPng != null) const SizedBox(height: 16),
 
             // Test Buttons with manual features
             const Text(
