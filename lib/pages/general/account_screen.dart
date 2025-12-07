@@ -11,6 +11,8 @@ import 'package:rukunin/widgets/dialogs/logout_dialog.dart';
 import 'package:rukunin/widgets/dialogs/about_app_dialog.dart';
 import 'package:rukunin/services/account_service.dart';
 import 'package:rukunin/utils/role_helper.dart';
+import 'package:rukunin/services/biometric_auth_service.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, debugPrint;
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -22,6 +24,7 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   final _auth = FirebaseAuth.instance;
   final _accountService = AccountService();
+  final _biometricService = BiometricAuthService();
 
   final _nameController = TextEditingController();
   final _nicknameController = TextEditingController();
@@ -35,10 +38,14 @@ class _AccountScreenState extends State<AccountScreen> {
   String _email = '';
   DateTime? _selectedBirthdate;
 
+  bool _isBiometricEnabled = false;
+  bool _isBiometricAvailable = false;
+
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _loadBiometricSettings();
   }
 
   Future<void> _loadUserData() async {
@@ -144,17 +151,85 @@ class _AccountScreenState extends State<AccountScreen> {
     }
   }
 
-  void _showSuccessSnackBar(String message) {
-    _showSnackBar(message, Colors.green);
+  Future<void> _loadBiometricSettings() async {
+    if (kIsWeb) {
+      setState(() {
+        _isBiometricEnabled = false;
+        _isBiometricAvailable = false;
+      });
+      return;
+    }
+
+    final isEnabled = await _biometricService.isBiometricEnabled();
+    final isAvailable = await _biometricService.isBiometricAvailable();
+
+    if (mounted) {
+      setState(() {
+        _isBiometricEnabled = isEnabled;
+        _isBiometricAvailable = isAvailable;
+      });
+    }
   }
 
-  void _showWarningSnackBar(String message) {
-    _showSnackBar(message, Colors.orange);
+  Future<void> _toggleBiometric(bool value) async {
+    try {
+      if (value) {
+        final isAvailable = await _biometricService.isBiometricAvailable();
+        if (!isAvailable) {
+          _showErrorSnackBar(
+            'Biometrik tidak tersedia. Pastikan perangkat Anda mendukung dan sudah diatur.',
+          );
+          return;
+        }
+
+        final biometrics = await _biometricService.getAvailableBiometrics();
+        if (biometrics.isEmpty) {
+          _showErrorSnackBar(
+            'Tidak ada biometrik yang terdaftar. Silakan atur sidik jari atau face ID di pengaturan perangkat.',
+          );
+          return;
+        }
+
+        final authenticated = await _biometricService.authenticate();
+        if (!authenticated) {
+          // Use the detailed error message from the service
+          final errorMessage =
+              _biometricService.lastErrorMessage ??
+              'Autentikasi dibatalkan atau gagal. Silakan coba lagi.';
+          _showWarningSnackBar(errorMessage);
+          return;
+        }
+      }
+
+      await _biometricService.setBiometricEnabled(value);
+
+      if (mounted) {
+        setState(() {
+          _isBiometricEnabled = value;
+        });
+
+        _showSuccessSnackBar(
+          value
+              ? 'Autentikasi biometrik diaktifkan'
+              : 'Autentikasi biometrik dinonaktifkan',
+        );
+      }
+    } catch (e) {
+      debugPrint('Toggle biometric error: $e');
+      _showErrorSnackBar('Terjadi kesalahan: $e');
+      if (mounted) {
+        setState(() {
+          _isBiometricEnabled = !value;
+        });
+      }
+    }
   }
 
-  void _showErrorSnackBar(String message) {
-    _showSnackBar(message, Colors.red);
-  }
+  void _showSuccessSnackBar(String message) =>
+      _showSnackBar(message, Colors.green);
+  void _showWarningSnackBar(String message) =>
+      _showSnackBar(message, Colors.orange);
+  void _showErrorSnackBar(String message) => _showSnackBar(message, Colors.red);
 
   void _showSnackBar(String message, Color backgroundColor) {
     if (!mounted) return;
@@ -298,6 +373,22 @@ class _AccountScreenState extends State<AccountScreen> {
                     icon: Icons.lock_outline,
                     title: 'Ubah Password',
                     onTap: () => _showComingSoonSnackBar('ubah password'),
+                  ),
+                  SettingItem(
+                    icon: Icons.fingerprint,
+                    title: 'Autentikasi Biometrik',
+                    subtitle: _isBiometricAvailable
+                        ? 'Gunakan sidik jari atau face ID untuk membuka aplikasi'
+                        : kIsWeb
+                        ? 'Tidak tersedia di platform web'
+                        : 'Tidak tersedia di perangkat ini',
+                    trailing: Switch(
+                      value: _isBiometricEnabled,
+                      onChanged: _isBiometricAvailable
+                          ? _toggleBiometric
+                          : null,
+                      activeThumbColor: AppColors.primary,
+                    ),
                   ),
                   SettingItem(
                     icon: Icons.notifications_outlined,

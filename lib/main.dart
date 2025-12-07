@@ -6,6 +6,7 @@ import 'package:rukunin/firebase_options.dart';
 import 'package:rukunin/theme/rukunin_theme.dart';
 import 'package:rukunin/utils/mobile_preview_wrapper_helper.dart';
 import 'package:rukunin/routes/routes.dart';
+import 'package:rukunin/pages/biometric_lock_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,11 +66,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'Rukunin',
-      theme: rukuninTheme,
-      routerConfig: router,
+    return BiometricLockScreen(
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'Rukunin',
+        theme: rukuninTheme,
+        routerConfig: router,
+      ),
     );
   }
 }
