@@ -412,7 +412,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     onTap: () => AboutAppDialog.show(context),
                   ),
                   SettingItem(
-                    icon: Icons.info_outline,
+                    icon: Icons.auto_awesome,
                     title: 'Load ONNX ML model',
                     onTap: () => context.push('/onnx-test'),
                   ),
