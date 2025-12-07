@@ -62,20 +62,7 @@ class SettingItem extends StatelessWidget {
               Icons.chevron_right,
               color: isEnabled ? Colors.grey[400] : Colors.grey[300],
             ),
-        onTap: trailing == null
-            ? onTap
-            : () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text('ON TAPPED!'),
-                    backgroundColor: Colors.orange,
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                );
-              },
+        onTap: trailing == null ? onTap : null,
         enabled: isEnabled,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
