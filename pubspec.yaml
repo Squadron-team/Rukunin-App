@@ -1,7 +1,7 @@
 name: rukunin
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0+49
+version: 0.1.0+55
 
 environment:
   sdk: ^3.9.2
@@ -40,6 +40,8 @@ dependencies:
   collection: any
   cached_network_image: ^3.4.1
   home_widget: ^0.8.1
+  ffi: ^2.1.4
+  image: ^4.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -54,6 +56,8 @@ flutter:
     - assets/kk/
     - assets/ktp/
     - assets/icons/
+    - assets/models/
+    - assets/ml_test/
 
 flutter_launcher_icons:
   android: "app_icon"
