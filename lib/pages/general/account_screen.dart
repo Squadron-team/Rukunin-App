@@ -411,6 +411,11 @@ class _AccountScreenState extends State<AccountScreen> {
                     title: 'Tentang Aplikasi',
                     onTap: () => AboutAppDialog.show(context),
                   ),
+                  SettingItem(
+                    icon: Icons.info_outline,
+                    title: 'Load ONNX ML model',
+                    onTap: () => context.push('/onnx-test'),
+                  ),
                   const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
