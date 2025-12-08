@@ -9,6 +9,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.nio.FloatBuffer
 
 class MainActivity : FlutterFragmentActivity() {
     private companion object {
@@ -63,54 +64,44 @@ class MainActivity : FlutterFragmentActivity() {
             val length =
                     call.argument<Int>("length") ?: throw IllegalArgumentException("length is null")
 
-            val byteBuffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN)
+            val byteBuffer = ByteBuffer.wrap(bytes).order(ByteOrder.nativeOrder())
+            val floatBuffer = byteBuffer.asFloatBuffer()
 
-            val inputArray = FloatArray(length)
-            for (i in 0 until length) {
-                inputArray[i] = byteBuffer.getFloat(i * 4)
-            }
-
-            if (inputArray.size != 1764) {
+            if (floatBuffer.remaining() != 1764) {
                 throw IllegalArgumentException(
-                        "Expected 1764 features but received ${inputArray.size}"
+                        "Expected 1764 features but received ${floatBuffer.remaining()}"
                 )
             }
 
-            val outputList = runInference(currentSession, inputArray)
+            val outputList = runInference(currentSession, floatBuffer, length.toLong())
             result.success(outputList)
         } catch (e: Exception) {
             e.printStackTrace()
-            result.error("INFERENCE_ERROR", e.message, null)
+            result.error("INFERENCE_ERROR", "Failed to run inference: ${e.message}", e.stackTraceToString())
         }
     }
 
-    private fun runInference(session: OrtSession, inputArray: FloatArray): List<Double> {
-        val inputName = session.inputNames.iterator().next()
-        val shape = longArrayOf(1, inputArray.size.toLong())
+    private fun runInference(session: OrtSession, inputBuffer: FloatBuffer, length: Long): List<Double> {
+        try {
+            val inputName = session.inputNames.iterator().next()
+            val shape = longArrayOf(1, length)
 
-        val byteBuffer =
-                java.nio.ByteBuffer.allocateDirect(4 * inputArray.size)
-                        .order(java.nio.ByteOrder.nativeOrder())
-
-        // Write floats into direct buffer
-        for (f in inputArray) {
-            byteBuffer.putFloat(f)
-        }
-        byteBuffer.rewind()
-
-        val tensor = OnnxTensor.createTensor(ortEnv, byteBuffer, shape)
-
-        // Run inference
-        val outputs = session.run(mapOf(inputName to tensor))
-        val output = outputs[0].value
-
-        return when (output) {
-            is FloatArray -> output.map { it.toDouble() }
-            is Array<*> -> (output[0] as FloatArray).map { it.toDouble() }
-            else ->
-                    throw IllegalStateException(
-                            "Unexpected ONNX output type: ${output::class.java}"
-                    )
+            OnnxTensor.createTensor(ortEnv, inputBuffer, shape).use { tensor ->
+                session.run(mapOf(inputName to tensor)).use { outputs ->
+                    val output = outputs[0].value
+                    return when (output) {
+                        is FloatArray -> output.map { it.toDouble() }
+                        is Array<*> -> (output[0] as FloatArray).map { it.toDouble() }
+                        else ->
+                            throw IllegalStateException(
+                                    "Unexpected ONNX output type: ${output::class.java}"
+                            )
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            // Re-throw the exception to be caught by the handler
+            throw Exception("Error during ONNX inference: ${e.message}", e)
         }
     }
 
