@@ -67,9 +67,9 @@ class MainActivity : FlutterFragmentActivity() {
             val byteBuffer = ByteBuffer.wrap(bytes).order(ByteOrder.nativeOrder())
             val floatBuffer = byteBuffer.asFloatBuffer()
 
-            if (floatBuffer.remaining() != 1764) {
+            if (floatBuffer.remaining() != 2916) {
                 throw IllegalArgumentException(
-                        "Expected 1764 features but received ${floatBuffer.remaining()}"
+                        "Expected 2916 features but received ${floatBuffer.remaining()}"
                 )
             }
 
