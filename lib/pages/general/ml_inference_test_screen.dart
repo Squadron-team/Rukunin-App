@@ -29,6 +29,10 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
   bool isLoading = false;
   ProcessingStep currentStep = ProcessingStep.idle;
 
+  // Platform detection
+  bool get isWeb => kIsWeb;
+  bool get isAndroid => !kIsWeb;
+
   // Input data
   String? currentImagePath;
   Uint8List? currentImageBytes;
@@ -55,7 +59,14 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
   @override
   void initState() {
     super.initState();
-    _load();
+    if (isAndroid) {
+      _load();
+    } else {
+      setState(() {
+        status =
+            'Web platform detected. Local ONNX inference is disabled. Use Firebase Functions for inference.';
+      });
+    }
   }
 
   Future<void> _load() async {
@@ -105,8 +116,13 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
     });
   }
 
-  // Step 1: Select input (image or manual features)
+  // Step 1: Select input (image or manual features) - Modified for web compatibility
   Future<void> _selectImageInput(String assetPath, String name) async {
+    if (isWeb) {
+      _showWebNotSupportedDialog('Local Image Processing');
+      return;
+    }
+
     setState(() {
       isLoading = true;
     });
@@ -141,6 +157,11 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
   }
 
   void _selectManualInput(List<double> features, String name) {
+    if (isWeb) {
+      _showWebNotSupportedDialog('Manual Features Processing');
+      return;
+    }
+
     setState(() {
       manualFeatures = features;
       testName = name;
@@ -150,6 +171,25 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
       hogFeaturesLength = features.length;
       currentStep = ProcessingStep.hogExtracted;
     });
+  }
+
+  void _showWebNotSupportedDialog(String feature) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Feature Not Available'),
+        content: Text(
+          '$feature is only available on Android devices.\n\n'
+          'Please use Firebase Functions inference for web platform.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   // New method: Test with Firebase Functions
@@ -204,9 +244,7 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
 
       final imgBase64 = base64Encode(currentImageBytes!);
 
-      final result = await callable.call({
-        'image': imgBase64,
-      });
+      final result = await callable.call({'image': imgBase64});
 
       final data = result.data;
 
@@ -387,7 +425,11 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ONNX Test - Step by Step'),
+        title: Text(
+          isWeb
+              ? 'ML Inference - Web Mode (Limited)'
+              : 'ML Inference - Step by Step',
+        ),
         actions: [
           if (currentStep != ProcessingStep.idle)
             IconButton(
@@ -402,6 +444,31 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Platform Info Banner
+            if (isWeb)
+              Card(
+                color: Colors.orange.shade50,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    children: [
+                      Icon(Icons.info_outline, color: Colors.orange.shade700),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Web Platform: Local ONNX inference is disabled. Use Firebase Functions for cloud-based inference.',
+                          style: TextStyle(
+                            color: Colors.orange.shade900,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            if (isWeb) const SizedBox(height: 16),
+
             // Model Status
             Card(
               child: Padding(
@@ -409,12 +476,36 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Model Status',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      children: [
+                        const Text(
+                          'Model Status',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        if (isWeb) ...[
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: const Text(
+                              'Web',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                     const SizedBox(height: 8),
                     Text(status, style: const TextStyle(fontSize: 16)),
@@ -437,42 +528,67 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
                           'Test with Images (Local):',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
+                        if (isWeb)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4, bottom: 8),
+                            child: Text(
+                              '⚠️ Android only',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey.shade600,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ),
                         const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton.icon(
-                                onPressed: isLoading
-                                    ? null
-                                    : () => _selectImageInput(
-                                        'assets/ml_test/img_0.png',
-                                        'Test Image 1',
-                                      ),
-                                icon: const Icon(Icons.image),
-                                label: const Text('Image 1'),
+                        Opacity(
+                          opacity: isWeb ? 0.5 : 1.0,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: (isLoading || isWeb)
+                                      ? null
+                                      : () => _selectImageInput(
+                                          'assets/ml_test/img_0.png',
+                                          'Test Image 1',
+                                        ),
+                                  icon: const Icon(Icons.image),
+                                  label: const Text('Image 1'),
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: ElevatedButton.icon(
-                                onPressed: isLoading
-                                    ? null
-                                    : () => _selectImageInput(
-                                        'assets/ml_test/img_1.png',
-                                        'Test Image 2',
-                                      ),
-                                icon: const Icon(Icons.image),
-                                label: const Text('Image 2'),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: (isLoading || isWeb)
+                                      ? null
+                                      : () => _selectImageInput(
+                                          'assets/ml_test/img_1.png',
+                                          'Test Image 2',
+                                        ),
+                                  icon: const Icon(Icons.image),
+                                  label: const Text('Image 2'),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 12),
                         const Text(
                           'Test with Firebase Functions:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4, bottom: 8),
+                          child: Text(
+                            '✓ Available on all platforms',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.green.shade700,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
                         Row(
                           children: [
                             Expanded(
@@ -515,39 +631,60 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
                           'Test with Manual Features:',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
+                        if (isWeb)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4, bottom: 8),
+                            child: Text(
+                              '⚠️ Android only',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey.shade600,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ),
                         const SizedBox(height: 8),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () => _selectManualInput([
-                                0.5,
-                                0.3,
-                                0.2,
-                                0.8,
-                              ], 'Sample 1'),
-                              child: const Text('Sample 1'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () => _selectManualInput([
-                                0.1,
-                                0.1,
-                                0.0,
-                                0.2,
-                              ], 'Sample 2'),
-                              child: const Text('Sample 2'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () => _selectManualInput([
-                                0.9,
-                                0.7,
-                                0.8,
-                                1.0,
-                              ], 'Sample 3'),
-                              child: const Text('Sample 3'),
-                            ),
-                          ],
+                        Opacity(
+                          opacity: isWeb ? 0.5 : 1.0,
+                          child: Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              ElevatedButton(
+                                onPressed: isWeb
+                                    ? null
+                                    : () => _selectManualInput([
+                                        0.5,
+                                        0.3,
+                                        0.2,
+                                        0.8,
+                                      ], 'Sample 1'),
+                                child: const Text('Sample 1'),
+                              ),
+                              ElevatedButton(
+                                onPressed: isWeb
+                                    ? null
+                                    : () => _selectManualInput([
+                                        0.1,
+                                        0.1,
+                                        0.0,
+                                        0.2,
+                                      ], 'Sample 2'),
+                                child: const Text('Sample 2'),
+                              ),
+                              ElevatedButton(
+                                onPressed: isWeb
+                                    ? null
+                                    : () => _selectManualInput([
+                                        0.9,
+                                        0.7,
+                                        0.8,
+                                        1.0,
+                                      ], 'Sample 3'),
+                                child: const Text('Sample 3'),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     )
@@ -556,6 +693,8 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
                         _buildResultRow('Selected', testName ?? 'Unknown'),
                         if (isFirebaseFunctionTest)
                           _buildResultRow('Method', 'Firebase Functions 🔥'),
+                        if (!isFirebaseFunctionTest && isAndroid)
+                          _buildResultRow('Method', 'Local ONNX (Android) 📱'),
                         if (currentImagePath != null)
                           _buildResultRow('Path', currentImagePath!),
                         if (originalWidth != null && originalHeight != null)
@@ -721,13 +860,13 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
                       ? const SizedBox(
                           width: 16,
                           height: 16,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
+                          child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : const Icon(Icons.cloud_upload),
                   label: Text(
-                    isLoading ? 'Calling Firebase...' : 'Run Firebase Inference',
+                    isLoading
+                        ? 'Calling Firebase...'
+                        : 'Run Firebase Inference',
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
@@ -854,7 +993,8 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
                           ],
                         ],
                       ),
-                action: currentStep == ProcessingStep.hogExtracted &&
+                action:
+                    currentStep == ProcessingStep.hogExtracted &&
                         !isFirebaseFunctionTest
                     ? ElevatedButton.icon(
                         onPressed: isLoading ? null : _runClassification,
