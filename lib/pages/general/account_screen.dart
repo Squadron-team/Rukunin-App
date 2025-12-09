@@ -413,8 +413,8 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   SettingItem(
                     icon: Icons.auto_awesome,
-                    title: 'Load ONNX ML model',
-                    onTap: () => context.push('/onnx-test'),
+                    title: 'ML Inference (testing feature)',
+                    onTap: () => context.push('/ml-inference-test'),
                   ),
                   const SizedBox(height: 24),
                   SizedBox(

@@ -1,7 +1,9 @@
 import 'dart:ui';
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:rukunin/services/ml/data_preprocessor.dart';
 import 'package:rukunin/services/ml/hog_isolate.dart';
 import 'package:rukunin/services/ml/onnx_service.dart';
@@ -15,14 +17,14 @@ enum ProcessingStep {
   classified,
 }
 
-class OnnxTestPage extends StatefulWidget {
-  const OnnxTestPage({super.key});
+class MLInferenceTestScreen extends StatefulWidget {
+  const MLInferenceTestScreen({super.key});
 
   @override
-  State<OnnxTestPage> createState() => _OnnxTestPageState();
+  State<MLInferenceTestScreen> createState() => _MLInferenceTestScreenState();
 }
 
-class _OnnxTestPageState extends State<OnnxTestPage> {
+class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
   String status = 'Not loaded';
   bool isLoading = false;
   ProcessingStep currentStep = ProcessingStep.idle;
@@ -32,6 +34,7 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
   Uint8List? currentImageBytes;
   List<double>? manualFeatures;
   String? testName;
+  bool isFirebaseFunctionTest = false;
 
   // Step 1: Preprocessing
   final _dataPreprocessor = DataPreprocessor();
@@ -89,6 +92,7 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
       currentImageBytes = null;
       manualFeatures = null;
       testName = null;
+      isFirebaseFunctionTest = false;
       preprocessedImage = null;
       imgPreprocessedPng = null;
       originalWidth = null;
@@ -146,6 +150,97 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
       hogFeaturesLength = features.length;
       currentStep = ProcessingStep.hogExtracted;
     });
+  }
+
+  // New method: Test with Firebase Functions
+  Future<void> _testWithFirebaseFunctions(String assetPath, String name) async {
+    setState(() {
+      isLoading = true;
+      status = 'Loading image for Firebase test...';
+    });
+
+    try {
+      final ByteData data = await rootBundle.load(assetPath);
+      final Uint8List bytes = data.buffer.asUint8List();
+
+      final codec = await instantiateImageCodec(bytes);
+      final frame = await codec.getNextFrame();
+      final image = frame.image;
+
+      if (!mounted) return;
+
+      setState(() {
+        currentImagePath = assetPath;
+        currentImageBytes = bytes;
+        testName = name;
+        originalWidth = image.width;
+        originalHeight = image.height;
+        isFirebaseFunctionTest = true;
+        currentStep = ProcessingStep.inputSelected;
+        status = 'Image loaded. Ready to call Firebase Functions.';
+        isLoading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        status = 'Error loading image: $e';
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _runFirebaseFunctionInference() async {
+    if (currentImageBytes == null) return;
+
+    setState(() {
+      isLoading = true;
+      status = 'Calling Firebase Functions...';
+    });
+
+    try {
+      final functions = FirebaseFunctions.instance;
+      final callable = functions.httpsCallable('classify_image');
+
+      final imgBase64 = base64Encode(currentImageBytes!);
+
+      final result = await callable.call({
+        'image': imgBase64,
+      });
+
+      final data = result.data;
+
+      if (!mounted) return;
+
+      if (data['success'] == true) {
+        final prediction = data['prediction'];
+        final confidence = data['confidence'];
+        final probabilities = List<double>.from(
+          (data['probabilities'] as List).map((e) => (e as num).toDouble()),
+        );
+
+        setState(() {
+          predictedClass = prediction;
+          this.confidence = confidence;
+          allProbabilities = probabilities;
+          currentStep = ProcessingStep.classified;
+          status = 'Firebase inference completed successfully!';
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          status = 'Firebase error: ${data['error'] ?? 'Unknown error'}';
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        status = 'Error calling Firebase Functions: $e';
+        isLoading = false;
+      });
+    }
   }
 
   // Step 2: Preprocess image
@@ -339,7 +434,7 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
                         const Text('Choose an input method to start:'),
                         const SizedBox(height: 12),
                         const Text(
-                          'Test with Images:',
+                          'Test with Images (Local):',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8),
@@ -368,6 +463,49 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
                                       ),
                                 icon: const Icon(Icons.image),
                                 label: const Text('Image 2'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Test with Firebase Functions:',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                onPressed: isLoading
+                                    ? null
+                                    : () => _testWithFirebaseFunctions(
+                                        'assets/ml_test/img_0.png',
+                                        'Firebase Test 1',
+                                      ),
+                                icon: const Icon(Icons.cloud),
+                                label: const Text('Firebase 1'),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.orange.shade100,
+                                  foregroundColor: Colors.orange.shade900,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                onPressed: isLoading
+                                    ? null
+                                    : () => _testWithFirebaseFunctions(
+                                        'assets/ml_test/img_1.png',
+                                        'Firebase Test 2',
+                                      ),
+                                icon: const Icon(Icons.cloud),
+                                label: const Text('Firebase 2'),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.orange.shade100,
+                                  foregroundColor: Colors.orange.shade900,
+                                ),
                               ),
                             ),
                           ],
@@ -416,6 +554,8 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
                   : Column(
                       children: [
                         _buildResultRow('Selected', testName ?? 'Unknown'),
+                        if (isFirebaseFunctionTest)
+                          _buildResultRow('Method', 'Firebase Functions 🔥'),
                         if (currentImagePath != null)
                           _buildResultRow('Path', currentImagePath!),
                         if (originalWidth != null && originalHeight != null)
@@ -449,9 +589,10 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
             ),
             const SizedBox(height: 16),
 
-            // Step 2: Preprocessing
+            // Step 2: Preprocessing (skip for Firebase)
             if (currentStep.index >= ProcessingStep.inputSelected.index &&
-                manualFeatures == null)
+                manualFeatures == null &&
+                !isFirebaseFunctionTest)
               _buildStepCard(
                 'Step 2: Preprocess Image',
                 currentStep == ProcessingStep.inputSelected
@@ -500,12 +641,14 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
                     : null,
               ),
             if (currentStep.index >= ProcessingStep.inputSelected.index &&
-                manualFeatures == null)
+                manualFeatures == null &&
+                !isFirebaseFunctionTest)
               const SizedBox(height: 16),
 
-            // Step 3: HOG Extraction
-            if (currentStep.index >= ProcessingStep.preprocessed.index ||
-                manualFeatures != null)
+            // Step 3: HOG Extraction (skip for Firebase)
+            if ((currentStep.index >= ProcessingStep.preprocessed.index ||
+                    manualFeatures != null) &&
+                !isFirebaseFunctionTest)
               _buildStepCard(
                 'Step 3: Extract HOG Features',
                 currentStep == ProcessingStep.preprocessed
@@ -559,14 +702,51 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
                       )
                     : null,
               ),
-            if (currentStep.index >= ProcessingStep.preprocessed.index ||
-                manualFeatures != null)
+            if ((currentStep.index >= ProcessingStep.preprocessed.index ||
+                    manualFeatures != null) &&
+                !isFirebaseFunctionTest)
               const SizedBox(height: 16),
 
-            // Step 4: Classification
-            if (currentStep.index >= ProcessingStep.hogExtracted.index)
+            // Firebase Functions Inference Step
+            if (isFirebaseFunctionTest &&
+                currentStep == ProcessingStep.inputSelected)
               _buildStepCard(
-                'Step 4: ML Classification',
+                'Step 2: Firebase Functions Inference',
+                const Text(
+                  'Send image to Firebase Functions for cloud-based ML inference.',
+                ),
+                action: ElevatedButton.icon(
+                  onPressed: isLoading ? null : _runFirebaseFunctionInference,
+                  icon: isLoading
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Icon(Icons.cloud_upload),
+                  label: Text(
+                    isLoading ? 'Calling Firebase...' : 'Run Firebase Inference',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ),
+            if (isFirebaseFunctionTest &&
+                currentStep == ProcessingStep.inputSelected)
+              const SizedBox(height: 16),
+
+            // Step 4: Classification (for both local and Firebase)
+            if (currentStep.index >= ProcessingStep.hogExtracted.index ||
+                (isFirebaseFunctionTest &&
+                    currentStep == ProcessingStep.classified))
+              _buildStepCard(
+                isFirebaseFunctionTest
+                    ? 'Step 3: Classification Results'
+                    : 'Step 4: ML Classification',
                 currentStep == ProcessingStep.hogExtracted
                     ? const Text(
                         'Run logistic regression model to classify the image.',
@@ -574,6 +754,8 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
                     : Column(
                         children: [
                           _buildResultRow('Status', 'Completed ✓'),
+                          if (isFirebaseFunctionTest)
+                            _buildResultRow('Source', 'Firebase Functions 🔥'),
                           const SizedBox(height: 8),
                           Container(
                             padding: const EdgeInsets.all(12),
@@ -672,7 +854,8 @@ class _OnnxTestPageState extends State<OnnxTestPage> {
                           ],
                         ],
                       ),
-                action: currentStep == ProcessingStep.hogExtracted
+                action: currentStep == ProcessingStep.hogExtracted &&
+                        !isFirebaseFunctionTest
                     ? ElevatedButton.icon(
                         onPressed: isLoading ? null : _runClassification,
                         icon: isLoading
