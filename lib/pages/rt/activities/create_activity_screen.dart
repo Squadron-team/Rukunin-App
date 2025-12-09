@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/rt/events/models/event.dart';
+import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/pages/rt/events/widgets/event_form.dart';
+import 'package:rukunin/pages/rt/activities/widgets/activity_form.dart';
 
-class EditEventScreen extends StatelessWidget {
-  final Event event;
-  const EditEventScreen({required this.event, super.key});
+class CreateActivityScreen extends StatefulWidget {
+  final Activity? initialActivity;
+
+  const CreateActivityScreen({this.initialActivity, super.key});
+
+  @override
+  State<CreateActivityScreen> createState() => _CreateActivityScreenState();
+}
+
+class _CreateActivityScreenState extends State<CreateActivityScreen> {
+  bool get isEdit => widget.initialActivity != null;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +32,9 @@ class EditEventScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            const Text(
-              'Edit Kegiatan RT',
-              style: TextStyle(
+            Text(
+              isEdit ? 'Edit Kegiatan RT' : 'Buat Kegiatan RT',
+              style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w700,
                 fontSize: 20,
@@ -47,20 +55,20 @@ class EditEventScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Ubah detail kegiatan',
+                  'Lengkapi detail kegiatan',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Perbarui informasi kegiatan sesuai kebutuhan',
+                  'Isi form di bawah untuk membuat kegiatan RT',
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 const SizedBox(height: 16),
 
                 EventForm(
-                  initialEvent: event,
-                  submitLabel: 'Simpan Perubahan',
-                  onSubmit: (ev) => Navigator.pop(context, ev),
+                  initialActivity: widget.initialActivity,
+                  submitLabel: isEdit ? 'Simpan' : 'Simpan',
+                  onSubmit: (activity) => Navigator.pop(context, activity),
                 ),
                 const SizedBox(height: 24),
               ],

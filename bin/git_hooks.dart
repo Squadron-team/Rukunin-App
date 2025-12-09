@@ -24,20 +24,41 @@ Future<bool> commitMsg() async {
 }
 
 Future<bool> preCommit() async {
-  print('Running dart fix...');
-  Process.runSync('dart', ['fix', '--apply']);
+  // Get staged files
+  final staged = Process.runSync('git', [
+    'diff',
+    '--cached',
+    '--name-only',
+    '--diff-filter=ACM',
+  ]);
 
-  print('Running dart format...');
-  Process.runSync('dart', ['format', '.']);
+  final files = staged.stdout
+      .toString()
+      .trim()
+      .split('\n')
+      .where((f) => f.endsWith('.dart'))
+      .toList();
 
-  // Check if formatting changed anything
-  final result = Process.runSync('git', ['diff', '--quiet']);
+  if (files.isEmpty) {
+    print('No Dart files staged.');
+    return true;
+  }
+
+  print('Running dart fix on staged files...');
+  for (final f in files) {
+    Process.runSync('dart', ['fix', '--apply', f]);
+  }
+
+  print('Running dart format on staged files...');
+  Process.runSync('dart', ['format', ...files]);
+
+  // Check if changes occurred in staged files
+  final result = Process.runSync('git', ['diff', '--quiet', '--', ...files]);
 
   if (result.exitCode != 0) {
-    print('\nCode formatted. Please commit again.');
+    print('\nFormatted files changed. Please stage them again.');
     return false;
   }
 
-  print('Code clean.');
   return true;
 }

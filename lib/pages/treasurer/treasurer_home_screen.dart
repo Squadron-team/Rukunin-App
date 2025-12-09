@@ -3,29 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 import 'package:rukunin/widgets/welcome_role_card.dart';
+import 'package:rukunin/widgets/menu_tabs_section.dart';
+import 'package:rukunin/models/menu_item.dart';
 
-class TreasurerHomeScreen extends StatefulWidget {
+class TreasurerHomeScreen extends StatelessWidget {
   const TreasurerHomeScreen({super.key});
-
-  @override
-  State<TreasurerHomeScreen> createState() => _TreasurerHomeScreenState();
-}
-
-class _TreasurerHomeScreenState extends State<TreasurerHomeScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +31,7 @@ class _TreasurerHomeScreenState extends State<TreasurerHomeScreen>
               ),
             ),
             const SizedBox(height: 24),
-            _divisionsSection(context),
+            MenuTabsSection(tabs: _getMenuTabs(context)),
             const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
@@ -59,6 +41,81 @@ class _TreasurerHomeScreenState extends State<TreasurerHomeScreen>
         ),
       ),
     );
+  }
+
+  List<TabData> _getMenuTabs(BuildContext context) {
+    return [
+      TabData(
+        label: 'Iuran',
+        icon: Icons.payments_rounded,
+        hasNotification: true,
+        items: [
+          MenuItem(
+            label: 'Data Iuran',
+            icon: Icons.payments_rounded,
+            onTap: () => context.push('/treasurer/dues'),
+            badge: '2',
+          ),
+          MenuItem(
+            label: 'Buat Kwitansi',
+            icon: Icons.receipt_rounded,
+            onTap: () => context.push('/treasurer/create-receipt'),
+          ),
+          MenuItem(
+            label: 'Riwayat Iuran',
+            icon: Icons.history_rounded,
+            onTap: () => context.push('/treasurer/dues-history'),
+          ),
+        ],
+      ),
+      TabData(
+        label: 'Transaksi',
+        icon: Icons.receipt_long_rounded,
+        items: [
+          MenuItem(
+            label: 'Riwayat Transaksi',
+            icon: Icons.receipt_long_rounded,
+            onTap: () => context.push('/treasurer/transaction/history'),
+          ),
+          MenuItem(
+            label: 'Pemasukan',
+            icon: Icons.arrow_downward_rounded,
+            onTap: () => context.push('/treasurer/incomes'),
+          ),
+          MenuItem(
+            label: 'Pengeluaran',
+            icon: Icons.arrow_upward_rounded,
+            onTap: () => context.push('/treasurer/expenses'),
+          ),
+          MenuItem(
+            label: 'Mutasi Kas',
+            icon: Icons.swap_horiz_rounded,
+            onTap: () => context.push('/treasurer/cash-mutation'),
+          ),
+        ],
+      ),
+      TabData(
+        label: 'Laporan',
+        icon: Icons.analytics_rounded,
+        items: [
+          MenuItem(
+            label: 'Ringkasan Bulanan',
+            icon: Icons.summarize_rounded,
+            onTap: () => context.push('/treasurer/monthly-summary'),
+          ),
+          MenuItem(
+            label: 'Laporan Keuangan',
+            icon: Icons.assessment_rounded,
+            onTap: () => context.push('/treasurer/financial-reports'),
+          ),
+          MenuItem(
+            label: 'Analisis & Grafik',
+            icon: Icons.analytics_rounded,
+            onTap: () => context.push('/treasurer/analisis'),
+          ),
+        ],
+      ),
+    ];
   }
 
   Widget _compactStats(BuildContext context) {
@@ -139,331 +196,6 @@ class _TreasurerHomeScreenState extends State<TreasurerHomeScreen>
             overflow: TextOverflow.ellipsis,
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _divisionsSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            'Menu Bendahara',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: TabBar(
-            controller: _tabController,
-            isScrollable: true,
-            tabAlignment: TabAlignment.start,
-            indicator: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            labelColor: AppColors.primary,
-            unselectedLabelColor: AppColors.textSecondary,
-            labelStyle: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-            ),
-            unselectedLabelStyle: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-            ),
-            indicatorSize: TabBarIndicatorSize.tab,
-            dividerColor: Colors.transparent,
-            padding: const EdgeInsets.all(4),
-            labelPadding: const EdgeInsets.symmetric(horizontal: 4),
-            tabs: [
-              _buildTab('Iuran', Icons.payments_rounded, hasNotification: true),
-              _buildTab(
-                'Transaksi',
-                Icons.receipt_long_rounded,
-                hasNotification: false,
-              ),
-              _buildTab(
-                'Laporan',
-                Icons.analytics_rounded,
-                hasNotification: false,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        AnimatedBuilder(
-          animation: _tabController,
-          builder: (context, child) {
-            return _buildTabContent(
-              context: context,
-              items: _getItemsForTab(_tabController.index),
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  List<_DivisionItem> _getItemsForTab(int index) {
-    switch (index) {
-      case 0: // Iuran
-        return [
-          _DivisionItem(
-            'Data Iuran',
-            Icons.payments_rounded,
-            () => context.push('/treasurer/dues'),
-            badge: '2',
-          ),
-          _DivisionItem(
-            'Buat Kwitansi',
-            Icons.receipt_rounded,
-            () => context.push('/treasurer/create-receipt'),
-          ),
-          _DivisionItem(
-            'Riwayat Iuran',
-            Icons.history_rounded,
-            () => context.push('/treasurer/dues-history'),
-          ),
-        ];
-      case 1: // Transaksi
-        return [
-          _DivisionItem(
-            'Riwayat Transaksi',
-            Icons.receipt_long_rounded,
-            () => context.push('/treasurer/transaction/history'),
-          ),
-          _DivisionItem(
-            'Pemasukan',
-            Icons.arrow_downward_rounded,
-            () => context.push('/treasurer/incomes'),
-          ),
-          _DivisionItem(
-            'Pengeluaran',
-            Icons.arrow_upward_rounded,
-            () => context.push('/treasurer/expenses'),
-          ),
-          _DivisionItem(
-            'Mutasi Kas',
-            Icons.swap_horiz_rounded,
-            () => context.push('/treasurer/cash-mutation'),
-          ),
-        ];
-      case 2: // Laporan
-        return [
-          _DivisionItem(
-            'Ringkasan Bulanan',
-            Icons.summarize_rounded,
-            () => context.push('/treasurer/monthly-summary'),
-          ),
-          _DivisionItem(
-            'Laporan Keuangan',
-            Icons.assessment_rounded,
-            () => context.push('/treasurer/financial-reports'),
-          ),
-          _DivisionItem(
-            'Analisis & Grafik',
-            Icons.analytics_rounded,
-            () => context.push('/treasurer/analisis'),
-          ),
-        ];
-      default:
-        return [];
-    }
-  }
-
-  Widget _buildTab(
-    String label,
-    IconData icon, {
-    bool hasNotification = false,
-  }) {
-    return Tab(
-      height: 44,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 18),
-            const SizedBox(width: 6),
-            Text(label),
-            if (hasNotification) ...[
-              const SizedBox(width: 6),
-              Container(
-                width: 8,
-                height: 8,
-                decoration: const BoxDecoration(
-                  color: AppColors.error,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTabContent({
-    required BuildContext context,
-    required List<_DivisionItem> items,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: items
-            .map(
-              (item) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: _menuItem(
-                  context: context,
-                  label: item.label,
-                  icon: item.icon,
-                  onTap: item.onTap,
-                  badge: item.badge,
-                ),
-              ),
-            )
-            .toList(),
-      ),
-    );
-  }
-
-  Widget _menuItem({
-    required BuildContext context,
-    required String label,
-    required IconData icon,
-    required VoidCallback onTap,
-    String? badge,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [AppColors.primary, AppColors.primary.withOpacity(0.85)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withOpacity(0.4),
-                blurRadius: 16,
-                offset: const Offset(0, 6),
-                spreadRadius: 0,
-              ),
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.95),
-                  borderRadius: BorderRadius.circular(14),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Icon(icon, color: AppColors.primary, size: 28),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                        letterSpacing: -0.3,
-                        height: 1.2,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Ketuk untuk membuka',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.85),
-                        height: 1.2,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (badge != null) ...[
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 11,
-                    vertical: 7,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 8,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Text(
-                    badge,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.error,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-              ],
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Icon(
-                  Icons.arrow_forward_rounded,
-                  size: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -587,13 +319,4 @@ class _TreasurerHomeScreenState extends State<TreasurerHomeScreen>
       ),
     );
   }
-}
-
-class _DivisionItem {
-  final String label;
-  final IconData icon;
-  final VoidCallback onTap;
-  final String? badge;
-
-  _DivisionItem(this.label, this.icon, this.onTap, {this.badge});
 }

@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/modules/community/widgets/components/payment_item_card.dart';
+import 'package:rukunin/modules/community/services/dues_service.dart';
+import 'package:rukunin/modules/community/models/dues_payment.dart';
 
 class PaymentHistorySection extends StatefulWidget {
-  const PaymentHistorySection({super.key});
+  const PaymentHistorySection({
+    required this.userId,
+    this.onPaymentSubmitted,
+    super.key,
+  });
+
+  final String userId;
+  final VoidCallback? onPaymentSubmitted;
 
   @override
   State<PaymentHistorySection> createState() => _PaymentHistorySectionState();
@@ -12,6 +21,7 @@ class PaymentHistorySection extends StatefulWidget {
 class _PaymentHistorySectionState extends State<PaymentHistorySection>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  final DuesService _duesService = DuesService();
   String _selectedFilter = 'All';
 
   @override
@@ -97,38 +107,84 @@ class _PaymentHistorySectionState extends State<PaymentHistorySection>
   }
 
   Widget _buildPaymentHistory() {
-    List<Map<String, dynamic>> payments = [
-      {'period': 'November 2025', 'amount': 'Rp 50.000', 'status': 'Unpaid'},
-      {
-        'period': 'Oktober 2025',
-        'amount': 'Rp 50.000',
-        'status': 'Paid',
-        'date': '28 Okt 2025',
-      },
-      {
-        'period': 'September 2025',
-        'amount': 'Rp 50.000',
-        'status': 'Paid',
-        'date': '25 Sep 2025',
-      },
-      {
-        'period': 'Agustus 2025',
-        'amount': 'Rp 50.000',
-        'status': 'Paid',
-        'date': '30 Agu 2025',
-      },
-      {'period': 'Juli 2025', 'amount': 'Rp 50.000', 'status': 'Unpaid'},
-    ];
+    return StreamBuilder<List<DuesPayment>>(
+      stream: _duesService.getUserPayments(widget.userId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(24.0),
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
 
-    return Column(
-      children: payments.map((payment) {
-        return PaymentItemCard(
-          period: payment['period'],
-          amount: payment['amount'],
-          status: payment['status'],
-          date: payment['date'],
+        if (snapshot.hasError) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Text('Error: ${snapshot.error}'),
+            ),
+          );
+        }
+
+        final allPayments = snapshot.data ?? [];
+
+        // Filter payments based on selected filter
+        final filteredPayments = _selectedFilter == 'All'
+            ? allPayments
+            : _selectedFilter == 'Paid'
+            ? allPayments
+                  .where(
+                    (p) =>
+                        p.status == PaymentStatus.verified ||
+                        p.status == PaymentStatus.autoVerified,
+                  )
+                  .toList()
+            : allPayments
+                  .where(
+                    (p) =>
+                        p.status == PaymentStatus.pending ||
+                        p.status == PaymentStatus.rejected,
+                  )
+                  .toList();
+
+        if (filteredPayments.isEmpty) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Text(
+                'Belum ada riwayat pembayaran',
+                style: TextStyle(color: Colors.grey[600], fontSize: 14),
+              ),
+            ),
+          );
+        }
+
+        return Column(
+          children: filteredPayments.map((payment) {
+            return PaymentItemCard(
+              period: '${payment.month} ${payment.year}',
+              amount: 'Rp ${payment.amount.toStringAsFixed(0)}',
+              status: _getStatusString(payment.status),
+              date:
+                  '${payment.createdAt.day}/${payment.createdAt.month}/${payment.createdAt.year}',
+            );
+          }).toList(),
         );
-      }).toList(),
+      },
     );
+  }
+
+  String _getStatusString(PaymentStatus status) {
+    switch (status) {
+      case PaymentStatus.verified:
+      case PaymentStatus.autoVerified:
+        return 'Paid';
+      case PaymentStatus.pending:
+        return 'Pending';
+      case PaymentStatus.rejected:
+        return 'Rejected';
+    }
   }
 }

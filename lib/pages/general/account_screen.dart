@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rukunin/services/user_cache_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/widgets/profile_header.dart';
+import 'package:rukunin/widgets/form_field_with_label.dart';
+import 'package:rukunin/widgets/setting_item.dart';
+import 'package:rukunin/widgets/dialogs/logout_dialog.dart';
+import 'package:rukunin/widgets/dialogs/about_app_dialog.dart';
+import 'package:rukunin/services/account_service.dart';
+import 'package:rukunin/utils/role_helper.dart';
+import 'package:rukunin/services/biometric_auth_service.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, debugPrint;
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -16,7 +23,8 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final _auth = FirebaseAuth.instance;
-  final _firestore = FirebaseFirestore.instance;
+  final _accountService = AccountService();
+  final _biometricService = BiometricAuthService();
 
   final _nameController = TextEditingController();
   final _nicknameController = TextEditingController();
@@ -30,258 +38,213 @@ class _AccountScreenState extends State<AccountScreen> {
   String _email = '';
   DateTime? _selectedBirthdate;
 
+  bool _isBiometricEnabled = false;
+  bool _isBiometricAvailable = false;
+
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _loadBiometricSettings();
   }
 
   Future<void> _loadUserData() async {
     try {
-      // Try loading from cache first
-      final cachedData = await UserCacheService().getUserData();
+      final data = await _accountService.loadUserData();
 
-      if (cachedData != null) {
+      if (data != null && mounted) {
         setState(() {
-          _displayName = cachedData['name'] ?? cachedData['displayName'] ?? '';
-          _email = cachedData['email'] ?? '';
-          _userRole = cachedData['role'] ?? 'resident';
-          _nameController.text = cachedData['name'] ?? '';
-          _nicknameController.text = cachedData['nickname'] ?? '';
-          _selectedGender = cachedData['gender'] ?? 'Laki-laki';
-
-          if (cachedData['birthdate'] != null) {
-            if (cachedData['birthdate'] is String) {
-              try {
-                _selectedBirthdate = DateTime.parse(cachedData['birthdate']);
-                _birthdateController.text = DateFormat(
-                  'dd MMMM yyyy',
-                  'id_ID',
-                ).format(_selectedBirthdate!);
-              } catch (e) {
-                _birthdateController.text = cachedData['birthdate'];
-              }
-            }
-          }
-
-          _isLoading = false;
-        });
-        return; // Return early if cache exists
-      }
-
-      // If no cache, fetch from Firebase
-      final user = _auth.currentUser;
-      if (user == null) return;
-
-      final doc = await _firestore.collection('users').doc(user.uid).get();
-
-      if (doc.exists) {
-        final data = doc.data()!;
-
-        // Add auth data
-        data['email'] = user.email ?? data['email'];
-        data['displayName'] = user.displayName ?? data['name'];
-        data['uid'] = user.uid;
-        data['photoURL'] = user.photoURL;
-
-        // Convert Timestamp to String for caching
-        if (data['birthdate'] is Timestamp) {
-          data['birthdate'] = (data['birthdate'] as Timestamp)
-              .toDate()
-              .toIso8601String();
-        }
-        if (data['createdAt'] is Timestamp) {
-          data['createdAt'] = (data['createdAt'] as Timestamp)
-              .toDate()
-              .toIso8601String();
-        }
-        if (data['updatedAt'] is Timestamp) {
-          data['updatedAt'] = (data['updatedAt'] as Timestamp)
-              .toDate()
-              .toIso8601String();
-        }
-
-        // Cache the data
-        await UserCacheService().saveUserData(data);
-
-        setState(() {
-          _displayName = data['name'] ?? user.displayName ?? '';
-          _email = user.email ?? '';
+          _displayName = data['name'] ?? data['displayName'] ?? '';
+          _email = data['email'] ?? '';
           _userRole = data['role'] ?? 'resident';
           _nameController.text = data['name'] ?? '';
           _nicknameController.text = data['nickname'] ?? '';
           _selectedGender = data['gender'] ?? 'Laki-laki';
 
           if (data['birthdate'] != null) {
-            try {
-              _selectedBirthdate = DateTime.parse(data['birthdate']);
-              _birthdateController.text = DateFormat(
-                'dd MMMM yyyy',
-                'id_ID',
-              ).format(_selectedBirthdate!);
-            } catch (e) {
-              _birthdateController.text = data['birthdate'];
-            }
+            _parseBirthdate(data['birthdate']);
           }
 
           _isLoading = false;
         });
       }
     } catch (e) {
-      debugPrint('Error loading user data: $e');
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => _isLoading = false);
+      _showErrorSnackBar('Gagal memuat data: $e');
+    }
+  }
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Gagal memuat data: $e'),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+  void _parseBirthdate(dynamic birthdate) {
+    try {
+      if (birthdate is String) {
+        _selectedBirthdate = DateTime.parse(birthdate);
+        _birthdateController.text = DateFormat(
+          'dd MMMM yyyy',
+          'id_ID',
+        ).format(_selectedBirthdate!);
       }
+    } catch (e) {
+      _birthdateController.text = birthdate.toString();
     }
   }
 
   Future<void> _saveUserData() async {
     if (_nameController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Nama lengkap tidak boleh kosong'),
-          backgroundColor: Colors.orange,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      );
+      _showWarningSnackBar('Nama lengkap tidak boleh kosong');
       return;
     }
 
-    setState(() {
-      _isSaving = true;
-    });
+    setState(() => _isSaving = true);
 
     try {
-      final user = _auth.currentUser;
-      if (user == null) return;
-
-      // Update display name in Firebase Auth
-      await user.updateDisplayName(_nameController.text.trim());
-
-      // Prepare update data
-      final updateData = {
-        'name': _nameController.text.trim(),
-        'nickname': _nicknameController.text.trim(),
-        'gender': _selectedGender,
-        'birthdate': _selectedBirthdate != null
-            ? Timestamp.fromDate(_selectedBirthdate!)
-            : null,
-        'updatedAt': FieldValue.serverTimestamp(),
-      };
-
-      // Update user data in Firestore
-      await _firestore.collection('users').doc(user.uid).update(updateData);
-
-      // Update cache
-      final cachedData = await UserCacheService().getUserData() ?? {};
-      cachedData['name'] = _nameController.text.trim();
-      cachedData['nickname'] = _nicknameController.text.trim();
-      cachedData['gender'] = _selectedGender;
-      cachedData['birthdate'] = _selectedBirthdate?.toIso8601String();
-      cachedData['updatedAt'] = DateTime.now().toIso8601String();
-
-      await UserCacheService().saveUserData(cachedData);
+      await _accountService.saveUserData(
+        name: _nameController.text.trim(),
+        nickname: _nicknameController.text.trim(),
+        gender: _selectedGender,
+        birthdate: _selectedBirthdate,
+      );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Profil berhasil diperbarui'),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        _showSuccessSnackBar('Profil berhasil diperbarui');
+        await _loadUserData();
       }
-
-      // Reload user data
-      await _loadUserData();
     } catch (e) {
-      debugPrint('Error saving user data: $e');
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Gagal menyimpan data: $e'),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
-      }
+      _showErrorSnackBar('Gagal menyimpan data: $e');
     } finally {
-      if (mounted) {
-        setState(() {
-          _isSaving = false;
-        });
-      }
+      if (mounted) setState(() => _isSaving = false);
     }
   }
 
   Future<void> _logout() async {
     try {
-      // Clear cached user data
-      await UserCacheService().clearUserData();
+      await _accountService.logout();
+      if (mounted) context.go('/sign-in');
+    } catch (e) {
+      _showErrorSnackBar('Gagal keluar: $e');
+    }
+  }
 
-      // Sign out from Firebase
-      await _auth.signOut();
+  Future<void> _selectBirthdate() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedBirthdate ?? DateTime(2000, 1, 1),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(primary: AppColors.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      setState(() {
+        _selectedBirthdate = picked;
+        _birthdateController.text = DateFormat(
+          'dd MMMM yyyy',
+          'id_ID',
+        ).format(picked);
+      });
+    }
+  }
+
+  Future<void> _loadBiometricSettings() async {
+    if (kIsWeb) {
+      setState(() {
+        _isBiometricEnabled = false;
+        _isBiometricAvailable = false;
+      });
+      return;
+    }
+
+    final isEnabled = await _biometricService.isBiometricEnabled();
+    final isAvailable = await _biometricService.isBiometricAvailable();
+
+    if (mounted) {
+      setState(() {
+        _isBiometricEnabled = isEnabled;
+        _isBiometricAvailable = isAvailable;
+      });
+    }
+  }
+
+  Future<void> _toggleBiometric(bool value) async {
+    try {
+      if (value) {
+        final isAvailable = await _biometricService.isBiometricAvailable();
+        if (!isAvailable) {
+          _showErrorSnackBar(
+            'Biometrik tidak tersedia. Pastikan perangkat Anda mendukung dan sudah diatur.',
+          );
+          return;
+        }
+
+        final biometrics = await _biometricService.getAvailableBiometrics();
+        if (biometrics.isEmpty) {
+          _showErrorSnackBar(
+            'Tidak ada biometrik yang terdaftar. Silakan atur sidik jari atau face ID di pengaturan perangkat.',
+          );
+          return;
+        }
+
+        final authenticated = await _biometricService.authenticate();
+        if (!authenticated) {
+          // Use the detailed error message from the service
+          final errorMessage =
+              _biometricService.lastErrorMessage ??
+              'Autentikasi dibatalkan atau gagal. Silakan coba lagi.';
+          _showWarningSnackBar(errorMessage);
+          return;
+        }
+      }
+
+      await _biometricService.setBiometricEnabled(value);
 
       if (mounted) {
-        context.go('/sign-in');
+        setState(() {
+          _isBiometricEnabled = value;
+        });
+
+        _showSuccessSnackBar(
+          value
+              ? 'Autentikasi biometrik diaktifkan'
+              : 'Autentikasi biometrik dinonaktifkan',
+        );
       }
     } catch (e) {
-      debugPrint('Error logging out: $e');
-
+      debugPrint('Toggle biometric error: $e');
+      _showErrorSnackBar('Terjadi kesalahan: $e');
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Gagal keluar: $e'),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        setState(() {
+          _isBiometricEnabled = !value;
+        });
       }
     }
   }
 
-  String _getRoleDisplayName(String role) {
-    switch (role) {
-      case 'admin':
-        return 'Admin';
-      case 'community_head':
-        return 'Ketua RT';
-      case 'block_leader':
-        return 'Ketua RW';
-      case 'secretary':
-        return 'Sekretaris';
-      case 'treasurer':
-        return 'Bendahara';
-      case 'resident':
-      default:
-        return 'Warga';
-    }
+  void _showSuccessSnackBar(String message) =>
+      _showSnackBar(message, Colors.green);
+  void _showWarningSnackBar(String message) =>
+      _showSnackBar(message, Colors.orange);
+  void _showErrorSnackBar(String message) => _showSnackBar(message, Colors.red);
+
+  void _showSnackBar(String message, Color backgroundColor) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: backgroundColor,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
+  }
+
+  void _showComingSoonSnackBar(String feature) {
+    _showWarningSnackBar('Fitur $feature akan segera tersedia');
   }
 
   @override
@@ -302,7 +265,6 @@ class _AccountScreenState extends State<AccountScreen> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text(
           'Akun',
@@ -320,203 +282,55 @@ class _AccountScreenState extends State<AccountScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Profile Header
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [AppColors.primary.withOpacity(0.1), Colors.white],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-
-                  // Profile Picture with Edit Button
-                  Stack(
-                    children: [
-                      Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey[300],
-                          border: Border.all(
-                            color: AppColors.primary,
-                            width: 4,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary.withOpacity(0.3),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: ClipOval(
-                          child: _auth.currentUser?.photoURL != null
-                              ? Image.network(
-                                  _auth.currentUser!.photoURL!,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Icon(
-                                      Icons.person,
-                                      size: 60,
-                                      color: Colors.grey[500],
-                                    );
-                                  },
-                                )
-                              : Icon(
-                                  Icons.person,
-                                  size: 60,
-                                  color: Colors.grey[500],
-                                ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: GestureDetector(
-                          onTap: () {
-                            // TODO: Implement change profile picture
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: const Text(
-                                  'Fitur ubah foto profil akan segera tersedia',
-                                ),
-                                backgroundColor: Colors.orange,
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            width: 36,
-                            height: 36,
-                            decoration: BoxDecoration(
-                              color: AppColors.primary,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 3),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: const Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
-                              size: 18,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  // Name
-                  Text(
-                    _displayName.toUpperCase(),
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.black,
-                      letterSpacing: 0.5,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-
-                  const SizedBox(height: 4),
-
-                  // Email
-                  Text(
-                    _email,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  // Role Badge
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: AppColors.primary.withOpacity(0.3),
-                      ),
-                    ),
-                    child: Text(
-                      _getRoleDisplayName(_userRole),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 24),
-                ],
-              ),
+            ProfileHeader(
+              photoUrl: _auth.currentUser?.photoURL,
+              displayName: _displayName,
+              email: _email,
+              roleDisplayName: RoleHelper.getDisplayName(_userRole),
+              onEditPhoto: () => _showComingSoonSnackBar('ubah foto profil'),
             ),
-
-            // Profile Form
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Full Name
-                  _buildLabel('Nama lengkap'),
-                  const SizedBox(height: 8),
-                  _buildTextField(
-                    controller: _nameController,
-                    hintText: 'Masukkan nama lengkap',
+                  FormFieldWithLabel(
+                    label: 'Nama lengkap',
+                    child: CustomTextField(
+                      controller: _nameController,
+                      hintText: 'Masukkan nama lengkap',
+                    ),
                   ),
-
                   const SizedBox(height: 20),
-
-                  // Nickname
-                  _buildLabel('Nama panggilan'),
-                  const SizedBox(height: 8),
-                  _buildTextField(
-                    controller: _nicknameController,
-                    hintText: 'Masukkan nama panggilan',
+                  FormFieldWithLabel(
+                    label: 'Nama panggilan',
+                    child: CustomTextField(
+                      controller: _nicknameController,
+                      hintText: 'Masukkan nama panggilan',
+                    ),
                   ),
-
                   const SizedBox(height: 20),
-
-                  // Gender
-                  _buildLabel('Jenis kelamin'),
-                  const SizedBox(height: 8),
-                  _buildGenderDropdown(),
-
+                  FormFieldWithLabel(
+                    label: 'Jenis kelamin',
+                    child: CustomDropdown(
+                      value: _selectedGender,
+                      items: const ['Laki-laki', 'Perempuan'],
+                      onChanged: (value) {
+                        if (value != null) {
+                          setState(() => _selectedGender = value);
+                        }
+                      },
+                    ),
+                  ),
                   const SizedBox(height: 20),
-
-                  // Birthdate
-                  _buildLabel('Tanggal lahir'),
-                  const SizedBox(height: 8),
-                  _buildDateField(),
-
+                  FormFieldWithLabel(
+                    label: 'Tanggal lahir',
+                    child: CustomDateField(
+                      controller: _birthdateController,
+                      onTap: _selectBirthdate,
+                    ),
+                  ),
                   const SizedBox(height: 32),
-
-                  // Save Button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -545,10 +359,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                     ),
                   ),
-
                   const SizedBox(height: 32),
-
-                  // Settings Section
                   const Text(
                     'Pengaturan',
                     style: TextStyle(
@@ -557,230 +368,59 @@ class _AccountScreenState extends State<AccountScreen> {
                       color: Colors.black,
                     ),
                   ),
-
                   const SizedBox(height: 16),
-
-                  // Settings Options
-                  _buildSettingItem(
+                  SettingItem(
                     icon: Icons.lock_outline,
                     title: 'Ubah Password',
-                    onTap: () {
-                      // TODO: Navigate to change password
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            'Fitur ubah password akan segera tersedia',
-                          ),
-                          backgroundColor: Colors.orange,
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      );
-                    },
+                    onTap: () => _showComingSoonSnackBar('ubah password'),
                   ),
-
-                  _buildSettingItem(
+                  SettingItem(
+                    icon: Icons.fingerprint,
+                    title: 'Autentikasi Biometrik',
+                    subtitle: _isBiometricAvailable
+                        ? 'Gunakan sidik jari atau face ID untuk membuka aplikasi'
+                        : kIsWeb
+                        ? 'Tidak tersedia di platform web'
+                        : 'Tidak tersedia di perangkat ini',
+                    trailing: Switch(
+                      value: _isBiometricEnabled,
+                      onChanged: _isBiometricAvailable
+                          ? _toggleBiometric
+                          : null,
+                      activeThumbColor: AppColors.primary,
+                    ),
+                  ),
+                  SettingItem(
                     icon: Icons.notifications_outlined,
                     title: 'Notifikasi',
-                    onTap: () {
-                      // TODO: Navigate to notification settings
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            'Fitur pengaturan notifikasi akan segera tersedia',
-                          ),
-                          backgroundColor: Colors.orange,
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      );
-                    },
+                    onTap: () =>
+                        _showComingSoonSnackBar('pengaturan notifikasi'),
                   ),
-
-                  _buildSettingItem(
+                  SettingItem(
                     icon: Icons.help_outline,
                     title: 'Bantuan & Dukungan',
-                    onTap: () {
-                      // TODO: Navigate to help
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            'Fitur bantuan akan segera tersedia',
-                          ),
-                          backgroundColor: Colors.orange,
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      );
-                    },
+                    onTap: () => _showComingSoonSnackBar('bantuan'),
                   ),
-
-                  _buildSettingItem(
+                  SettingItem(
+                    icon: Icons.book_outlined,
+                    title: 'Panduan Pengguna',
+                    onTap: () => context.push('/user-guides'),
+                  ),
+                  SettingItem(
                     icon: Icons.info_outline,
                     title: 'Tentang Aplikasi',
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => Dialog(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          elevation: 0,
-                          backgroundColor: Colors.transparent,
-                          child: Container(
-                            padding: const EdgeInsets.all(24),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(24),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 20,
-                                  offset: const Offset(0, 10),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                // App Icon
-                                Container(
-                                  width: 80,
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Icon(
-                                    Icons.info_outline,
-                                    color: AppColors.primary,
-                                    size: 40,
-                                  ),
-                                ),
-                                const SizedBox(height: 20),
-
-                                // App Name
-                                const Text(
-                                  'Rukunin',
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primary,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-
-                                // Version
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[100],
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    'Versi 1.0.0',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.grey[700],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 20),
-
-                                // Description
-                                Container(
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[50],
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Text(
-                                    'Aplikasi manajemen komunitas untuk memudahkan administrasi RT/RW.',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey[700],
-                                      height: 1.5,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                const SizedBox(height: 24),
-
-                                // Close Button
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        colors: [
-                                          AppColors.primary,
-                                          Color(0xFFFFBF3C),
-                                        ],
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,
-                                      ),
-                                      borderRadius: BorderRadius.circular(12),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppColors.primary.withOpacity(
-                                            0.3,
-                                          ),
-                                          blurRadius: 8,
-                                          offset: const Offset(0, 4),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        onTap: () => Navigator.pop(context),
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 14,
-                                          ),
-                                          alignment: Alignment.center,
-                                          child: const Text(
-                                            'Tutup',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                    onTap: () => AboutAppDialog.show(context),
                   ),
-
+                  SettingItem(
+                    icon: Icons.auto_awesome,
+                    title: 'Load ONNX ML model',
+                    onTap: () => context.push('/onnx-test'),
+                  ),
                   const SizedBox(height: 24),
-
-                  // Logout Button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        _showLogoutDialog(context);
-                      },
+                      onPressed: () => LogoutDialog.show(context, _logout),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -806,7 +446,6 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 40),
                 ],
               ),
@@ -814,317 +453,6 @@ class _AccountScreenState extends State<AccountScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildLabel(String label) {
-    return Text(
-      label,
-      style: const TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-        color: Colors.black,
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[300]!),
-      ),
-      child: TextField(
-        controller: controller,
-        style: const TextStyle(fontSize: 16, color: Colors.black),
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[400]),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 14,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGenderDropdown() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[300]!),
-      ),
-      child: DropdownButtonFormField<String>(
-        initialValue: _selectedGender,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        ),
-        style: const TextStyle(fontSize: 16, color: Colors.black),
-        icon: const Icon(Icons.keyboard_arrow_down, color: Colors.black),
-        items: ['Laki-laki', 'Perempuan'].map((String value) {
-          return DropdownMenuItem<String>(value: value, child: Text(value));
-        }).toList(),
-        onChanged: (String? newValue) {
-          if (newValue != null) {
-            setState(() {
-              _selectedGender = newValue;
-            });
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildDateField() {
-    return GestureDetector(
-      onTap: () async {
-        final DateTime? picked = await showDatePicker(
-          context: context,
-          initialDate: _selectedBirthdate ?? DateTime(2000, 1, 1),
-          firstDate: DateTime(1900),
-          lastDate: DateTime.now(),
-          builder: (context, child) {
-            return Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.light(
-                  primary: AppColors.primary,
-                ),
-              ),
-              child: child!,
-            );
-          },
-        );
-
-        if (picked != null) {
-          setState(() {
-            _selectedBirthdate = picked;
-            _birthdateController.text = DateFormat(
-              'dd MMMM yyyy',
-              'id_ID',
-            ).format(picked);
-          });
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey[300]!),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              _birthdateController.text.isEmpty
-                  ? 'Pilih tanggal lahir'
-                  : _birthdateController.text,
-              style: TextStyle(
-                fontSize: 16,
-                color: _birthdateController.text.isEmpty
-                    ? Colors.grey[400]
-                    : Colors.black,
-              ),
-            ),
-            const Icon(Icons.calendar_today, color: Colors.black, size: 20),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSettingItem({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey[200]!),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Icon(icon, color: AppColors.primary, size: 22),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showLogoutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          child: Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Icon
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(
-                    Icons.logout_rounded,
-                    color: Colors.red,
-                    size: 40,
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // Title
-                const Text(
-                  'Keluar dari Aplikasi?',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12),
-
-                // Description
-                Text(
-                  'Apakah Anda yakin ingin keluar dari aplikasi?',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                    height: 1.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-
-                // Buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          side: BorderSide(color: Colors.grey[300]!),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Text(
-                          'Batal',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      flex: 2,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _logout();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.logout_rounded,
-                              color: Colors.white,
-                              size: 18,
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              'Ya, Keluar',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }

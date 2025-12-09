@@ -3,29 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 import 'package:rukunin/widgets/welcome_role_card.dart';
+import 'package:rukunin/widgets/menu_tabs_section.dart';
+import 'package:rukunin/models/menu_item.dart';
 
-class SecretaryHomeScreen extends StatefulWidget {
+class SecretaryHomeScreen extends StatelessWidget {
   const SecretaryHomeScreen({super.key});
-
-  @override
-  State<SecretaryHomeScreen> createState() => _SecretaryHomeScreenState();
-}
-
-class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 4, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +31,7 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
               ),
             ),
             const SizedBox(height: 24),
-            _divisionsSection(context),
+            MenuTabsSection(tabs: _getMenuTabs(context)),
             const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
@@ -61,7 +43,102 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
     );
   }
 
-  // ==================== STAT CARD (SAMA PERSIS) ====================
+  List<TabData> _getMenuTabs(BuildContext context) {
+    return [
+      TabData(
+        label: 'Surat',
+        icon: Icons.description_rounded,
+        hasNotification: true,
+        items: [
+          MenuItem(
+            label: 'Buat Surat',
+            icon: Icons.edit_document,
+            onTap: () => context.push('/secretary/create-letter'),
+          ),
+          MenuItem(
+            label: 'Template Surat',
+            icon: Icons.article_rounded,
+            onTap: () => context.push('/secretary/letter-templates'),
+          ),
+          MenuItem(
+            label: 'Surat Masuk',
+            icon: Icons.mail_rounded,
+            onTap: () => context.push('/secretary/incoming-mail'),
+            badge: '5',
+          ),
+          MenuItem(
+            label: 'Surat Keluar',
+            icon: Icons.send_rounded,
+            onTap: () => context.push('/secretary/outgoing-mail'),
+          ),
+          MenuItem(
+            label: 'Arsip Surat',
+            icon: Icons.archive_rounded,
+            onTap: () => context.push('/secretary/letter-archive'),
+          ),
+        ],
+      ),
+      TabData(
+        label: 'Rapat',
+        icon: Icons.event_note_rounded,
+        items: [
+          MenuItem(
+            label: 'Jadwal Rapat',
+            icon: Icons.calendar_today_rounded,
+            onTap: () => context.push('/secretary/meeting-schedule'),
+          ),
+          MenuItem(
+            label: 'Notulensi',
+            icon: Icons.record_voice_over_rounded,
+            onTap: () => context.push('/secretary/minutes'),
+          ),
+          MenuItem(
+            label: 'Undangan Rapat',
+            icon: Icons.mail_outline_rounded,
+            onTap: () => context.push('/secretary/meeting-invitations'),
+          ),
+        ],
+      ),
+      TabData(
+        label: 'Data Warga',
+        icon: Icons.people_rounded,
+        items: [
+          MenuItem(
+            label: 'Data Warga',
+            icon: Icons.people_rounded,
+            onTap: () => context.push('/secretary/residents-data'),
+          ),
+          MenuItem(
+            label: 'Surat Keterangan',
+            icon: Icons.badge_rounded,
+            onTap: () => context.push('/secretary/certificates'),
+          ),
+        ],
+      ),
+      TabData(
+        label: 'Administrasi',
+        icon: Icons.folder_rounded,
+        items: [
+          MenuItem(
+            label: 'Laporan Bulanan',
+            icon: Icons.assessment_rounded,
+            onTap: () => context.push('/secretary/monthly-reports'),
+          ),
+          MenuItem(
+            label: 'Arsip Dokumen',
+            icon: Icons.folder_shared_rounded,
+            onTap: () => context.push('/secretary/archive'),
+          ),
+          MenuItem(
+            label: 'Riwayat Surat',
+            icon: Icons.history_rounded,
+            onTap: () => context.push('/secretary/letter-history'),
+          ),
+        ],
+      ),
+    ];
+  }
+
   Widget _compactStats(BuildContext context) {
     return Row(
       children: [
@@ -144,349 +221,6 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
     );
   }
 
-  // ==================== MENU UTAMA (DESAIN SAMA PERSIS) ====================
-  Widget _divisionsSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            'Menu Sekretaris',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: TabBar(
-            controller: _tabController,
-            isScrollable: true,
-            tabAlignment: TabAlignment.start,
-            indicator: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            labelColor: AppColors.primary,
-            unselectedLabelColor: AppColors.textSecondary,
-            labelStyle: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-            ),
-            unselectedLabelStyle: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-            ),
-            indicatorSize: TabBarIndicatorSize.tab,
-            dividerColor: Colors.transparent,
-            padding: const EdgeInsets.all(4),
-            labelPadding: const EdgeInsets.symmetric(horizontal: 4),
-            tabs: [
-              _buildTab(
-                'Surat',
-                Icons.description_rounded,
-                hasNotification: true,
-              ),
-              _buildTab('Rapat', Icons.event_note_rounded),
-              _buildTab('Data Warga', Icons.people_rounded),
-              _buildTab('Administrasi', Icons.folder_rounded),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        AnimatedBuilder(
-          animation: _tabController,
-          builder: (context, child) {
-            return _buildTabContent(
-              context: context,
-              items: _getItemsForTab(_tabController.index),
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  List<_DivisionItem> _getItemsForTab(int index) {
-    switch (index) {
-      case 0: // Surat
-        return [
-          _DivisionItem(
-            'Buat Surat',
-            Icons.edit_document,
-            () => context.push('/secretary/create-letter'),
-          ),
-          _DivisionItem(
-            'Template Surat',
-            Icons.article_rounded,
-            () => context.push('/secretary/letter-templates'),
-          ),
-          _DivisionItem(
-            'Surat Masuk',
-            Icons.mail_rounded,
-            () => context.push('/secretary/incoming-mail'),
-            badge: '5',
-          ),
-          _DivisionItem(
-            'Surat Keluar',
-            Icons.send_rounded,
-            () => context.push('/secretary/outgoing-mail'),
-          ),
-          _DivisionItem(
-            'Arsip Surat',
-            Icons.archive_rounded,
-            () => context.push('/secretary/letter-archive'),
-          ),
-        ];
-      case 1: // Rapat
-        return [
-          _DivisionItem(
-            'Jadwal Rapat',
-            Icons.calendar_today_rounded,
-            () => context.push('/secretary/meeting-schedule'),
-          ),
-          _DivisionItem(
-            'Notulensi',
-            Icons.record_voice_over_rounded,
-            () => context.push('/secretary/minutes'),
-          ),
-          _DivisionItem(
-            'Undangan Rapat',
-            Icons.mail_outline_rounded,
-            () => context.push('/secretary/meeting-invitations'),
-          ),
-        ];
-      case 2: // Data Warga
-        return [
-          _DivisionItem(
-            'Data Warga',
-            Icons.people_rounded,
-            () => context.push('/secretary/residents-data'),
-          ),
-          _DivisionItem(
-            'Surat Keterangan',
-            Icons.badge_rounded,
-            () => context.push('/secretary/certificates'),
-          ),
-        ];
-      case 3: // Administrasi (sebelumnya "Permohonan")
-        return [
-          _DivisionItem(
-            'Laporan Bulanan',
-            Icons.assessment_rounded,
-            () => context.push('/secretary/monthly-reports'),
-          ),
-          _DivisionItem(
-            'Arsip Dokumen',
-            Icons.folder_shared_rounded,
-            () => context.push('/secretary/archive'),
-          ),
-          _DivisionItem(
-            'Riwayat Surat',
-            Icons.history_rounded,
-            () => context.push('/secretary/letter-history'),
-          ),
-        ];
-      default:
-        return [];
-    }
-  }
-
-  Widget _buildTab(
-    String label,
-    IconData icon, {
-    bool hasNotification = false,
-  }) {
-    return Tab(
-      height: 44,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 18),
-            const SizedBox(width: 6),
-            Text(label),
-            if (hasNotification) ...[
-              const SizedBox(width: 6),
-              Container(
-                width: 8,
-                height: 8,
-                decoration: const BoxDecoration(
-                  color: AppColors.error,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTabContent({
-    required BuildContext context,
-    required List<_DivisionItem> items,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: items
-            .map(
-              (item) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: _menuItem(
-                  context: context,
-                  label: item.label,
-                  icon: item.icon,
-                  onTap: item.onTap,
-                  badge: item.badge,
-                ),
-              ),
-            )
-            .toList(),
-      ),
-    );
-  }
-
-  // MENU CARD (DESAIN 100% SAMA DENGAN VERSI LAMA)
-  Widget _menuItem({
-    required BuildContext context,
-    required String label,
-    required IconData icon,
-    required VoidCallback onTap,
-    String? badge,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [AppColors.primary, AppColors.primary.withOpacity(0.85)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withOpacity(0.4),
-                blurRadius: 16,
-                offset: const Offset(0, 6),
-                spreadRadius: 0,
-              ),
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.95),
-                  borderRadius: BorderRadius.circular(14),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Icon(icon, color: AppColors.primary, size: 28),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                        letterSpacing: -0.3,
-                        height: 1.2,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Ketuk untuk membuka',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.85),
-                        height: 1.2,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (badge != null) ...[
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 11,
-                    vertical: 7,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 8,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Text(
-                    badge,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.error,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-              ],
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Icon(
-                  Icons.arrow_forward_rounded,
-                  size: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ==================== AKTIVITAS TERBARU (SAMA PERSIS) ====================
   Widget _recentActivity() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -606,13 +340,4 @@ class _SecretaryHomeScreenState extends State<SecretaryHomeScreen>
       ),
     );
   }
-}
-
-class _DivisionItem {
-  final String label;
-  final IconData icon;
-  final VoidCallback onTap;
-  final String? badge;
-
-  _DivisionItem(this.label, this.icon, this.onTap, {this.badge});
 }

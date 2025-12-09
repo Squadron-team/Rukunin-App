@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary">#FFAB00</color>
+    <color name="primary_light">#FFF9E6</color>
+    <color name="primary_border">#FFE8A3</color>
+    
+    <!-- Background Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="bg_grey">#F5F5F5</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    
+    <!-- Border Colors -->
+    <color name="border">#E0E0E0</color>
+</resources>

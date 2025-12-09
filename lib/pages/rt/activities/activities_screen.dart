@@ -1,47 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/modules/activities/models/activity.dart';
+import 'package:rukunin/modules/activities/services/activity_service.dart';
 import 'package:rukunin/modules/activities/widgets/activity_card.dart';
-import 'package:rukunin/pages/rt/events/models/event.dart';
-import 'package:rukunin/pages/rt/events/widgets/community_event_card.dart';
-import 'package:rukunin/repositories/events.dart';
-import 'package:rukunin/pages/rt/events/create_event_screen.dart';
-import 'package:rukunin/pages/rt/events/event_detail_screen.dart';
-import 'package:rukunin/pages/rt/events/widgets/category_chip.dart';
-import 'package:rukunin/pages/rt/events/widgets/dismiss_background.dart';
-import 'package:rukunin/pages/rt/events/widgets/delete_confirm_dialog.dart';
+import 'package:rukunin/pages/rt/activities/widgets/community_activity_card.dart';
+import 'package:rukunin/pages/rt/activities/create_activity_screen.dart';
+import 'package:rukunin/pages/rt/activities/activity_detail_screen.dart';
+import 'package:rukunin/pages/rt/activities/widgets/category_chip.dart';
+import 'package:rukunin/pages/rt/activities/widgets/dismiss_background.dart';
+import 'package:rukunin/pages/rt/activities/widgets/delete_confirm_dialog.dart';
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/utils/date_formatter.dart';
 
-class CommunityHeadEventsScreen extends StatefulWidget {
-  const CommunityHeadEventsScreen({super.key});
+class RtActivitiesScreen extends StatefulWidget {
+  const RtActivitiesScreen({super.key});
 
   @override
-  State<CommunityHeadEventsScreen> createState() =>
-      _CommunityHeadEventsScreenState();
+  State<RtActivitiesScreen> createState() => _RtActivitiesScreenState();
 }
 
-class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
-  List<Event> _events = [];
+class _RtActivitiesScreenState extends State<RtActivitiesScreen> {
+  final ActivityService _activityService = ActivityService();
   String _filter = 'Semua';
-
-  @override
-  void initState() {
-    super.initState();
-    // TODO: new events will be added here
-    _events = List<Event>.from(events);
-  }
 
   void _openCreate() async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const CreateEventScreen()),
+      MaterialPageRoute(builder: (_) => const CreateActivityScreen()),
     );
 
-    if (result is Event) {
-      setState(() {
-        _events.insert(0, result);
-        // also add to global repo
-        events.insert(0, result);
-      });
+    if (result is Activity && mounted) {
+      setState(() {});
     }
   }
 
@@ -72,9 +59,6 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
               children: [
                 const SizedBox(height: 16),
 
-                const SizedBox(height: 12),
-
-                // Category filters
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SizedBox(
@@ -128,27 +112,46 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
 
                 const SizedBox(height: 8),
 
-                // Total count
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Total: ${_filter == 'Semua' ? _events.length : _events.where((ev) => ev.category.toLowerCase() == _filter.toLowerCase()).length} kegiatan',
-                          style: TextStyle(color: Colors.grey[700]),
-                        ),
-                      ),
-                    ],
+                  child: StreamBuilder<List<Activity>>(
+                    stream: _filter == 'Semua'
+                        ? _activityService.getEvents()
+                        : _activityService.getEventsByCategory(_filter),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(40),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
+
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(40),
+                            child: Text('Error: ${snapshot.error}'),
+                          ),
+                        );
+                      }
+
+                      final activities = snapshot.data ?? [];
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total: ${activities.length} kegiatan',
+                            style: TextStyle(color: Colors.grey[700]),
+                          ),
+                          const SizedBox(height: 8),
+                          _buildEventList(activities),
+                        ],
+                      );
+                    },
                   ),
-                ),
-
-                const SizedBox(height: 8),
-
-                // Event list
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: _buildEventList(),
                 ),
 
                 const SizedBox(height: 40),
@@ -167,58 +170,28 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
     );
   }
 
-  Widget _buildEventList() {
-    // filter by category
-    List<Event> visible = _filter == 'Semua'
-        ? List<Event>.from(_events)
-        : _events
-              .where((e) => e.category.toLowerCase() == _filter.toLowerCase())
-              .toList();
+  Widget _buildEventList(List<Activity> activities) {
+    if (activities.isEmpty) return const ActivityCard.empty();
 
-    if (visible.isEmpty) return const ActivityCard.empty();
-
-    // sort upcoming then past
-    visible.sort((a, b) {
-      DateTime da, db;
-      try {
-        da = DateFormatter.fullDate.parse(a.date);
-      } catch (_) {
-        da = DateTime.now();
+    // Sort: upcoming first, then past
+    final sortedActivities = List<Activity>.from(activities);
+    sortedActivities.sort((a, b) {
+      if (a.isPast != b.isPast) {
+        return a.isPast ? 1 : -1;
       }
-      try {
-        db = DateFormatter.fullDate.parse(b.date);
-      } catch (_) {
-        db = DateTime.now();
-      }
-
-      final now = DateTime.now();
-      final aPast = da.isBefore(now);
-      final bPast = db.isBefore(now);
-
-      if (aPast != bPast) {
-        return aPast ? 1 : -1; // upcoming (-1) before past (1)
-      }
-      return da.compareTo(db);
+      return a.dateTime.compareTo(b.dateTime);
     });
 
     return Column(
-      children: visible.map((e) {
-        final key = '${e.title}-${e.date}-${e.time}';
-        final interested = (e.title.hashCode.abs() % 45) + 1;
+      children: sortedActivities.map((activity) {
+        final interested = (activity.title.hashCode.abs() % 45) + 1;
 
         return Dismissible(
-          key: Key(key),
+          key: Key(activity.id),
           direction: DismissDirection.endToStart,
           background: const DismissBackground(),
           confirmDismiss: (_) async {
-            // prevent deleting events that already passed
-            DateTime da;
-            try {
-              da = DateFormatter.fullDate.parse(e.date);
-            } catch (_) {
-              da = DateTime.now();
-            }
-            if (da.isBefore(DateTime.now())) {
+            if (activity.isPast) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: const Text(
@@ -236,57 +209,37 @@ class _CommunityHeadEventsScreenState extends State<CommunityHeadEventsScreen> {
 
             final ok = await showDeleteConfirm(context);
             if (ok ?? false) {
-              setState(() {
-                // remove by object
-                events.remove(e);
-                _events.remove(e);
-              });
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Kegiatan berhasil dihapus'),
-                  backgroundColor: AppColors.primary,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              final success = await _activityService.deleteEvent(activity.id);
+              if (success && mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text('Kegiatan berhasil dihapus'),
+                    backgroundColor: AppColors.primary,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             }
             return ok ?? false;
           },
           child: CommunityEventCard(
-            event: e,
+            activity: activity,
             interestedCount: interested,
             onTap: () async {
               final res = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => CommunityHeadEventDetailScreen(
-                    event: e,
+                  builder: (_) => RtActivityDetailScreen(
+                    activity: activity,
                     interestedCount: interested,
                   ),
                 ),
               );
-              if (res is Event) {
-                // update event in lists
-                setState(() {
-                  final idx = _events.indexWhere(
-                    (it) =>
-                        it.title == e.title &&
-                        it.date == e.date &&
-                        it.time == e.time &&
-                        it.location == e.location,
-                  );
-                  if (idx != -1) _events[idx] = res;
-                  final gidx = events.indexWhere(
-                    (it) =>
-                        it.title == e.title &&
-                        it.date == e.date &&
-                        it.time == e.time &&
-                        it.location == e.location,
-                  );
-                  if (gidx != -1) events[gidx] = res;
-                });
+              if (res is Activity && mounted) {
+                setState(() {});
               }
             },
           ),
