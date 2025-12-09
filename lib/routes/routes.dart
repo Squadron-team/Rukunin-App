@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/pages/general/guide_screen.dart';
-import 'package:rukunin/pages/general/onnx_test_page.dart';
+import 'package:rukunin/pages/general/ml_inference_test_screen.dart';
 import 'package:rukunin/pages/splash_screen.dart';
 import 'package:rukunin/routes/rw_routes.dart';
 import 'package:rukunin/routes/rt_routes.dart';
@@ -101,8 +101,8 @@ final router = GoRouter(
 
     // TODO: THIS ROUTE IS JUST FOR TESTING, REMOVE SOON!
     GoRoute(
-      path: '/onnx-test',
-      builder: (context, state) => const OnnxTestPage(),
+      path: '/ml-inference-test',
+      builder: (context, state) => const MLInferenceTestScreen(),
     ),
   ],
 );
