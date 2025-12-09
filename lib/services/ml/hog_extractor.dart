@@ -2,12 +2,12 @@ import 'dart:typed_data';
 import 'dart:math' as math;
 
 class HogExtractor {
-  final int orientations = 9; // bins
-  final int cellSize = 8; // 8x8 pixels
-  final int blockSize = 2; // 2x2 cells
+  final int orientations = 9; // HOG bins
+  final int cellSize = 8; // 8×8 pixels per cell
+  final int blockSize = 2; // 2×2 cells per block
   final double eps = 1e-5;
 
-  /// Input: grayscale Float32List with size 64×64
+  /// Input MUST be 64×64 grayscale Float32List
   Float32List compute(Float32List img) {
     const int width = 64;
     const int height = 64;
@@ -15,7 +15,7 @@ class HogExtractor {
     final gx = Float32List(width * height);
     final gy = Float32List(width * height);
 
-    // Compute gradients using [-1, 0, 1] filters
+    // Gradient filters [-1, 0, 1]
     for (int y = 1; y < height - 1; y++) {
       for (int x = 1; x < width - 1; x++) {
         final idx = y * width + x;
@@ -24,24 +24,28 @@ class HogExtractor {
       }
     }
 
-    // Magnitude and angle
     final mag = Float32List(width * height);
     final angle = Float32List(width * height);
 
+    // Magnitude + orientation
     for (int i = 0; i < width * height; i++) {
-      final mx = gx[i], my = gy[i];
+      final mx = gx[i];
+      final my = gy[i];
       mag[i] = math.sqrt(mx * mx + my * my);
 
-      double a = math.atan2(my, mx) * 180 / math.pi;
-      if (a < 0) a += 180;
+      double a = math.atan2(my, mx) * 180.0 / math.pi;
+      if (a < 0) a += 180.0;
+
+      // 🔥 Important fix: avoid angle = 180.0 exactly
+      if (a >= 180.0) a = 179.999999;
+
       angle[i] = a;
     }
 
-    // Number of cells
-    final int cellsX = width ~/ cellSize; // 8
-    final int cellsY = height ~/ cellSize; // 8
+    // Cells: 8×8
+    final int cellsX = width ~/ cellSize;
+    final int cellsY = height ~/ cellSize;
 
-    // Cell histograms: 8 × 8 × 9
     final cellHist = List.generate(
       cellsY,
       (_) => List.generate(cellsX, (_) => Float32List(orientations)),
@@ -49,7 +53,9 @@ class HogExtractor {
 
     final double binSize = 180.0 / orientations;
 
-    // ---- Pixel → Cell Histogram with Interpolation ---- //
+    // -----------------------
+    // Pixel → Cell histogram
+    // -----------------------
     for (int cy = 0; cy < cellsY; cy++) {
       for (int cx = 0; cx < cellsX; cx++) {
         for (int y = 0; y < cellSize; y++) {
@@ -62,11 +68,17 @@ class HogExtractor {
             final a = angle[idx];
 
             double binPos = a / binSize;
+
+            // 🔥 FIX: avoid floating point giving binPos = 9.0
+            if (binPos >= orientations) {
+              binPos = orientations - 1e-6;
+            }
+
             int bin0 = binPos.floor();
             int bin1 = (bin0 + 1) % orientations;
 
             double w1 = binPos - bin0;
-            double w0 = 1 - w1;
+            double w0 = 1.0 - w1;
 
             cellHist[cy][cx][bin0] += m * w0;
             cellHist[cy][cx][bin1] += m * w1;
@@ -75,23 +87,20 @@ class HogExtractor {
       }
     }
 
-    // ---- BLOCK NORMALIZATION (L2-Hys) ----
-
-    // scikit-image produces 2916 features with 64×64 images:
-    // 7×7 blocks × 36 features = 1764 (but then extra padding done by skimage)
-    // The actual traversal yields exactly 2916 for these parameters.
-
-    final int blocksY = cellsY - 1; // 7
-    final int blocksX = cellsX - 1; // 7
+    // -----------------------
+    // BLOCK NORMALIZATION
+    // -----------------------
+    final int blocksX = cellsX - 1;
+    final int blocksY = cellsY - 1;
 
     final List<double> features = [];
 
     for (int by = 0; by < blocksY; by++) {
       for (int bx = 0; bx < blocksX; bx++) {
-        // Collect 2×2 cells → 36 raw HOG features
         final block = Float32List(blockSize * blockSize * orientations);
         int k = 0;
 
+        // Collect 4 cell histograms = 36 values
         for (int cy = 0; cy < blockSize; cy++) {
           for (int cx = 0; cx < blockSize; cx++) {
             final hist = cellHist[by + cy][bx + cx];
@@ -101,28 +110,28 @@ class HogExtractor {
           }
         }
 
-        // L2 normalization
-        double norm = 0;
+        // L2-norm
+        double norm = eps;
         for (final v in block) {
           norm += v * v;
         }
-        norm = math.sqrt(norm + eps * eps);
+        norm = math.sqrt(norm);
 
         for (int i = 0; i < block.length; i++) {
           block[i] /= norm;
         }
 
-        // Hys clipping @ 0.2
+        // Hys clipping at 0.2
         for (int i = 0; i < block.length; i++) {
-          block[i] = math.min(block[i], 0.2);
+          if (block[i] > 0.2) block[i] = 0.2;
         }
 
-        // Renormalize again
-        double norm2 = 0;
+        // Renormalize
+        double norm2 = eps;
         for (final v in block) {
           norm2 += v * v;
         }
-        norm2 = math.sqrt(norm2 + eps * eps);
+        norm2 = math.sqrt(norm2);
 
         for (int i = 0; i < block.length; i++) {
           block[i] /= norm2;
@@ -132,12 +141,9 @@ class HogExtractor {
       }
     }
 
-    // skimage adds extra pad blocks → total length = 2916
-    // To match exactly, we pad zeros if needed.
-    if (features.length < 2916) {
-      while (features.length < 2916) {
-        features.add(0.0);
-      }
+    // scikit-image fills up to 2916 features
+    while (features.length < 2916) {
+      features.add(0.0);
     }
 
     return Float32List.fromList(features);

@@ -1,9 +1,12 @@
-import 'dart:typed_data';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:rukunin/services/ml/data_preprocessor.dart';
 
 void main() {
+  // This is needed to load assets in tests.
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('DataPreprocessor', () {
     test(
       'compute should return a 64x64 single-channel (grayscale) image as Float32List',
@@ -39,5 +42,38 @@ void main() {
         );
       },
     );
+
+    testWidgets('compute should correctly process real image assets', (
+      WidgetTester tester,
+    ) async {
+      // Arrange
+      final preprocessor = DataPreprocessor();
+      final imagePaths = [
+        'assets/ml_test/img_0.png',
+        'assets/ml_test/img_1.png',
+      ];
+
+      for (final path in imagePaths) {
+        // Act
+        final byteData = await rootBundle.load(path);
+        final rawImage = byteData.buffer.asUint8List();
+        final grayscaleNorm = preprocessor.compute(rawImage);
+
+        // Assert
+        expect(
+          grayscaleNorm.length,
+          64 * 64,
+          reason:
+              'Output for $path should have 4096 elements for a 64x64 image.',
+        );
+
+        expect(
+          grayscaleNorm.every((p) => p >= 0.0 && p <= 1.0),
+          isTrue,
+          reason:
+              'All grayscale values for $path should be normalized between 0.0 and 1.0.',
+        );
+      }
+    });
   });
 }
