@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/modules/activities/widgets/activity_card.dart';
 import 'package:rukunin/modules/activities/services/activity_service.dart';
@@ -72,9 +73,11 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: const RukuninAppBar(title: 'Kegiatan Warga'),
+      appBar: RukuninAppBar(title: l10n.navActivities),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {
@@ -221,6 +224,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   }
 
   Widget _buildSelectedDateHeader() {
+    final l10n = AppLocalizations.of(context)!;
     final events = _getEventsForDay(_selectedDay ?? _focusedDay);
     final dateStr = DateFormatter.formatFull(_selectedDay ?? _focusedDay);
 
@@ -259,8 +263,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
                     const SizedBox(height: 2),
                     Text(
                       events.isEmpty
-                          ? 'Tidak ada kegiatan'
-                          : '${events.length} kegiatan terjadwal',
+                          ? l10n.noActivitiesScheduled
+                          : l10n.activitiesScheduled(events.length),
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,

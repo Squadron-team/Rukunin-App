@@ -1000,7 +1000,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get confirmOrder => 'Konfirmasi Pesanan';
 
   @override
-  String confirmOrderQuestion(Object buyer) {
+  String confirmOrderQuestion(String buyer) {
     return 'Apakah Anda yakin ingin mengkonfirmasi pesanan dari $buyer?';
   }
 
@@ -1014,7 +1014,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get rejectOrder => 'Tolak Pesanan';
 
   @override
-  String rejectOrderQuestion(Object buyer) {
+  String rejectOrderQuestion(String buyer) {
     return 'Apakah Anda yakin ingin menolak pesanan dari $buyer?';
   }
 
@@ -1240,4 +1240,62 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get viewOrders => 'Lihat Pesanan';
+
+  @override
+  String get noActivitiesScheduled => 'Tidak ada kegiatan';
+
+  @override
+  String activitiesScheduled(int count) {
+    return '$count kegiatan terjadwal';
+  }
+
+  @override
+  String peopleInterested(int count) {
+    return '$count orang tertarik';
+  }
+
+  @override
+  String get activityTime => 'Waktu';
+
+  @override
+  String get activityLocation => 'Lokasi';
+
+  @override
+  String get activityDescription => 'Deskripsi Kegiatan';
+
+  @override
+  String get registrationCancelled => 'Pendaftaran dibatalkan';
+
+  @override
+  String get registeredForActivity => 'Anda telah mendaftar untuk kegiatan ini';
+
+  @override
+  String get failedToUpdateRegistration =>
+      'Gagal memperbarui status pendaftaran';
+
+  @override
+  String get alreadyRegistered => 'Sudah Terdaftar';
+
+  @override
+  String get joinActivity => 'Ikut Kegiatan';
+
+  @override
+  String get viewDetails => 'Lihat Detail';
+
+  @override
+  String get noActivitiesTitle => 'Tidak Ada Kegiatan';
+
+  @override
+  String get noActivitiesDesc =>
+      'Belum ada kegiatan yang dijadwalkan\npada tanggal ini.';
+
+  @override
+  String get suggestActivity => 'Usulkan Kegiatan';
+
+  @override
+  String get suggestActivityFeature =>
+      'Fitur usulkan kegiatan akan segera tersedia';
+
+  @override
+  String get organizer => 'Penyelenggara';
 }

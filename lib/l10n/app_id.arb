@@ -392,5 +392,36 @@
     "orderCount": "Pesanan",
     "addProductAction": "Tambah Produk",
     "manageProducts": "Kelola Produk",
-    "viewOrders": "Lihat Pesanan"
+    "viewOrders": "Lihat Pesanan",
+    "noActivitiesScheduled": "Tidak ada kegiatan",
+    "activitiesScheduled": "{count} kegiatan terjadwal",
+    "@activitiesScheduled": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "peopleInterested": "{count} orang tertarik",
+    "@peopleInterested": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "activityTime": "Waktu",
+    "activityLocation": "Lokasi",
+    "activityDescription": "Deskripsi Kegiatan",
+    "registrationCancelled": "Pendaftaran dibatalkan",
+    "registeredForActivity": "Anda telah mendaftar untuk kegiatan ini",
+    "failedToUpdateRegistration": "Gagal memperbarui status pendaftaran",
+    "alreadyRegistered": "Sudah Terdaftar",
+    "joinActivity": "Ikut Kegiatan",
+    "viewDetails": "Lihat Detail",
+    "noActivitiesTitle": "Tidak Ada Kegiatan",
+    "noActivitiesDesc": "Belum ada kegiatan yang dijadwalkan\npada tanggal ini.",
+    "suggestActivity": "Usulkan Kegiatan",
+    "suggestActivityFeature": "Fitur usulkan kegiatan akan segera tersedia",
+    "organizer": "Penyelenggara"
 }

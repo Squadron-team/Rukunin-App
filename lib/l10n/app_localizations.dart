@@ -2000,7 +2000,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to confirm order from {buyer}?'**
-  String confirmOrderQuestion(Object buyer);
+  String confirmOrderQuestion(String buyer);
 
   /// No description provided for @cancel.
   ///
@@ -2024,7 +2024,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to reject order from {buyer}?'**
-  String rejectOrderQuestion(Object buyer);
+  String rejectOrderQuestion(String buyer);
 
   /// No description provided for @orderRejected.
   ///
@@ -2451,6 +2451,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View Orders'**
   String get viewOrders;
+
+  /// No description provided for @noActivitiesScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'No activities scheduled'**
+  String get noActivitiesScheduled;
+
+  /// No description provided for @activitiesScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} activities scheduled'**
+  String activitiesScheduled(int count);
+
+  /// No description provided for @peopleInterested.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} people interested'**
+  String peopleInterested(int count);
+
+  /// No description provided for @activityTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get activityTime;
+
+  /// No description provided for @activityLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get activityLocation;
+
+  /// No description provided for @activityDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Description'**
+  String get activityDescription;
+
+  /// No description provided for @registrationCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration cancelled'**
+  String get registrationCancelled;
+
+  /// No description provided for @registeredForActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'You have registered for this activity'**
+  String get registeredForActivity;
+
+  /// No description provided for @failedToUpdateRegistration.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update registration status'**
+  String get failedToUpdateRegistration;
+
+  /// No description provided for @alreadyRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'Already Registered'**
+  String get alreadyRegistered;
+
+  /// No description provided for @joinActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Activity'**
+  String get joinActivity;
+
+  /// No description provided for @viewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get viewDetails;
+
+  /// No description provided for @noActivitiesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No Activities'**
+  String get noActivitiesTitle;
+
+  /// No description provided for @noActivitiesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'No activities scheduled\non this date.'**
+  String get noActivitiesDesc;
+
+  /// No description provided for @suggestActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggest Activity'**
+  String get suggestActivity;
+
+  /// No description provided for @suggestActivityFeature.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggest activity feature will be available soon'**
+  String get suggestActivityFeature;
+
+  /// No description provided for @organizer.
+  ///
+  /// In en, this message translates to:
+  /// **'Organizer'**
+  String get organizer;
 }
 
 class _AppLocalizationsDelegate

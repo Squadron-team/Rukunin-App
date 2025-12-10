@@ -391,5 +391,36 @@
     "orderCount": "Pesanan",
     "addProductAction": "Tambah Produk",
     "manageProducts": "Kelola Produk",
-    "viewOrders": "Deleng Pesanan"
+    "viewOrders": "Deleng Pesanan",
+    "noActivitiesScheduled": "Ora ana kegiatan",
+    "activitiesScheduled": "{count} kegiatan dijadwalake",
+    "@activitiesScheduled": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "peopleInterested": "{count} wong minat",
+    "@peopleInterested": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "activityTime": "Wektu",
+    "activityLocation": "Lokasi",
+    "activityDescription": "Deskripsi Kegiatan",
+    "registrationCancelled": "Pendaftaran dibatalake",
+    "registeredForActivity": "Sampeyan wis ndaftar kanggo kegiatan iki",
+    "failedToUpdateRegistration": "Gagal nganyari status pendaftaran",
+    "alreadyRegistered": "Wis Kadaftar",
+    "joinActivity": "Melu Kegiatan",
+    "viewDetails": "Deleng Detail",
+    "noActivitiesTitle": "Ora Ana Kegiatan",
+    "noActivitiesDesc": "Durung ana kegiatan sing dijadwalake\ning tanggal iki.",
+    "suggestActivity": "Usulake Kegiatan",
+    "suggestActivityFeature": "Fitur usulake kegiatan bakal kasedhiya",
+    "organizer": "Penyelenggara"
 }

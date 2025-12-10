@@ -997,7 +997,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmOrder => 'Confirm Order';
 
   @override
-  String confirmOrderQuestion(Object buyer) {
+  String confirmOrderQuestion(String buyer) {
     return 'Are you sure you want to confirm order from $buyer?';
   }
 
@@ -1011,7 +1011,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rejectOrder => 'Reject Order';
 
   @override
-  String rejectOrderQuestion(Object buyer) {
+  String rejectOrderQuestion(String buyer) {
     return 'Are you sure you want to reject order from $buyer?';
   }
 
@@ -1238,4 +1238,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewOrders => 'View Orders';
+
+  @override
+  String get noActivitiesScheduled => 'No activities scheduled';
+
+  @override
+  String activitiesScheduled(int count) {
+    return '$count activities scheduled';
+  }
+
+  @override
+  String peopleInterested(int count) {
+    return '$count people interested';
+  }
+
+  @override
+  String get activityTime => 'Time';
+
+  @override
+  String get activityLocation => 'Location';
+
+  @override
+  String get activityDescription => 'Activity Description';
+
+  @override
+  String get registrationCancelled => 'Registration cancelled';
+
+  @override
+  String get registeredForActivity => 'You have registered for this activity';
+
+  @override
+  String get failedToUpdateRegistration =>
+      'Failed to update registration status';
+
+  @override
+  String get alreadyRegistered => 'Already Registered';
+
+  @override
+  String get joinActivity => 'Join Activity';
+
+  @override
+  String get viewDetails => 'View Details';
+
+  @override
+  String get noActivitiesTitle => 'No Activities';
+
+  @override
+  String get noActivitiesDesc => 'No activities scheduled\non this date.';
+
+  @override
+  String get suggestActivity => 'Suggest Activity';
+
+  @override
+  String get suggestActivityFeature =>
+      'Suggest activity feature will be available soon';
+
+  @override
+  String get organizer => 'Organizer';
 }

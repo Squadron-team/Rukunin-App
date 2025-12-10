@@ -415,5 +415,36 @@
     "orderCount": "Orders",
     "addProductAction": "Add Product",
     "manageProducts": "Manage Products",
-    "viewOrders": "View Orders"
+    "viewOrders": "View Orders",
+    "noActivitiesScheduled": "No activities scheduled",
+    "activitiesScheduled": "{count} activities scheduled",
+    "@activitiesScheduled": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "peopleInterested": "{count} people interested",
+    "@peopleInterested": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "activityTime": "Time",
+    "activityLocation": "Location",
+    "activityDescription": "Activity Description",
+    "registrationCancelled": "Registration cancelled",
+    "registeredForActivity": "You have registered for this activity",
+    "failedToUpdateRegistration": "Failed to update registration status",
+    "alreadyRegistered": "Already Registered",
+    "joinActivity": "Join Activity",
+    "viewDetails": "View Details",
+    "noActivitiesTitle": "No Activities",
+    "noActivitiesDesc": "No activities scheduled\non this date.",
+    "suggestActivity": "Suggest Activity",
+    "suggestActivityFeature": "Suggest activity feature will be available soon",
+    "organizer": "Organizer"
 }

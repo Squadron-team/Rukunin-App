@@ -998,7 +998,7 @@ class AppLocalizationsJv extends AppLocalizations {
   String get confirmOrder => 'Konfirmasi Pesanan';
 
   @override
-  String confirmOrderQuestion(Object buyer) {
+  String confirmOrderQuestion(String buyer) {
     return 'Apa sampeyan yakin arep ngonfirmasi pesanan saka $buyer?';
   }
 
@@ -1012,7 +1012,7 @@ class AppLocalizationsJv extends AppLocalizations {
   String get rejectOrder => 'Tolak Pesanan';
 
   @override
-  String rejectOrderQuestion(Object buyer) {
+  String rejectOrderQuestion(String buyer) {
     return 'Apa sampeyan yakin arep nolak pesanan saka $buyer?';
   }
 
@@ -1238,4 +1238,61 @@ class AppLocalizationsJv extends AppLocalizations {
 
   @override
   String get viewOrders => 'Deleng Pesanan';
+
+  @override
+  String get noActivitiesScheduled => 'Ora ana kegiatan';
+
+  @override
+  String activitiesScheduled(int count) {
+    return '$count kegiatan dijadwalake';
+  }
+
+  @override
+  String peopleInterested(int count) {
+    return '$count wong minat';
+  }
+
+  @override
+  String get activityTime => 'Wektu';
+
+  @override
+  String get activityLocation => 'Lokasi';
+
+  @override
+  String get activityDescription => 'Deskripsi Kegiatan';
+
+  @override
+  String get registrationCancelled => 'Pendaftaran dibatalake';
+
+  @override
+  String get registeredForActivity =>
+      'Sampeyan wis ndaftar kanggo kegiatan iki';
+
+  @override
+  String get failedToUpdateRegistration => 'Gagal nganyari status pendaftaran';
+
+  @override
+  String get alreadyRegistered => 'Wis Kadaftar';
+
+  @override
+  String get joinActivity => 'Melu Kegiatan';
+
+  @override
+  String get viewDetails => 'Deleng Detail';
+
+  @override
+  String get noActivitiesTitle => 'Ora Ana Kegiatan';
+
+  @override
+  String get noActivitiesDesc =>
+      'Durung ana kegiatan sing dijadwalake\ning tanggal iki.';
+
+  @override
+  String get suggestActivity => 'Usulake Kegiatan';
+
+  @override
+  String get suggestActivityFeature => 'Fitur usulake kegiatan bakal kasedhiya';
+
+  @override
+  String get organizer => 'Penyelenggara';
 }
