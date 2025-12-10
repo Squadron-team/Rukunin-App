@@ -204,5 +204,15 @@
     "editProfilePhoto": "edit profile photo",
     "changePasswordFeature": "change password",
     "notificationSettings": "notification settings",
-    "helpFeature": "help"
+    "helpFeature": "help",
+    "notificationTitle": "Notifications",
+    "markAllAsRead": "Mark all",
+    "allMarkedAsRead": "All notifications marked as read",
+    "notificationTabAll": "All",
+    "notificationTabAdmin": "Admin",
+    "notificationTabCommunity": "Community",
+    "notificationTabEvent": "Event",
+    "noNotifications": "No notifications",
+    "noNotificationsDesc": "You don't have any notifications yet",
+    "noNotificationsInCategory": "No notifications in this category"
 }

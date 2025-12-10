@@ -628,4 +628,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get helpFeature => 'help';
+
+  @override
+  String get notificationTitle => 'Notifications';
+
+  @override
+  String get markAllAsRead => 'Mark all';
+
+  @override
+  String get allMarkedAsRead => 'All notifications marked as read';
+
+  @override
+  String get notificationTabAll => 'All';
+
+  @override
+  String get notificationTabAdmin => 'Admin';
+
+  @override
+  String get notificationTabCommunity => 'Community';
+
+  @override
+  String get notificationTabEvent => 'Event';
+
+  @override
+  String get noNotifications => 'No notifications';
+
+  @override
+  String get noNotificationsDesc => 'You don\'t have any notifications yet';
+
+  @override
+  String get noNotificationsInCategory => 'No notifications in this category';
 }

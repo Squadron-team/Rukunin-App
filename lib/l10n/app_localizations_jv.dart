@@ -629,4 +629,34 @@ class AppLocalizationsJv extends AppLocalizations {
 
   @override
   String get helpFeature => 'pitulungan';
+
+  @override
+  String get notificationTitle => 'Notifikasi';
+
+  @override
+  String get markAllAsRead => 'Tandai kabeh';
+
+  @override
+  String get allMarkedAsRead => 'Kabeh notifikasi ditandai wis diwoco';
+
+  @override
+  String get notificationTabAll => 'Kabeh';
+
+  @override
+  String get notificationTabAdmin => 'Admin';
+
+  @override
+  String get notificationTabCommunity => 'Komunitas';
+
+  @override
+  String get notificationTabEvent => 'Kegiatan';
+
+  @override
+  String get noNotifications => 'Ora ana notifikasi';
+
+  @override
+  String get noNotificationsDesc => 'Panjenengan durung duwe notifikasi';
+
+  @override
+  String get noNotificationsInCategory => 'Ora ana notifikasi ing kategori iki';
 }

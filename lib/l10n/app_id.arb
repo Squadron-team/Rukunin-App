@@ -195,5 +195,15 @@
     "editProfilePhoto": "ubah foto profil",
     "changePasswordFeature": "ubah password",
     "notificationSettings": "pengaturan notifikasi",
-    "helpFeature": "bantuan"
+    "helpFeature": "bantuan",
+    "notificationTitle": "Notifikasi",
+    "markAllAsRead": "Tandai semua",
+    "allMarkedAsRead": "Semua notifikasi ditandai sudah dibaca",
+    "notificationTabAll": "Semua",
+    "notificationTabAdmin": "Admin",
+    "notificationTabCommunity": "Komunitas",
+    "notificationTabEvent": "Kegiatan",
+    "noNotifications": "Tidak ada notifikasi",
+    "noNotificationsDesc": "Anda belum memiliki notifikasi",
+    "noNotificationsInCategory": "Tidak ada notifikasi di kategori ini"
 }

@@ -630,4 +630,35 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get helpFeature => 'bantuan';
+
+  @override
+  String get notificationTitle => 'Notifikasi';
+
+  @override
+  String get markAllAsRead => 'Tandai semua';
+
+  @override
+  String get allMarkedAsRead => 'Semua notifikasi ditandai sudah dibaca';
+
+  @override
+  String get notificationTabAll => 'Semua';
+
+  @override
+  String get notificationTabAdmin => 'Admin';
+
+  @override
+  String get notificationTabCommunity => 'Komunitas';
+
+  @override
+  String get notificationTabEvent => 'Kegiatan';
+
+  @override
+  String get noNotifications => 'Tidak ada notifikasi';
+
+  @override
+  String get noNotificationsDesc => 'Anda belum memiliki notifikasi';
+
+  @override
+  String get noNotificationsInCategory =>
+      'Tidak ada notifikasi di kategori ini';
 }

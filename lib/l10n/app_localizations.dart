@@ -1275,6 +1275,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'help'**
   String get helpFeature;
+
+  /// No description provided for @notificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationTitle;
+
+  /// No description provided for @markAllAsRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all'**
+  String get markAllAsRead;
+
+  /// No description provided for @allMarkedAsRead.
+  ///
+  /// In en, this message translates to:
+  /// **'All notifications marked as read'**
+  String get allMarkedAsRead;
+
+  /// No description provided for @notificationTabAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get notificationTabAll;
+
+  /// No description provided for @notificationTabAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin'**
+  String get notificationTabAdmin;
+
+  /// No description provided for @notificationTabCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get notificationTabCommunity;
+
+  /// No description provided for @notificationTabEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get notificationTabEvent;
+
+  /// No description provided for @noNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications'**
+  String get noNotifications;
+
+  /// No description provided for @noNotificationsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have any notifications yet'**
+  String get noNotificationsDesc;
+
+  /// No description provided for @noNotificationsInCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications in this category'**
+  String get noNotificationsInCategory;
 }
 
 class _AppLocalizationsDelegate
