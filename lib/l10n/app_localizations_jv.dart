@@ -505,4 +505,128 @@ class AppLocalizationsJv extends AppLocalizations {
 
   @override
   String get navAccount => 'Akun';
+
+  @override
+  String get account => 'Akun';
+
+  @override
+  String get fullNameLabel => 'Jeneng Lengkap';
+
+  @override
+  String get enterFullName => 'Lebokno jeneng lengkap';
+
+  @override
+  String get fullNameRequired => 'Jeneng lengkap ora kena kosong';
+
+  @override
+  String get nicknameLabel => 'Jeneng Panggilan';
+
+  @override
+  String get enterNickname => 'Lebokno jeneng panggilan';
+
+  @override
+  String get genderLabel => 'Jenis Kelamin';
+
+  @override
+  String get birthdateLabel => 'Tanggal Lair';
+
+  @override
+  String get saveChanges => 'Simpen Owahan';
+
+  @override
+  String get settings => 'Pengaturan';
+
+  @override
+  String get changePassword => 'Ganti Password';
+
+  @override
+  String get biometricAuth => 'Autentikasi Biometrik';
+
+  @override
+  String get biometricAuthDesc =>
+      'Nganggo sidik jari utawa face ID kanggo mbukak aplikasi';
+
+  @override
+  String get biometricNotAvailableWeb => 'Ora kasedhiya ing platform web';
+
+  @override
+  String get biometricNotAvailableDevice => 'Ora kasedhiya ing piranti iki';
+
+  @override
+  String get notifications => 'Notifikasi';
+
+  @override
+  String get helpSupport => 'Pitulungan & Dhukungan';
+
+  @override
+  String get userGuide => 'Pandhuan Panganggo';
+
+  @override
+  String get aboutApp => 'Babagan Aplikasi';
+
+  @override
+  String get logout => 'Metu';
+
+  @override
+  String get profileUpdatedSuccess => 'Profil kasil dianyari';
+
+  @override
+  String failedToLoadData(Object error) {
+    return 'Gagal muat data: $error';
+  }
+
+  @override
+  String failedToSaveData(Object error) {
+    return 'Gagal nyimpen data: $error';
+  }
+
+  @override
+  String failedToLogout(Object error) {
+    return 'Gagal metu: $error';
+  }
+
+  @override
+  String featureComingSoon(Object feature) {
+    return 'Fitur $feature bakal kasedhiya';
+  }
+
+  @override
+  String get biometricNotAvailable =>
+      'Biometrik ora kasedhiya. Priksa manawa piranti panjenengan ndhukung lan wis disetel.';
+
+  @override
+  String get noBiometricEnrolled =>
+      'Ora ana biometrik sing kadhaftar. Mangga setel sidik jari utawa face ID ing pengaturan piranti.';
+
+  @override
+  String get authenticationCancelled =>
+      'Autentikasi dibatalake utawa gagal. Mangga coba maneh.';
+
+  @override
+  String get biometricEnabled => 'Autentikasi biometrik diaktifake';
+
+  @override
+  String get biometricDisabled => 'Autentikasi biometrik dinonaktifake';
+
+  @override
+  String errorOccurredBiometric(Object error) {
+    return 'Ana kesalahan: $error';
+  }
+
+  @override
+  String languageChangedSuccess(Object language) {
+    return 'Basa kasil diganti dadi $language';
+  }
+
+  @override
+  String get editProfilePhoto => 'ganti foto profil';
+
+  @override
+  String get changePasswordFeature => 'ganti password';
+
+  @override
+  String get notificationSettings => 'pengaturan notifikasi';
+
+  @override
+  String get helpFeature => 'pitulungan';
 }

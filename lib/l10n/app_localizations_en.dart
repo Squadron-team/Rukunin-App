@@ -504,4 +504,128 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navAccount => 'Account';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get fullNameLabel => 'Full Name';
+
+  @override
+  String get enterFullName => 'Enter full name';
+
+  @override
+  String get fullNameRequired => 'Full name cannot be empty';
+
+  @override
+  String get nicknameLabel => 'Nickname';
+
+  @override
+  String get enterNickname => 'Enter nickname';
+
+  @override
+  String get genderLabel => 'Gender';
+
+  @override
+  String get birthdateLabel => 'Birth Date';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get changePassword => 'Change Password';
+
+  @override
+  String get biometricAuth => 'Biometric Authentication';
+
+  @override
+  String get biometricAuthDesc =>
+      'Use fingerprint or face ID to unlock the app';
+
+  @override
+  String get biometricNotAvailableWeb => 'Not available on web platform';
+
+  @override
+  String get biometricNotAvailableDevice => 'Not available on this device';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get helpSupport => 'Help & Support';
+
+  @override
+  String get userGuide => 'User Guide';
+
+  @override
+  String get aboutApp => 'About App';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get profileUpdatedSuccess => 'Profile updated successfully';
+
+  @override
+  String failedToLoadData(Object error) {
+    return 'Failed to load data: $error';
+  }
+
+  @override
+  String failedToSaveData(Object error) {
+    return 'Failed to save data: $error';
+  }
+
+  @override
+  String failedToLogout(Object error) {
+    return 'Failed to logout: $error';
+  }
+
+  @override
+  String featureComingSoon(Object feature) {
+    return '$feature feature will be available soon';
+  }
+
+  @override
+  String get biometricNotAvailable =>
+      'Biometric not available. Make sure your device supports it and is set up.';
+
+  @override
+  String get noBiometricEnrolled =>
+      'No biometric enrolled. Please set up fingerprint or face ID in device settings.';
+
+  @override
+  String get authenticationCancelled =>
+      'Authentication cancelled or failed. Please try again.';
+
+  @override
+  String get biometricEnabled => 'Biometric authentication enabled';
+
+  @override
+  String get biometricDisabled => 'Biometric authentication disabled';
+
+  @override
+  String errorOccurredBiometric(Object error) {
+    return 'An error occurred: $error';
+  }
+
+  @override
+  String languageChangedSuccess(Object language) {
+    return 'Language successfully changed to $language';
+  }
+
+  @override
+  String get editProfilePhoto => 'edit profile photo';
+
+  @override
+  String get changePasswordFeature => 'change password';
+
+  @override
+  String get notificationSettings => 'notification settings';
+
+  @override
+  String get helpFeature => 'help';
 }

@@ -1059,6 +1059,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Account'**
   String get navAccount;
+
+  /// No description provided for @account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// No description provided for @fullNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get fullNameLabel;
+
+  /// No description provided for @enterFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter full name'**
+  String get enterFullName;
+
+  /// No description provided for @fullNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name cannot be empty'**
+  String get fullNameRequired;
+
+  /// No description provided for @nicknameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Nickname'**
+  String get nicknameLabel;
+
+  /// No description provided for @enterNickname.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter nickname'**
+  String get enterNickname;
+
+  /// No description provided for @genderLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get genderLabel;
+
+  /// No description provided for @birthdateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Birth Date'**
+  String get birthdateLabel;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePassword;
+
+  /// No description provided for @biometricAuth.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Authentication'**
+  String get biometricAuth;
+
+  /// No description provided for @biometricAuthDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Use fingerprint or face ID to unlock the app'**
+  String get biometricAuthDesc;
+
+  /// No description provided for @biometricNotAvailableWeb.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available on web platform'**
+  String get biometricNotAvailableWeb;
+
+  /// No description provided for @biometricNotAvailableDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available on this device'**
+  String get biometricNotAvailableDevice;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @helpSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & Support'**
+  String get helpSupport;
+
+  /// No description provided for @userGuide.
+  ///
+  /// In en, this message translates to:
+  /// **'User Guide'**
+  String get userGuide;
+
+  /// No description provided for @aboutApp.
+  ///
+  /// In en, this message translates to:
+  /// **'About App'**
+  String get aboutApp;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @profileUpdatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully'**
+  String get profileUpdatedSuccess;
+
+  /// No description provided for @failedToLoadData.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load data: {error}'**
+  String failedToLoadData(Object error);
+
+  /// No description provided for @failedToSaveData.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save data: {error}'**
+  String failedToSaveData(Object error);
+
+  /// No description provided for @failedToLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to logout: {error}'**
+  String failedToLogout(Object error);
+
+  /// No description provided for @featureComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'{feature} feature will be available soon'**
+  String featureComingSoon(Object feature);
+
+  /// No description provided for @biometricNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric not available. Make sure your device supports it and is set up.'**
+  String get biometricNotAvailable;
+
+  /// No description provided for @noBiometricEnrolled.
+  ///
+  /// In en, this message translates to:
+  /// **'No biometric enrolled. Please set up fingerprint or face ID in device settings.'**
+  String get noBiometricEnrolled;
+
+  /// No description provided for @authenticationCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication cancelled or failed. Please try again.'**
+  String get authenticationCancelled;
+
+  /// No description provided for @biometricEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric authentication enabled'**
+  String get biometricEnabled;
+
+  /// No description provided for @biometricDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric authentication disabled'**
+  String get biometricDisabled;
+
+  /// No description provided for @errorOccurredBiometric.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred: {error}'**
+  String errorOccurredBiometric(Object error);
+
+  /// No description provided for @languageChangedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Language successfully changed to {language}'**
+  String languageChangedSuccess(Object language);
+
+  /// No description provided for @editProfilePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'edit profile photo'**
+  String get editProfilePhoto;
+
+  /// No description provided for @changePasswordFeature.
+  ///
+  /// In en, this message translates to:
+  /// **'change password'**
+  String get changePasswordFeature;
+
+  /// No description provided for @notificationSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'notification settings'**
+  String get notificationSettings;
+
+  /// No description provided for @helpFeature.
+  ///
+  /// In en, this message translates to:
+  /// **'help'**
+  String get helpFeature;
 }
 
 class _AppLocalizationsDelegate

@@ -31,7 +31,7 @@ class _AccountScreenState extends State<AccountScreen> {
   final _nameController = TextEditingController();
   final _nicknameController = TextEditingController();
   final _birthdateController = TextEditingController();
-  String _selectedGender = 'Laki-laki';
+  String _selectedGender = 'male'; // Changed from 'Laki-laki' to 'male'
 
   bool _isLoading = true;
   bool _isSaving = false;
@@ -61,7 +61,16 @@ class _AccountScreenState extends State<AccountScreen> {
           _userRole = data['role'] ?? 'resident';
           _nameController.text = data['name'] ?? '';
           _nicknameController.text = data['nickname'] ?? '';
-          _selectedGender = data['gender'] ?? 'Laki-laki';
+
+          // Convert stored value to key if needed
+          final gender = data['gender'] ?? 'male';
+          if (gender == 'Laki-laki' || gender == 'male') {
+            _selectedGender = 'male';
+          } else if (gender == 'Perempuan' || gender == 'female') {
+            _selectedGender = 'female';
+          } else {
+            _selectedGender = 'male';
+          }
 
           if (data['birthdate'] != null) {
             _parseBirthdate(data['birthdate']);
@@ -91,38 +100,43 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   Future<void> _saveUserData() async {
+    final l10n = AppLocalizations.of(context)!;
+
     if (_nameController.text.trim().isEmpty) {
-      _showWarningSnackBar('Nama lengkap tidak boleh kosong');
+      _showWarningSnackBar(l10n.fullNameRequired);
       return;
     }
 
     setState(() => _isSaving = true);
 
     try {
+      // Save gender as key, not translated text
       await _accountService.saveUserData(
         name: _nameController.text.trim(),
         nickname: _nicknameController.text.trim(),
-        gender: _selectedGender,
+        gender: _selectedGender, // Save 'male' or 'female'
         birthdate: _selectedBirthdate,
       );
 
       if (mounted) {
-        _showSuccessSnackBar('Profil berhasil diperbarui');
+        _showSuccessSnackBar(l10n.profileUpdatedSuccess);
         await _loadUserData();
       }
     } catch (e) {
-      _showErrorSnackBar('Gagal menyimpan data: $e');
+      _showErrorSnackBar(l10n.failedToSaveData(e.toString()));
     } finally {
       if (mounted) setState(() => _isSaving = false);
     }
   }
 
   Future<void> _logout() async {
+    final l10n = AppLocalizations.of(context)!;
+
     try {
       await _accountService.logout();
       if (mounted) context.go('/sign-in');
     } catch (e) {
-      _showErrorSnackBar('Gagal keluar: $e');
+      _showErrorSnackBar(l10n.failedToLogout(e.toString()));
     }
   }
 
@@ -174,30 +188,27 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   Future<void> _toggleBiometric(bool value) async {
+    final l10n = AppLocalizations.of(context)!;
+
     try {
       if (value) {
         final isAvailable = await _biometricService.isBiometricAvailable();
         if (!isAvailable) {
-          _showErrorSnackBar(
-            'Biometrik tidak tersedia. Pastikan perangkat Anda mendukung dan sudah diatur.',
-          );
+          _showErrorSnackBar(l10n.biometricNotAvailable);
           return;
         }
 
         final biometrics = await _biometricService.getAvailableBiometrics();
         if (biometrics.isEmpty) {
-          _showErrorSnackBar(
-            'Tidak ada biometrik yang terdaftar. Silakan atur sidik jari atau face ID di pengaturan perangkat.',
-          );
+          _showErrorSnackBar(l10n.noBiometricEnrolled);
           return;
         }
 
         final authenticated = await _biometricService.authenticate();
         if (!authenticated) {
-          // Use the detailed error message from the service
           final errorMessage =
               _biometricService.lastErrorMessage ??
-              'Autentikasi dibatalkan atau gagal. Silakan coba lagi.';
+              l10n.authenticationCancelled;
           _showWarningSnackBar(errorMessage);
           return;
         }
@@ -211,14 +222,12 @@ class _AccountScreenState extends State<AccountScreen> {
         });
 
         _showSuccessSnackBar(
-          value
-              ? 'Autentikasi biometrik diaktifkan'
-              : 'Autentikasi biometrik dinonaktifkan',
+          value ? l10n.biometricEnabled : l10n.biometricDisabled,
         );
       }
     } catch (e) {
       debugPrint('Toggle biometric error: $e');
-      _showErrorSnackBar('Terjadi kesalahan: $e');
+      _showErrorSnackBar(l10n.errorOccurredBiometric(e.toString()));
       if (mounted) {
         setState(() {
           _isBiometricEnabled = !value;
@@ -246,7 +255,8 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void _showComingSoonSnackBar(String feature) {
-    _showWarningSnackBar('Fitur $feature akan segera tersedia');
+    final l10n = AppLocalizations.of(context)!;
+    _showWarningSnackBar(l10n.featureComingSoon(feature));
   }
 
   @override
@@ -270,9 +280,9 @@ class _AccountScreenState extends State<AccountScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Akun',
-          style: TextStyle(
+        title: Text(
+          l10n.account,
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w800,
             color: Colors.black,
@@ -291,7 +301,7 @@ class _AccountScreenState extends State<AccountScreen> {
               displayName: _displayName,
               email: _email,
               roleDisplayName: RoleHelper.getDisplayName(_userRole),
-              onEditPhoto: () => _showComingSoonSnackBar('ubah foto profil'),
+              onEditPhoto: () => _showComingSoonSnackBar(l10n.editProfilePhoto),
             ),
             Padding(
               padding: const EdgeInsets.all(20),
@@ -299,26 +309,30 @@ class _AccountScreenState extends State<AccountScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   FormFieldWithLabel(
-                    label: 'Nama lengkap',
+                    label: l10n.fullNameLabel,
                     child: CustomTextField(
                       controller: _nameController,
-                      hintText: 'Masukkan nama lengkap',
+                      hintText: l10n.enterFullName,
                     ),
                   ),
                   const SizedBox(height: 20),
                   FormFieldWithLabel(
-                    label: 'Nama panggilan',
+                    label: l10n.nicknameLabel,
                     child: CustomTextField(
                       controller: _nicknameController,
-                      hintText: 'Masukkan nama panggilan',
+                      hintText: l10n.enterNickname,
                     ),
                   ),
                   const SizedBox(height: 20),
                   FormFieldWithLabel(
-                    label: 'Jenis kelamin',
+                    label: l10n.genderLabel,
                     child: CustomDropdown(
                       value: _selectedGender,
-                      items: const ['Laki-laki', 'Perempuan'],
+                      items: const ['male', 'female'], // Use keys
+                      itemLabels: [
+                        l10n.male,
+                        l10n.female,
+                      ], // Display translated labels
                       onChanged: (value) {
                         if (value != null) {
                           setState(() => _selectedGender = value);
@@ -328,7 +342,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   const SizedBox(height: 20),
                   FormFieldWithLabel(
-                    label: 'Tanggal lahir',
+                    label: l10n.birthdateLabel,
                     child: CustomDateField(
                       controller: _birthdateController,
                       onTap: _selectBirthdate,
@@ -353,9 +367,9 @@ class _AccountScreenState extends State<AccountScreen> {
                               width: 20,
                               child: LoadingIndicator(),
                             )
-                          : const Text(
-                              'Simpan Perubahan',
-                              style: TextStyle(
+                          : Text(
+                              l10n.saveChanges,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -364,9 +378,9 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  const Text(
-                    'Pengaturan',
-                    style: TextStyle(
+                  Text(
+                    l10n.settings,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
@@ -420,7 +434,9 @@ class _AccountScreenState extends State<AccountScreen> {
                             if (value != null) {
                               localeService.setLocale(Locale(value));
                               _showSuccessSnackBar(
-                                'Bahasa berhasil diubah ke ${localeService.getLanguageName(value)}',
+                                l10n.languageChangedSuccess(
+                                  localeService.getLanguageName(value),
+                                ),
                               );
                             }
                           },
@@ -430,17 +446,18 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   SettingItem(
                     icon: Icons.lock_outline,
-                    title: 'Ubah Password',
-                    onTap: () => _showComingSoonSnackBar('ubah password'),
+                    title: l10n.changePassword,
+                    onTap: () =>
+                        _showComingSoonSnackBar(l10n.changePasswordFeature),
                   ),
                   SettingItem(
                     icon: Icons.fingerprint,
-                    title: 'Autentikasi Biometrik',
+                    title: l10n.biometricAuth,
                     subtitle: _isBiometricAvailable
-                        ? 'Gunakan sidik jari atau face ID untuk membuka aplikasi'
+                        ? l10n.biometricAuthDesc
                         : kIsWeb
-                        ? 'Tidak tersedia di platform web'
-                        : 'Tidak tersedia di perangkat ini',
+                        ? l10n.biometricNotAvailableWeb
+                        : l10n.biometricNotAvailableDevice,
                     trailing: Switch(
                       value: _isBiometricEnabled,
                       onChanged: _isBiometricAvailable
@@ -451,23 +468,23 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   SettingItem(
                     icon: Icons.notifications_outlined,
-                    title: 'Notifikasi',
+                    title: l10n.notifications,
                     onTap: () =>
-                        _showComingSoonSnackBar('pengaturan notifikasi'),
+                        _showComingSoonSnackBar(l10n.notificationSettings),
                   ),
                   SettingItem(
                     icon: Icons.help_outline,
-                    title: 'Bantuan & Dukungan',
-                    onTap: () => _showComingSoonSnackBar('bantuan'),
+                    title: l10n.helpSupport,
+                    onTap: () => _showComingSoonSnackBar(l10n.helpFeature),
                   ),
                   SettingItem(
                     icon: Icons.book_outlined,
-                    title: 'Panduan Pengguna',
+                    title: l10n.userGuide,
                     onTap: () => context.push('/user-guides'),
                   ),
                   SettingItem(
                     icon: Icons.info_outline,
-                    title: 'Tentang Aplikasi',
+                    title: l10n.aboutApp,
                     onTap: () => AboutAppDialog.show(context),
                   ),
                   SettingItem(
@@ -488,14 +505,14 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         elevation: 2,
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.logout, color: Colors.white),
-                          SizedBox(width: 8),
+                          const Icon(Icons.logout, color: Colors.white),
+                          const SizedBox(width: 8),
                           Text(
-                            'Keluar',
-                            style: TextStyle(
+                            l10n.logout,
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,

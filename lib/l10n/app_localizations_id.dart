@@ -506,4 +506,128 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get navAccount => 'Akun';
+
+  @override
+  String get account => 'Akun';
+
+  @override
+  String get fullNameLabel => 'Nama Lengkap';
+
+  @override
+  String get enterFullName => 'Masukkan nama lengkap';
+
+  @override
+  String get fullNameRequired => 'Nama lengkap tidak boleh kosong';
+
+  @override
+  String get nicknameLabel => 'Nama Panggilan';
+
+  @override
+  String get enterNickname => 'Masukkan nama panggilan';
+
+  @override
+  String get genderLabel => 'Jenis Kelamin';
+
+  @override
+  String get birthdateLabel => 'Tanggal Lahir';
+
+  @override
+  String get saveChanges => 'Simpan Perubahan';
+
+  @override
+  String get settings => 'Pengaturan';
+
+  @override
+  String get changePassword => 'Ubah Password';
+
+  @override
+  String get biometricAuth => 'Autentikasi Biometrik';
+
+  @override
+  String get biometricAuthDesc =>
+      'Gunakan sidik jari atau face ID untuk membuka aplikasi';
+
+  @override
+  String get biometricNotAvailableWeb => 'Tidak tersedia di platform web';
+
+  @override
+  String get biometricNotAvailableDevice => 'Tidak tersedia di perangkat ini';
+
+  @override
+  String get notifications => 'Notifikasi';
+
+  @override
+  String get helpSupport => 'Bantuan & Dukungan';
+
+  @override
+  String get userGuide => 'Panduan Pengguna';
+
+  @override
+  String get aboutApp => 'Tentang Aplikasi';
+
+  @override
+  String get logout => 'Keluar';
+
+  @override
+  String get profileUpdatedSuccess => 'Profil berhasil diperbarui';
+
+  @override
+  String failedToLoadData(Object error) {
+    return 'Gagal memuat data: $error';
+  }
+
+  @override
+  String failedToSaveData(Object error) {
+    return 'Gagal menyimpan data: $error';
+  }
+
+  @override
+  String failedToLogout(Object error) {
+    return 'Gagal keluar: $error';
+  }
+
+  @override
+  String featureComingSoon(Object feature) {
+    return 'Fitur $feature akan segera tersedia';
+  }
+
+  @override
+  String get biometricNotAvailable =>
+      'Biometrik tidak tersedia. Pastikan perangkat Anda mendukung dan sudah diatur.';
+
+  @override
+  String get noBiometricEnrolled =>
+      'Tidak ada biometrik yang terdaftar. Silakan atur sidik jari atau face ID di pengaturan perangkat.';
+
+  @override
+  String get authenticationCancelled =>
+      'Autentikasi dibatalkan atau gagal. Silakan coba lagi.';
+
+  @override
+  String get biometricEnabled => 'Autentikasi biometrik diaktifkan';
+
+  @override
+  String get biometricDisabled => 'Autentikasi biometrik dinonaktifkan';
+
+  @override
+  String errorOccurredBiometric(Object error) {
+    return 'Terjadi kesalahan: $error';
+  }
+
+  @override
+  String languageChangedSuccess(Object language) {
+    return 'Bahasa berhasil diubah ke $language';
+  }
+
+  @override
+  String get editProfilePhoto => 'ubah foto profil';
+
+  @override
+  String get changePasswordFeature => 'ubah password';
+
+  @override
+  String get notificationSettings => 'pengaturan notifikasi';
+
+  @override
+  String get helpFeature => 'bantuan';
 }
