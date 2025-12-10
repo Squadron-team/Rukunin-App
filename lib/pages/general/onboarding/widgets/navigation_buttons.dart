@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 
 class NavigationButtons extends StatelessWidget {
   final int currentPage;
@@ -18,18 +19,10 @@ class NavigationButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -5),
-          ),
-        ],
-      ),
+      padding: const EdgeInsets.all(20),
       child: Row(
         children: [
           if (currentPage > 0) ...[
@@ -37,15 +30,15 @@ class NavigationButtons extends StatelessWidget {
               child: OutlinedButton(
                 onPressed: isLoading ? null : onPrevious,
                 style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                   side: const BorderSide(color: AppColors.primary),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: const Text(
-                  'Kembali',
-                  style: TextStyle(
+                child: Text(
+                  l10n.previous,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: AppColors.primary,
@@ -60,24 +53,25 @@ class NavigationButtons extends StatelessWidget {
             child: ElevatedButton(
               onPressed: isLoading ? null : onNext,
               style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 backgroundColor: AppColors.primary,
+                disabledBackgroundColor: AppColors.primary.withOpacity(0.5),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
               ),
               child: isLoading
                   ? const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: LoadingIndicator(),
+                      height: 20,
+                      width: 20,
+                      child: LoadingIndicator(color: Colors.white),
                     )
                   : Text(
-                      currentPage == 2 ? 'Selesai' : 'Lanjut',
+                      currentPage < 2 ? l10n.next : l10n.submit,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                     ),
             ),
