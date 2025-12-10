@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/general/onboarding/pages/welcome_page.dart';
-import 'package:rukunin/pages/general/onboarding/pages/ktp_page.dart';
-import 'package:rukunin/pages/general/onboarding/pages/kk_page.dart';
-import 'package:rukunin/pages/general/onboarding/widgets/progress_indicator.dart';
-import 'package:rukunin/pages/general/onboarding/widgets/navigation_buttons.dart';
-import 'package:rukunin/pages/general/onboarding/state/onboarding_state.dart';
-import 'package:rukunin/pages/general/onboarding/services/onboarding_service.dart';
+import 'package:rukunin/modules/auth/pages/onboarding/kk_page.dart';
+import 'package:rukunin/modules/auth/pages/onboarding/ktp_page.dart';
+import 'package:rukunin/modules/auth/pages/onboarding/welcome_page.dart';
+import 'package:rukunin/modules/auth/services/onboarding_service.dart';
+import 'package:rukunin/modules/auth/state/onboarding_state.dart';
+import 'package:rukunin/modules/auth/widgets/navigation_buttons.dart';
+import 'package:rukunin/modules/auth/widgets/progress_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/general/onboarding/state/onboarding_state.dart';
+import 'package:rukunin/modules/auth/state/onboarding_state.dart';
 import 'package:rukunin/widgets/custom_text_field.dart';
 import 'package:rukunin/widgets/custom_dropdown.dart';
 import 'package:rukunin/widgets/date_picker_field.dart';
