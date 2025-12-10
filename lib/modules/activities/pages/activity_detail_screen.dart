@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/modules/activities/widgets/activity_detail_screen_appbar.dart';
 import 'package:rukunin/modules/activities/widgets/activity_organizer_card.dart';
@@ -52,12 +53,13 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
   }
 
   Future<void> _toggleJoinStatus() async {
+    final l10n = AppLocalizations.of(context)!;
     final userId = _auth.currentUser?.uid;
 
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Silakan login terlebih dahulu'),
+        SnackBar(
+          content: Text(l10n.pleaseLoginFirst),
           backgroundColor: Colors.orange,
         ),
       );
@@ -85,8 +87,8 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
           SnackBar(
             content: Text(
               _isJoined
-                  ? 'Pendaftaran dibatalkan'
-                  : 'Anda telah mendaftar untuk kegiatan ini',
+                  ? l10n.registrationCancelled
+                  : l10n.registeredForActivity,
             ),
             backgroundColor: _isJoined ? Colors.orange : Colors.green,
             behavior: SnackBarBehavior.floating,
@@ -97,8 +99,8 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Gagal memperbarui status pendaftaran'),
+          SnackBar(
+            content: Text(l10n.failedToUpdateRegistration),
             backgroundColor: Colors.red,
           ),
         );
@@ -108,6 +110,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final displayEvent = _currentEvent ?? widget.event;
 
     return Scaffold(
@@ -185,7 +188,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                           ),
                           const SizedBox(width: 70),
                           Text(
-                            '$_participantCount orang tertarik',
+                            l10n.peopleInterested(_participantCount),
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -203,21 +206,21 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                 // Activity Details Cards
                 SmallActivityDetailCard(
                   icon: Icons.calendar_today,
-                  title: 'Tanggal',
+                  title: l10n.birthDate,
                   subtitle: displayEvent.date,
                   color: Colors.blue,
                 ),
 
                 SmallActivityDetailCard(
                   icon: Icons.access_time,
-                  title: 'Waktu',
+                  title: l10n.activityTime,
                   subtitle: displayEvent.time,
                   color: Colors.green,
                 ),
 
                 SmallActivityDetailCard(
                   icon: Icons.location_on,
-                  title: 'Lokasi',
+                  title: l10n.activityLocation,
                   subtitle: displayEvent.location,
                   color: AppColors.primary,
                   hasAction: true,
@@ -258,9 +261,9 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                             ),
                           ),
                           const SizedBox(width: 12),
-                          const Text(
-                            'Deskripsi Kegiatan',
-                            style: TextStyle(
+                          Text(
+                            l10n.activityDescription,
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
                               color: Colors.black,
@@ -300,6 +303,8 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
   }
 
   Widget _buildActionButtons() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -358,7 +363,9 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            _isJoined ? 'Sudah Terdaftar' : 'Ikut Kegiatan',
+                            _isJoined
+                                ? l10n.alreadyRegistered
+                                : l10n.joinActivity,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,

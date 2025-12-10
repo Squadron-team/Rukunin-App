@@ -5,6 +5,7 @@ class CustomDropdown extends StatelessWidget {
   final String label;
   final String? value;
   final List<String> items;
+  final List<String>? itemLabels; // Optional: for displaying translated text
   final IconData icon;
   final void Function(String?) onChanged;
 
@@ -14,11 +15,15 @@ class CustomDropdown extends StatelessWidget {
     required this.items,
     required this.icon,
     required this.onChanged,
+    this.itemLabels,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Use itemLabels if provided, otherwise use items
+    final displayLabels = itemLabels ?? items;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -70,13 +75,13 @@ class CustomDropdown extends StatelessWidget {
               elevation: 8,
               borderRadius: BorderRadius.circular(12),
               menuMaxHeight: 300,
-              items: items.map((String item) {
+              items: List.generate(items.length, (index) {
                 return DropdownMenuItem<String>(
-                  value: item,
+                  value: items[index],
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Text(
-                      item,
+                      displayLabels[index],
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 15,
@@ -85,14 +90,14 @@ class CustomDropdown extends StatelessWidget {
                     ),
                   ),
                 );
-              }).toList(),
+              }),
               onChanged: onChanged,
               selectedItemBuilder: (BuildContext context) {
-                return items.map((String item) {
+                return List.generate(items.length, (index) {
                   return Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      item,
+                      displayLabels[index],
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Colors.black,
@@ -101,7 +106,7 @@ class CustomDropdown extends StatelessWidget {
                       ),
                     ),
                   );
-                }).toList();
+                });
               },
             ),
           ),

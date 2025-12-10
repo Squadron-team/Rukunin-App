@@ -7,6 +7,7 @@ import 'package:rukunin/widgets/cards/category_chip.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_card.dart';
 import 'package:rukunin/modules/marketplace/widgets/search_bar_market.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 
 class MarketplaceScreen extends StatefulWidget {
   const MarketplaceScreen({super.key});
@@ -21,12 +22,13 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text(
-          'Pasar Warga',
-          style: TextStyle(
+        title: Text(
+          l10n.marketplaceTitle,
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w800,
             color: Colors.black,
@@ -64,7 +66,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           onTap: () =>
                               setState(() => _selectedCategory = 'Semua'),
                           child: CategoryChip(
-                            label: 'Semua',
+                            label: l10n.categoryAll,
                             icon: '🏪',
                             isSelected: _selectedCategory == 'Semua',
                           ),
@@ -73,7 +75,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           onTap: () =>
                               setState(() => _selectedCategory = 'Sayur'),
                           child: CategoryChip(
-                            label: 'Sayur',
+                            label: l10n.categoryVegetables,
                             icon: '🥬',
                             isSelected: _selectedCategory == 'Sayur',
                           ),
@@ -82,7 +84,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           onTap: () =>
                               setState(() => _selectedCategory = 'Buah'),
                           child: CategoryChip(
-                            label: 'Buah',
+                            label: l10n.categoryFruits,
                             icon: '🍎',
                             isSelected: _selectedCategory == 'Buah',
                           ),
@@ -91,7 +93,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           onTap: () =>
                               setState(() => _selectedCategory = 'Daging'),
                           child: CategoryChip(
-                            label: 'Daging',
+                            label: l10n.categoryMeat,
                             icon: '🥩',
                             isSelected: _selectedCategory == 'Daging',
                           ),
@@ -100,7 +102,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           onTap: () =>
                               setState(() => _selectedCategory = 'Minuman'),
                           child: CategoryChip(
-                            label: 'Minuman',
+                            label: l10n.categoryDrinks,
                             icon: '🥤',
                             isSelected: _selectedCategory == 'Minuman',
                           ),
@@ -109,7 +111,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           onTap: () =>
                               setState(() => _selectedCategory = 'Peralatan'),
                           child: CategoryChip(
-                            label: 'Peralatan',
+                            label: l10n.categoryTools,
                             icon: '🔧',
                             isSelected: _selectedCategory == 'Peralatan',
                           ),
@@ -142,7 +144,9 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(32.0),
                             child: Text(
-                              'Terjadi kesalahan: ${snapshot.error}',
+                              l10n.errorLoadingProducts(
+                                snapshot.error.toString(),
+                              ),
                               style: const TextStyle(color: Colors.red),
                             ),
                           ),
@@ -164,7 +168,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
-                                  'Belum ada produk',
+                                  l10n.noProducts,
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.grey[600],

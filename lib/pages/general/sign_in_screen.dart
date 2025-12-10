@@ -9,6 +9,8 @@ import 'package:rukunin/utils/role_based_navigator.dart';
 import 'package:rukunin/widgets/buttons/social_sign_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
+import 'package:rukunin/widgets/language_switcher.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -188,36 +190,10 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email tidak boleh kosong';
-    }
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return 'Format email tidak valid';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Kata sandi tidak boleh kosong';
-    }
-    if (value.length < 6) {
-      return 'Kata sandi minimal 6 karakter';
-    }
-    return null;
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -259,9 +235,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(height: 24),
 
                 // Sign In Title
-                const Text(
-                  'Masuk',
-                  style: TextStyle(
+                Text(
+                  l10n.signIn,
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -271,10 +247,10 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(height: 12),
 
                 // Subtitle
-                const Text(
-                  'Untuk masuk ke akun di aplikasi,\nmasukkan email dan kata sandi Anda',
+                Text(
+                  l10n.signInSubtitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
                     height: 1.5,
@@ -295,7 +271,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     validator: _validateEmail,
                     enabled: !_isLoading,
                     decoration: InputDecoration(
-                      hintText: 'E-mail',
+                      hintText: l10n.email,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       prefixIcon: const Icon(
                         Icons.email_outlined,
@@ -338,7 +314,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     validator: _validatePassword,
                     enabled: !_isLoading,
                     decoration: InputDecoration(
-                      hintText: 'Kata sandi',
+                      hintText: l10n.password,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       prefixIcon: const Icon(
                         Icons.lock_outline,
@@ -389,9 +365,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   alignment: Alignment.center,
                   child: TextButton(
                     onPressed: _isLoading ? null : _resetPassword,
-                    child: const Text(
-                      'Lupa kata sandi?',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.forgotPassword,
+                      style: const TextStyle(
                         color: AppColors.primary,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -422,16 +398,16 @@ class _SignInScreenState extends State<SignInScreen> {
                             height: 24,
                             child: LoadingIndicator(color: Colors.white),
                           )
-                        : const Text('Lanjutkan'),
+                        : Text(l10n.continueButton),
                   ),
                 ),
 
                 const SizedBox(height: 24),
 
                 // Don't have account text
-                const Text(
-                  'Belum punya akun?',
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                Text(
+                  l10n.dontHaveAccount,
+                  style: const TextStyle(color: Colors.grey, fontSize: 14),
                 ),
 
                 const SizedBox(height: 12),
@@ -450,9 +426,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text(
-                      'Buat akun',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.createAccount,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppColors.primary,
@@ -465,16 +441,15 @@ class _SignInScreenState extends State<SignInScreen> {
 
                 // Sign in with Apple
                 SocialSignInButton(
-                  label: 'Masuk dengan Apple',
+                  label: l10n.signInWithApple,
                   icon: const Icon(Icons.apple, color: Colors.black),
                   onPressed: _isLoading
                       ? null
                       : () {
-                          // TODO: Implement Apple sign in
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text(
-                                'Apple sign in belum tersedia',
+                              content: Text(
+                                l10n.featureNotAvailable(l10n.signInWithApple),
                               ),
                               backgroundColor: Colors.orange,
                               behavior: SnackBarBehavior.floating,
@@ -490,7 +465,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                 // Sign in with Google
                 SocialSignInButton(
-                  label: 'Masuk dengan Google',
+                  label: l10n.signInWithGoogle,
                   icon: Image.network(
                     'https://www.google.com/favicon.ico',
                     width: 24,
@@ -506,11 +481,10 @@ class _SignInScreenState extends State<SignInScreen> {
                   onPressed: _isLoading
                       ? null
                       : () {
-                          // TODO: Implement Google sign in
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text(
-                                'Google sign in belum tersedia',
+                              content: Text(
+                                l10n.featureNotAvailable(l10n.signInWithGoogle),
                               ),
                               backgroundColor: Colors.orange,
                               behavior: SnackBarBehavior.floating,
@@ -533,12 +507,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       height: 1.5,
                     ),
                     children: [
-                      const TextSpan(
-                        text:
-                            'Dengan mengklik "Lanjutkan", saya telah membaca dan menyetujui ',
-                      ),
+                      TextSpan(text: l10n.termsPrefix),
                       TextSpan(
-                        text: 'Lembar Ketentuan',
+                        text: l10n.termsOfService,
                         style: const TextStyle(
                           color: AppColors.primary,
                           decoration: TextDecoration.underline,
@@ -548,9 +519,9 @@ class _SignInScreenState extends State<SignInScreen> {
                             // TODO: Navigate to terms
                           },
                       ),
-                      const TextSpan(text: ', '),
+                      TextSpan(text: l10n.and),
                       TextSpan(
-                        text: 'Kebijakan Privasi',
+                        text: l10n.privacyPolicy,
                         style: const TextStyle(
                           color: AppColors.primary,
                           decoration: TextDecoration.underline,
@@ -565,11 +536,46 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
 
                 const SizedBox(height: 24),
+
+                // Language Switcher
+                const LanguageSwitcher(),
+
+                const SizedBox(height: 24),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  String? _validateEmail(String? value) {
+    final l10n = AppLocalizations.of(context)!;
+    if (value == null || value.isEmpty) {
+      return l10n.emailRequired;
+    }
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(value)) {
+      return l10n.emailInvalid;
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    final l10n = AppLocalizations.of(context)!;
+    if (value == null || value.isEmpty) {
+      return l10n.passwordRequired;
+    }
+    if (value.length < 6) {
+      return l10n.passwordMinLength;
+    }
+    return null;
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

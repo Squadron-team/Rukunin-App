@@ -6,6 +6,7 @@ import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/modules/notification/widgets/notification_tab_chip.dart';
 import 'package:rukunin/modules/notification/widgets/notification_card.dart';
 import 'package:rukunin/modules/notification/widgets/notification_empty_state.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -45,6 +46,8 @@ class _NotificationScreenState extends State<NotificationScreen>
   }
 
   void _markAllAsRead() {
+    final l10n = AppLocalizations.of(context)!;
+
     setState(() {
       for (var notification in appNotifications) {
         notification.isRead = true;
@@ -53,7 +56,7 @@ class _NotificationScreenState extends State<NotificationScreen>
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Semua notifikasi ditandai sudah dibaca'),
+        content: Text(l10n.allMarkedAsRead),
         backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -63,19 +66,19 @@ class _NotificationScreenState extends State<NotificationScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     int unreadCount = appNotifications.where((n) => n.isRead == false).length;
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
         title: Row(
           children: [
-            const Text(
-              'Notifikasi',
-              style: TextStyle(
+            Text(
+              l10n.notificationTitle,
+              style: const TextStyle(
                 color: Colors.black,
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
@@ -106,9 +109,9 @@ class _NotificationScreenState extends State<NotificationScreen>
           if (unreadCount > 0)
             TextButton(
               onPressed: _markAllAsRead,
-              child: const Text(
-                'Tandai semua',
-                style: TextStyle(
+              child: Text(
+                l10n.markAllAsRead,
+                style: const TextStyle(
                   color: AppColors.primary,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -145,21 +148,21 @@ class _NotificationScreenState extends State<NotificationScreen>
                       physics: const BouncingScrollPhysics(),
                       children: [
                         NotificationTabChip(
-                          label: 'All',
+                          label: l10n.notificationTabAll,
                           icon: Icons.notifications_active,
                           isSelected: _selectedTab == 'All',
                           onTap: () => setState(() => _selectedTab = 'All'),
                         ),
                         const SizedBox(width: 8),
                         NotificationTabChip(
-                          label: 'Admin',
+                          label: l10n.notificationTabAdmin,
                           icon: Icons.admin_panel_settings,
                           isSelected: _selectedTab == 'Admin',
                           onTap: () => setState(() => _selectedTab = 'Admin'),
                         ),
                         const SizedBox(width: 8),
                         NotificationTabChip(
-                          label: 'Komunitas',
+                          label: l10n.notificationTabCommunity,
                           icon: Icons.people,
                           isSelected: _selectedTab == 'Community',
                           onTap: () =>
@@ -167,12 +170,12 @@ class _NotificationScreenState extends State<NotificationScreen>
                         ),
                         const SizedBox(width: 8),
                         NotificationTabChip(
-                          label: 'Kegiatan',
+                          label: l10n.notificationTabEvent,
                           icon: Icons.event_note,
                           isSelected: _selectedTab == 'Event',
                           onTap: () => setState(() => _selectedTab = 'Event'),
                         ),
-                        const SizedBox(width: 12), // Extra padding at the end
+                        const SizedBox(width: 12),
                       ],
                     ),
                   ),
@@ -185,7 +188,11 @@ class _NotificationScreenState extends State<NotificationScreen>
           // Notification List
           Expanded(
             child: _filteredNotifications.isEmpty
-                ? const NotificationEmptyState()
+                ? NotificationEmptyState(
+                    message: _selectedTab == 'All'
+                        ? l10n.noNotificationsDesc
+                        : l10n.noNotificationsInCategory,
+                  )
                 : ListView.builder(
                     padding: const EdgeInsets.all(16),
                     itemCount: _filteredNotifications.length,

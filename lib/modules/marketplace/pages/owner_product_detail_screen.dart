@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/services/product_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
@@ -29,6 +30,8 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
   }
 
   Future<void> _toggleProductStatus() async {
+    final l10n = AppLocalizations.of(context)!;
+
     final success = await _productService.updateProduct(_currentProduct.id, {
       'isActive': !_currentProduct.isActive,
     });
@@ -43,8 +46,8 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
         SnackBar(
           content: Text(
             _currentProduct.isActive
-                ? '✅ Produk diaktifkan'
-                : '⏸️ Produk dinonaktifkan',
+                ? l10n.productActivated
+                : l10n.productDeactivated,
           ),
           backgroundColor: _currentProduct.isActive
               ? Colors.green
@@ -54,8 +57,8 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
       );
     } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('❌ Gagal mengubah status produk'),
+        SnackBar(
+          content: Text(l10n.failedToChangeStatus),
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
         ),
@@ -64,6 +67,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
   }
 
   void _showEditDialog() {
+    final l10n = AppLocalizations.of(context)!;
     final nameController = TextEditingController(text: _currentProduct.name);
     final priceController = TextEditingController(
       text: _currentProduct.price.toString(),
@@ -80,13 +84,13 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
     final ImagePicker picker = ImagePicker();
 
     final categories = [
-      'Sayur',
-      'Buah',
-      'Daging',
-      'Minuman',
-      'Makanan Rumahan',
-      'Peralatan',
-      'Lainnya',
+      l10n.vegetables,
+      l10n.fruits,
+      l10n.meat,
+      l10n.drinks,
+      l10n.homemadeFood,
+      l10n.equipment,
+      l10n.others,
     ];
 
     showDialog(
@@ -113,10 +117,10 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                     children: [
                       const Icon(Icons.edit, color: Colors.white, size: 24),
                       const SizedBox(width: 12),
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          'Edit Produk',
-                          style: TextStyle(
+                          l10n.editProduct,
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
@@ -159,10 +163,8 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                                 if (bytes.length > 2 * 1024 * 1024) {
                                   if (context.mounted) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          '❌ Ukuran gambar maksimal 2MB',
-                                        ),
+                                      SnackBar(
+                                        content: Text(l10n.imageTooLarge),
                                         backgroundColor: Colors.red,
                                       ),
                                     );
@@ -213,7 +215,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                                                 ),
                                                 const SizedBox(height: 8),
                                                 Text(
-                                                  'Tap untuk ubah gambar',
+                                                  l10n.tapToChangeImage,
                                                   style: TextStyle(
                                                     color: Colors.grey[600],
                                                   ),
@@ -231,7 +233,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                         TextField(
                           controller: nameController,
                           decoration: InputDecoration(
-                            labelText: 'Nama Produk',
+                            labelText: l10n.productName,
                             prefixIcon: const Icon(
                               Icons.shopping_basket_outlined,
                               color: AppColors.primary,
@@ -255,7 +257,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                         DropdownButtonFormField<String>(
                           initialValue: selectedCategory,
                           decoration: InputDecoration(
-                            labelText: 'Kategori',
+                            labelText: l10n.category,
                             prefixIcon: const Icon(
                               Icons.category_outlined,
                               color: AppColors.primary,
@@ -293,7 +295,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                                 controller: priceController,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  labelText: 'Harga',
+                                  labelText: l10n.price,
                                   prefixIcon: const Icon(
                                     Icons.payments_outlined,
                                     color: AppColors.primary,
@@ -318,7 +320,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                                 controller: stockController,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  labelText: 'Stok',
+                                  labelText: l10n.stock,
                                   prefixIcon: const Icon(
                                     Icons.inventory_2_outlined,
                                     color: AppColors.primary,
@@ -346,7 +348,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                           controller: descController,
                           maxLines: 4,
                           decoration: InputDecoration(
-                            labelText: 'Deskripsi',
+                            labelText: l10n.description,
                             alignLabelWithHint: true,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -384,9 +386,9 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: const Text(
-                            'Batal',
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                          child: Text(
+                            l10n.cancel,
+                            style: const TextStyle(fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
@@ -400,8 +402,8 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                                 stockController.text.isEmpty ||
                                 descController.text.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('❌ Semua field harus diisi'),
+                                SnackBar(
+                                  content: Text(l10n.allFieldsRequired),
                                   backgroundColor: Colors.red,
                                 ),
                               );
@@ -474,18 +476,16 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                                 });
 
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      '✅ Produk berhasil diperbarui',
-                                    ),
+                                  SnackBar(
+                                    content: Text(l10n.productUpdated),
                                     backgroundColor: Colors.green,
                                     behavior: SnackBarBehavior.floating,
                                   ),
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('❌ Gagal memperbarui produk'),
+                                  SnackBar(
+                                    content: Text(l10n.failedToUpdate),
                                     backgroundColor: Colors.red,
                                     behavior: SnackBarBehavior.floating,
                                   ),
@@ -494,9 +494,9 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                             }
                           },
                           icon: const Icon(Icons.save, size: 20),
-                          label: const Text(
-                            'Simpan Perubahan',
-                            style: TextStyle(fontWeight: FontWeight.w700),
+                          label: Text(
+                            l10n.saveChanges,
+                            style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,
@@ -521,16 +521,18 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
   }
 
   Future<ImageSource?> _showImageSourceDialog(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+
     return showDialog<ImageSource>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Pilih Sumber Gambar'),
+        title: Text(l10n.selectImageSource),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
               leading: const Icon(Icons.camera_alt, color: AppColors.primary),
-              title: const Text('Kamera'),
+              title: Text(l10n.camera),
               onTap: () => Navigator.pop(context, ImageSource.camera),
             ),
             ListTile(
@@ -538,7 +540,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                 Icons.photo_library,
                 color: AppColors.primary,
               ),
-              title: const Text('Galeri'),
+              title: Text(l10n.gallery),
               onTap: () => Navigator.pop(context, ImageSource.gallery),
             ),
           ],
@@ -548,6 +550,8 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
   }
 
   void _showDeleteDialog() {
+    final l10n = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -576,9 +580,12 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Hapus Produk?',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              Text(
+                l10n.deleteProductQuestion,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 12),
@@ -603,7 +610,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                'Produk yang dihapus tidak dapat dikembalikan',
+                l10n.cannotBeUndone,
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey[600],
@@ -625,7 +632,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                         ),
                       ),
                       child: Text(
-                        'Batal',
+                        l10n.cancel,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -668,8 +675,8 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                             SnackBar(
                               content: Text(
                                 success
-                                    ? '✅ Produk berhasil dihapus'
-                                    : '❌ Gagal menghapus produk',
+                                    ? l10n.productDeleted
+                                    : l10n.failedToDelete,
                               ),
                               backgroundColor: success
                                   ? Colors.green
@@ -680,9 +687,9 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                         }
                       },
                       icon: const Icon(Icons.delete_outline, size: 18),
-                      label: const Text(
-                        'Ya, Hapus',
-                        style: TextStyle(
+                      label: Text(
+                        l10n.yesDelete,
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
@@ -709,12 +716,14 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text(
-          'Kelola Produk',
-          style: TextStyle(fontWeight: FontWeight.w700),
+        title: Text(
+          l10n.manageProduct,
+          style: const TextStyle(fontWeight: FontWeight.w700),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -813,7 +822,9 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                             ),
                             const SizedBox(width: 6),
                             Text(
-                              _currentProduct.isActive ? 'Aktif' : 'Nonaktif',
+                              _currentProduct.isActive
+                                  ? l10n.active
+                                  : l10n.inactive,
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
@@ -877,9 +888,9 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Informasi Harga & Stok',
-                    style: TextStyle(
+                  Text(
+                    l10n.priceAndStockInfo,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
@@ -891,7 +902,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                       Expanded(
                         child: _buildInfoCard(
                           icon: Icons.payments_outlined,
-                          label: 'Harga',
+                          label: l10n.price,
                           value: CurrencyFormatter.format(
                             _currentProduct.price,
                           ),
@@ -902,7 +913,7 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                       Expanded(
                         child: _buildInfoCard(
                           icon: Icons.inventory_2_outlined,
-                          label: 'Stok',
+                          label: l10n.stock,
                           value: '${_currentProduct.stock}',
                           color: Colors.blue,
                         ),
@@ -922,9 +933,9 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Deskripsi Produk',
-                    style: TextStyle(
+                  Text(
+                    l10n.productDescription,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
@@ -952,9 +963,9 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Kelola Produk',
-                    style: TextStyle(
+                  Text(
+                    l10n.productManagement,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
@@ -963,8 +974,8 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                   const SizedBox(height: 16),
                   _buildActionTile(
                     icon: Icons.edit_outlined,
-                    title: 'Edit Produk',
-                    subtitle: 'Ubah informasi produk',
+                    title: l10n.editProduct,
+                    subtitle: l10n.changeProductInfo,
                     color: AppColors.primary,
                     onTap: _showEditDialog,
                   ),
@@ -974,11 +985,11 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                         ? Icons.pause_circle_outline
                         : Icons.play_circle_outline,
                     title: _currentProduct.isActive
-                        ? 'Nonaktifkan Produk'
-                        : 'Aktifkan Produk',
+                        ? l10n.deactivateProduct
+                        : l10n.activateProduct,
                     subtitle: _currentProduct.isActive
-                        ? 'Produk tidak akan muncul di Pasar Warga'
-                        : 'Tampilkan produk di Pasar Warga',
+                        ? l10n.productNotInMarket
+                        : l10n.showProductInMarket,
                     color: _currentProduct.isActive
                         ? Colors.orange
                         : Colors.green,
@@ -987,8 +998,8 @@ class _OwnerProductDetailScreenState extends State<OwnerProductDetailScreen> {
                   const Divider(height: 24),
                   _buildActionTile(
                     icon: Icons.delete_outline,
-                    title: 'Hapus Produk',
-                    subtitle: 'Hapus produk secara permanen',
+                    title: l10n.deleteProduct,
+                    subtitle: l10n.deleteProductPermanently,
                     color: Colors.red,
                     onTap: _showDeleteDialog,
                   ),

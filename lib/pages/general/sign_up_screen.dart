@@ -8,6 +8,8 @@ import 'package:rukunin/utils/firebase_auth_helper.dart';
 import 'package:rukunin/widgets/buttons/social_sign_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
+import 'package:rukunin/widgets/language_switcher.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -139,67 +141,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  String? _validateName(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Nama tidak boleh kosong';
-    }
-    if (value.length < 3) {
-      return 'Nama minimal 3 karakter';
-    }
-    return null;
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email tidak boleh kosong';
-    }
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return 'Format email tidak valid';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Kata sandi tidak boleh kosong';
-    }
-    if (value.length < 6) {
-      return 'Kata sandi minimal 6 karakter';
-    }
-    if (!value.contains(RegExp(r'[A-Z]'))) {
-      return 'Kata sandi harus mengandung huruf besar';
-    }
-    if (!value.contains(RegExp(r'[a-z]'))) {
-      return 'Kata sandi harus mengandung huruf kecil';
-    }
-    if (!value.contains(RegExp(r'[0-9]'))) {
-      return 'Kata sandi harus mengandung angka';
-    }
-    return null;
-  }
-
-  String? _validateConfirmPassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Konfirmasi kata sandi tidak boleh kosong';
-    }
-    if (value != _passwordController.text) {
-      return 'Kata sandi tidak cocok';
-    }
-    return null;
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -241,9 +186,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 24),
 
                 // Sign Up Title
-                const Text(
-                  'Daftar',
-                  style: TextStyle(
+                Text(
+                  l10n.signUp,
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -253,10 +198,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 12),
 
                 // Subtitle
-                const Text(
-                  'Buat akun baru untuk menggunakan\naplikasi Rukunin',
+                Text(
+                  l10n.signUpSubtitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
                     height: 1.5,
@@ -278,7 +223,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     validator: _validateName,
                     enabled: !_isLoading,
                     decoration: InputDecoration(
-                      hintText: 'Nama lengkap',
+                      hintText: l10n.fullName,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       prefixIcon: const Icon(
                         Icons.person_outline,
@@ -321,7 +266,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     validator: _validateEmail,
                     enabled: !_isLoading,
                     decoration: InputDecoration(
-                      hintText: 'E-mail',
+                      hintText: l10n.email,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       prefixIcon: const Icon(
                         Icons.email_outlined,
@@ -364,7 +309,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     validator: _validatePassword,
                     enabled: !_isLoading,
                     decoration: InputDecoration(
-                      hintText: 'Kata sandi',
+                      hintText: l10n.password,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       prefixIcon: const Icon(
                         Icons.lock_outline,
@@ -420,7 +365,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Kata sandi harus mengandung:',
+                        l10n.passwordRequirements,
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey[600],
@@ -428,10 +373,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      _buildPasswordRequirement('Minimal 6 karakter'),
-                      _buildPasswordRequirement('Huruf besar (A-Z)'),
-                      _buildPasswordRequirement('Huruf kecil (a-z)'),
-                      _buildPasswordRequirement('Angka (0-9)'),
+                      _buildPasswordRequirement(l10n.minCharacters),
+                      _buildPasswordRequirement(l10n.uppercase),
+                      _buildPasswordRequirement(l10n.lowercase),
+                      _buildPasswordRequirement(l10n.number),
                     ],
                   ),
                 ),
@@ -450,7 +395,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     validator: _validateConfirmPassword,
                     enabled: !_isLoading,
                     decoration: InputDecoration(
-                      hintText: 'Konfirmasi kata sandi',
+                      hintText: l10n.confirmPassword,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       prefixIcon: const Icon(
                         Icons.lock_outline,
@@ -519,16 +464,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             height: 24,
                             child: LoadingIndicator(color: Colors.white),
                           )
-                        : const Text('Daftar'),
+                        : Text(l10n.register),
                   ),
                 ),
 
                 const SizedBox(height: 24),
 
                 // Already have account text
-                const Text(
-                  'Sudah punya akun?',
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                Text(
+                  l10n.alreadyHaveAccount,
+                  style: const TextStyle(color: Colors.grey, fontSize: 14),
                 ),
 
                 const SizedBox(height: 12),
@@ -549,9 +494,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text(
-                      'Masuk',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.signIn,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppColors.primary,
@@ -591,16 +536,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                 // Sign up with Apple
                 SocialSignInButton(
-                  label: 'Daftar dengan Apple',
+                  label: l10n.signUpWithApple,
                   icon: const Icon(Icons.apple, color: Colors.black),
                   onPressed: _isLoading
                       ? null
                       : () {
-                          // TODO: Implement Apple sign up
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text(
-                                'Apple sign up belum tersedia',
+                              content: Text(
+                                l10n.featureNotAvailable(l10n.signUpWithApple),
                               ),
                               backgroundColor: Colors.orange,
                               behavior: SnackBarBehavior.floating,
@@ -616,7 +560,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                 // Sign up with Google
                 SocialSignInButton(
-                  label: 'Daftar dengan Google',
+                  label: l10n.signUpWithGoogle,
                   icon: Image.network(
                     'https://www.google.com/favicon.ico',
                     width: 24,
@@ -632,11 +576,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onPressed: _isLoading
                       ? null
                       : () {
-                          // TODO: Implement Google sign up
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text(
-                                'Google sign up belum tersedia',
+                              content: Text(
+                                l10n.featureNotAvailable(l10n.signUpWithGoogle),
                               ),
                               backgroundColor: Colors.orange,
                               behavior: SnackBarBehavior.floating,
@@ -660,12 +603,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 1.5,
                     ),
                     children: [
-                      const TextSpan(
-                        text:
-                            'Dengan mengklik "Daftar", saya telah membaca dan menyetujui ',
-                      ),
+                      TextSpan(text: l10n.signUpTermsPrefix),
                       TextSpan(
-                        text: 'Lembar Ketentuan',
+                        text: l10n.termsOfService,
                         style: const TextStyle(
                           color: AppColors.primary,
                           decoration: TextDecoration.underline,
@@ -675,9 +615,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             // TODO: Navigate to terms
                           },
                       ),
-                      const TextSpan(text: ', '),
+                      TextSpan(text: l10n.and),
                       TextSpan(
-                        text: 'Kebijakan Privasi',
+                        text: l10n.privacyPolicy,
                         style: const TextStyle(
                           color: AppColors.primary,
                           decoration: TextDecoration.underline,
@@ -692,12 +632,71 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
 
                 const SizedBox(height: 24),
+
+                // Language Switcher
+                const LanguageSwitcher(),
+
+                const SizedBox(height: 24),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  String? _validateName(String? value) {
+    final l10n = AppLocalizations.of(context)!;
+    if (value == null || value.isEmpty) {
+      return l10n.nameRequired;
+    }
+    if (value.length < 3) {
+      return l10n.nameMinLength;
+    }
+    return null;
+  }
+
+  String? _validateEmail(String? value) {
+    final l10n = AppLocalizations.of(context)!;
+    if (value == null || value.isEmpty) {
+      return l10n.emailRequired;
+    }
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(value)) {
+      return l10n.emailInvalid;
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    final l10n = AppLocalizations.of(context)!;
+    if (value == null || value.isEmpty) {
+      return l10n.passwordRequired;
+    }
+    if (value.length < 6) {
+      return l10n.passwordMinLength;
+    }
+    if (!value.contains(RegExp(r'[A-Z]'))) {
+      return l10n.passwordUppercase;
+    }
+    if (!value.contains(RegExp(r'[a-z]'))) {
+      return l10n.passwordLowercase;
+    }
+    if (!value.contains(RegExp(r'[0-9]'))) {
+      return l10n.passwordNumber;
+    }
+    return null;
+  }
+
+  String? _validateConfirmPassword(String? value) {
+    final l10n = AppLocalizations.of(context)!;
+    if (value == null || value.isEmpty) {
+      return l10n.confirmPasswordRequired;
+    }
+    if (value != _passwordController.text) {
+      return l10n.passwordMismatch;
+    }
+    return null;
   }
 
   Widget _buildPasswordRequirement(String text) {

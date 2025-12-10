@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_card.dart';
 import 'package:rukunin/modules/marketplace/services/product_service.dart';
@@ -33,6 +34,8 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -53,7 +56,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
             controller: _searchController,
             autofocus: true,
             decoration: InputDecoration(
-              hintText: 'Cari produk...',
+              hintText: l10n.searchProducts,
               hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
               prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
               suffixIcon: _searchQuery.isNotEmpty
@@ -91,7 +94,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                   Icon(Icons.search, size: 80, color: Colors.grey[300]),
                   const SizedBox(height: 16),
                   Text(
-                    'Cari produk yang Anda butuhkan',
+                    l10n.searchProductPlaceholder,
                     style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   ),
                 ],
@@ -116,7 +119,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Terjadi kesalahan',
+                          l10n.errorOccurredGeneric,
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey[600],
@@ -141,7 +144,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Produk tidak ditemukan',
+                          l10n.productNotFound,
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey[600],
@@ -149,7 +152,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Coba kata kunci lain',
+                          l10n.tryOtherKeywords,
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[400],
@@ -166,7 +169,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                     Padding(
                       padding: const EdgeInsets.all(20),
                       child: Text(
-                        '${products.length} produk ditemukan',
+                        l10n.productsFound(products.length),
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,

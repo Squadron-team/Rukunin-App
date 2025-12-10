@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/theme/app_colors.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 
 class ResidentShell extends StatelessWidget {
   final Widget child;
@@ -40,6 +41,7 @@ class ResidentShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentIndex = _getCurrentIndex(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -65,7 +67,7 @@ class ResidentShell extends StatelessWidget {
                   child: _buildNavItem(
                     context,
                     icon: Icons.home_rounded,
-                    label: 'Beranda',
+                    label: l10n.navHome,
                     index: 0,
                     isSelected: currentIndex == 0,
                   ),
@@ -74,7 +76,7 @@ class ResidentShell extends StatelessWidget {
                   child: _buildNavItem(
                     context,
                     icon: Icons.store_rounded,
-                    label: 'Pasar',
+                    label: l10n.navMarketplace,
                     index: 1,
                     isSelected: currentIndex == 1,
                   ),
@@ -83,7 +85,7 @@ class ResidentShell extends StatelessWidget {
                   child: _buildNavItem(
                     context,
                     icon: Icons.event_rounded,
-                    label: 'Kegiatan',
+                    label: l10n.navActivities,
                     index: 2,
                     isSelected: currentIndex == 2,
                   ),
@@ -92,7 +94,7 @@ class ResidentShell extends StatelessWidget {
                   child: _buildNavItem(
                     context,
                     icon: Icons.groups,
-                    label: 'Komunitas',
+                    label: l10n.navCommunity,
                     index: 3,
                     isSelected: currentIndex == 3,
                   ),
@@ -101,7 +103,7 @@ class ResidentShell extends StatelessWidget {
                   child: _buildNavItem(
                     context,
                     icon: Icons.person_rounded,
-                    label: 'Akun',
+                    label: l10n.navAccount,
                     index: 4,
                     isSelected: currentIndex == 4,
                   ),

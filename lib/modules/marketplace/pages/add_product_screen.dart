@@ -9,6 +9,7 @@ import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/modules/marketplace/services/product_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 
 class AddProductScreen extends StatefulWidget {
   final Shop shop;
@@ -47,12 +48,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text(
-          'Tambah Produk',
-          style: TextStyle(fontWeight: FontWeight.w700),
+        title: Text(
+          l10n.addProduct,
+          style: const TextStyle(fontWeight: FontWeight.w700),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -100,9 +103,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Tambah ke Toko',
-                            style: TextStyle(
+                          Text(
+                            l10n.addProductTo,
+                            style: const TextStyle(
                               fontSize: 12,
                               color: Colors.grey,
                               fontWeight: FontWeight.w600,
@@ -127,7 +130,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               const SizedBox(height: 24),
 
               // Image Upload Section
-              _buildSectionTitle('Foto Produk'),
+              _buildSectionTitle(l10n.productPhoto),
               const SizedBox(height: 12),
               GestureDetector(
                 onTap: _showImageSourceOptions,
@@ -168,9 +171,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               ),
                             ),
                             const SizedBox(height: 12),
-                            const Text(
-                              'Tambah Foto Produk',
-                              style: TextStyle(
+                            Text(
+                              l10n.tapToChangeImage,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.primary,
@@ -178,7 +181,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Maks. 2MB (JPG, PNG)',
+                              l10n.maxImageSize,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey[500],
@@ -235,16 +238,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
               const SizedBox(height: 24),
 
               // Product Name
-              _buildSectionTitle('Informasi Produk'),
+              _buildSectionTitle(l10n.productInfo),
               const SizedBox(height: 12),
               _buildTextField(
                 controller: _nameController,
-                label: 'Nama Produk',
-                hint: 'Masukkan nama produk',
+                label: l10n.productName,
+                hint: l10n.enterProductName,
                 icon: Icons.shopping_basket_outlined,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Nama produk harus diisi';
+                    return l10n.productNameRequired;
                   }
                   return null;
                 },
@@ -255,10 +258,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
               // Category Dropdown
               _buildDropdownField(
                 value: _selectedCategory,
-                label: 'Kategori',
-                hint: 'Pilih kategori',
+                label: l10n.category,
+                hint: l10n.selectCategoryHint,
                 icon: Icons.category_outlined,
                 items: _categories,
+                itemLabels: _getCategoryLabels(l10n),
                 onChanged: (value) {
                   setState(() {
                     _selectedCategory = value;
@@ -266,7 +270,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 },
                 validator: (value) {
                   if (value == null) {
-                    return 'Pilih kategori produk';
+                    return l10n.categoryRequired;
                   }
                   return null;
                 },
@@ -275,18 +279,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
               const SizedBox(height: 24),
 
               // Price & Stock Section
-              _buildSectionTitle('Harga & Stok'),
+              _buildSectionTitle(l10n.priceAndStock),
               const SizedBox(height: 12),
               _buildTextField(
                 controller: _priceController,
-                label: 'Harga',
-                hint: 'Masukkan harga',
+                label: l10n.price,
+                hint: l10n.enterPrice,
                 icon: Icons.payments_outlined,
                 prefixText: 'Rp ',
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Harga harus diisi';
+                    return l10n.priceRequired;
                   }
                   return null;
                 },
@@ -301,13 +305,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     flex: 2,
                     child: _buildTextField(
                       controller: _stockController,
-                      label: 'Stok',
-                      hint: 'Jumlah',
+                      label: l10n.stockQuantity,
+                      hint: l10n.quantity,
                       icon: Icons.inventory_2_outlined,
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Stok harus diisi';
+                          return l10n.priceRequired;
                         }
                         return null;
                       },
@@ -318,8 +322,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     flex: 1,
                     child: _buildDropdownField(
                       value: _selectedUnit,
-                      label: 'Satuan',
-                      hint: 'Unit',
+                      label: l10n.unit,
+                      hint: l10n.unit,
                       items: _units,
                       onChanged: (value) {
                         setState(() {
@@ -328,7 +332,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       },
                       validator: (value) {
                         if (value == null) {
-                          return 'Pilih satuan';
+                          return l10n.unitRequired;
                         }
                         return null;
                       },
@@ -340,7 +344,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               const SizedBox(height: 24),
 
               // Description
-              _buildSectionTitle('Deskripsi'),
+              _buildSectionTitle(l10n.description),
               const SizedBox(height: 12),
               Container(
                 decoration: BoxDecoration(
@@ -360,14 +364,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   maxLines: 5,
                   style: const TextStyle(fontSize: 14),
                   decoration: InputDecoration(
-                    hintText: 'Jelaskan detail produk Anda...',
+                    hintText: l10n.describeProduct,
                     hintStyle: TextStyle(color: Colors.grey[400]),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.all(16),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Deskripsi produk harus diisi';
+                      return l10n.descriptionRequired;
                     }
                     return null;
                   },
@@ -391,9 +395,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ),
                   child: _isLoading
                       ? const LoadingIndicator()
-                      : const Text(
-                          'Simpan Produk',
-                          style: TextStyle(
+                      : Text(
+                          l10n.saveProduct,
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
@@ -410,12 +414,24 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
+  List<String> _getCategoryLabels(AppLocalizations l10n) {
+    return [
+      l10n.vegetables,
+      l10n.fruits,
+      l10n.meat,
+      l10n.drinks,
+      l10n.homemadeFood,
+      l10n.equipment,
+      l10n.others,
+    ];
+  }
+
   void _showImageSourceOptions() {
+    final l10n = AppLocalizations.of(context)!;
+
     if (kIsWeb) {
-      // On web, only gallery is available
       _pickImage(ImageSource.gallery);
     } else {
-      // On mobile, show bottom sheet with options
       showModalBottomSheet(
         context: context,
         backgroundColor: Colors.white,
@@ -438,9 +454,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Text(
-                    'Pilih Sumber Gambar',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                  Text(
+                    l10n.selectImageSource,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   ListTile(
@@ -455,9 +474,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         color: AppColors.primary,
                       ),
                     ),
-                    title: const Text(
-                      'Kamera',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                    title: Text(
+                      l10n.camera,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
                     onTap: () {
                       Navigator.pop(context);
@@ -477,9 +496,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         color: AppColors.primary,
                       ),
                     ),
-                    title: const Text(
-                      'Galeri',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                    title: Text(
+                      l10n.gallery,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
                     onTap: () {
                       Navigator.pop(context);
@@ -496,6 +515,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
+    final l10n = AppLocalizations.of(context)!;
+
     try {
       final XFile? image = await _picker.pickImage(
         source: source,
@@ -505,13 +526,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
       );
 
       if (image != null) {
-        // Validate file size (max 2MB after compression)
         final bytes = await image.readAsBytes();
         if (bytes.length > 2 * 1024 * 1024) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('❌ Ukuran gambar maksimal 2MB'),
+              SnackBar(
+                content: Text(l10n.imageTooLarge),
                 backgroundColor: Colors.red,
                 behavior: SnackBarBehavior.floating,
               ),
@@ -531,7 +551,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('❌ Gagal mengambil gambar: $e'),
+            content: Text(l10n.failedToPickImage(e.toString())),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
           ),
@@ -541,12 +561,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   Future<void> _saveProduct() async {
+    final l10n = AppLocalizations.of(context)!;
+
     if (!_formKey.currentState!.validate()) return;
 
     if (_selectedImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('❌ Silakan tambahkan foto produk'),
+        SnackBar(
+          content: Text(l10n.addPhotoFirst),
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
         ),
@@ -557,7 +579,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
     setState(() => _isLoading = true);
 
     try {
-      // Upload image first
       print('Try to upload image!');
       final imageUrl = await ProductService().uploadProductImage(
         _selectedImage!,
@@ -590,7 +611,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       if (productId != null && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('✅ Produk berhasil ditambahkan!'),
+            content: Text(l10n.productSaved),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -605,7 +626,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('❌ Gagal menambahkan produk: $e'),
+            content: Text(l10n.failedToSave(e.toString())),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
           ),
@@ -674,9 +695,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
     required String hint,
     required List<String> items,
     required void Function(String?) onChanged,
+    List<String>? itemLabels,
     IconData? icon,
     String? Function(String?)? validator,
   }) {
+    final displayLabels = itemLabels ?? items;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -706,9 +730,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
         ),
         style: const TextStyle(fontSize: 14, color: Colors.black),
         icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.primary),
-        items: items.map((item) {
-          return DropdownMenuItem(value: item, child: Text(item));
-        }).toList(),
+        items: List.generate(items.length, (index) {
+          return DropdownMenuItem(
+            value: items[index],
+            child: Text(displayLabels[index]),
+          );
+        }),
         onChanged: onChanged,
         validator: validator,
       ),

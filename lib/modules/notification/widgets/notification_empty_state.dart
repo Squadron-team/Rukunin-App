@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/theme/app_colors.dart';
 
 class NotificationEmptyState extends StatelessWidget {
-  const NotificationEmptyState({super.key});
+  final String? message;
+
+  const NotificationEmptyState({this.message, super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -24,18 +29,19 @@ class NotificationEmptyState extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          const Text(
-            'Tidak ada notifikasi',
+          Text(
+            l10n.noNotifications,
             style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey[700],
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Notifikasi baru akan muncul di sini',
-            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+            message ?? l10n.noNotificationsDesc,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
           ),
         ],
       ),
