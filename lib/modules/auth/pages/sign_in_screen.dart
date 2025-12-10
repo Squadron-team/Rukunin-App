@@ -114,6 +114,55 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
+  Future<void> _signInWithGoogle() async {
+    setState(() => _isLoading = true);
+
+    try {
+      final userCredential = await _authService.signInWithGoogle();
+
+      if (userCredential == null) {
+        // User cancelled the sign-in
+        if (mounted) setState(() => _isLoading = false);
+        return;
+      }
+
+      if (!mounted) return;
+
+      final isNewUser = userCredential.additionalUserInfo?.isNewUser ?? false;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            isNewUser
+                ? 'Akun berhasil dibuat! Selamat datang, ${userCredential.user?.displayName ?? userCredential.user?.email ?? ""}!'
+                : 'Selamat datang kembali, ${userCredential.user?.displayName ?? userCredential.user?.email ?? ""}!',
+          ),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+
+      if (isNewUser) {
+        // Navigate to onboarding for new users
+        context.go('/onboarding');
+      } else {
+        // Navigate to role-based home for existing users
+        await RoleBasedNavigator.navigateToRoleBasedHome(context);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      _showErrorSnackBar(FirebaseAuthHelper.translateErrorMessage(e));
+    } catch (e) {
+      if (!mounted) return;
+      _showErrorSnackBar('Terjadi kesalahan saat masuk dengan Google: $e');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   void _showErrorSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -256,32 +305,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(height: 24),
 
                 SocialSignInButton(
-                  label: l10n.signInWithApple,
-                  icon: const Icon(Icons.apple, color: Colors.black),
-                  onPressed: _isLoading
-                      ? null
-                      : () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                l10n.featureNotAvailable(l10n.signInWithApple),
-                              ),
-                              backgroundColor: Colors.orange,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          );
-                        },
-                ),
-
-                const SizedBox(height: 12),
-
-                SocialSignInButton(
                   label: l10n.signInWithGoogle,
-                  icon: Image.network(
-                    'https://www.google.com/favicon.ico',
+                  icon: Image.asset(
+                    'icons/google_logo.png',
                     width: 24,
                     height: 24,
                     errorBuilder: (context, error, stackTrace) {
@@ -292,22 +318,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       );
                     },
                   ),
-                  onPressed: _isLoading
-                      ? null
-                      : () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                l10n.featureNotAvailable(l10n.signInWithGoogle),
-                              ),
-                              backgroundColor: Colors.orange,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          );
-                        },
+                  onPressed: _isLoading ? null : _signInWithGoogle,
                 ),
 
                 const SizedBox(height: 24),

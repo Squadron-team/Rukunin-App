@@ -78,6 +78,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
+  Future<void> _signUpWithGoogle() async {
+    setState(() => _isLoading = true);
+
+    try {
+      final userCredential = await _authService.signInWithGoogle();
+
+      if (userCredential == null) {
+        // User cancelled the sign-in
+        if (mounted) setState(() => _isLoading = false);
+        return;
+      }
+
+      if (!mounted) return;
+
+      final isNewUser = userCredential.additionalUserInfo?.isNewUser ?? false;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            isNewUser
+                ? 'Akun berhasil dibuat! Selamat datang, ${userCredential.user?.displayName ?? userCredential.user?.email ?? ""}!'
+                : 'Akun sudah terdaftar. Selamat datang kembali!',
+          ),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+
+      // Always go to onboarding for sign-up flow
+      context.go('/onboarding');
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      _showErrorSnackBar(FirebaseAuthHelper.translateErrorMessage(e));
+    } catch (e) {
+      if (!mounted) return;
+      _showErrorSnackBar('Terjadi kesalahan saat mendaftar dengan Google: $e');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   void _showErrorSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -273,32 +317,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 24),
 
                 SocialSignInButton(
-                  label: l10n.signUpWithApple,
-                  icon: const Icon(Icons.apple, color: Colors.black),
-                  onPressed: _isLoading
-                      ? null
-                      : () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                l10n.featureNotAvailable(l10n.signUpWithApple),
-                              ),
-                              backgroundColor: Colors.orange,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          );
-                        },
-                ),
-
-                const SizedBox(height: 12),
-
-                SocialSignInButton(
                   label: l10n.signUpWithGoogle,
-                  icon: Image.network(
-                    'https://www.google.com/favicon.ico',
+                  icon: Image.asset(
+                    'icons/google_logo.png',
                     width: 24,
                     height: 24,
                     errorBuilder: (context, error, stackTrace) {
@@ -309,22 +330,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       );
                     },
                   ),
-                  onPressed: _isLoading
-                      ? null
-                      : () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                l10n.featureNotAvailable(l10n.signUpWithGoogle),
-                              ),
-                              backgroundColor: Colors.orange,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          );
-                        },
+                  onPressed: _isLoading ? null : _signUpWithGoogle,
                 ),
 
                 const SizedBox(height: 24),
