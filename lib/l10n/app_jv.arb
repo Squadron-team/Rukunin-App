@@ -154,5 +154,10 @@
     "submittingData": "Ngirim data...",
     "onboardingSuccess": "Pendaftaran kasil rampung!",
     "onboardingFailed": "Pendaftaran gagal. Mangga coba maneh.",
-    "dataVerificationNotice": "Data sing panjenengan lebokno bakal diverifikasi dening pengurus RT/RW"
+    "dataVerificationNotice": "Data sing panjenengan lebokno bakal diverifikasi dening pengurus RT/RW",
+    "navHome": "Omah",
+    "navMarketplace": "Pasar",
+    "navActivities": "Kegiatan",
+    "navCommunity": "Komunitas",
+    "navAccount": "Akun"
 }

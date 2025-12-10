@@ -491,4 +491,19 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get dataVerificationNotice =>
       'Data yang Anda masukkan akan diverifikasi oleh pengurus RT/RW';
+
+  @override
+  String get navHome => 'Beranda';
+
+  @override
+  String get navMarketplace => 'Pasar';
+
+  @override
+  String get navActivities => 'Kegiatan';
+
+  @override
+  String get navCommunity => 'Komunitas';
+
+  @override
+  String get navAccount => 'Akun';
 }

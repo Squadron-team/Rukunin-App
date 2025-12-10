@@ -490,4 +490,19 @@ class AppLocalizationsJv extends AppLocalizations {
   @override
   String get dataVerificationNotice =>
       'Data sing panjenengan lebokno bakal diverifikasi dening pengurus RT/RW';
+
+  @override
+  String get navHome => 'Omah';
+
+  @override
+  String get navMarketplace => 'Pasar';
+
+  @override
+  String get navActivities => 'Kegiatan';
+
+  @override
+  String get navCommunity => 'Komunitas';
+
+  @override
+  String get navAccount => 'Akun';
 }

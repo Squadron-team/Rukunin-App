@@ -154,5 +154,10 @@
     "submittingData": "Mengirim data...",
     "onboardingSuccess": "Pendaftaran berhasil diselesaikan!",
     "onboardingFailed": "Pendaftaran gagal. Silakan coba lagi.",
-    "dataVerificationNotice": "Data yang Anda masukkan akan diverifikasi oleh pengurus RT/RW"
+    "dataVerificationNotice": "Data yang Anda masukkan akan diverifikasi oleh pengurus RT/RW",
+    "navHome": "Beranda",
+    "navMarketplace": "Pasar",
+    "navActivities": "Kegiatan",
+    "navCommunity": "Komunitas",
+    "navAccount": "Akun"
 }

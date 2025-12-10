@@ -489,4 +489,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get dataVerificationNotice =>
       'Your submitted data will be verified by RT/RW administrators';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navMarketplace => 'Market';
+
+  @override
+  String get navActivities => 'Activities';
+
+  @override
+  String get navCommunity => 'Community';
+
+  @override
+  String get navAccount => 'Account';
 }

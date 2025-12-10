@@ -1029,6 +1029,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your submitted data will be verified by RT/RW administrators'**
   String get dataVerificationNotice;
+
+  /// No description provided for @navHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// No description provided for @navMarketplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Market'**
+  String get navMarketplace;
+
+  /// No description provided for @navActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get navActivities;
+
+  /// No description provided for @navCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get navCommunity;
+
+  /// No description provided for @navAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get navAccount;
 }
 
 class _AppLocalizationsDelegate

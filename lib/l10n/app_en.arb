@@ -163,5 +163,10 @@
     "submittingData": "Submitting data...",
     "onboardingSuccess": "Registration completed successfully!",
     "onboardingFailed": "Registration failed. Please try again.",
-    "dataVerificationNotice": "Your submitted data will be verified by RT/RW administrators"
+    "dataVerificationNotice": "Your submitted data will be verified by RT/RW administrators",
+    "navHome": "Home",
+    "navMarketplace": "Market",
+    "navActivities": "Activities",
+    "navCommunity": "Community",
+    "navAccount": "Account"
 }
