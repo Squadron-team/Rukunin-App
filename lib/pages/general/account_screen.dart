@@ -12,6 +12,8 @@ import 'package:rukunin/widgets/dialogs/about_app_dialog.dart';
 import 'package:rukunin/services/account_service.dart';
 import 'package:rukunin/utils/role_helper.dart';
 import 'package:rukunin/services/biometric_auth_service.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
+import 'package:rukunin/main.dart' show localeService;
 import 'package:flutter/foundation.dart' show kIsWeb, debugPrint;
 
 class AccountScreen extends StatefulWidget {
@@ -257,6 +259,8 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (_isLoading) {
       return Scaffold(
         backgroundColor: Colors.grey[50],
@@ -369,6 +373,61 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
+                  SettingItem(
+                    icon: Icons.language,
+                    title: l10n.language,
+                    subtitle: l10n.languageSubtitle,
+                    trailing: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF5F5F5),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: localeService.locale.languageCode,
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: Colors.grey,
+                            size: 20,
+                          ),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          dropdownColor: Colors.white,
+                          elevation: 8,
+                          borderRadius: BorderRadius.circular(12),
+                          items: [
+                            DropdownMenuItem(
+                              value: 'en',
+                              child: Text(l10n.english),
+                            ),
+                            DropdownMenuItem(
+                              value: 'id',
+                              child: Text(l10n.indonesian),
+                            ),
+                            DropdownMenuItem(
+                              value: 'jv',
+                              child: Text(l10n.javanese),
+                            ),
+                          ],
+                          onChanged: (String? value) {
+                            if (value != null) {
+                              localeService.setLocale(Locale(value));
+                              _showSuccessSnackBar(
+                                'Bahasa berhasil diubah ke ${localeService.getLanguageName(value)}',
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
                   SettingItem(
                     icon: Icons.lock_outline,
                     title: 'Ubah Password',

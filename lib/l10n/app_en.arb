@@ -1,0 +1,42 @@
+{
+    "@@locale": "en",
+    "appTitle": "Rukunin",
+    "@appTitle": {
+        "description": "The application title"
+    },
+    "hello": "Hello",
+    "@hello": {
+        "description": "A greeting message"
+    },
+    "welcome": "Welcome to Rukunin",
+    "@welcome": {
+        "description": "Welcome message"
+    },
+    "home": "Home",
+    "welcomeBack": "Welcome back!",
+    "residentRole": "Resident RW 05",
+    "communityWorkThisWeek": "Community Work This Week",
+    "announcementSecuritySchedule": "Announcement: Security Schedule",
+    "securityScheduleChange": "Night security schedule change",
+    "duesDeadline": "Dues Deadline",
+    "payDuesSoon": "Pay your dues this month soon",
+    "dues": "Dues",
+    "payDues": "Pay Dues",
+    "paymentHistory": "Payment History",
+    "digitalReceipts": "Digital Receipts",
+    "services": "Services",
+    "submitLetter": "Submit Letter",
+    "reportIssue": "Report Issue",
+    "sendSuggestion": "Send Suggestion",
+    "submissionStatus": "Submission Status",
+    "community": "Community",
+    "eventCalendar": "Event Calendar",
+    "announcements": "Announcements",
+    "residentsData": "Residents Data",
+    "emergencyContacts": "Emergency Contacts",
+    "language": "Language",
+    "languageSubtitle": "Choose your preferred language",
+    "english": "English",
+    "indonesian": "Indonesian",
+    "javanese": "Javanese"
+}

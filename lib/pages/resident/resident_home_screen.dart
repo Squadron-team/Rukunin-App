@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 import 'package:rukunin/widgets/welcome_role_card.dart';
@@ -13,23 +14,25 @@ class ResidentHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: const RukuninAppBar(title: 'Beranda', showNotification: true),
+      appBar: RukuninAppBar(title: l10n.home, showNotification: true),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: WelcomeRoleCard(
-                greeting: 'Selamat datang kembali!',
-                role: 'Warga RW 05',
+                greeting: l10n.welcomeBack,
+                role: l10n.residentRole,
                 icon: Icons.home,
               ),
             ),
             const SizedBox(height: 24),
-            CommunityCarousel(items: _getCarouselItems()),
+            CommunityCarousel(items: _getCarouselItems(l10n)),
             const SizedBox(height: 24),
-            MenuTabsSection(tabs: _getMenuTabs(context)),
+            MenuTabsSection(tabs: _getMenuTabs(context, l10n)),
             const SizedBox(height: 24),
           ],
         ),
@@ -37,25 +40,25 @@ class ResidentHomeScreen extends StatelessWidget {
     );
   }
 
-  List<CarouselItem> _getCarouselItems() {
+  List<CarouselItem> _getCarouselItems(AppLocalizations l10n) {
     return [
       CarouselItem(
-        title: 'Kerja Bakti Minggu Ini',
+        title: l10n.communityWorkThisWeek,
         subtitle: 'Minggu, 15 Januari 2024 • 07:00 WIB',
         icon: Icons.cleaning_services_rounded,
         color: AppColors.success,
         type: 'event',
       ),
       CarouselItem(
-        title: 'Pengumuman: Jadwal Ronda',
-        subtitle: 'Perubahan jadwal keamanan malam',
+        title: l10n.announcementSecuritySchedule,
+        subtitle: l10n.securityScheduleChange,
         icon: Icons.campaign_rounded,
         color: AppColors.warning,
         type: 'announcement',
       ),
       CarouselItem(
-        title: 'Jatuh Tempo Iuran',
-        subtitle: 'Segera bayar iuran bulan ini',
+        title: l10n.duesDeadline,
+        subtitle: l10n.payDuesSoon,
         icon: Icons.payments_rounded,
         color: AppColors.error,
         type: 'payment',
@@ -63,78 +66,78 @@ class ResidentHomeScreen extends StatelessWidget {
     ];
   }
 
-  List<TabData> _getMenuTabs(BuildContext context) {
+  List<TabData> _getMenuTabs(BuildContext context, AppLocalizations l10n) {
     return [
       TabData(
-        label: 'Iuran',
+        label: l10n.dues,
         icon: Icons.payments_rounded,
         hasNotification: true,
         items: [
           MenuItem(
-            label: 'Bayar Iuran',
+            label: l10n.payDues,
             icon: Icons.payment_rounded,
             onTap: () => context.push('/resident/community/dues'),
             badge: '1',
           ),
           MenuItem(
-            label: 'Riwayat Pembayaran',
+            label: l10n.paymentHistory,
             icon: Icons.history_rounded,
             onTap: () => context.push('/resident/payment-history'),
           ),
           MenuItem(
-            label: 'Kwitansi Digital',
+            label: l10n.digitalReceipts,
             icon: Icons.receipt_long_rounded,
             onTap: () => context.push('/resident/digital-receipts'),
           ),
         ],
       ),
       TabData(
-        label: 'Layanan',
+        label: l10n.services,
         icon: Icons.description_rounded,
         items: [
           MenuItem(
-            label: 'Ajukan Surat',
+            label: l10n.submitLetter,
             icon: Icons.description_rounded,
             onTap: () => context.push('/resident/community/documents'),
           ),
           MenuItem(
-            label: 'Lapor Masalah',
+            label: l10n.reportIssue,
             icon: Icons.report_problem_rounded,
             onTap: () => context.push('/resident/report-issue'),
           ),
           MenuItem(
-            label: 'Kirim Saran',
+            label: l10n.sendSuggestion,
             icon: Icons.feedback_rounded,
             onTap: () => context.push('/resident/submit-suggestion'),
           ),
           MenuItem(
-            label: 'Status Pengajuan',
+            label: l10n.submissionStatus,
             icon: Icons.checklist_rounded,
             onTap: () => context.push('/resident/submission-status'),
           ),
         ],
       ),
       TabData(
-        label: 'Komunitas',
+        label: l10n.community,
         icon: Icons.groups_rounded,
         items: [
           MenuItem(
-            label: 'Kalender Kegiatan',
+            label: l10n.eventCalendar,
             icon: Icons.event_rounded,
             onTap: () => context.push('/resident/event-calendar'),
           ),
           MenuItem(
-            label: 'Pengumuman',
+            label: l10n.announcements,
             icon: Icons.campaign_rounded,
             onTap: () => context.push('/resident/announcements'),
           ),
           MenuItem(
-            label: 'Data Warga',
+            label: l10n.residentsData,
             icon: Icons.people_rounded,
             onTap: () => context.push('/resident/residents-directory'),
           ),
           MenuItem(
-            label: 'Kontak Penting',
+            label: l10n.emergencyContacts,
             icon: Icons.contact_phone_rounded,
             onTap: () => context.push('/resident/emergency-contacts'),
           ),
