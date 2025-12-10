@@ -423,5 +423,20 @@
     "noActivitiesDesc": "Belum ada kegiatan yang dijadwalkan\npada tanggal ini.",
     "suggestActivity": "Usulkan Kegiatan",
     "suggestActivityFeature": "Fitur usulkan kegiatan akan segera tersedia",
-    "organizer": "Penyelenggara"
+    "organizer": "Penyelenggara",
+    "communityInformation": "Informasi Komunitas",
+    "populationInformation": "Informasi Kependudukan",
+    "viewKtpKkData": "Lihat data KTP/KK Anda",
+    "familyDataKk": "Data Keluarga (KK)",
+    "manageFamilyMembers": "Kelola informasi anggota keluarga",
+    "houseData": "Data Rumah",
+    "manageResidenceInfo": "Kelola informasi tempat tinggal Anda",
+    "financeAndDues": "Keuangan & Iuran",
+    "myDues": "Iuran Saya",
+    "monthlyDuesHistory": "Riwayat pembayaran iuran bulanan",
+    "financialTransparency": "Transparansi Keuangan",
+    "rtRwFinancialReport": "Laporan keuangan RT/RW",
+    "administration": "Administrasi",
+    "letterSubmission": "Pengajuan Surat",
+    "submitLettersAndDocs": "Ajukan surat keterangan dan dokumen"
 }

@@ -2553,6 +2553,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Organizer'**
   String get organizer;
+
+  /// No description provided for @communityInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Information'**
+  String get communityInformation;
+
+  /// No description provided for @populationInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Population Information'**
+  String get populationInformation;
+
+  /// No description provided for @viewKtpKkData.
+  ///
+  /// In en, this message translates to:
+  /// **'View your KTP/KK data'**
+  String get viewKtpKkData;
+
+  /// No description provided for @familyDataKk.
+  ///
+  /// In en, this message translates to:
+  /// **'Family Data (KK)'**
+  String get familyDataKk;
+
+  /// No description provided for @manageFamilyMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage family member information'**
+  String get manageFamilyMembers;
+
+  /// No description provided for @houseData.
+  ///
+  /// In en, this message translates to:
+  /// **'House Data'**
+  String get houseData;
+
+  /// No description provided for @manageResidenceInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your residence information'**
+  String get manageResidenceInfo;
+
+  /// No description provided for @financeAndDues.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance & Dues'**
+  String get financeAndDues;
+
+  /// No description provided for @myDues.
+  ///
+  /// In en, this message translates to:
+  /// **'My Dues'**
+  String get myDues;
+
+  /// No description provided for @monthlyDuesHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly dues payment history'**
+  String get monthlyDuesHistory;
+
+  /// No description provided for @financialTransparency.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Transparency'**
+  String get financialTransparency;
+
+  /// No description provided for @rtRwFinancialReport.
+  ///
+  /// In en, this message translates to:
+  /// **'RT/RW financial report'**
+  String get rtRwFinancialReport;
+
+  /// No description provided for @administration.
+  ///
+  /// In en, this message translates to:
+  /// **'Administration'**
+  String get administration;
+
+  /// No description provided for @letterSubmission.
+  ///
+  /// In en, this message translates to:
+  /// **'Letter Submission'**
+  String get letterSubmission;
+
+  /// No description provided for @submitLettersAndDocs.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit certificates and documents'**
+  String get submitLettersAndDocs;
 }
 
 class _AppLocalizationsDelegate

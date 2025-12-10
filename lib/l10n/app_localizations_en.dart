@@ -1295,4 +1295,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get organizer => 'Organizer';
+
+  @override
+  String get communityInformation => 'Community Information';
+
+  @override
+  String get populationInformation => 'Population Information';
+
+  @override
+  String get viewKtpKkData => 'View your KTP/KK data';
+
+  @override
+  String get familyDataKk => 'Family Data (KK)';
+
+  @override
+  String get manageFamilyMembers => 'Manage family member information';
+
+  @override
+  String get houseData => 'House Data';
+
+  @override
+  String get manageResidenceInfo => 'Manage your residence information';
+
+  @override
+  String get financeAndDues => 'Finance & Dues';
+
+  @override
+  String get myDues => 'My Dues';
+
+  @override
+  String get monthlyDuesHistory => 'Monthly dues payment history';
+
+  @override
+  String get financialTransparency => 'Financial Transparency';
+
+  @override
+  String get rtRwFinancialReport => 'RT/RW financial report';
+
+  @override
+  String get administration => 'Administration';
+
+  @override
+  String get letterSubmission => 'Letter Submission';
+
+  @override
+  String get submitLettersAndDocs => 'Submit certificates and documents';
 }

@@ -655,7 +655,7 @@ class AppLocalizationsJv extends AppLocalizations {
   String get noNotifications => 'Ora ana notifikasi';
 
   @override
-  String get noNotificationsDesc => 'Panjenengan durung duwe notifikasi';
+  String get noNotificationsDesc => 'Panjenangan durung duwe notifikasi';
 
   @override
   String get noNotificationsInCategory => 'Ora ana notifikasi ing kategori iki';
@@ -1295,4 +1295,49 @@ class AppLocalizationsJv extends AppLocalizations {
 
   @override
   String get organizer => 'Penyelenggara';
+
+  @override
+  String get communityInformation => 'Informasi Komunitas';
+
+  @override
+  String get populationInformation => 'Informasi Kependudukan';
+
+  @override
+  String get viewKtpKkData => 'Deleng data KTP/KK sampeyan';
+
+  @override
+  String get familyDataKk => 'Data Keluarga (KK)';
+
+  @override
+  String get manageFamilyMembers => 'Kelola informasi anggota keluarga';
+
+  @override
+  String get houseData => 'Data Omah';
+
+  @override
+  String get manageResidenceInfo => 'Kelola informasi papan tinggal sampeyan';
+
+  @override
+  String get financeAndDues => 'Keuangan & Iuran';
+
+  @override
+  String get myDues => 'Iuran Kulo';
+
+  @override
+  String get monthlyDuesHistory => 'Riwayat pembayaran iuran saben wulan';
+
+  @override
+  String get financialTransparency => 'Transparansi Keuangan';
+
+  @override
+  String get rtRwFinancialReport => 'Laporan keuangan RT/RW';
+
+  @override
+  String get administration => 'Administrasi';
+
+  @override
+  String get letterSubmission => 'Pengajuan Surat';
+
+  @override
+  String get submitLettersAndDocs => 'Ajukno surat keterangan lan dokumen';
 }

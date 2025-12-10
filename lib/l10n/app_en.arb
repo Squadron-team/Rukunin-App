@@ -446,5 +446,20 @@
     "noActivitiesDesc": "No activities scheduled\non this date.",
     "suggestActivity": "Suggest Activity",
     "suggestActivityFeature": "Suggest activity feature will be available soon",
-    "organizer": "Organizer"
+    "organizer": "Organizer",
+    "communityInformation": "Community Information",
+    "populationInformation": "Population Information",
+    "viewKtpKkData": "View your KTP/KK data",
+    "familyDataKk": "Family Data (KK)",
+    "manageFamilyMembers": "Manage family member information",
+    "houseData": "House Data",
+    "manageResidenceInfo": "Manage your residence information",
+    "financeAndDues": "Finance & Dues",
+    "myDues": "My Dues",
+    "monthlyDuesHistory": "Monthly dues payment history",
+    "financialTransparency": "Financial Transparency",
+    "rtRwFinancialReport": "RT/RW financial report",
+    "administration": "Administration",
+    "letterSubmission": "Letter Submission",
+    "submitLettersAndDocs": "Submit certificates and documents"
 }

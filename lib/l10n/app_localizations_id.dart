@@ -1298,4 +1298,49 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get organizer => 'Penyelenggara';
+
+  @override
+  String get communityInformation => 'Informasi Komunitas';
+
+  @override
+  String get populationInformation => 'Informasi Kependudukan';
+
+  @override
+  String get viewKtpKkData => 'Lihat data KTP/KK Anda';
+
+  @override
+  String get familyDataKk => 'Data Keluarga (KK)';
+
+  @override
+  String get manageFamilyMembers => 'Kelola informasi anggota keluarga';
+
+  @override
+  String get houseData => 'Data Rumah';
+
+  @override
+  String get manageResidenceInfo => 'Kelola informasi tempat tinggal Anda';
+
+  @override
+  String get financeAndDues => 'Keuangan & Iuran';
+
+  @override
+  String get myDues => 'Iuran Saya';
+
+  @override
+  String get monthlyDuesHistory => 'Riwayat pembayaran iuran bulanan';
+
+  @override
+  String get financialTransparency => 'Transparansi Keuangan';
+
+  @override
+  String get rtRwFinancialReport => 'Laporan keuangan RT/RW';
+
+  @override
+  String get administration => 'Administrasi';
+
+  @override
+  String get letterSubmission => 'Pengajuan Surat';
+
+  @override
+  String get submitLettersAndDocs => 'Ajukan surat keterangan dan dokumen';
 }
