@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/theme/app_colors.dart';
 
 class SearchBarMarket extends StatelessWidget {
@@ -7,6 +8,8 @@ class SearchBarMarket extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -31,7 +34,7 @@ class SearchBarMarket extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        'Cari produk yang anda cari',
+                        l10n.searchProducts,
                         style: TextStyle(color: Colors.grey[400], fontSize: 14),
                       ),
                     ),

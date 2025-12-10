@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/utils/currency_formatter.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -11,6 +12,8 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () {
@@ -88,83 +91,133 @@ class ProductCard extends StatelessWidget {
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Badge
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withAlpha(38),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      product.badge,
-                      style: const TextStyle(
-                        color: AppColors.primary,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10), // Reduced from 12
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Badge
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6, // Reduced from 8
+                        vertical: 3, // Reduced from 4
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withAlpha(38),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        product.badge,
+                        style: const TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 8),
-
-                  // Product Name
-                  Text(
-                    product.name,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-
-                  const SizedBox(height: 4),
-
-                  // Seller
-                  Text(
-                    product.seller,
-                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  // Price and Cart
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        CurrencyFormatter.format(product.price),
+                    const SizedBox(height: 6), // Reduced from 8
+                    // Product Name - Fixed height
+                    SizedBox(
+                      height: 34, // Reduced from 36
+                      child: Text(
+                        product.name,
                         style: const TextStyle(
                           fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.primary,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                          height: 1.2, // Reduced from 1.3
                         ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      Container(
-                        width: 32,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(8),
+                    ),
+
+                    const SizedBox(height: 3), // Reduced from 4
+                    // Seller - Fixed height
+                    SizedBox(
+                      height: 15, // Reduced from 16
+                      child: Text(
+                        product.seller,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                          height: 1.2, // Reduced from 1.3
                         ),
-                        child: const Icon(
-                          Icons.shopping_cart_outlined,
-                          size: 18,
-                          color: Colors.white,
-                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+
+                    const Spacer(),
+
+                    // Price and Cart
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            CurrencyFormatter.format(product.price),
+                            style: const TextStyle(
+                              fontSize: 13, // Reduced from 14
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 6), // Reduced from 8
+                        Container(
+                          width: 30, // Reduced from 32
+                          height: 30, // Reduced from 32
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(
+                            Icons.shopping_cart_outlined,
+                            size: 16, // Reduced from 18
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 3), // Reduced from 4
+                    // Stock only - Fixed height
+                    SizedBox(
+                      height: 16, // Reduced from 18
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.inventory_2_outlined,
+                            size: 13, // Reduced from 14
+                            color: Colors.grey[600],
+                          ),
+                          const SizedBox(width: 3), // Reduced from 4
+                          Flexible(
+                            child: Text(
+                              '${l10n.stock}: ${product.stock}',
+                              style: TextStyle(
+                                fontSize: 11, // Reduced from 12
+                                color: Colors.grey[600],
+                                height: 1.2, // Reduced from 1.3
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

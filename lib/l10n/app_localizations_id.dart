@@ -18,7 +18,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get welcome => 'Selamat datang di Rukunin';
 
   @override
-  String get home => 'Beranda';
+  String get home => 'Rumah';
 
   @override
   String get welcomeBack => 'Selamat datang kembali!';
@@ -661,4 +661,583 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get noNotificationsInCategory =>
       'Tidak ada notifikasi di kategori ini';
+
+  @override
+  String get marketplaceTitle => 'Pasar Warga';
+
+  @override
+  String get searchProducts => 'Cari produk...';
+
+  @override
+  String get myShop => 'Toko Saya';
+
+  @override
+  String get openShop => 'Buka Toko';
+
+  @override
+  String get manageShop => 'Kelola Toko';
+
+  @override
+  String get categoryAll => 'Semua';
+
+  @override
+  String get categoryVegetables => 'Sayur';
+
+  @override
+  String get categoryFruits => 'Buah';
+
+  @override
+  String get categoryMeat => 'Daging';
+
+  @override
+  String get categoryDrinks => 'Minuman';
+
+  @override
+  String get categoryTools => 'Peralatan';
+
+  @override
+  String get noProducts => 'Belum ada produk';
+
+  @override
+  String errorLoadingProducts(Object error) {
+    return 'Terjadi kesalahan: $error';
+  }
+
+  @override
+  String get sold => 'Terjual';
+
+  @override
+  String get stock => 'Stok';
+
+  @override
+  String get openShopTitle => 'Buka Toko Anda';
+
+  @override
+  String get openShopSubtitle => 'Mulai berjualan di pasar warga';
+
+  @override
+  String get openShopButton => 'Buka Toko';
+
+  @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get addProduct => 'Tambah Produk';
+
+  @override
+  String get addProductTo => 'Tambah ke Toko';
+
+  @override
+  String get productPhoto => 'Foto Produk';
+
+  @override
+  String get tapToChangeImage => 'Tap untuk ubah gambar';
+
+  @override
+  String get maxImageSize => 'Maks. 2MB (JPG, PNG)';
+
+  @override
+  String get productInfo => 'Informasi Produk';
+
+  @override
+  String get productName => 'Nama Produk';
+
+  @override
+  String get enterProductName => 'Masukkan nama produk';
+
+  @override
+  String get productNameRequired => 'Nama produk harus diisi';
+
+  @override
+  String get category => 'Kategori';
+
+  @override
+  String get selectCategory => 'Pilih kategori';
+
+  @override
+  String get selectCategoryHint => 'Pilih kategori produk';
+
+  @override
+  String get categoryRequired => 'Pilih kategori produk';
+
+  @override
+  String get priceAndStock => 'Harga & Stok';
+
+  @override
+  String get price => 'Harga';
+
+  @override
+  String get enterPrice => 'Masukkan harga';
+
+  @override
+  String get priceRequired => 'Harga harus diisi';
+
+  @override
+  String get stockQuantity => 'Stok';
+
+  @override
+  String get quantity => 'Jumlah';
+
+  @override
+  String get unit => 'Satuan';
+
+  @override
+  String get unitRequired => 'Pilih satuan';
+
+  @override
+  String get description => 'Deskripsi';
+
+  @override
+  String get describeProduct => 'Jelaskan detail produk Anda...';
+
+  @override
+  String get descriptionRequired => 'Deskripsi produk harus diisi';
+
+  @override
+  String get saveProduct => 'Simpan Produk';
+
+  @override
+  String get productSaved => '✅ Produk berhasil ditambahkan!';
+
+  @override
+  String failedToSave(Object error) {
+    return '❌ Gagal menambahkan produk: $error';
+  }
+
+  @override
+  String get addPhotoFirst => '❌ Silakan tambahkan foto produk';
+
+  @override
+  String get imageTooLarge => '❌ Ukuran gambar maksimal 2MB';
+
+  @override
+  String get selectImageSource => 'Pilih Sumber Gambar';
+
+  @override
+  String get camera => 'Kamera';
+
+  @override
+  String get gallery => 'Galeri';
+
+  @override
+  String failedToPickImage(Object error) {
+    return '❌ Gagal mengambil gambar: $error';
+  }
+
+  @override
+  String get vegetables => 'Sayur';
+
+  @override
+  String get fruits => 'Buah';
+
+  @override
+  String get meat => 'Daging';
+
+  @override
+  String get drinks => 'Minuman';
+
+  @override
+  String get homemadeFood => 'Makanan Rumahan';
+
+  @override
+  String get equipment => 'Peralatan';
+
+  @override
+  String get others => 'Lainnya';
+
+  @override
+  String get cart => 'Keranjang';
+
+  @override
+  String get cartAndOrders => 'Keranjang & Pesanan';
+
+  @override
+  String get inProcess => 'Diproses';
+
+  @override
+  String get completed => 'Selesai';
+
+  @override
+  String get emptyCart => 'Keranjang Kosong';
+
+  @override
+  String get noProductsInCart => 'Belum ada produk di keranjang Anda';
+
+  @override
+  String get shopNow => 'Belanja Sekarang';
+
+  @override
+  String get shippingAddress => 'Alamat Pengiriman';
+
+  @override
+  String get productsInCart => 'Produk Belanja';
+
+  @override
+  String get haveCoupon => 'Punya kode kupon?';
+
+  @override
+  String get enterCoupon => 'Masukkan kode kupon';
+
+  @override
+  String get apply => 'Terapkan';
+
+  @override
+  String get couponApplied => 'Kupon berhasil diterapkan!';
+
+  @override
+  String get enterCouponCode => 'Masukkan kode kupon';
+
+  @override
+  String get invalidCoupon => 'Kode kupon tidak valid';
+
+  @override
+  String get paymentSummary => 'Ringkasan Pembayaran';
+
+  @override
+  String get subtotal => 'Sub Total';
+
+  @override
+  String get deliveryFee => 'Biaya Pengiriman';
+
+  @override
+  String get discount => 'Diskon';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get totalPayment => 'Total Pembayaran';
+
+  @override
+  String get checkout => 'Checkout';
+
+  @override
+  String get productRemoved => 'Produk dihapus dari keranjang';
+
+  @override
+  String get noOrdersInProcess => 'Belum ada pesanan yang diproses';
+
+  @override
+  String get noCompletedOrders => 'Belum ada pesanan selesai';
+
+  @override
+  String get ordersWillAppear => 'Pesanan akan muncul di sini';
+
+  @override
+  String get order => 'Pesanan';
+
+  @override
+  String get items => 'item';
+
+  @override
+  String get item => 'item';
+
+  @override
+  String get contactSeller => 'Hubungi Penjual';
+
+  @override
+  String get trackOrder => 'Lacak Pesanan';
+
+  @override
+  String get myProducts => 'Produk Saya';
+
+  @override
+  String get products => 'Produk';
+
+  @override
+  String get noProductsYet => 'Belum ada produk';
+
+  @override
+  String get addProductsToStart =>
+      'Tambahkan produk untuk mulai\nberjualan di Pasar Warga';
+
+  @override
+  String get addFirstProduct => 'Tambah Produk Pertama';
+
+  @override
+  String get active => 'Aktif';
+
+  @override
+  String get inactive => 'Nonaktif';
+
+  @override
+  String get storeOrders => 'Pesanan Toko';
+
+  @override
+  String get pending => 'Pending';
+
+  @override
+  String get processing => 'Diproses';
+
+  @override
+  String get finished => 'Selesai';
+
+  @override
+  String get noPendingOrders => 'Belum ada pesanan pending';
+
+  @override
+  String get noProcessingOrders => 'Belum ada pesanan yang diproses';
+
+  @override
+  String get noFinishedOrders => 'Belum ada pesanan selesai';
+
+  @override
+  String get buyer => 'Pembeli';
+
+  @override
+  String get contact => 'Kontak';
+
+  @override
+  String get reject => 'Tolak';
+
+  @override
+  String get confirm => 'Konfirmasi';
+
+  @override
+  String get markAsComplete => 'Tandai Selesai';
+
+  @override
+  String get confirmOrder => 'Konfirmasi Pesanan';
+
+  @override
+  String confirmOrderQuestion(Object buyer) {
+    return 'Apakah Anda yakin ingin mengkonfirmasi pesanan dari $buyer?';
+  }
+
+  @override
+  String get cancel => 'Batal';
+
+  @override
+  String get orderConfirmed => 'Pesanan berhasil dikonfirmasi';
+
+  @override
+  String get rejectOrder => 'Tolak Pesanan';
+
+  @override
+  String rejectOrderQuestion(Object buyer) {
+    return 'Apakah Anda yakin ingin menolak pesanan dari $buyer?';
+  }
+
+  @override
+  String get orderRejected => 'Pesanan ditolak';
+
+  @override
+  String get completeOrder => 'Selesaikan Pesanan';
+
+  @override
+  String get completeOrderQuestion =>
+      'Apakah pesanan ini sudah selesai dan diterima pembeli?';
+
+  @override
+  String get notYet => 'Belum';
+
+  @override
+  String get yesComplete => 'Ya, Selesai';
+
+  @override
+  String get orderCompleted => 'Pesanan selesai';
+
+  @override
+  String get manageProduct => 'Kelola Produk';
+
+  @override
+  String get editProduct => 'Edit Produk';
+
+  @override
+  String get changeProductInfo => 'Ubah informasi produk';
+
+  @override
+  String get deactivateProduct => 'Nonaktifkan Produk';
+
+  @override
+  String get productNotInMarket => 'Produk tidak akan muncul di Pasar Warga';
+
+  @override
+  String get activateProduct => 'Aktifkan Produk';
+
+  @override
+  String get showProductInMarket => 'Tampilkan produk di Pasar Warga';
+
+  @override
+  String get deleteProduct => 'Hapus Produk';
+
+  @override
+  String get deleteProductPermanently => 'Hapus produk secara permanen';
+
+  @override
+  String get deleteProductQuestion => 'Hapus Produk?';
+
+  @override
+  String get cannotBeUndone => 'Produk yang dihapus tidak dapat dikembalikan';
+
+  @override
+  String get yesDelete => 'Ya, Hapus';
+
+  @override
+  String get productDeleted => '✅ Produk berhasil dihapus';
+
+  @override
+  String get failedToDelete => '❌ Gagal menghapus produk';
+
+  @override
+  String get productInfoLabel => 'Informasi Produk';
+
+  @override
+  String get priceAndStockInfo => 'Informasi Harga & Stok';
+
+  @override
+  String get productDescription => 'Deskripsi Produk';
+
+  @override
+  String get productManagement => 'Kelola Produk';
+
+  @override
+  String get productUpdated => '✅ Produk berhasil diperbarui!';
+
+  @override
+  String get failedToUpdate => '❌ Gagal memperbarui produk';
+
+  @override
+  String get allFieldsRequired => '❌ Semua field harus diisi';
+
+  @override
+  String get productActivated => '✅ Produk diaktifkan';
+
+  @override
+  String get productDeactivated => '⏸️ Produk dinonaktifkan';
+
+  @override
+  String get failedToChangeStatus => '❌ Gagal mengubah status produk';
+
+  @override
+  String get payment => 'Pembayaran';
+
+  @override
+  String get orderProducts => 'Produk Pesanan';
+
+  @override
+  String get paymentMethod => 'Metode Pembayaran';
+
+  @override
+  String get eWallet => 'E-Wallet';
+
+  @override
+  String get bankTransfer => 'Transfer Bank';
+
+  @override
+  String get cashOnDelivery => 'Bayar di Tempat (COD)';
+
+  @override
+  String get payNow => 'Bayar Sekarang';
+
+  @override
+  String get paymentSuccess => 'Pembayaran Berhasil!';
+
+  @override
+  String get buyerLabel => 'Pembeli';
+
+  @override
+  String get orderBeingProcessed =>
+      'Pesanan Anda sedang diproses dan akan segera dikirim';
+
+  @override
+  String get backToHome => 'Kembali ke Beranda';
+
+  @override
+  String get viewMyOrders => 'Lihat Pesanan Saya';
+
+  @override
+  String get buyNow => 'Beli Sekarang';
+
+  @override
+  String get addToCart => 'Tambah ke Keranjang';
+
+  @override
+  String addedToCart(Object product) {
+    return '$product ditambahkan ke keranjang';
+  }
+
+  @override
+  String get view => 'Lihat';
+
+  @override
+  String get failedToAddToCart => 'Gagal menambahkan ke keranjang';
+
+  @override
+  String get pleaseLoginFirst => 'Silakan login terlebih dahulu';
+
+  @override
+  String get productDetail => 'Detail Produk';
+
+  @override
+  String get reviews => 'ulasan';
+
+  @override
+  String get share => 'Bagikan';
+
+  @override
+  String get seller => 'Penjual';
+
+  @override
+  String get purchaseQuantity => 'Jumlah pembelian';
+
+  @override
+  String get productDescriptionLabel => 'Deskripsi Produk';
+
+  @override
+  String get buyerReviews => 'Ulasan Pembeli';
+
+  @override
+  String get viewAll => 'Lihat Semua';
+
+  @override
+  String get verified => 'Terverifikasi';
+
+  @override
+  String daysAgo(Object days) {
+    return '$days hari yang lalu';
+  }
+
+  @override
+  String weekAgo(Object weeks) {
+    return '$weeks minggu yang lalu';
+  }
+
+  @override
+  String productsFound(Object count) {
+    return '$count produk ditemukan';
+  }
+
+  @override
+  String get productNotFound => 'Produk tidak ditemukan';
+
+  @override
+  String get tryOtherKeywords => 'Coba kata kunci lain';
+
+  @override
+  String get searchProductPlaceholder => 'Cari produk yang Anda butuhkan';
+
+  @override
+  String get errorOccurredGeneric => 'Terjadi kesalahan';
+
+  @override
+  String get myShopLabel => 'Toko Saya';
+
+  @override
+  String get editShopInfo => 'Edit info toko';
+
+  @override
+  String get awaitingApproval => 'Menunggu Persetujuan';
+
+  @override
+  String get orderCount => 'Pesanan';
+
+  @override
+  String get addProductAction => 'Tambah Produk';
+
+  @override
+  String get manageProducts => 'Kelola Produk';
+
+  @override
+  String get viewOrders => 'Lihat Pesanan';
 }

@@ -658,4 +658,584 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noNotificationsInCategory => 'No notifications in this category';
+
+  @override
+  String get marketplaceTitle => 'Community Market';
+
+  @override
+  String get searchProducts => 'Search products...';
+
+  @override
+  String get myShop => 'My Shop';
+
+  @override
+  String get openShop => 'Open Shop';
+
+  @override
+  String get manageShop => 'Manage Shop';
+
+  @override
+  String get categoryAll => 'All';
+
+  @override
+  String get categoryVegetables => 'Vegetables';
+
+  @override
+  String get categoryFruits => 'Fruits';
+
+  @override
+  String get categoryMeat => 'Meat';
+
+  @override
+  String get categoryDrinks => 'Drinks';
+
+  @override
+  String get categoryTools => 'Tools';
+
+  @override
+  String get noProducts => 'No products yet';
+
+  @override
+  String errorLoadingProducts(Object error) {
+    return 'An error occurred: $error';
+  }
+
+  @override
+  String get sold => 'Sold';
+
+  @override
+  String get stock => 'Stock';
+
+  @override
+  String get openShopTitle => 'Open Your Shop';
+
+  @override
+  String get openShopSubtitle => 'Start selling in the community market';
+
+  @override
+  String get openShopButton => 'Open Shop';
+
+  @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get addProduct => 'Add Product';
+
+  @override
+  String get addProductTo => 'Add to Store';
+
+  @override
+  String get productPhoto => 'Product Photo';
+
+  @override
+  String get tapToChangeImage => 'Tap to change image';
+
+  @override
+  String get maxImageSize => 'Max. 2MB (JPG, PNG)';
+
+  @override
+  String get productInfo => 'Product Information';
+
+  @override
+  String get productName => 'Product Name';
+
+  @override
+  String get enterProductName => 'Enter product name';
+
+  @override
+  String get productNameRequired => 'Product name is required';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get selectCategory => 'Select category';
+
+  @override
+  String get selectCategoryHint => 'Select product category';
+
+  @override
+  String get categoryRequired => 'Select product category';
+
+  @override
+  String get priceAndStock => 'Price & Stock';
+
+  @override
+  String get price => 'Price';
+
+  @override
+  String get enterPrice => 'Enter price';
+
+  @override
+  String get priceRequired => 'Price is required';
+
+  @override
+  String get stockQuantity => 'Stock';
+
+  @override
+  String get quantity => 'Quantity';
+
+  @override
+  String get unit => 'Unit';
+
+  @override
+  String get unitRequired => 'Select unit';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get describeProduct => 'Describe your product details...';
+
+  @override
+  String get descriptionRequired => 'Product description is required';
+
+  @override
+  String get saveProduct => 'Save Product';
+
+  @override
+  String get productSaved => '✅ Product added successfully!';
+
+  @override
+  String failedToSave(Object error) {
+    return '❌ Failed to add product: $error';
+  }
+
+  @override
+  String get addPhotoFirst => '❌ Please add a product photo';
+
+  @override
+  String get imageTooLarge => '❌ Maximum image size is 2MB';
+
+  @override
+  String get selectImageSource => 'Select Image Source';
+
+  @override
+  String get camera => 'Camera';
+
+  @override
+  String get gallery => 'Gallery';
+
+  @override
+  String failedToPickImage(Object error) {
+    return '❌ Failed to pick image: $error';
+  }
+
+  @override
+  String get vegetables => 'Vegetables';
+
+  @override
+  String get fruits => 'Fruits';
+
+  @override
+  String get meat => 'Meat';
+
+  @override
+  String get drinks => 'Drinks';
+
+  @override
+  String get homemadeFood => 'Homemade Food';
+
+  @override
+  String get equipment => 'Equipment';
+
+  @override
+  String get others => 'Others';
+
+  @override
+  String get cart => 'Cart';
+
+  @override
+  String get cartAndOrders => 'Cart & Orders';
+
+  @override
+  String get inProcess => 'In Process';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get emptyCart => 'Cart is Empty';
+
+  @override
+  String get noProductsInCart => 'No products in your cart yet';
+
+  @override
+  String get shopNow => 'Shop Now';
+
+  @override
+  String get shippingAddress => 'Shipping Address';
+
+  @override
+  String get productsInCart => 'Shopping Products';
+
+  @override
+  String get haveCoupon => 'Have a coupon code?';
+
+  @override
+  String get enterCoupon => 'Enter coupon code';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get couponApplied => 'Coupon successfully applied!';
+
+  @override
+  String get enterCouponCode => 'Enter coupon code';
+
+  @override
+  String get invalidCoupon => 'Invalid coupon code';
+
+  @override
+  String get paymentSummary => 'Payment Summary';
+
+  @override
+  String get subtotal => 'Sub Total';
+
+  @override
+  String get deliveryFee => 'Delivery Fee';
+
+  @override
+  String get discount => 'Discount';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get totalPayment => 'Total Payment';
+
+  @override
+  String get checkout => 'Checkout';
+
+  @override
+  String get productRemoved => 'Product removed from cart';
+
+  @override
+  String get noOrdersInProcess => 'No orders in process yet';
+
+  @override
+  String get noCompletedOrders => 'No completed orders yet';
+
+  @override
+  String get ordersWillAppear => 'Orders will appear here';
+
+  @override
+  String get order => 'Order';
+
+  @override
+  String get items => 'items';
+
+  @override
+  String get item => 'item';
+
+  @override
+  String get contactSeller => 'Contact Seller';
+
+  @override
+  String get trackOrder => 'Track Order';
+
+  @override
+  String get myProducts => 'My Products';
+
+  @override
+  String get products => 'Products';
+
+  @override
+  String get noProductsYet => 'No products yet';
+
+  @override
+  String get addProductsToStart =>
+      'Add products to start\nselling in Community Market';
+
+  @override
+  String get addFirstProduct => 'Add First Product';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get inactive => 'Inactive';
+
+  @override
+  String get storeOrders => 'Store Orders';
+
+  @override
+  String get pending => 'Pending';
+
+  @override
+  String get processing => 'Processing';
+
+  @override
+  String get finished => 'Finished';
+
+  @override
+  String get noPendingOrders => 'No pending orders yet';
+
+  @override
+  String get noProcessingOrders => 'No orders in process yet';
+
+  @override
+  String get noFinishedOrders => 'No completed orders yet';
+
+  @override
+  String get buyer => 'Buyer';
+
+  @override
+  String get contact => 'Contact';
+
+  @override
+  String get reject => 'Reject';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get markAsComplete => 'Mark as Complete';
+
+  @override
+  String get confirmOrder => 'Confirm Order';
+
+  @override
+  String confirmOrderQuestion(Object buyer) {
+    return 'Are you sure you want to confirm order from $buyer?';
+  }
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get orderConfirmed => 'Order confirmed successfully';
+
+  @override
+  String get rejectOrder => 'Reject Order';
+
+  @override
+  String rejectOrderQuestion(Object buyer) {
+    return 'Are you sure you want to reject order from $buyer?';
+  }
+
+  @override
+  String get orderRejected => 'Order rejected';
+
+  @override
+  String get completeOrder => 'Complete Order';
+
+  @override
+  String get completeOrderQuestion =>
+      'Has this order been completed and received by the buyer?';
+
+  @override
+  String get notYet => 'Not Yet';
+
+  @override
+  String get yesComplete => 'Yes, Complete';
+
+  @override
+  String get orderCompleted => 'Order completed';
+
+  @override
+  String get manageProduct => 'Manage Product';
+
+  @override
+  String get editProduct => 'Edit Product';
+
+  @override
+  String get changeProductInfo => 'Change product information';
+
+  @override
+  String get deactivateProduct => 'Deactivate Product';
+
+  @override
+  String get productNotInMarket =>
+      'Product will not appear in Community Market';
+
+  @override
+  String get activateProduct => 'Activate Product';
+
+  @override
+  String get showProductInMarket => 'Show product in Community Market';
+
+  @override
+  String get deleteProduct => 'Delete Product';
+
+  @override
+  String get deleteProductPermanently => 'Delete product permanently';
+
+  @override
+  String get deleteProductQuestion => 'Delete Product?';
+
+  @override
+  String get cannotBeUndone => 'Deleted product cannot be restored';
+
+  @override
+  String get yesDelete => 'Yes, Delete';
+
+  @override
+  String get productDeleted => '✅ Product deleted successfully';
+
+  @override
+  String get failedToDelete => '❌ Failed to delete product';
+
+  @override
+  String get productInfoLabel => 'Product Information';
+
+  @override
+  String get priceAndStockInfo => 'Price & Stock Information';
+
+  @override
+  String get productDescription => 'Product Description';
+
+  @override
+  String get productManagement => 'Manage Product';
+
+  @override
+  String get productUpdated => '✅ Product updated successfully!';
+
+  @override
+  String get failedToUpdate => '❌ Failed to update product';
+
+  @override
+  String get allFieldsRequired => '❌ All fields must be filled';
+
+  @override
+  String get productActivated => '✅ Product activated';
+
+  @override
+  String get productDeactivated => '⏸️ Product deactivated';
+
+  @override
+  String get failedToChangeStatus => '❌ Failed to change product status';
+
+  @override
+  String get payment => 'Payment';
+
+  @override
+  String get orderProducts => 'Order Products';
+
+  @override
+  String get paymentMethod => 'Payment Method';
+
+  @override
+  String get eWallet => 'E-Wallet';
+
+  @override
+  String get bankTransfer => 'Bank Transfer';
+
+  @override
+  String get cashOnDelivery => 'Cash on Delivery (COD)';
+
+  @override
+  String get payNow => 'Pay Now';
+
+  @override
+  String get paymentSuccess => 'Payment Successful!';
+
+  @override
+  String get buyerLabel => 'Buyer';
+
+  @override
+  String get orderBeingProcessed =>
+      'Your order is being processed and will be delivered soon';
+
+  @override
+  String get backToHome => 'Back to Home';
+
+  @override
+  String get viewMyOrders => 'View My Orders';
+
+  @override
+  String get buyNow => 'Buy Now';
+
+  @override
+  String get addToCart => 'Add to Cart';
+
+  @override
+  String addedToCart(Object product) {
+    return '$product added to cart';
+  }
+
+  @override
+  String get view => 'View';
+
+  @override
+  String get failedToAddToCart => 'Failed to add to cart';
+
+  @override
+  String get pleaseLoginFirst => 'Please login first';
+
+  @override
+  String get productDetail => 'Product Detail';
+
+  @override
+  String get reviews => 'reviews';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get seller => 'Seller';
+
+  @override
+  String get purchaseQuantity => 'Purchase quantity';
+
+  @override
+  String get productDescriptionLabel => 'Product Description';
+
+  @override
+  String get buyerReviews => 'Buyer Reviews';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String get verified => 'Verified';
+
+  @override
+  String daysAgo(Object days) {
+    return '$days days ago';
+  }
+
+  @override
+  String weekAgo(Object weeks) {
+    return '$weeks week ago';
+  }
+
+  @override
+  String productsFound(Object count) {
+    return '$count products found';
+  }
+
+  @override
+  String get productNotFound => 'Product not found';
+
+  @override
+  String get tryOtherKeywords => 'Try other keywords';
+
+  @override
+  String get searchProductPlaceholder => 'Search products you need';
+
+  @override
+  String get errorOccurredGeneric => 'An error occurred';
+
+  @override
+  String get myShopLabel => 'My Shop';
+
+  @override
+  String get editShopInfo => 'Edit shop info';
+
+  @override
+  String get awaitingApproval => 'Awaiting Approval';
+
+  @override
+  String get orderCount => 'Orders';
+
+  @override
+  String get addProductAction => 'Add Product';
+
+  @override
+  String get manageProducts => 'Manage Products';
+
+  @override
+  String get viewOrders => 'View Orders';
 }

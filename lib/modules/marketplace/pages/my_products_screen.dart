@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/modules/marketplace/pages/owner_product_detail_screen.dart';
@@ -14,6 +15,8 @@ class MyProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: Column(
@@ -51,10 +54,10 @@ class MyProductsScreen extends StatelessWidget {
                           ),
                           onPressed: () => Navigator.pop(context),
                         ),
-                        const Expanded(
+                        Expanded(
                           child: Text(
-                            'Produk Saya',
-                            style: TextStyle(
+                            l10n.myProducts,
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
@@ -114,7 +117,7 @@ class MyProductsScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      '$productCount Produk',
+                                      '$productCount ${l10n.products}',
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey[600],
@@ -176,15 +179,20 @@ class MyProductsScreen extends StatelessWidget {
         },
         backgroundColor: AppColors.primary,
         icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text(
-          'Tambah Produk',
-          style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+        label: Text(
+          l10n.addProduct,
+          style: const TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
         ),
       ),
     );
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -205,9 +213,9 @@ class MyProductsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Belum ada produk',
-              style: TextStyle(
+            Text(
+              l10n.noProductsYet,
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
                 color: Colors.black,
@@ -215,7 +223,7 @@ class MyProductsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Tambahkan produk untuk mulai\nberjualan di Pasar Warga',
+              l10n.addProductsToStart,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
@@ -233,9 +241,9 @@ class MyProductsScreen extends StatelessWidget {
                 );
               },
               icon: const Icon(Icons.add, color: Colors.white),
-              label: const Text(
-                'Tambah Produk Pertama',
-                style: TextStyle(
+              label: Text(
+                l10n.addFirstProduct,
+                style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -259,6 +267,8 @@ class MyProductsScreen extends StatelessWidget {
   }
 
   Widget _buildProductCard(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -386,7 +396,7 @@ class MyProductsScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            'Stok: ${product.stock}',
+                            '${l10n.stock}: ${product.stock}',
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey[600],
@@ -406,7 +416,7 @@ class MyProductsScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
-                              product.isActive ? 'Aktif' : 'Nonaktif',
+                              product.isActive ? l10n.active : l10n.inactive,
                               style: TextStyle(
                                 fontSize: 10,
                                 color: product.isActive

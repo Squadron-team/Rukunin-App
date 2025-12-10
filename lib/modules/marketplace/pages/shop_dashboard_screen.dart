@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/modules/marketplace/services/product_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
@@ -11,12 +12,14 @@ class ShopDashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text(
-          'Toko Saya',
-          style: TextStyle(
+        title: Text(
+          l10n.myShopLabel,
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -90,7 +93,7 @@ class ShopDashboardScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            'Menunggu Persetujuan',
+                            l10n.awaitingApproval,
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
@@ -122,7 +125,7 @@ class ShopDashboardScreen extends StatelessWidget {
                       Expanded(
                         child: _buildStatCard(
                           icon: Icons.inventory_2,
-                          label: 'Produk',
+                          label: l10n.products,
                           value: productCount.toString(),
                           color: AppColors.primary,
                         ),
@@ -131,7 +134,7 @@ class ShopDashboardScreen extends StatelessWidget {
                       Expanded(
                         child: _buildStatCard(
                           icon: Icons.shopping_bag,
-                          label: 'Pesanan',
+                          label: l10n.orderCount,
                           value: '0',
                           color: Colors.orange,
                         ),
@@ -152,7 +155,7 @@ class ShopDashboardScreen extends StatelessWidget {
                   _buildActionButton(
                     context,
                     icon: Icons.add_circle,
-                    label: 'Tambah Produk',
+                    label: l10n.addProductAction,
                     color: AppColors.primary,
                     onTap: () {
                       context.pushNamed(
@@ -166,7 +169,7 @@ class ShopDashboardScreen extends StatelessWidget {
                   _buildActionButton(
                     context,
                     icon: Icons.inventory,
-                    label: 'Kelola Produk',
+                    label: l10n.manageProducts,
                     color: Colors.blue,
                     onTap: () {
                       context.pushNamed(
@@ -180,7 +183,7 @@ class ShopDashboardScreen extends StatelessWidget {
                   _buildActionButton(
                     context,
                     icon: Icons.receipt_long,
-                    label: 'Lihat Pesanan',
+                    label: l10n.viewOrders,
                     color: Colors.green,
                     onTap: () {
                       context.pushNamed(
