@@ -307,7 +307,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 SocialSignInButton(
                   label: l10n.signInWithGoogle,
                   icon: Image.asset(
-                    'icons/google_logo.png',
+                    'assets/icons/google_logo.png',
                     width: 24,
                     height: 24,
                     errorBuilder: (context, error, stackTrace) {

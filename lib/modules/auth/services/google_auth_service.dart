@@ -14,7 +14,10 @@ class GoogleAuthService {
       return await _auth.signInWithPopup(provider);
     } else {
       // Mobile flow: use google_sign_in to get tokens then sign into Firebase
-      await _googleSignIn.initialize();
+      await _googleSignIn.initialize(
+        serverClientId:
+            '1029176612701-r2ate17p9fhpdj2iqh3ed4barpj7k45f.apps.googleusercontent.com',
+      );
 
       final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
 
