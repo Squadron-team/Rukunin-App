@@ -18,8 +18,10 @@ Built with a complete mobile-first experience, Rukunin empowers every household 
 
 **🚀 Try the App Demo**
 
-Want to see how it works? Check out the live preview and experience Rukunin in action:
-[Visit our app demo](#app-demo)
+Want to see how it works? Check out the live preview and experience Rukunin in action!
+
+[![Try our app!](https://img.shields.io/badge/INSTALL-Try_our_app!-brightgreen)](#app-demo)
+
 
 
 ---
@@ -53,13 +55,14 @@ Rukunin works seamlessly across multiple platforms especially on Android and Web
 
 Access the live demo directly from your browser:
 
-👉🏻 https://rukunin-app.web.app/
+👉🏻 [![Website](https://img.shields.io/badge/Website-Visit-blue?logo=google-chrome&logoColor=white)](https://rukunin-app.web.app/)
+
 
 ### 📱 Try the native app version (recommended)
 
 For the full mobile experience, you can join as an app tester via Firebase App Distribution:
 
-👉🏻 https://appdistribution.firebase.dev/i/7ce26d2800f4022b
+👉🏻 [![Android App](https://img.shields.io/badge/Android-App-green?logo=android&logoColor=white)](https://appdistribution.firebase.dev/i/7ce26d2800f4022b)
 
 > This link is safe and provided by Firebase App Distribution (Google).
 
