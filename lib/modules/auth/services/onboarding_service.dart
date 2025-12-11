@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rukunin/pages/general/onboarding/state/onboarding_state.dart';
+import 'package:rukunin/modules/auth/state/onboarding_state.dart';
 import 'package:rukunin/services/user_cache_service.dart';
 import 'package:rukunin/utils/role_based_navigator.dart';
 
