@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,34 +27,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   String _selectedPaymentMethod = '';
-  final List<Map<String, dynamic>> _paymentMethods = [
-    {
-      'id': 'ewallet',
-      'name': 'E-Wallet',
-      'icon': Icons.account_balance_wallet,
-      'methods': [
-        {'name': 'GoPay', 'icon': Icons.motorcycle},
-        {'name': 'OVO', 'icon': Icons.account_balance_wallet_outlined},
-        {'name': 'DANA', 'icon': Icons.payment},
-      ],
-    },
-    {
-      'id': 'bank',
-      'name': 'Transfer Bank',
-      'icon': Icons.account_balance,
-      'methods': [
-        {'name': 'BCA', 'icon': Icons.account_balance},
-        {'name': 'Mandiri', 'icon': Icons.account_balance},
-        {'name': 'BRI', 'icon': Icons.account_balance},
-      ],
-    },
-    {
-      'id': 'cod',
-      'name': 'Bayar di Tempat (COD)',
-      'icon': Icons.local_shipping,
-      'methods': [],
-    },
-  ];
+  late final List<Map<String, dynamic>> _paymentMethods;
 
   String _selectedSubMethod = '';
   bool _isProcessing = false;
@@ -70,7 +44,43 @@ class _PaymentScreenState extends State<PaymentScreen> {
   double get _total => _subtotal + widget.deliveryFee - widget.appliedDiscount;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final l10n = AppLocalizations.of(context)!;
+    _paymentMethods = [
+      {
+        'id': 'ewallet',
+        'name': l10n.eWallet,
+        'icon': Icons.account_balance_wallet,
+        'methods': [
+          {'name': 'GoPay', 'icon': Icons.motorcycle},
+          {'name': 'OVO', 'icon': Icons.account_balance_wallet_outlined},
+          {'name': 'DANA', 'icon': Icons.payment},
+        ],
+      },
+      {
+        'id': 'bank',
+        'name': l10n.bankTransfer,
+        'icon': Icons.account_balance,
+        'methods': [
+          {'name': 'BCA', 'icon': Icons.account_balance},
+          {'name': 'Mandiri', 'icon': Icons.account_balance},
+          {'name': 'BRI', 'icon': Icons.account_balance},
+        ],
+      },
+      {
+        'id': 'cod',
+        'name': l10n.cashOnDelivery,
+        'icon': Icons.local_shipping,
+        'methods': [],
+      },
+    ];
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -81,9 +91,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Pembayaran',
-          style: TextStyle(
+        title: Text(
+          l10n.payment,
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -124,6 +134,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildShippingAddress() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
@@ -157,9 +169,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Text(
-                'Alamat Pengiriman',
-                style: TextStyle(
+              Text(
+                l10n.shippingAddress,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
@@ -169,7 +181,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Rumah',
+            l10n.home,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -196,6 +208,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildOrderItems() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
@@ -228,9 +242,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Text(
-                'Produk Pesanan',
-                style: TextStyle(
+              Text(
+                l10n.orderProducts,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
@@ -274,7 +288,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${product.quantity} item',
+                          '${product.quantity} ${l10n.item}',
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey[600],
@@ -302,6 +316,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildPaymentMethodSection() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
@@ -334,9 +350,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Text(
-                'Metode Pembayaran',
-                style: TextStyle(
+              Text(
+                l10n.paymentMethod,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
@@ -492,6 +508,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildOrderSummary() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(20),
@@ -510,22 +528,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Ringkasan Pembayaran',
-            style: TextStyle(
+          Text(
+            l10n.paymentSummary,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.black,
             ),
           ),
           const SizedBox(height: 16),
-          _buildSummaryRow('Sub Total', _subtotal),
+          _buildSummaryRow(l10n.subtotal, _subtotal),
           const SizedBox(height: 12),
-          _buildSummaryRow('Biaya Pengiriman', widget.deliveryFee),
+          _buildSummaryRow(l10n.deliveryFee, widget.deliveryFee),
           if (widget.appliedDiscount > 0) ...[
             const SizedBox(height: 12),
             _buildSummaryRow(
-              'Diskon',
+              l10n.discount,
               -widget.appliedDiscount,
               isDiscount: true,
             ),
@@ -536,9 +554,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Total Pembayaran',
-                style: TextStyle(
+              Text(
+                l10n.totalPayment,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
@@ -589,6 +607,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildPayButton() {
+    final l10n = AppLocalizations.of(context)!;
+
     final bool canPay =
         _selectedPaymentMethod.isNotEmpty &&
         (_selectedSubMethod.isNotEmpty ||
@@ -630,7 +650,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     const Icon(Icons.payment, size: 20),
                     const SizedBox(width: 8),
                     Text(
-                      'Bayar Sekarang - Rp ${_total.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
+                      '${l10n.payNow} - Rp ${_total.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -648,9 +668,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId == null) {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Silakan login terlebih dahulu'),
+        SnackBar(
+          content: Text(l10n.pleaseLoginFirst),
           backgroundColor: Colors.red,
         ),
       );
@@ -712,6 +733,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   void _showSuccessDialog(String paymentMethodName) {
+    final l10n = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -762,9 +785,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               const SizedBox(height: 24),
 
-              const Text(
-                'Pembayaran Berhasil!',
-                style: TextStyle(
+              Text(
+                l10n.paymentSuccess,
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
@@ -823,7 +846,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'Pesanan Anda sedang diproses dan akan segera dikirim',
+                        l10n.orderBeingProcessed,
                         style: TextStyle(
                           fontSize: 13,
                           color: Colors.grey[700],
@@ -866,18 +889,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         alignment: Alignment.center,
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.home_rounded,
                               color: Colors.white,
                               size: 20,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
-                              'Kembali ke Beranda',
-                              style: TextStyle(
+                              l10n.backToHome,
+                              style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -904,7 +927,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   color: Colors.grey[700],
                 ),
                 label: Text(
-                  'Lihat Pesanan Saya',
+                  l10n.viewMyOrders,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,

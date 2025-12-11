@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/modules/activities/pages/activity_detail_screen.dart';
 import 'package:rukunin/theme/app_colors.dart';
@@ -19,6 +20,8 @@ class ActivityCard extends StatelessWidget {
   }
 
   Widget _buildNormalCard(BuildContext context, Activity event) {
+    final l10n = AppLocalizations.of(context)!;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -150,19 +153,19 @@ class ActivityCard extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Lihat Detail',
-                          style: TextStyle(
+                          l10n.viewDetails,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        SizedBox(width: 8),
-                        Icon(
+                        const SizedBox(width: 8),
+                        const Icon(
                           Icons.arrow_forward,
                           color: Colors.white,
                           size: 18,
@@ -180,6 +183,8 @@ class ActivityCard extends StatelessWidget {
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(40),
@@ -205,9 +210,9 @@ class ActivityCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          const Text(
-            'Tidak Ada Kegiatan',
-            style: TextStyle(
+          Text(
+            l10n.noActivitiesTitle,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
               color: Colors.black,
@@ -215,7 +220,7 @@ class ActivityCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Belum ada kegiatan yang dijadwalkan\npada tanggal ini.',
+            l10n.noActivitiesDesc,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 15,
@@ -229,9 +234,7 @@ class ActivityCard extends StatelessWidget {
               // TODO: Navigate to suggest event or reload
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: const Text(
-                    'Fitur usulkan kegiatan akan segera tersedia',
-                  ),
+                  content: Text(l10n.suggestActivityFeature),
                   backgroundColor: Colors.orange,
                   behavior: SnackBarBehavior.floating,
                   shape: RoundedRectangleBorder(
@@ -241,7 +244,7 @@ class ActivityCard extends StatelessWidget {
               );
             },
             icon: const Icon(Icons.add_circle_outline),
-            label: const Text('Usulkan Kegiatan'),
+            label: Text(l10n.suggestActivity),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,

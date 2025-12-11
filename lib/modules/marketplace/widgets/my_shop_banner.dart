@@ -5,6 +5,7 @@ import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/modules/marketplace/services/shop_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 
 class MyShopBanner extends StatelessWidget {
   final bool isHaveShop;
@@ -13,6 +14,7 @@ class MyShopBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final userId = FirebaseAuth.instance.currentUser?.uid;
 
     if (userId == null) {
@@ -37,15 +39,19 @@ class MyShopBanner extends StatelessWidget {
         final shop = snapshot.data;
 
         if (shop != null) {
-          return _buildMyShopBanner(context, shop);
+          return _buildMyShopBanner(context, shop, l10n);
         }
 
-        return _buildOpenShopBanner(context, userId);
+        return _buildOpenShopBanner(context, userId, l10n);
       },
     );
   }
 
-  Widget _buildOpenShopBanner(BuildContext context, String userId) {
+  Widget _buildOpenShopBanner(
+    BuildContext context,
+    String userId,
+    AppLocalizations l10n,
+  ) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(16),
@@ -63,9 +69,9 @@ class MyShopBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Ingin buka toko sendiri?',
-                  style: TextStyle(
+                Text(
+                  l10n.openShopTitle,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -73,7 +79,7 @@ class MyShopBanner extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Mulai jualan di komunitas Anda',
+                  l10n.openShopSubtitle,
                   style: TextStyle(
                     color: Colors.white.withAlpha(230),
                     fontSize: 12,
@@ -91,14 +97,18 @@ class MyShopBanner extends StatelessWidget {
               backgroundColor: Colors.white,
               foregroundColor: AppColors.primary,
             ),
-            child: const Text('Buka Toko'),
+            child: Text(l10n.openShopButton),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMyShopBanner(BuildContext context, Shop shop) {
+  Widget _buildMyShopBanner(
+    BuildContext context,
+    Shop shop,
+    AppLocalizations l10n,
+  ) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(16),
@@ -126,7 +136,7 @@ class MyShopBanner extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Kelola toko Anda',
+                  l10n.manageShop,
                   style: TextStyle(
                     color: Colors.white.withAlpha(230),
                     fontSize: 12,
@@ -147,7 +157,7 @@ class MyShopBanner extends StatelessWidget {
               backgroundColor: Colors.white,
               foregroundColor: AppColors.primary,
             ),
-            child: const Text('Dashboard'),
+            child: Text(l10n.dashboard),
           ),
         ],
       ),

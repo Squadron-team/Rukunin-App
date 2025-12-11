@@ -19,8 +19,11 @@ class OnnxService {
   /// Run inference by sending feature vector to native ONNX Runtime
   /// `input` is a Float32List of shape [n_features]
   static Future<List<double>> runInference(Float32List input) async {
+    final byteData = input.buffer.asUint8List();
+
     final result = await _channel.invokeMethod('runInference', {
-      'input': input,
+      'input_bytes': byteData,
+      'length': input.length,
     });
 
     // Convert dynamic result (List<dynamic>) → List<double>

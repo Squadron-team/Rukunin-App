@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/pages/payment_screen.dart';
 import 'package:rukunin/modules/marketplace/widgets/product_detail_screen_appbar.dart';
@@ -23,11 +24,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final CartService _cartService = CartService();
 
   Future<void> _addToCart() async {
+    final l10n = AppLocalizations.of(context)!;
     final userId = FirebaseAuth.instance.currentUser?.uid;
+
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Silakan login terlebih dahulu'),
+        SnackBar(
+          content: Text(l10n.pleaseLoginFirst),
           backgroundColor: Colors.orange,
           behavior: SnackBarBehavior.floating,
         ),
@@ -44,14 +47,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     if (success != null && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${widget.product.name} ditambahkan ke keranjang'),
+          content: Text(l10n.addedToCart(widget.product.name)),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           action: SnackBarAction(
-            label: 'Lihat',
+            label: l10n.view,
             textColor: Colors.white,
             onPressed: () {
               context.pushNamed('resident-marketplace-cart');
@@ -61,8 +64,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       );
     } else if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Gagal menambahkan ke keranjang'),
+        SnackBar(
+          content: Text(l10n.failedToAddToCart),
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
         ),
@@ -85,6 +88,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: const Color(0xFFFFF5E6),
       body: CustomScrollView(
@@ -163,7 +168,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          '(128 ulasan)',
+                          '(128 ${l10n.reviews})',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[600],
@@ -291,9 +296,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Jumlah pembelian',
-                          style: TextStyle(
+                        Text(
+                          l10n.purchaseQuantity,
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -364,9 +369,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     const SizedBox(height: 32),
 
                     // Description Section
-                    const Text(
-                      'Deskripsi Produk',
-                      style: TextStyle(
+                    Text(
+                      l10n.productDescriptionLabel,
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
@@ -388,9 +393,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Ulasan Pembeli',
-                          style: TextStyle(
+                        Text(
+                          l10n.buyerReviews,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
                             color: Colors.black,
@@ -400,9 +405,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           onPressed: () {
                             // Navigate to all reviews
                           },
-                          child: const Text(
-                            'Lihat Semua',
-                            style: TextStyle(
+                          child: Text(
+                            l10n.viewAll,
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: AppColors.primary,
@@ -445,7 +450,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                '128 ulasan',
+                                '128 ${l10n.reviews}',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[600],
@@ -475,7 +480,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     _buildReviewItem(
                       name: 'Budi Santoso',
                       rating: 5,
-                      date: '2 hari yang lalu',
+                      date: l10n.daysAgo(2),
                       comment:
                           'Produk sangat fresh dan berkualitas. Pengiriman cepat, penjual responsif. Highly recommended!',
                       isVerified: true,
@@ -484,7 +489,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     _buildReviewItem(
                       name: 'Siti Nurhaliza',
                       rating: 5,
-                      date: '5 hari yang lalu',
+                      date: l10n.daysAgo(5),
                       comment:
                           'Sayuran segar, harga terjangkau. Senang bisa belanja dari tetangga sendiri. Terima kasih!',
                       isVerified: true,
@@ -493,7 +498,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     _buildReviewItem(
                       name: 'Ahmad Yani',
                       rating: 4,
-                      date: '1 minggu yang lalu',
+                      date: l10n.weekAgo(1),
                       comment:
                           'Bagus, tapi ada beberapa daun yang sedikit layu. Overall oke.',
                       isVerified: false,
@@ -551,9 +556,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     elevation: 0,
                   ),
-                  child: const Text(
-                    'Beli sekarang',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                  child: Text(
+                    l10n.buyNow,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
@@ -614,6 +622,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     required String comment,
     required bool isVerified,
   }) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -659,6 +669,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             Icons.verified,
                             size: 14,
                             color: AppColors.primary,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            l10n.verified,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey[600],
+                            ),
                           ),
                         ],
                       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 
@@ -8,64 +9,66 @@ class CommunityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: const RukuninAppBar(title: 'Komunitas'),
+      appBar: RukuninAppBar(title: l10n.navCommunity),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildSectionHeader('Informasi Komunitas'),
+          _buildSectionHeader(l10n.communityInformation),
           const SizedBox(height: 12),
           _buildMenuCard(
             context,
             icon: Icons.people,
-            title: 'Informasi Kependudukan',
-            subtitle: 'Lihat data KTP/KK Anda',
+            title: l10n.populationInformation,
+            subtitle: l10n.viewKtpKkData,
             onTap: () => context.push('/resident/community/population'),
           ),
           const SizedBox(height: 12),
           _buildMenuCard(
             context,
             icon: Icons.family_restroom,
-            title: 'Data Keluarga (KK)',
-            subtitle: 'Kelola informasi anggota keluarga',
+            title: l10n.familyDataKk,
+            subtitle: l10n.manageFamilyMembers,
             onTap: () => context.push('/resident/community/family'),
           ),
           const SizedBox(height: 12),
           _buildMenuCard(
             context,
             icon: Icons.home,
-            title: 'Data Rumah',
-            subtitle: 'Kelola informasi tempat tinggal Anda',
+            title: l10n.houseData,
+            subtitle: l10n.manageResidenceInfo,
             onTap: () => context.push('/resident/community/home'),
           ),
           const SizedBox(height: 24),
-          _buildSectionHeader('Keuangan & Iuran'),
+          _buildSectionHeader(l10n.financeAndDues),
           const SizedBox(height: 12),
           _buildMenuCard(
             context,
             icon: Icons.account_balance_wallet,
-            title: 'Iuran Saya',
-            subtitle: 'Riwayat pembayaran iuran bulanan',
+            title: l10n.myDues,
+            subtitle: l10n.monthlyDuesHistory,
             onTap: () => context.push('/resident/community/dues'),
           ),
           const SizedBox(height: 12),
           _buildMenuCard(
             context,
             icon: Icons.trending_up,
-            title: 'Transparansi Keuangan',
-            subtitle: 'Laporan keuangan RT/RW',
+            title: l10n.financialTransparency,
+            subtitle: l10n.rtRwFinancialReport,
             onTap: () =>
                 context.push('/resident/community/finance-transparency'),
           ),
           const SizedBox(height: 24),
-          _buildSectionHeader('Administrasi'),
+          _buildSectionHeader(l10n.administration),
           const SizedBox(height: 12),
           _buildMenuCard(
             context,
             icon: Icons.description,
-            title: 'Pengajuan Surat',
-            subtitle: 'Ajukan surat keterangan dan dokumen',
+            title: l10n.letterSubmission,
+            subtitle: l10n.submitLettersAndDocs,
             onTap: () => context.push('/resident/community/documents'),
           ),
         ],

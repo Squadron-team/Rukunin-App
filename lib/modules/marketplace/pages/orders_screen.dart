@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/modules/marketplace/models/order.dart';
 import 'package:rukunin/modules/marketplace/models/shop.dart';
 import 'package:rukunin/modules/marketplace/services/order_service.dart';
@@ -28,6 +29,8 @@ class _OrdersScreenState extends State<OrdersScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -38,9 +41,9 @@ class _OrdersScreenState extends State<OrdersScreen>
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => context.pop(),
         ),
-        title: const Text(
-          'Pesanan Toko',
-          style: TextStyle(
+        title: Text(
+          l10n.storeOrders,
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -65,16 +68,19 @@ class _OrdersScreenState extends State<OrdersScreen>
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),
-              tabs: const [
+              tabs: [
                 Tab(
-                  icon: Icon(Icons.pending_actions, size: 20),
-                  text: 'Pending',
+                  icon: const Icon(Icons.pending_actions, size: 20),
+                  text: l10n.pending,
                 ),
                 Tab(
-                  icon: Icon(Icons.local_shipping, size: 20),
-                  text: 'Diproses',
+                  icon: const Icon(Icons.local_shipping, size: 20),
+                  text: l10n.processing,
                 ),
-                Tab(icon: Icon(Icons.check_circle, size: 20), text: 'Selesai'),
+                Tab(
+                  icon: const Icon(Icons.check_circle, size: 20),
+                  text: l10n.finished,
+                ),
               ],
             ),
           ),
@@ -150,24 +156,25 @@ class _OrdersScreenState extends State<OrdersScreen>
   }
 
   Widget _buildEmptyState(OrderStatus status) {
+    final l10n = AppLocalizations.of(context)!;
     String message;
     IconData icon;
 
     switch (status) {
       case OrderStatus.pending:
-        message = 'Belum ada pesanan pending';
+        message = l10n.noPendingOrders;
         icon = Icons.pending_actions;
         break;
       case OrderStatus.confirmed:
-        message = 'Belum ada pesanan yang diproses';
+        message = l10n.noProcessingOrders;
         icon = Icons.local_shipping_outlined;
         break;
       case OrderStatus.completed:
-        message = 'Belum ada pesanan selesai';
+        message = l10n.noFinishedOrders;
         icon = Icons.check_circle_outline;
         break;
       default:
-        message = 'Tidak ada pesanan';
+        message = l10n.noProducts;
         icon = Icons.inbox_outlined;
     }
 
@@ -195,7 +202,7 @@ class _OrdersScreenState extends State<OrdersScreen>
           ),
           const SizedBox(height: 8),
           Text(
-            'Pesanan akan muncul di sini',
+            l10n.ordersWillAppear,
             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
           ),
         ],
@@ -204,6 +211,8 @@ class _OrdersScreenState extends State<OrdersScreen>
   }
 
   Widget _buildOrderCard(Order order) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -245,7 +254,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Order #${order.id.length > 10 ? order.id.substring(0, 10) : order.id}',
+                        '${l10n.order} #${order.id.length > 10 ? order.id.substring(0, 10) : order.id}',
                         style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
@@ -289,7 +298,7 @@ class _OrdersScreenState extends State<OrdersScreen>
             // Customer Info
             _buildInfoRow(
               Icons.person,
-              'Pembeli',
+              l10n.buyer,
               order.buyerName ?? 'User',
               AppColors.primary,
             ),
@@ -298,7 +307,7 @@ class _OrdersScreenState extends State<OrdersScreen>
               const SizedBox(height: 8),
               _buildInfoRow(
                 Icons.phone,
-                'Kontak',
+                l10n.contact,
                 order.buyerContact!,
                 Colors.green,
               ),
@@ -428,9 +437,9 @@ class _OrdersScreenState extends State<OrdersScreen>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Total Pembayaran',
-                    style: TextStyle(
+                  Text(
+                    l10n.totalPayment,
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
@@ -466,9 +475,9 @@ class _OrdersScreenState extends State<OrdersScreen>
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text(
-                        'Tolak',
-                        style: TextStyle(
+                      child: Text(
+                        l10n.reject,
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                         ),
@@ -489,9 +498,9 @@ class _OrdersScreenState extends State<OrdersScreen>
                         ),
                         elevation: 0,
                       ),
-                      child: const Text(
-                        'Konfirmasi',
-                        style: TextStyle(
+                      child: Text(
+                        l10n.confirm,
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
@@ -518,14 +527,14 @@ class _OrdersScreenState extends State<OrdersScreen>
                     ),
                     elevation: 0,
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.check_circle, size: 18),
-                      SizedBox(width: 8),
+                      const Icon(Icons.check_circle, size: 18),
+                      const SizedBox(width: 8),
                       Text(
-                        'Tandai Selesai',
-                        style: TextStyle(
+                        l10n.markAsComplete,
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                         ),
@@ -606,19 +615,16 @@ class _OrdersScreenState extends State<OrdersScreen>
   }
 
   void _confirmOrder(Order order) {
+    final l10n = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Konfirmasi Pesanan'),
-        content: Text(
-          'Apakah Anda yakin ingin mengkonfirmasi pesanan dari ${order.buyerName ?? "User"}?',
-        ),
+        title: Text(l10n.confirmOrder),
+        content: Text(l10n.confirmOrderQuestion(order.buyerName ?? 'User')),
         actions: [
-          TextButton(
-            onPressed: () => context.pop(),
-            child: const Text('Batal'),
-          ),
+          TextButton(onPressed: () => context.pop(), child: Text(l10n.cancel)),
           ElevatedButton(
             onPressed: () async {
               context.pop();
@@ -628,8 +634,8 @@ class _OrdersScreenState extends State<OrdersScreen>
               );
               if (success && mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Pesanan berhasil dikonfirmasi'),
+                  SnackBar(
+                    content: Text(l10n.orderConfirmed),
                     backgroundColor: Colors.green,
                     behavior: SnackBarBehavior.floating,
                   ),
@@ -637,7 +643,7 @@ class _OrdersScreenState extends State<OrdersScreen>
               }
             },
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
-            child: const Text('Konfirmasi'),
+            child: Text(l10n.confirm),
           ),
         ],
       ),
@@ -645,27 +651,24 @@ class _OrdersScreenState extends State<OrdersScreen>
   }
 
   void _showRejectDialog(Order order) {
+    final l10n = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Tolak Pesanan'),
-        content: Text(
-          'Apakah Anda yakin ingin menolak pesanan dari ${order.buyerName ?? "User"}?',
-        ),
+        title: Text(l10n.rejectOrder),
+        content: Text(l10n.rejectOrderQuestion(order.buyerName ?? 'User')),
         actions: [
-          TextButton(
-            onPressed: () => context.pop(),
-            child: const Text('Batal'),
-          ),
+          TextButton(onPressed: () => context.pop(), child: Text(l10n.cancel)),
           ElevatedButton(
             onPressed: () async {
               context.pop();
               final success = await _orderService.cancelOrder(order.id);
               if (success && mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Pesanan ditolak'),
+                  SnackBar(
+                    content: Text(l10n.orderRejected),
                     backgroundColor: Colors.red,
                     behavior: SnackBarBehavior.floating,
                   ),
@@ -673,7 +676,7 @@ class _OrdersScreenState extends State<OrdersScreen>
               }
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Tolak'),
+            child: Text(l10n.reject),
           ),
         ],
       ),
@@ -681,19 +684,16 @@ class _OrdersScreenState extends State<OrdersScreen>
   }
 
   void _markAsCompleted(Order order) {
+    final l10n = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Selesaikan Pesanan'),
-        content: const Text(
-          'Apakah pesanan ini sudah selesai dan diterima pembeli?',
-        ),
+        title: Text(l10n.completeOrder),
+        content: Text(l10n.completeOrderQuestion),
         actions: [
-          TextButton(
-            onPressed: () => context.pop(),
-            child: const Text('Belum'),
-          ),
+          TextButton(onPressed: () => context.pop(), child: Text(l10n.notYet)),
           ElevatedButton(
             onPressed: () async {
               context.pop();
@@ -703,8 +703,8 @@ class _OrdersScreenState extends State<OrdersScreen>
               );
               if (success && mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Pesanan selesai'),
+                  SnackBar(
+                    content: Text(l10n.orderCompleted),
                     backgroundColor: Colors.green,
                     behavior: SnackBarBehavior.floating,
                   ),
@@ -712,7 +712,7 @@ class _OrdersScreenState extends State<OrdersScreen>
               }
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-            child: const Text('Ya, Selesai'),
+            child: Text(l10n.yesComplete),
           ),
         ],
       ),

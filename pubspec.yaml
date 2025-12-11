@@ -1,13 +1,15 @@
 name: rukunin
-description: "A new Flutter project."
+description: "A community management app designed for Indonesia's RT/RW system, helping residents and local leaders manage administration, finances, events, and daily neighborhood tasks."
 publish_to: 'none'
-version: 0.1.0+56
+version: 0.1.0+77
 
 environment:
   sdk: ^3.9.2
 
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
   firebase_core: ^4.2.1
   firebase_auth: ^6.1.2
@@ -42,7 +44,11 @@ dependencies:
   home_widget: ^0.8.1
   ffi: ^2.1.4
   image: ^4.3.0
+  cloud_functions: ^6.0.4
+  google_sign_in: ^7.2.0
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
@@ -50,6 +56,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  generate: true
 
   assets:
     - assets/

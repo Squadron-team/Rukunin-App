@@ -8,6 +8,7 @@ import 'package:rukunin/modules/marketplace/services/cart_service.dart';
 import 'package:rukunin/modules/marketplace/services/order_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -52,18 +53,20 @@ class _CartScreenState extends State<CartScreen>
       subtotal + _deliveryFee - _discountAmount;
 
   void _applyCoupon(double subtotal) {
+    final l10n = AppLocalizations.of(context)!;
     final code = _couponController.text.trim().toUpperCase();
+
     setState(() {
       if (code == 'DISKON10') {
         _isCouponApplied = true;
         _discountAmount = subtotal * 0.1;
-        _couponStatus = 'Kupon berhasil diterapkan!';
+        _couponStatus = l10n.couponApplied;
       } else if (code.isEmpty) {
-        _couponStatus = 'Masukkan kode kupon';
+        _couponStatus = l10n.enterCouponCode;
         _isCouponApplied = false;
         _discountAmount = 0;
       } else {
-        _couponStatus = 'Kode kupon tidak valid';
+        _couponStatus = l10n.invalidCoupon;
         _isCouponApplied = false;
         _discountAmount = 0;
       }
@@ -72,6 +75,8 @@ class _CartScreenState extends State<CartScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (_userId == null) {
       return Scaffold(
         body: Center(
@@ -80,11 +85,11 @@ class _CartScreenState extends State<CartScreen>
             children: [
               const Icon(Icons.person_off, size: 64, color: Colors.grey),
               const SizedBox(height: 16),
-              const Text('Silakan login terlebih dahulu'),
+              Text(l10n.pleaseLoginFirst),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () => context.go('/login'),
-                child: const Text('Login'),
+                child: Text(l10n.signIn),
               ),
             ],
           ),
@@ -102,9 +107,9 @@ class _CartScreenState extends State<CartScreen>
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => context.pop(),
         ),
-        title: const Text(
-          'Keranjang & Pesanan',
-          style: TextStyle(
+        title: Text(
+          l10n.cartAndOrders,
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -129,16 +134,19 @@ class _CartScreenState extends State<CartScreen>
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),
-              tabs: const [
+              tabs: [
                 Tab(
-                  icon: Icon(Icons.shopping_cart, size: 20),
-                  text: 'Keranjang',
+                  icon: const Icon(Icons.shopping_cart, size: 20),
+                  text: l10n.cart,
                 ),
                 Tab(
-                  icon: Icon(Icons.local_shipping, size: 20),
-                  text: 'Diproses',
+                  icon: const Icon(Icons.local_shipping, size: 20),
+                  text: l10n.inProcess,
                 ),
-                Tab(icon: Icon(Icons.check_circle, size: 20), text: 'Selesai'),
+                Tab(
+                  icon: const Icon(Icons.check_circle, size: 20),
+                  text: l10n.completed,
+                ),
               ],
             ),
           ),
@@ -203,14 +211,16 @@ class _CartScreenState extends State<CartScreen>
   }
 
   Widget _buildCartItems(List<CartItem> cartItems) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Produk Belanja',
-            style: TextStyle(
+          Text(
+            l10n.productsInCart,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.black,
@@ -232,6 +242,8 @@ class _CartScreenState extends State<CartScreen>
   }
 
   Widget _buildCartItemCard(CartItem item) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
@@ -352,8 +364,8 @@ class _CartScreenState extends State<CartScreen>
               final success = await _cartService.removeFromCart(item.id);
               if (success && context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Produk dihapus dari keranjang'),
+                  SnackBar(
+                    content: Text(l10n.productRemoved),
                     backgroundColor: Colors.red,
                     behavior: SnackBarBehavior.floating,
                   ),
@@ -368,6 +380,8 @@ class _CartScreenState extends State<CartScreen>
   }
 
   Widget _buildShippingInfo() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
@@ -403,9 +417,9 @@ class _CartScreenState extends State<CartScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Alamat Pengiriman',
-                  style: TextStyle(
+                Text(
+                  l10n.shippingAddress,
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: Colors.grey,
@@ -430,6 +444,8 @@ class _CartScreenState extends State<CartScreen>
   }
 
   Widget _buildCouponSection(double subtotal) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
@@ -463,9 +479,9 @@ class _CartScreenState extends State<CartScreen>
                 ),
               ),
               const SizedBox(width: 12),
-              const Text(
-                'Punya kode kupon?',
-                style: TextStyle(
+              Text(
+                l10n.haveCoupon,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
@@ -487,7 +503,7 @@ class _CartScreenState extends State<CartScreen>
                     controller: _couponController,
                     style: const TextStyle(fontSize: 14),
                     decoration: InputDecoration(
-                      hintText: 'Masukkan kode kupon',
+                      hintText: l10n.enterCouponCode,
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.symmetric(
@@ -514,9 +530,12 @@ class _CartScreenState extends State<CartScreen>
                   ),
                   elevation: 0,
                 ),
-                child: const Text(
-                  'Terapkan',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                child: Text(
+                  l10n.apply,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
@@ -538,6 +557,8 @@ class _CartScreenState extends State<CartScreen>
   }
 
   Widget _buildPaymentSummary(double subtotal, double total) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(20),
@@ -554,9 +575,9 @@ class _CartScreenState extends State<CartScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Ringkasan Pembayaran',
-            style: TextStyle(
+          Text(
+            l10n.paymentSummary,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.black,
@@ -564,18 +585,18 @@ class _CartScreenState extends State<CartScreen>
           ),
           const SizedBox(height: 16),
           _buildSummaryRow(
-            'Sub Total',
+            l10n.subtotal,
             'Rp ${subtotal.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
           ),
           const SizedBox(height: 12),
           _buildSummaryRow(
-            'Biaya Pengiriman',
+            l10n.deliveryFee,
             'Rp ${_deliveryFee.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
           ),
           if (_discountAmount > 0) ...[
             const SizedBox(height: 12),
             _buildSummaryRow(
-              'Diskon',
+              l10n.discount,
               '- Rp ${_discountAmount.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}',
               isDiscount: true,
             ),
@@ -586,9 +607,9 @@ class _CartScreenState extends State<CartScreen>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Total',
-                style: TextStyle(
+              Text(
+                l10n.total,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
@@ -638,6 +659,8 @@ class _CartScreenState extends State<CartScreen>
   }
 
   Widget _buildCheckoutButton(List<CartItem> cartItems, double total) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -659,7 +682,7 @@ class _CartScreenState extends State<CartScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Total Pembayaran',
+                    l10n.totalPayment,
                     style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 4),
@@ -705,14 +728,14 @@ class _CartScreenState extends State<CartScreen>
                   ),
                   elevation: 0,
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.shopping_bag, size: 20),
-                    SizedBox(width: 8),
+                    const Icon(Icons.shopping_bag, size: 20),
+                    const SizedBox(width: 8),
                     Text(
-                      'Checkout',
-                      style: TextStyle(
+                      l10n.checkout,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),
@@ -728,6 +751,8 @@ class _CartScreenState extends State<CartScreen>
   }
 
   Widget _buildEmptyState() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -746,9 +771,9 @@ class _CartScreenState extends State<CartScreen>
             ),
           ),
           const SizedBox(height: 24),
-          const Text(
-            'Keranjang Kosong',
-            style: TextStyle(
+          Text(
+            l10n.emptyCart,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
               color: Colors.black,
@@ -756,7 +781,7 @@ class _CartScreenState extends State<CartScreen>
           ),
           const SizedBox(height: 8),
           Text(
-            'Belum ada produk di keranjang Anda',
+            l10n.noProductsInCart,
             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
           ),
           const SizedBox(height: 24),
@@ -772,9 +797,9 @@ class _CartScreenState extends State<CartScreen>
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            child: const Text(
-              'Belanja Sekarang',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            child: Text(
+              l10n.shopNow,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
             ),
           ),
         ],
@@ -783,8 +808,10 @@ class _CartScreenState extends State<CartScreen>
   }
 
   Widget _buildOrderList({required bool isCompleted}) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (_userId == null) {
-      return const Center(child: Text('Please login'));
+      return Center(child: Text(l10n.pleaseLoginFirst));
     }
 
     return StreamBuilder<List<Order>>(
@@ -821,6 +848,8 @@ class _CartScreenState extends State<CartScreen>
   }
 
   Widget _buildEmptyOrderState(bool isCompleted) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -842,9 +871,7 @@ class _CartScreenState extends State<CartScreen>
           ),
           const SizedBox(height: 24),
           Text(
-            isCompleted
-                ? 'Belum ada pesanan selesai'
-                : 'Belum ada pesanan diproses',
+            isCompleted ? l10n.noCompletedOrders : l10n.noOrdersInProcess,
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
@@ -853,7 +880,7 @@ class _CartScreenState extends State<CartScreen>
           ),
           const SizedBox(height: 8),
           Text(
-            'Pesanan akan muncul di sini',
+            l10n.ordersWillAppear,
             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
           ),
         ],
@@ -862,6 +889,8 @@ class _CartScreenState extends State<CartScreen>
   }
 
   Widget _buildOrderCard(Order order) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -1019,9 +1048,9 @@ class _CartScreenState extends State<CartScreen>
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text(
-                        'Hubungi Penjual',
-                        style: TextStyle(
+                      child: Text(
+                        l10n.contactSeller,
+                        style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
                         ),
@@ -1042,9 +1071,9 @@ class _CartScreenState extends State<CartScreen>
                         ),
                         elevation: 0,
                       ),
-                      child: const Text(
-                        'Lacak Pesanan',
-                        style: TextStyle(
+                      child: Text(
+                        l10n.trackOrder,
+                        style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
                           color: Colors.white,

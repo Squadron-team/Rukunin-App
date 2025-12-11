@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:rukunin/pages/general/onboarding/widgets/info_card.dart';
+import 'package:rukunin/modules/auth/widgets/info_card.dart';
 import 'package:rukunin/theme/app_colors.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -26,9 +29,9 @@ class WelcomePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          const Text(
-            'Selamat Datang!',
-            style: TextStyle(
+          Text(
+            l10n.welcomeToRukunin,
+            style: const TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -36,7 +39,7 @@ class WelcomePage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Lengkapi data kependudukan Anda untuk menggunakan aplikasi Rukunin',
+            l10n.onboardingWelcomeDesc,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16,
@@ -45,17 +48,16 @@ class WelcomePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 40),
-          const InfoCard(
+          InfoCard(
             icon: Icons.badge,
-            title: 'Data KTP',
-            description:
-                'Informasi identitas diri berdasarkan Kartu Tanda Penduduk',
+            title: l10n.ktpData,
+            description: l10n.ktpDataDesc,
           ),
           const SizedBox(height: 16),
-          const InfoCard(
+          InfoCard(
             icon: Icons.family_restroom,
-            title: 'Data Kartu Keluarga',
-            description: 'Informasi keluarga berdasarkan Kartu Keluarga',
+            title: l10n.kkData,
+            description: l10n.kkDataDesc,
           ),
           const SizedBox(height: 32),
           Container(
@@ -71,7 +73,7 @@ class WelcomePage extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'Data yang Anda masukkan akan diverifikasi oleh pengurus RT/RW',
+                    l10n.dataVerificationNotice,
                     style: TextStyle(fontSize: 13, color: Colors.blue[900]),
                   ),
                 ),

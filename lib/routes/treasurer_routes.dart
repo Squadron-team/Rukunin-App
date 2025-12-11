@@ -29,6 +29,7 @@ import 'package:rukunin/pages/treasurer/treasurer_home_screen.dart';
 import 'package:rukunin/pages/treasurer/treasurer_shell.dart';
 import 'package:rukunin/pages/treasurer/kategori/kategori_screen.dart';
 import 'package:rukunin/pages/treasurer/analysis/analysis_screen.dart';
+import 'package:rukunin/pages/treasurer/kwitansi/kwitansi_template_page.dart';
 import 'package:rukunin/modules/community/models/dues_payment.dart';
 
 final treasurerRoutes = [
@@ -230,6 +231,13 @@ final treasurerRoutes = [
     path: '/treasurer/transaction/history',
     name: 'treasurer-transaction-history',
     builder: (context, state) => const TransactionsPage(),
+  ),
+
+  // Kwitansi
+  GoRoute(
+    path: '/treasurer/create-receipt',
+    name: 'treasurer-create-receipt',
+    builder: (context, state) => const KwitansiTemplatePage(),
   ),
 
   // Dues

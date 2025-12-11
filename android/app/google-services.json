@@ -12,7 +12,20 @@
           "package_name": "com.squadronteam.rukunin"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1029176612701-r2ate17p9fhpdj2iqh3ed4barpj7k45f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.squadronteam.rukunin",
+            "certificate_hash": "df6f3318733ffe524968b05a15b66a5dd200bac9"
+          }
+        },
+        {
+          "client_id": "1029176612701-cspqbc8ljjhp06ldqrnel8ubtfrfjdj4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAsylITH2BwLK5OBnh3NystqMSX2YSDmH4"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029176612701-cspqbc8ljjhp06ldqrnel8ubtfrfjdj4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1029176612701-c1q1ltvrtsortluhivgitb53a5suhic5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.squadronteam.rukunin"
+              }
+            }
+          ]
         }
       }
     }

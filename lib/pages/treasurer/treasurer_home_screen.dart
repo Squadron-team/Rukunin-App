@@ -61,11 +61,6 @@ class TreasurerHomeScreen extends StatelessWidget {
             icon: Icons.receipt_rounded,
             onTap: () => context.push('/treasurer/create-receipt'),
           ),
-          MenuItem(
-            label: 'Riwayat Iuran',
-            icon: Icons.history_rounded,
-            onTap: () => context.push('/treasurer/dues-history'),
-          ),
         ],
       ),
       TabData(
@@ -87,27 +82,12 @@ class TreasurerHomeScreen extends StatelessWidget {
             icon: Icons.arrow_upward_rounded,
             onTap: () => context.push('/treasurer/expenses'),
           ),
-          MenuItem(
-            label: 'Mutasi Kas',
-            icon: Icons.swap_horiz_rounded,
-            onTap: () => context.push('/treasurer/cash-mutation'),
-          ),
         ],
       ),
       TabData(
         label: 'Laporan',
         icon: Icons.analytics_rounded,
         items: [
-          MenuItem(
-            label: 'Ringkasan Bulanan',
-            icon: Icons.summarize_rounded,
-            onTap: () => context.push('/treasurer/monthly-summary'),
-          ),
-          MenuItem(
-            label: 'Laporan Keuangan',
-            icon: Icons.assessment_rounded,
-            onTap: () => context.push('/treasurer/financial-reports'),
-          ),
           MenuItem(
             label: 'Analisis & Grafik',
             icon: Icons.analytics_rounded,
