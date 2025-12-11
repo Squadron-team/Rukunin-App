@@ -22,7 +22,10 @@ Want to see how it works? Check out the live preview and experience Rukunin in a
 
 [![Try our app!](https://img.shields.io/badge/INSTALL-Try_our_app!-brightgreen)](#app-demo)
 
+---
+---
 
+![Rukunin App Preview](docs/img/rukunin-app-preview.png)
 
 ---
 ---
