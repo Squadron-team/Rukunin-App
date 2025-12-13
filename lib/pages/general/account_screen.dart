@@ -15,6 +15,7 @@ import 'package:rukunin/services/biometric_auth_service.dart';
 import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/main.dart' show localeService;
 import 'package:flutter/foundation.dart' show kIsWeb, debugPrint;
+import 'package:rukunin/widgets/version_text.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -521,6 +522,11 @@ class _AccountScreenState extends State<AccountScreen> {
                         ],
                       ),
                     ),
+                  ),
+                  const SizedBox(height: 24),
+                  const Align(
+                    alignment: AlignmentGeometry.center,
+                    child: VersionText(),
                   ),
                   const SizedBox(height: 40),
                 ],

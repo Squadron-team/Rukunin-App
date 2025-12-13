@@ -46,6 +46,7 @@ dependencies:
   image: ^4.3.0
   cloud_functions: ^6.0.4
   google_sign_in: ^7.2.0
+  package_info_plus: ^9.0.0
 dev_dependencies:
   integration_test:
     sdk: flutter
