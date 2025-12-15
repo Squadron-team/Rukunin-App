@@ -56,6 +56,11 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
   double? confidence;
   List<double>? allProbabilities;
 
+  // Receipt Detection Results
+  bool isReceiptDetectionTest = false;
+  Map<String, dynamic>? receiptDetectionResult;
+  bool isLoadingReceipt = false;
+
   @override
   void initState() {
     super.initState();
@@ -113,6 +118,9 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
       predictedClass = null;
       confidence = null;
       allProbabilities = null;
+      isReceiptDetectionTest = false;
+      receiptDetectionResult = null;
+      isLoadingReceipt = false;
     });
   }
 
@@ -380,6 +388,75 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
     }
   }
 
+  // New method: Test Receipt Detection with Firebase Functions
+  Future<void> _testReceiptDetection(
+    String assetPath,
+    String expectedAmount,
+  ) async {
+    setState(() {
+      isLoadingReceipt = true;
+      status = 'Loading receipt image...';
+    });
+
+    try {
+      final ByteData data = await rootBundle.load(assetPath);
+      final Uint8List bytes = data.buffer.asUint8List();
+
+      final codec = await instantiateImageCodec(bytes);
+      final frame = await codec.getNextFrame();
+      final image = frame.image;
+
+      if (!mounted) return;
+
+      setState(() {
+        currentImagePath = assetPath;
+        currentImageBytes = bytes;
+        testName = 'Receipt Detection Test';
+        originalWidth = image.width;
+        originalHeight = image.height;
+        isReceiptDetectionTest = true;
+        status = 'Receipt loaded. Analyzing...';
+      });
+
+      // Call Firebase Functions
+      final functions = FirebaseFunctions.instance;
+      final callable = functions.httpsCallable('detect_fake_receipt');
+
+      final imgBase64 = base64Encode(bytes);
+
+      final result = await callable.call({
+        'image': imgBase64,
+        'expected_fields': {'total_amount': expectedAmount.toLowerCase()},
+      });
+
+      final resultData = result.data;
+
+      if (!mounted) return;
+
+      if (resultData['success'] == true) {
+        setState(() {
+          receiptDetectionResult = Map<String, dynamic>.from(resultData);
+          status = 'Receipt analysis completed!';
+          isLoadingReceipt = false;
+        });
+      } else {
+        setState(() {
+          status =
+              'Receipt detection error: ${resultData['error'] ?? 'Unknown error'}';
+          isLoadingReceipt = false;
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        status = 'Error in receipt detection: $e';
+        isLoadingReceipt = false;
+        receiptDetectionResult = null;
+      });
+    }
+  }
+
   Widget _buildStepCard(String title, Widget content, {Widget? action}) {
     return Card(
       child: Padding(
@@ -431,7 +508,7 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
               : 'ML Inference - Step by Step',
         ),
         actions: [
-          if (currentStep != ProcessingStep.idle)
+          if (currentStep != ProcessingStep.idle || isReceiptDetectionTest)
             IconButton(
               icon: const Icon(Icons.refresh),
               onPressed: _resetPipeline,
@@ -1013,6 +1090,353 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
                       )
                     : null,
               ),
+            const SizedBox(height: 16),
+
+            // Receipt Detection Test Section (NEW)
+            Card(
+              color: Colors.green.shade50,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.receipt_long, color: Colors.green.shade700),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Receipt Detection Test',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green.shade900,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Test fake receipt detection using Firebase Functions',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.green.shade800,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    if (!isReceiptDetectionTest) ...[
+                      ElevatedButton.icon(
+                        onPressed: isLoadingReceipt
+                            ? null
+                            : () => _testReceiptDetection(
+                                'assets/ml_test/receipt.jpg',
+                                'Rp325.000',
+                              ),
+                        icon: isLoadingReceipt
+                            ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Icon(Icons.cloud_upload),
+                        label: Text(
+                          isLoadingReceipt
+                              ? 'Analyzing...'
+                              : 'Test Receipt Detection',
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green.shade600,
+                          foregroundColor: Colors.white,
+                        ),
+                      ),
+                    ] else ...[
+                      // Display receipt image
+                      if (currentImageBytes != null) ...[
+                        Center(
+                          child: Container(
+                            constraints: const BoxConstraints(maxHeight: 200),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.green.shade300),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.memory(
+                                currentImageBytes!,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+
+                      // Display detection results
+                      if (receiptDetectionResult != null) ...[
+                        // Verdict Section
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: receiptDetectionResult!['verdict'] == 'FAKE'
+                                ? Colors.red.shade50
+                                : receiptDetectionResult!['verdict'] ==
+                                      'VALID RECEIPT'
+                                ? Colors.green.shade50
+                                : Colors.orange.shade50,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color:
+                                  receiptDetectionResult!['verdict'] == 'FAKE'
+                                  ? Colors.red.shade300
+                                  : receiptDetectionResult!['verdict'] ==
+                                        'VALID RECEIPT'
+                                  ? Colors.green.shade300
+                                  : Colors.orange.shade300,
+                              width: 2,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    receiptDetectionResult!['verdict'] == 'FAKE'
+                                        ? Icons.error
+                                        : receiptDetectionResult!['verdict'] ==
+                                              'VALID RECEIPT'
+                                        ? Icons.check_circle
+                                        : Icons.warning,
+                                    color:
+                                        receiptDetectionResult!['verdict'] ==
+                                            'FAKE'
+                                        ? Colors.red.shade700
+                                        : receiptDetectionResult!['verdict'] ==
+                                              'VALID RECEIPT'
+                                        ? Colors.green.shade700
+                                        : Colors.orange.shade700,
+                                    size: 32,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    receiptDetectionResult!['verdict'],
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          receiptDetectionResult!['verdict'] ==
+                                              'FAKE'
+                                          ? Colors.red.shade900
+                                          : receiptDetectionResult!['verdict'] ==
+                                                'VALID RECEIPT'
+                                          ? Colors.green.shade900
+                                          : Colors.orange.shade900,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (receiptDetectionResult!['early_detection'] ==
+                                  true) ...[
+                                const SizedBox(height: 8),
+                                Text(
+                                  '⚠️ Early Detection Triggered',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red.shade700,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Reason Section
+                        if (receiptDetectionResult!['reason'] != null) ...[
+                          _buildResultRow(
+                            'Reason',
+                            receiptDetectionResult!['reason'],
+                          ),
+                          const SizedBox(height: 12),
+                        ],
+
+                        // Details Section (for early detection)
+                        if (receiptDetectionResult!['early_detection'] ==
+                                true &&
+                            receiptDetectionResult!['details'] != null) ...[
+                          const Text(
+                            'Detection Details:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          ...receiptDetectionResult!['details'].entries
+                              .map<Widget>(
+                                (e) =>
+                                    _buildResultRow(e.key, e.value.toString()),
+                              ),
+                          const SizedBox(height: 12),
+                        ],
+
+                        // Layout Validation Section
+                        if (receiptDetectionResult!['layout_validation'] !=
+                            null) ...[
+                          const Text(
+                            'Layout Validation:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          _buildResultRow(
+                            'Similarity Score',
+                            '${(receiptDetectionResult!['layout_validation']['similarity_score'] * 100).toStringAsFixed(1)}%',
+                          ),
+                          _buildResultRow(
+                            'Valid',
+                            receiptDetectionResult!['layout_validation']['is_valid']
+                                .toString(),
+                          ),
+                          const SizedBox(height: 12),
+                        ],
+
+                        // Model Verification Results
+                        if (receiptDetectionResult!['early_detection'] !=
+                            true) ...[
+                          _buildResultRow(
+                            'KNN Model',
+                            receiptDetectionResult!['knn_pass'] == true
+                                ? '✓ PASS'
+                                : '✗ FAIL',
+                          ),
+                          _buildResultRow(
+                            'Logistic Model',
+                            receiptDetectionResult!['logistic_pass'] == true
+                                ? '✓ PASS'
+                                : '✗ FAIL',
+                          ),
+                          _buildResultRow(
+                            'Lines Detected',
+                            receiptDetectionResult!['line_count'].toString(),
+                          ),
+                          const SizedBox(height: 12),
+
+                          // Extracted Fields
+                          if (receiptDetectionResult!['extracted_fields'] !=
+                                  null &&
+                              (receiptDetectionResult!['extracted_fields']
+                                      as Map)
+                                  .isNotEmpty) ...[
+                            const Text(
+                              'Extracted Fields:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            ...receiptDetectionResult!['extracted_fields']
+                                .entries
+                                .map<Widget>(
+                                  (e) => _buildResultRow(
+                                    e.key,
+                                    e.value.toString(),
+                                  ),
+                                ),
+                            const SizedBox(height: 12),
+                          ],
+
+                          // Verification Details (collapsible)
+                          if (receiptDetectionResult!['verification_details'] !=
+                              null) ...[
+                            ExpansionTile(
+                              title: const Text(
+                                'Verification Details',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'KNN Checks:',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      ...receiptDetectionResult!['verification_details']['knn_checks']
+                                          .entries
+                                          .map<Widget>((e) {
+                                            final check = e.value as Map;
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 8,
+                                                top: 4,
+                                              ),
+                                              child: Text(
+                                                '${e.key}: ${check['match'] == true ? "✓" : "✗"} (expected: ${check['expected']}, actual: ${check['actual']})',
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                      const SizedBox(height: 8),
+                                      const Text(
+                                        'Logistic Checks:',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      ...receiptDetectionResult!['verification_details']['logistic_checks']
+                                          .entries
+                                          .map<Widget>((e) {
+                                            final check = e.value as Map;
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 8,
+                                                top: 4,
+                                              ),
+                                              child: Text(
+                                                '${e.key}: ${check['match'] == true ? "✓" : "✗"} (expected: ${check['expected']}, actual: ${check['actual']})',
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ],
+                      ] else if (isLoadingReceipt) ...[
+                        const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
