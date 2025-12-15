@@ -89,7 +89,7 @@ class ReceiptDetectionCard extends StatelessWidget {
                 const SizedBox(height: 12),
               ],
               if (receiptDetectionResult != null)
-                _buildReceiptResults(receiptDetectionResult!)
+                _buildReceiptResults()
               else if (isLoadingReceipt)
                 const Center(
                   child: Padding(
@@ -104,82 +104,268 @@ class ReceiptDetectionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildReceiptResults(Map<String, dynamic> result) {
+  Widget _buildReceiptResults() {
+    final verification =
+        receiptDetectionResult!['verification'] as Map<String, dynamic>?;
+    final summary = verification?['summary'] as Map<String, dynamic>?;
+    final fieldVerification =
+        verification?['field_verification'] as Map<String, dynamic>?;
+    final lineValidation =
+        verification?['line_validation'] as Map<String, dynamic>?;
+    final layoutValidation =
+        verification?['layout_validation'] as Map<String, dynamic>?;
+    final linesData = receiptDetectionResult!['lines_data'] as List?;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Verdict Section
+        // Summary Section
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: result['verdict'] == 'FAKE'
-                ? Colors.red.shade50
-                : result['verdict'] == 'VALID RECEIPT'
+            color: (summary?['passed'] == true)
                 ? Colors.green.shade50
-                : Colors.orange.shade50,
+                : Colors.red.shade50,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: result['verdict'] == 'FAKE'
-                  ? Colors.red.shade300
-                  : result['verdict'] == 'VALID RECEIPT'
-                  ? Colors.green.shade300
-                  : Colors.orange.shade300,
-              width: 2,
+              color: (summary?['passed'] == true)
+                  ? Colors.green.shade200
+                  : Colors.red.shade200,
             ),
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    result['verdict'] == 'FAKE'
-                        ? Icons.error
-                        : result['verdict'] == 'VALID RECEIPT'
+                    (summary?['passed'] == true)
                         ? Icons.check_circle
-                        : Icons.warning,
-                    color: result['verdict'] == 'FAKE'
-                        ? Colors.red.shade700
-                        : result['verdict'] == 'VALID RECEIPT'
-                        ? Colors.green.shade700
-                        : Colors.orange.shade700,
-                    size: 32,
+                        : Icons.cancel,
+                    color: (summary?['passed'] == true)
+                        ? Colors.green
+                        : Colors.red,
                   ),
                   const SizedBox(width: 8),
-                  Text(
-                    result['verdict'],
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: result['verdict'] == 'FAKE'
-                          ? Colors.red.shade900
-                          : result['verdict'] == 'VALID RECEIPT'
-                          ? Colors.green.shade900
-                          : Colors.orange.shade900,
+                  Expanded(
+                    child: Text(
+                      summary?['final_verdict'] ?? 'Unknown',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
               ),
-              if (result['early_detection'] == true) ...[
-                const SizedBox(height: 8),
-                Text(
-                  '⚠️ Early Detection Triggered',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red.shade700,
-                  ),
-                ),
-              ],
+              const SizedBox(height: 8),
+              ResultRow(
+                label: 'Expected Amount',
+                value: receiptDetectionResult!['expected_amount'] ?? 'N/A',
+              ),
             ],
           ),
         ),
-        const SizedBox(height: 12),
-        if (result['reason'] != null) ...[
-          ResultRow(label: 'Reason', value: result['reason']),
-          const SizedBox(height: 12),
+
+        // Field Verification
+        if (fieldVerification != null) ...[
+          const SizedBox(height: 16),
+          const Text(
+            'Field Verification:',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          ...fieldVerification.entries.map((entry) {
+            final field = entry.value as Map<String, dynamic>;
+            return Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      entry.key.replaceAll('_', ' ').toUpperCase(),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    ResultRow(
+                      label: 'Expected',
+                      value: field['expected'] ?? 'N/A',
+                    ),
+                    ResultRow(label: 'Actual', value: field['actual'] ?? 'N/A'),
+                    ResultRow(
+                      label: 'Match',
+                      value: (field['is_match'] == true) ? '✓ Yes' : '✗ No',
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
         ],
-        // ...rest of the results display logic
+
+        // Line Validation
+        if (lineValidation != null) ...[
+          const SizedBox(height: 16),
+          const Text(
+            'Line Validation:',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Card(
+            color: (lineValidation['is_valid'] == true)
+                ? Colors.green.shade50
+                : Colors.orange.shade50,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ResultRow(
+                    label: 'Valid',
+                    value: (lineValidation['is_valid'] == true)
+                        ? '✓ Yes'
+                        : '✗ No',
+                  ),
+                  ResultRow(
+                    label: 'Detected Lines',
+                    value: lineValidation['detected_lines']?.toString() ?? '0',
+                  ),
+                  ResultRow(
+                    label: 'Expected Lines',
+                    value: lineValidation['expected_lines']?.toString() ?? '0',
+                  ),
+                  if (lineValidation['reason'] != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text(
+                        lineValidation['reason'],
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
+
+        // Layout Validation
+        if (layoutValidation != null) ...[
+          const SizedBox(height: 16),
+          const Text(
+            'Layout Validation:',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Card(
+            color: (layoutValidation['is_valid'] == true)
+                ? Colors.green.shade50
+                : Colors.orange.shade50,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ResultRow(
+                    label: 'Valid',
+                    value: (layoutValidation['is_valid'] == true)
+                        ? '✓ Yes'
+                        : '✗ No',
+                  ),
+                  ResultRow(
+                    label: 'Similarity Score',
+                    value:
+                        '${((layoutValidation['similarity_score'] ?? 0) * 100).toStringAsFixed(1)}%',
+                  ),
+                  ResultRow(
+                    label: 'Threshold',
+                    value:
+                        '${((layoutValidation['threshold'] ?? 0) * 100).toStringAsFixed(1)}%',
+                  ),
+                  if (layoutValidation['reason'] != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text(
+                        layoutValidation['reason'],
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ),
+                  if (layoutValidation['violations'] != null &&
+                      (layoutValidation['violations'] as List).isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Violations:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+                    ...(layoutValidation['violations'] as List).map(
+                      (v) => Padding(
+                        padding: const EdgeInsets.only(left: 8, top: 2),
+                        child: Text(
+                          '• $v',
+                          style: const TextStyle(fontSize: 11),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ],
+
+        // Detected Lines
+        if (linesData != null && linesData.isNotEmpty) ...[
+          const SizedBox(height: 16),
+          const Text(
+            'Detected Text Lines:',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          ...linesData.take(10).map((line) {
+            final lineMap = line as Map<String, dynamic>;
+            return Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ResultRow(
+                      label: 'Line ${lineMap['line_number']}',
+                      value: lineMap['text'] ?? '',
+                    ),
+                    if (lineMap['field'] != null)
+                      Text(
+                        'Field: ${lineMap['field']}',
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            );
+          }),
+          if (linesData.length > 10)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '... and ${linesData.length - 10} more lines',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
+        ],
       ],
     );
   }

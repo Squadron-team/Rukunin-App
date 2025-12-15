@@ -369,7 +369,14 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
 
       if (resultData['success'] == true) {
         _updateState(
-          receiptDetectionResult: Map<String, dynamic>.from(resultData),
+          receiptDetectionResult: {
+            'success': true,
+            'message': resultData['message'],
+            'expected_amount': resultData['expected_amount'],
+            'final_verdict': resultData['final_verdict'],
+            'verification': resultData['verification'],
+            'lines_data': resultData['lines_data'],
+          },
           status: 'Receipt analysis completed!',
           isLoadingReceipt: false,
         );
