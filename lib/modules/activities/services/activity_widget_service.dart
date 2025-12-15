@@ -1,6 +1,6 @@
 import 'package:home_widget/home_widget.dart';
 import 'package:rukunin/modules/activities/models/activity.dart';
-import 'package:rukunin/utils/date_formatter.dart';
+import 'package:rukunin/utils/formatter/date_formatter.dart';
 
 class ActivityWidgetService {
   static const String _widgetName = 'ActivityWidgetProvider';

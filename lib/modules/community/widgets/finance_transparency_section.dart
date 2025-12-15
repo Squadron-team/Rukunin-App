@@ -9,7 +9,7 @@ import 'package:rukunin/modules/community/services/report_generator_service.dart
 import 'package:rukunin/modules/community/widgets/components/financial_summary_card.dart';
 import 'package:rukunin/modules/community/widgets/components/transaction_card.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:rukunin/utils/currency_formatter.dart';
+import 'package:rukunin/utils/formatter/currency_formatter.dart';
 
 class FinanceTransparencySection extends StatefulWidget {
   const FinanceTransparencySection({super.key});
