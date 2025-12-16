@@ -1,16 +1,29 @@
 import 'package:go_router/go_router.dart';
+
+// RW Shell & Dashboard
+import 'package:rukunin/pages/rw/rw_shell.dart';
+import 'package:rukunin/pages/rw/rw_home_screen.dart';
+
+// General
+import 'package:rukunin/pages/general/account_screen.dart';
+
+// Activities & Community
 import 'package:rukunin/modules/activities/pages/activity_screen.dart';
+import 'package:rukunin/modules/community/pages/community_screen.dart';
+
+// Marketplace
 import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/models/shop.dart';
-import 'package:rukunin/modules/marketplace/pages/add_product_screen.dart';
-import 'package:rukunin/modules/marketplace/pages/cart_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/marketplace_screen.dart';
-import 'package:rukunin/modules/marketplace/pages/my_products_screen.dart';
-import 'package:rukunin/modules/marketplace/pages/orders_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/product_detail_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/search_results_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/cart_screen.dart';
 import 'package:rukunin/modules/marketplace/pages/shop_dashboard_screen.dart';
-import 'package:rukunin/modules/community/pages/community_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/my_products_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/add_product_screen.dart';
+import 'package:rukunin/modules/marketplace/pages/orders_screen.dart';
+
+// RW Features
 import 'package:rukunin/pages/rw/data_warga/data_warga_screen.dart';
 import 'package:rukunin/pages/rw/iuran/iuran_rw_screen.dart';
 import 'package:rukunin/pages/rw/kegiatan/kegiatan_rw_screen.dart';
@@ -18,9 +31,10 @@ import 'package:rukunin/pages/rw/laporan/kelola_laporan_screen.dart';
 import 'package:rukunin/pages/rw/pengumuman/pengumuman_screen.dart';
 import 'package:rukunin/pages/rw/rapat/rapat_rw_screen.dart';
 import 'package:rukunin/pages/rw/surat/surat_menyurat_screen.dart';
-import 'package:rukunin/pages/rw/rw_home_screen.dart';
-import 'package:rukunin/pages/general/account_screen.dart';
-import 'package:rukunin/pages/rw/rw_shell.dart';
+
+// Finance
+import 'package:rukunin/pages/rw/finance/summry/finance_summary_screen.dart';
+import 'package:rukunin/pages/rw/finance/report/finance_report_screen.dart';
 
 final rwRoutes = [
   // Main routes with bottom navigation
@@ -150,5 +164,19 @@ final rwRoutes = [
     path: '/rw/surat',
     name: 'rw-surat',
     builder: (context, state) => const SuratMenyuratScreen(),
+  ),
+
+  // Finance Summary Page
+  GoRoute(
+    path: '/rw/finance-summary',
+    name: 'rw-finance-summary',
+    builder: (context, state) => const FinanceSummaryScreen(),
+  ),
+
+  // Finance Report Page (NEW)
+  GoRoute(
+    path: '/rw/finance-report',
+    name: 'rw-finance-report',
+    builder: (context, state) => const FinanceReportScreen(),
   ),
 ];
