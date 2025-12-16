@@ -1,7 +1,7 @@
 name: rukunin
 description: "A community management app designed for Indonesia's RT/RW system, helping residents and local leaders manage administration, finances, events, and daily neighborhood tasks."
 publish_to: 'none'
-version: 0.1.0+85
+version: 0.1.0+86
 
 environment:
   sdk: ^3.9.2
