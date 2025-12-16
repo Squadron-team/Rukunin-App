@@ -3,9 +3,9 @@ class RoleHelper {
     switch (role) {
       case 'admin':
         return 'Admin';
-      case 'community_head':
+      case 'ketua_rt':
         return 'Ketua RT';
-      case 'block_leader':
+      case 'ketua_rw':
         return 'Ketua RW';
       case 'secretary':
         return 'Sekretaris';

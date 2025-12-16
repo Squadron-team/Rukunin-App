@@ -5,14 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:rukunin/services/ml/data_preprocessor.dart';
 import 'package:rukunin/services/ml/hog_isolate.dart';
 import 'package:rukunin/services/ml/onnx_service.dart';
-import 'package:rukunin/utils/image_helper.dart';
-
 import 'package:rukunin/pages/general/ml_inference_test/models/ml_test_state.dart';
 import 'package:rukunin/pages/general/ml_inference_test/services/ml_firebase_service.dart';
 import 'package:rukunin/pages/general/ml_inference_test/widgets/step_card.dart';
 import 'package:rukunin/pages/general/ml_inference_test/widgets/result_row.dart';
 import 'package:rukunin/pages/general/ml_inference_test/widgets/input_selection_step.dart';
 import 'package:rukunin/pages/general/ml_inference_test/widgets/receipt_detection_card.dart';
+import 'package:rukunin/utils/image_processing/image_utils_pure.dart';
 
 export 'models/ml_test_state.dart' show ProcessingStep;
 
@@ -260,7 +259,7 @@ class _MLInferenceTestScreenState extends State<MLInferenceTestScreen> {
 
     try {
       final preprocessed = _dataPreprocessor.compute(_state.currentImageBytes!);
-      final imgPrePng = ImageHelper.float32ToPng(preprocessed, 64, 64);
+      final imgPrePng = ImageUtilsPure.float32ToPng(preprocessed, 64, 64);
 
       if (!mounted) return;
 
