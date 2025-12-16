@@ -7,7 +7,7 @@ import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/modules/marketplace/models/product.dart';
 import 'package:rukunin/modules/marketplace/services/product_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/utils/currency_formatter.dart';
+import 'package:rukunin/utils/formatter/currency_formatter.dart';
 
 class OwnerProductDetailScreen extends StatefulWidget {
   final Product product;

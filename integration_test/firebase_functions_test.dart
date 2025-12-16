@@ -82,4 +82,71 @@ void main() {
       expect(result.data['error'], isNotNull);
     });
   });
+
+  group('Firebase Functions - verify_receipt', () {
+    late HttpsCallable callable;
+
+    setUp(() {
+      callable = FirebaseFunctions.instance.httpsCallable('verify_receipt');
+    });
+
+    testWidgets('should successfully verify a receipt', (tester) async {
+      // Load a real test image from assets
+      final bytes = await rootBundle.load('assets/ml_test/img_0.png');
+      final imgBase64 = base64Encode(bytes.buffer.asUint8List());
+
+      final result = await callable.call({
+        'image': imgBase64,
+        'expected_amount': '25000', // optional
+      });
+
+      final data = result.data;
+      expect(data, isNotNull);
+      expect(data['success'], isTrue);
+
+      expect(data['final_verdict'], isA<bool>());
+      expect(data['knn_pass'], isA<bool>());
+      expect(data['logistic_pass'], isA<bool>());
+      expect(data['is_fake'], isA<bool>());
+      expect(data['confidence'], isA<num>());
+      expect(data['detected_lines'], isA<num>());
+
+      // optional extra fields
+      if (data.containsKey('line_validation')) {
+        expect(data['line_validation'], isA<Map>());
+      }
+      if (data.containsKey('layout_validation')) {
+        expect(data['layout_validation'], isA<Map>());
+      }
+    });
+
+    testWidgets('should return error when image is missing', (tester) async {
+      final result = await callable.call({});
+
+      expect(result.data['success'], isFalse);
+      expect(result.data['error'], isNotNull);
+    });
+
+    testWidgets('should return error for invalid base64', (tester) async {
+      final result = await callable.call({'image': 'NOT_A_BASE64_STRING'});
+
+      expect(result.data['success'], isFalse);
+      expect(result.data['error'], isNotNull);
+    });
+
+    testWidgets('should accept expected_amount and respond', (tester) async {
+      final bytes = await rootBundle.load('assets/ml_test/img_0.png');
+      final imgBase64 = base64Encode(bytes.buffer.asUint8List());
+
+      final result = await callable.call({
+        'image': imgBase64,
+        'expected_amount': '12345',
+      });
+
+      final data = result.data;
+
+      expect(data['success'], isTrue);
+      expect(data['final_verdict'], isNotNull);
+    });
+  });
 }

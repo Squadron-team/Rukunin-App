@@ -7,6 +7,8 @@ import 'package:rukunin/modules/community/models/dues_payment.dart';
 import 'package:rukunin/modules/community/services/dues_service.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/widgets/iuran_info_card.dart';
 import 'package:rukunin/pages/treasurer/data_iuran/widgets/bukti_pembayaran_card.dart';
+import 'package:rukunin/pages/general/ml_inference_test/services/ml_firebase_service.dart';
+import 'package:http/http.dart' as http;
 
 class DataIuranDetail extends StatefulWidget {
   final DuesPayment payment;
@@ -21,6 +23,7 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
   bool _isRevalidating = false;
   bool _isProcessing = false;
   final TextEditingController _rejectNoteCtrl = TextEditingController();
+  Map<String, dynamic>? _validationResult;
 
   @override
   void dispose() {
@@ -33,24 +36,80 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
       _isRevalidating = true;
     });
 
-    // TODO: Call ML API to revalidate the receipt
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      // Download the receipt image
+      final response = await http.get(
+        Uri.parse(widget.payment.receiptImageUrl),
+      );
 
-    if (mounted) {
-      setState(() {
-        _isRevalidating = false;
-      });
+      if (response.statusCode != 200) {
+        throw Exception('Failed to download receipt image');
+      }
 
+      final imageBytes = response.bodyBytes;
+      final expectedAmount = 'Rp${widget.payment.amount.toStringAsFixed(0)}';
+
+      // Call Firebase Functions to validate receipt
+      final result = await MLFirebaseService.detectFakeReceipt(
+        imageBytes,
+        expectedAmount,
+      );
+
+      if (!mounted) return;
+
+      if (result['success'] == true) {
+        setState(() {
+          _validationResult = result;
+        });
+
+        final verification = result['verification'] as Map<String, dynamic>?;
+        final summary = verification?['summary'] as Map<String, dynamic>?;
+        final isPassed = summary?['passed'] == true;
+        final verdict = summary?['final_verdict'] ?? 'Unknown';
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Validasi ulang selesai: $verdict'),
+            backgroundColor: isPassed ? AppColors.success : AppColors.error,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Error validasi: ${result['error'] ?? 'Unknown error'}',
+            ),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Validasi ulang selesai'),
-          backgroundColor: AppColors.primary,
+          content: Text('Error: $e'),
+          backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
         ),
       );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isRevalidating = false;
+        });
+      }
     }
   }
 
@@ -327,6 +386,28 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
     final isAsli =
         payment.verificationScore != null && payment.verificationScore! >= 0.7;
 
+    // Check if we have a validation result from revalidation
+    bool isRevalidated = _validationResult != null;
+    bool isRevalidatedValid = false;
+    double? revalidationScore;
+
+    if (isRevalidated) {
+      final verification =
+          _validationResult!['verification'] as Map<String, dynamic>?;
+      final summary = verification?['summary'] as Map<String, dynamic>?;
+      final layoutValidation =
+          verification?['layout_validation'] as Map<String, dynamic>?;
+
+      isRevalidatedValid = summary?['passed'] == true;
+      revalidationScore = layoutValidation?['similarity_score'];
+    }
+
+    // Use revalidation result if available, otherwise use original
+    final displayIsValid = isRevalidated ? isRevalidatedValid : isAsli;
+    final displayScore = isRevalidated
+        ? revalidationScore
+        : payment.verificationScore;
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -423,7 +504,7 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: isAsli
+                    color: displayIsValid
                         ? AppColors.success.withOpacity(0.2)
                         : AppColors.error.withOpacity(0.2),
                     width: 1.5,
@@ -482,12 +563,12 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: isAsli
+                          color: displayIsValid
                               ? AppColors.success.withOpacity(0.08)
                               : AppColors.error.withOpacity(0.08),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: isAsli
+                            color: displayIsValid
                                 ? AppColors.success.withOpacity(0.3)
                                 : AppColors.error.withOpacity(0.3),
                           ),
@@ -500,13 +581,13 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                                 Container(
                                   padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
-                                    color: isAsli
+                                    color: displayIsValid
                                         ? AppColors.success
                                         : AppColors.error,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Icon(
-                                    isAsli
+                                    displayIsValid
                                         ? Icons.verified_outlined
                                         : Icons.warning_amber_rounded,
                                     size: 18,
@@ -519,31 +600,57 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Hasil Deteksi AI',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            'Hasil Deteksi AI',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          if (isRevalidated) ...[
+                                            const SizedBox(width: 6),
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 6,
+                                                    vertical: 2,
+                                                  ),
+                                              decoration: BoxDecoration(
+                                                color: AppColors.primary,
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                              ),
+                                              child: const Text(
+                                                'UPDATED',
+                                                style: TextStyle(
+                                                  fontSize: 9,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ],
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        isAsli
+                                        displayIsValid
                                             ? 'Bukti Valid'
                                             : 'Perlu Pemeriksaan',
                                         style: TextStyle(
-                                          color: isAsli
+                                          color: displayIsValid
                                               ? AppColors.success
                                               : AppColors.error,
                                           fontWeight: FontWeight.w800,
                                           fontSize: 16,
                                         ),
                                       ),
-                                      if (payment.verificationScore !=
-                                          null) ...[
+                                      if (displayScore != null) ...[
                                         const SizedBox(height: 4),
                                         Text(
-                                          'Skor: ${(payment.verificationScore! * 100).toStringAsFixed(0)}%',
+                                          'Skor: ${(displayScore * 100).toStringAsFixed(0)}%',
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.grey[600],
@@ -585,7 +692,7 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              isAsli
+                              displayIsValid
                                   ? 'Sistem AI menganalisis bukti ini sebagai gambar asli dan tidak terdeteksi adanya manipulasi digital.'
                                   : 'Sistem AI mendeteksi kemungkinan manipulasi pada bukti ini. Harap lakukan pemeriksaan manual dengan teliti.',
                               style: TextStyle(
@@ -594,6 +701,13 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
                                 height: 1.4,
                               ),
                             ),
+                            if (isRevalidated &&
+                                _validationResult!['verification'] != null) ...[
+                              const Divider(height: 20),
+                              _buildValidationDetails(
+                                _validationResult!['verification'],
+                              ),
+                            ],
                             const Divider(height: 20),
                             Row(
                               children: [
@@ -698,6 +812,97 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildValidationDetails(Map<String, dynamic> verification) {
+    final fieldVerification =
+        verification['field_verification'] as Map<String, dynamic>?;
+    final lineValidation =
+        verification['line_validation'] as Map<String, dynamic>?;
+    final layoutValidation =
+        verification['layout_validation'] as Map<String, dynamic>?;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Detail Validasi:',
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        if (fieldVerification != null) ...[
+          ...fieldVerification.entries.take(2).map((entry) {
+            final field = entry.value as Map<String, dynamic>;
+            final isMatch = field['is_match'] == true;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Row(
+                children: [
+                  Icon(
+                    isMatch ? Icons.check_circle : Icons.cancel,
+                    size: 14,
+                    color: isMatch ? AppColors.success : AppColors.error,
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      '${entry.key.replaceAll('_', ' ')}: ${field['expected']} ${isMatch ? '✓' : '✗'}',
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
+        if (lineValidation != null) ...[
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Icon(
+                lineValidation['is_valid'] == true
+                    ? Icons.check_circle
+                    : Icons.info,
+                size: 14,
+                color: lineValidation['is_valid'] == true
+                    ? AppColors.success
+                    : Colors.orange,
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  'Lines: ${lineValidation['detected_lines']}/${lineValidation['expected_lines']}',
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ),
+            ],
+          ),
+        ],
+        if (layoutValidation != null) ...[
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Icon(
+                layoutValidation['is_valid'] == true
+                    ? Icons.check_circle
+                    : Icons.info,
+                size: 14,
+                color: layoutValidation['is_valid'] == true
+                    ? AppColors.success
+                    : Colors.orange,
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  'Layout similarity: ${((layoutValidation['similarity_score'] ?? 0) * 100).toStringAsFixed(0)}%',
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ],
     );
   }
 }
