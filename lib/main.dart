@@ -11,6 +11,7 @@ import 'package:rukunin/utils/wrapper/mobile_preview_wrapper_helper.dart';
 import 'package:rukunin/routes/routes.dart';
 import 'package:rukunin/pages/biometric_lock_screen.dart';
 import 'package:rukunin/services/locale_service.dart';
+import 'package:rukunin/services/notification_service.dart';
 import 'package:rukunin/utils/javanese_material_localizations.dart';
 
 final localeService = LocaleService();
@@ -29,6 +30,9 @@ Future<void> main() async {
     providerAndroid: const AndroidDebugProvider(),
     providerApple: const AppleDebugProvider(),
   );
+
+  // Initialize notification service
+  await NotificationService().initialize();
 
   // Lock device orientation (portrait)
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
