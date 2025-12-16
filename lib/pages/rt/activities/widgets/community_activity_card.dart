@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/utils/date_formatter.dart';
+import 'package:rukunin/utils/formatter/date_formatter.dart';
 
 class CommunityEventCard extends StatelessWidget {
   final Activity activity;

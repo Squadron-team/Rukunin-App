@@ -1,12 +1,33 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, compute;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rukunin/modules/community/services/dues_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
+import 'package:rukunin/types/image_matrix.dart';
+import 'package:rukunin/utils/image_processing/image_utils_pure.dart';
+import 'package:rukunin/utils/image_processing/image_utils_ui.dart';
+import 'package:rukunin/utils/metrics/ssim_metric.dart';
+
+class SsimRequest {
+  final ImageMatrix template;
+  final ImageMatrix uploaded;
+
+  SsimRequest({required this.template, required this.uploaded});
+}
+
+// MUST be top-level
+double computeSsimIsolate(SsimRequest data) {
+  return SsimMetric.structuralSimilarity(
+    data.template,
+    data.uploaded,
+    windowSize: 7,
+    stride: 4,
+  );
+}
 
 class PaymentConfirmationScreen extends StatefulWidget {
   final String period;
@@ -30,6 +51,7 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
   XFile? _pickedFile;
   final _notesController = TextEditingController();
   bool _isUploading = false;
+  bool _isValidating = false;
   final DuesService _duesService = DuesService();
 
   Future<void> _pickImage(ImageSource source) async {
@@ -211,6 +233,191 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
     );
   }
 
+  Future<bool> _validateReceiptImage() async {
+    if (_pickedFile == null) return false;
+
+    setState(() => _isValidating = true);
+
+    try {
+      // MAIN ISOLATE — decode & preprocess
+      final templateBytes = await ImageUtilsUi.loadAssetImage(
+        'assets/ml_test/receipt.jpg',
+      );
+      final uploadedBytes = await _pickedFile!.readAsBytes();
+
+      final templateMatrix = await ImageUtilsUi.loadAndConvertToGrayscale(
+        templateBytes,
+        maxDimension: 384,
+      );
+
+      final uploadedMatrix = await ImageUtilsUi.loadAndConvertToGrayscale(
+        uploadedBytes,
+        maxDimension: 384,
+      );
+
+      final resizedUploaded = ImageUtilsPure.resizeToMatch(
+        uploadedMatrix,
+        templateMatrix[0].length,
+        templateMatrix.length,
+      );
+
+      // BACKGROUND ISOLATE — SSIM ONLY
+      final ssimScore = await compute(
+        computeSsimIsolate,
+        SsimRequest(template: templateMatrix, uploaded: resizedUploaded),
+      );
+
+      setState(() => _isValidating = false);
+
+      if (ssimScore < 0.7) {
+        if (mounted) {
+          _showValidationFailedDialog(ssimScore);
+        }
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      setState(() => _isValidating = false);
+      return true; // fail-open
+    }
+  }
+
+  void _showValidationFailedDialog(double ssimScore) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.red.withAlpha(26),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Icons.warning_amber_rounded,
+                  color: Colors.red,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  'Gambar Terdeteksi Tidak Valid',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Sistem mendeteksi bahwa gambar yang Anda upload kemungkinan bukan bukti pembayaran yang valid.',
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 16),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withAlpha(26),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Skor Kemiripan:',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '${(ssimScore * 100).toStringAsFixed(1)}% (Minimum: 70%)',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.red[700],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Pastikan:',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 8),
+              _buildChecklistItem(
+                'Gambar adalah screenshot/foto asli bukti transfer',
+              ),
+              _buildChecklistItem('Gambar tidak dimanipulasi atau diedit'),
+              _buildChecklistItem('Gambar jelas dan tidak blur'),
+              _buildChecklistItem('Gambar menampilkan informasi lengkap'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                // Clear the image and allow user to re-upload
+                setState(() {
+                  _proofImage = null;
+                  _pickedFile = null;
+                });
+              },
+              child: const Text(
+                'Upload Ulang',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                'Coba Lagi',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildChecklistItem(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.check_circle_outline, size: 16, color: Colors.grey[600]),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _submitPayment() async {
     if (_pickedFile == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -220,6 +427,12 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
         ),
       );
       return;
+    }
+
+    // Validate receipt image using SSIM
+    final isValid = await _validateReceiptImage();
+    if (!isValid) {
+      return; // Stop submission if validation fails
     }
 
     // Get current user
@@ -890,7 +1103,9 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: _isUploading ? null : _submitPayment,
+                onPressed: (_isUploading || _isValidating)
+                    ? null
+                    : _submitPayment,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
@@ -899,14 +1114,27 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
                   ),
                   elevation: 0,
                 ),
-                child: _isUploading
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,
-                        ),
+                child: (_isUploading || _isValidating)
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            _isValidating ? 'Memvalidasi...' : 'Mengirim...',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
                       )
                     : const Text(
                         'Kirim Pembayaran',

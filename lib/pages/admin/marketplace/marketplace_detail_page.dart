@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/utils/currency_formatter.dart';
+import 'package:rukunin/utils/formatter/currency_formatter.dart';
 
 class MarketplaceDetailPage extends StatefulWidget {
   final String id;

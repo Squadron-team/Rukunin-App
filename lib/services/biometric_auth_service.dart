@@ -2,7 +2,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, debugPrint;
-import 'package:rukunin/utils/biometric_error_handler.dart';
+import 'package:rukunin/utils/error_handler/biometric_error_handler.dart';
 
 class BiometricAuthService {
   final LocalAuthentication _auth = LocalAuthentication();
