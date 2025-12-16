@@ -8,8 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rukunin/modules/community/services/dues_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/types/image_matrix.dart';
-import 'package:rukunin/utils/image_utils_pure.dart';
-import 'package:rukunin/utils/image_utils_ui.dart';
+import 'package:rukunin/utils/image_processing/image_utils_pure.dart';
+import 'package:rukunin/utils/image_processing/image_utils_ui.dart';
 import 'package:rukunin/utils/metrics/ssim_metric.dart';
 
 class SsimRequest {
