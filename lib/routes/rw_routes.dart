@@ -39,6 +39,9 @@ import 'package:rukunin/pages/rw/rt-list/rt_list_screen..dart';
 import 'package:rukunin/pages/rw/rt-list/rt_detail_screen.dart';
 import 'package:rukunin/pages/rw/rt_performance/rt_performance_screen.dart';
 import 'package:rukunin/pages/rw/rt_performance/rt_performance_detail_screen.dart';
+import 'package:rukunin/pages/rw/monitoring/monitoring_screen.dart';
+import 'package:rukunin/pages/rw/monitoring/monitoring_dashboard_screen.dart';
+import 'package:rukunin/pages/rw/monitoring/monitoring_rt_detail_screen.dart';
 
 final rwRoutes = [
   // ===============================
@@ -236,6 +239,23 @@ final rwRoutes = [
     builder: (context, state) {
       final rt = state.extra as Map<String, dynamic>;
       return RtPerformanceDetailScreen(rt: rt);
+    },
+  ),
+  GoRoute(
+    path: '/rw/monitoring',
+    name: 'rw-monitoring',
+    builder: (context, state) => const MonitoringScreen(),
+  ),
+  GoRoute(
+    path: '/rw/monitoring/dashboard',
+    name: 'rw-monitoring-dashboard',
+    builder: (context, state) => const MonitoringDashboardScreen(),
+  ),
+  GoRoute(
+    path: '/rw/monitoring/rt-detail',
+    builder: (context, state) {
+      final rt = state.extra as Map<String, dynamic>;
+      return MonitoringRtDetailScreen(rt: rt);
     },
   ),
 ];
