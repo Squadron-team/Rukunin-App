@@ -7,7 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rukunin/firebase_options.dart';
 import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/theme/rukunin_theme.dart';
-import 'package:rukunin/utils/mobile_preview_wrapper_helper.dart';
+import 'package:rukunin/utils/wrapper/mobile_preview_wrapper_helper.dart';
 import 'package:rukunin/routes/routes.dart';
 import 'package:rukunin/pages/biometric_lock_screen.dart';
 import 'package:rukunin/services/locale_service.dart';

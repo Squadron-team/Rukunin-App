@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:rukunin/utils/mobile_preview_wrapper_helper_stub.dart'
+import 'package:rukunin/utils/wrapper/mobile_preview_wrapper_helper_stub.dart'
     if (dart.library.html) 'mobile_preview_wrapper_helper_web.dart'
     if (dart.library.io) 'mobile_preview_wrapper_helper_mobile.dart';
 
