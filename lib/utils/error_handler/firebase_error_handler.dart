@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseAuthHelper {
+class FirebaseErrorHandler {
   static String translateErrorMessage(FirebaseAuthException error) {
     String errorMessage;
 
