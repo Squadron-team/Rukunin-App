@@ -44,7 +44,6 @@ class BiometricErrorHandler {
         return 'Pengguna memilih metode autentikasi alternatif';
 
       case LocalAuthExceptionCode.unknownError:
-      default:
         return 'Terjadi kesalahan tidak dikenal';
     }
   }
@@ -106,7 +105,6 @@ class BiometricErrorHandler {
         break;
 
       case LocalAuthExceptionCode.unknownError:
-      default:
         debugPrint('Unknown error: ${e.description}');
         break;
     }

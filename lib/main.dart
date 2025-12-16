@@ -1,3 +1,4 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,7 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rukunin/firebase_options.dart';
 import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/theme/rukunin_theme.dart';
-import 'package:rukunin/utils/mobile_preview_wrapper_helper.dart';
+import 'package:rukunin/utils/wrapper/mobile_preview_wrapper_helper.dart';
 import 'package:rukunin/routes/routes.dart';
 import 'package:rukunin/pages/biometric_lock_screen.dart';
 import 'package:rukunin/services/locale_service.dart';
@@ -22,6 +23,12 @@ Future<void> main() async {
   await localeService.loadLocale();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await FirebaseAppCheck.instance.activate(
+    providerWeb: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+    providerAndroid: const AndroidDebugProvider(),
+    providerApple: const AppleDebugProvider(),
+  );
 
   // Lock device orientation (portrait)
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

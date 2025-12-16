@@ -25,9 +25,9 @@ class RoleBasedNavigator {
     switch (role) {
       case 'admin':
         return '/admin';
-      case 'community_head':
+      case 'ketua_rt':
         return '/rt';
-      case 'block_leader':
+      case 'ketua_rw':
         return '/rw';
       case 'secretary':
         return '/secretary';
@@ -44,9 +44,9 @@ class RoleBasedNavigator {
     switch (role) {
       case 'admin':
         return '/admin/account';
-      case 'community_head':
+      case 'ketua_rt':
         return '/rt/account';
-      case 'block_leader':
+      case 'ketua_rw':
         return '/rw/account';
       case 'secretary':
         return '/secretary/account';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/modules/auth/models/form_data.dart' show SignInFormData;
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/utils/firebase_auth_helper.dart';
+import 'package:rukunin/utils/error_handler/firebase_error_handler.dart';
 import 'package:rukunin/utils/role_based_navigator.dart';
 import 'package:rukunin/widgets/buttons/social_sign_button.dart';
 import 'package:go_router/go_router.dart';
@@ -64,7 +64,7 @@ class _SignInScreenState extends State<SignInScreen> {
       await RoleBasedNavigator.navigateToRoleBasedHome(context);
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
-      _showErrorSnackBar(FirebaseAuthHelper.translateErrorMessage(e));
+      _showErrorSnackBar(FirebaseErrorHandler.translateErrorMessage(e));
     } catch (e) {
       if (!mounted) return;
       _showErrorSnackBar('Terjadi kesalahan: $e');
@@ -110,7 +110,7 @@ class _SignInScreenState extends State<SignInScreen> {
       );
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
-      _showErrorSnackBar(FirebaseAuthHelper.translateErrorMessage(e));
+      _showErrorSnackBar(FirebaseErrorHandler.translateErrorMessage(e));
     }
   }
 
@@ -154,7 +154,7 @@ class _SignInScreenState extends State<SignInScreen> {
       }
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
-      _showErrorSnackBar(FirebaseAuthHelper.translateErrorMessage(e));
+      _showErrorSnackBar(FirebaseErrorHandler.translateErrorMessage(e));
     } catch (e) {
       if (!mounted) return;
       _showErrorSnackBar('Terjadi kesalahan saat masuk dengan Google: $e');

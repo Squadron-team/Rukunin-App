@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rukunin/modules/auth/models/form_data.dart' show SignUpFormData;
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/utils/firebase_auth_helper.dart';
+import 'package:rukunin/utils/error_handler/firebase_error_handler.dart';
 import 'package:rukunin/widgets/buttons/social_sign_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
@@ -69,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       context.go('/onboarding');
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
-      _showErrorSnackBar(FirebaseAuthHelper.translateErrorMessage(e));
+      _showErrorSnackBar(FirebaseErrorHandler.translateErrorMessage(e));
     } catch (e) {
       if (!mounted) return;
       _showErrorSnackBar('Terjadi kesalahan: $e');
@@ -113,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       context.go('/onboarding');
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
-      _showErrorSnackBar(FirebaseAuthHelper.translateErrorMessage(e));
+      _showErrorSnackBar(FirebaseErrorHandler.translateErrorMessage(e));
     } catch (e) {
       if (!mounted) return;
       _showErrorSnackBar('Terjadi kesalahan saat mendaftar dengan Google: $e');

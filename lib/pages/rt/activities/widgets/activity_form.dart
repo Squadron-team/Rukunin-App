@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rukunin/modules/activities/models/activity.dart';
 import 'package:rukunin/theme/app_colors.dart';
-import 'package:rukunin/utils/date_formatter.dart';
+import 'package:rukunin/utils/formatter/date_formatter.dart';
 import 'package:rukunin/widgets/input_decorations.dart';
 import 'package:rukunin/modules/activities/services/activity_service.dart';
 
