@@ -31,6 +31,8 @@ import 'package:rukunin/pages/admin/kegiatan_warga/kegiatan_detail_page.dart';
 import 'package:rukunin/pages/admin/verifikasi/verifikasi_detail_page.dart';
 import 'package:rukunin/pages/admin/verifikasi/verifikasi_list_page.dart';
 import 'package:rukunin/pages/admin/analitik/analytics_screen.dart';
+import 'package:rukunin/pages/admin/permintaan_akun/permintaan_akun_detail_page.dart';
+import 'package:rukunin/pages/admin/permintaan_akun/permintaan_akun_list_page.dart';
 
 final adminRoutes = [
   // =====================================================================
@@ -311,6 +313,32 @@ final adminRoutes = [
     path: '/admin/analytics',
     name: 'admin-analytics',
     builder: (context, state) => const AnalyticsScreen(),
+  ),
+
+  // Di dalam routes list GoRouter Anda
+  GoRoute(
+    path: '/admin/account-requests',
+    name: 'admin-account-requests',
+    builder: (context, state) {
+      return const PermintaanAkunListPage();
+    },
+  ),
+
+  GoRoute(
+    path: '/admin/permintaan-akun/detail',
+    name: 'admin-permintaan-akun-detail',
+    builder: (context, state) {
+      final data = state.extra as Map<String, dynamic>;
+      return PermintaanAkunDetailPage(
+        name: data['name'] as String,
+        nik: data['nik'] as String,
+        email: data['email'] as String,
+        phone: data['phone'] as String,
+        alamat: data['alamat'] as String,
+        foto: data['foto'] as String,
+        tanggal: data['tanggal'] as String,
+      );
+    },
   ),
 
   // =====================================================================
