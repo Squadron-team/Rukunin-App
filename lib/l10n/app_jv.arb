@@ -9,11 +9,11 @@
     "communityWorkThisWeek": "Kerja Bakti Minggu Iki",
     "announcementSecuritySchedule": "Pangumuman: Jadwal Ronda",
     "securityScheduleChange": "Owah-owahan jadwal keamanan wengi",
-    "duesDeadline": "Wektu Iuran",
-    "payDuesSoon": "Enggal bayar iuran sasi iki",
-    "dues": "Iuran",
-    "payDues": "Bayar Iuran",
-    "paymentHistory": "Riwayat Pembayaran",
+    "duesDeadline": "Wektu Urunan",
+    "payDuesSoon": "Enggal bayar urunan sasi iki",
+    "dues": "Urunan",
+    "payDues": "Bayar Urunan",
+    "paymentHistory": "Cathetan Pembayaran",
     "digitalReceipts": "Kuitansi Digital",
     "services": "Layanan",
     "submitLetter": "Ajukno Surat",
@@ -21,7 +21,7 @@
     "sendSuggestion": "Kirim Saran",
     "submissionStatus": "Status Pengajuan",
     "community": "Komunitas",
-    "eventCalendar": "Tanggalan Kegiatan",
+    "eventCalendar": "Tanggalan Kagiyatan",
     "announcements": "Pangumuman",
     "residentsData": "Data Warga",
     "emergencyContacts": "Kontak Penting",
@@ -130,19 +130,19 @@
     "nationality": "Kewarganegaraan",
     "enterNationality": "Lebokno kewarganegaraan",
     "nationalityRequired": "Kewarganegaraan ora kena kosong",
-    "kkData": "Data KK (Kartu Keluarga)",
-    "kkDataDesc": "Mangga isi informasi KK (Kartu Keluarga) panjenengan kanthi akurat",
+    "kkData": "Data KK (Kartu Kulawarga)",
+    "kkDataDesc": "Mangga isi informasi KK (Kartu Kulawarga) panjenengan kanthi akurat",
     "kkNumber": "Nomer KK",
     "enterKkNumber": "Lebokno nomer KK",
     "kkNumberRequired": "Nomer KK ora kena kosong",
     "kkNumberInvalid": "Nomer KK kudu 16 digit",
-    "familyHeadName": "Jeneng Kepala Keluarga",
-    "enterFamilyHeadName": "Lebokno jeneng kepala keluarga",
-    "familyHeadNameRequired": "Jeneng kepala keluarga ora kena kosong",
-    "relationshipToHead": "Hubungan kaliyan Kepala Keluarga",
+    "familyHeadName": "Jeneng Kepala Kulawarga",
+    "enterFamilyHeadName": "Lebokno jeneng kepala kulawarga",
+    "familyHeadNameRequired": "Jeneng kepala kulawarga ora kena kosong",
+    "relationshipToHead": "Hubungan kaliyan Kepala Kulawarga",
     "selectRelationship": "Pilih hubungan",
     "relationshipRequired": "Hubungan ora kena kosong",
-    "head": "Kepala Keluarga",
+    "head": "Kepala Kulawarga",
     "spouse": "Garwa",
     "child": "Anak",
     "parent": "Wong Tuwa",
@@ -157,7 +157,7 @@
     "dataVerificationNotice": "Data sing panjenengan lebokno bakal diverifikasi dening pengurus RT/RW",
     "navHome": "Omah",
     "navMarketplace": "Pasar",
-    "navActivities": "Kegiatan",
+    "navActivities": "Kagiyatan",
     "navCommunity": "Komunitas",
     "navAccount": "Akun",
     "account": "Akun",
@@ -202,7 +202,7 @@
     "notificationTabAll": "Kabeh",
     "notificationTabAdmin": "Admin",
     "notificationTabCommunity": "Komunitas",
-    "notificationTabEvent": "Kegiatan",
+    "notificationTabEvent": "Kagiyatan",
     "noNotifications": "Ora ana notifikasi",
     "noNotificationsDesc": "Panjenangan durung duwe notifikasi",
     "noNotificationsInCategory": "Ora ana notifikasi ing kategori iki",
@@ -392,8 +392,8 @@
     "addProductAction": "Tambah Produk",
     "manageProducts": "Kelola Produk",
     "viewOrders": "Deleng Pesanan",
-    "noActivitiesScheduled": "Ora ana kegiatan",
-    "activitiesScheduled": "{count} kegiatan dijadwalake",
+    "noActivitiesScheduled": "Ora ana kagiyatan",
+    "activitiesScheduled": "{count} kagiyatan dijadwalake",
     "@activitiesScheduled": {
         "placeholders": {
             "count": {
@@ -411,31 +411,312 @@
     },
     "activityTime": "Wektu",
     "activityLocation": "Lokasi",
-    "activityDescription": "Deskripsi Kegiatan",
+    "activityDescription": "Deskripsi Kagiyatan",
     "registrationCancelled": "Pendaftaran dibatalake",
-    "registeredForActivity": "Sampeyan wis ndaftar kanggo kegiatan iki",
+    "registeredForActivity": "Sampeyan wis ndaftar kanggo kagiyatan iki",
     "failedToUpdateRegistration": "Gagal nganyari status pendaftaran",
     "alreadyRegistered": "Wis Kadaftar",
-    "joinActivity": "Melu Kegiatan",
+    "joinActivity": "Melu Kagiyatan",
     "viewDetails": "Deleng Detail",
-    "noActivitiesTitle": "Ora Ana Kegiatan",
-    "noActivitiesDesc": "Durung ana kegiatan sing dijadwalake\ning tanggal iki.",
-    "suggestActivity": "Usulake Kegiatan",
-    "suggestActivityFeature": "Fitur usulake kegiatan bakal kasedhiya",
+    "noActivitiesTitle": "Ora Ana Kagiyatan",
+    "noActivitiesDesc": "Durung ana kagiyatan sing dijadwalake\ning tanggal iki.",
+    "suggestActivity": "Usulake Kagiyatan",
+    "suggestActivityFeature": "Fitur usulake kagiyatan bakal kasedhiya",
     "organizer": "Penyelenggara",
     "communityInformation": "Informasi Komunitas",
     "populationInformation": "Informasi Kependudukan",
     "viewKtpKkData": "Deleng data KTP/KK sampeyan",
-    "familyDataKk": "Data Keluarga (KK)",
-    "manageFamilyMembers": "Kelola informasi anggota keluarga",
+    "familyDataKk": "Data Kulawarga (KK)",
+    "manageFamilyMembers": "Kelola informasi anggota kulawarga",
     "houseData": "Data Omah",
     "manageResidenceInfo": "Kelola informasi papan tinggal sampeyan",
-    "financeAndDues": "Keuangan & Iuran",
-    "myDues": "Iuran Kulo",
-    "monthlyDuesHistory": "Riwayat pembayaran iuran saben wulan",
-    "financialTransparency": "Transparansi Keuangan",
+    "financeAndDues": "Keuangan & Urunan",
+    "myDues": "Urunan Kulo",
+    "monthlyDuesHistory": "Riwayat pembayaran urunan saben wulan",
+    "financialTransparency": "Buka-bukaan Keuangan",
     "rtRwFinancialReport": "Laporan keuangan RT/RW",
     "administration": "Administrasi",
     "letterSubmission": "Pengajuan Surat",
-    "submitLettersAndDocs": "Ajukno surat keterangan lan dokumen"
+    "submitLettersAndDocs": "Ajukno surat keterangan lan dokumen",
+    "personal": "Piyambak",
+    "welcomeBackGreeting": "Sugeng rawuh maneh!",
+    "rwChairman": "Ketua RW {number}",
+    "@rwChairman": {
+        "placeholders": {
+            "number": {
+                "type": "String"
+            }
+        }
+    },
+    "rtChairman": "Ketua RT {rt} / RW {rw}",
+    "@rtChairman": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            },
+            "rw": {
+                "type": "String"
+            }
+        }
+    },
+    "rwSummary": "Ringkesan RW {number}",
+    "@rwSummary": {
+        "placeholders": {
+            "number": {
+                "type": "String"
+            }
+        }
+    },
+    "rtSummary": "Ringkesan RT {number}",
+    "@rtSummary": {
+        "placeholders": {
+            "number": {
+                "type": "String"
+            }
+        }
+    },
+    "january2024": "Januari 2024",
+    "totalRt": "Total RT",
+    "totalResidents": "Total Warga",
+    "rwFunds": "Kas RW",
+    "reports": "Laporan",
+    "meetings": "Rapat",
+    "totalKk": "Total KK",
+    "duesPaid": "Urunan Lunas",
+    "pendingSubmissions": "Pending",
+    "reportsNeedAction": "{count} Laporan Kudu Ditindak",
+    "@reportsNeedAction": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "reportFromResidents": "Ana laporan saka warga sing kudu ditindaklanjuti",
+    "rwCoordinationMeeting": "Rapat Koordinasi RW",
+    "rwCommunityService": "Gotong Royong RW",
+    "saturdayDatetime": "Sabtu, 27 Januari 2024 • 19:00 WIB",
+    "sundayDatetime": "Minggu, 28 Januari 2024 • 07:00 WIB",
+    "rwChairmanFunctions": "Fungsi Ketua RW",
+    "manageRwCoordination": "Kelola koordinasi & supervisi RW",
+    "residentServices": "Layanan Warga",
+    "accessResidentFeatures": "Akses fitur minangka warga",
+    "rtChairmanFunctions": "Fungsi Ketua RT",
+    "manageRtAdministration": "Kelola administrasi & warga RT",
+    "manageRt": "Kelola RT",
+    "rtList": "Daftar RT",
+    "rtPerformance": "Kinerja RT",
+    "rwResidentsData": "Data Warga RW",
+    "rwStatistics": "Statistik RW",
+    "activities": "Kagiyatan",
+    "rwActivities": "Kagiyatan RW",
+    "rwMeetings": "Rapat RW",
+    "createAnnouncement": "Gawe Pangumuman",
+    "finance": "Keuangan",
+    "rwDues": "Urunan RW",
+    "rtSummaryFinance": "Ringkesan RT",
+    "financeReport": "Laporan Keuangan",
+    "fundTransparency": "Transparansi Dana",
+    "manageReports": "Kelola Laporan",
+    "areaMonitoring": "Monitoring Wilayah",
+    "letterVerification": "Verifikasi Surat",
+    "documentArchive": "Arsip Dokumen",
+    "personalData": "Data Pribadi",
+    "populationInfo": "Info Kependudukan",
+    "familyDataKk": "Data Kulawarga (KK)",
+    "houseData": "Data Omah",
+    "paymentHistory": "Riwayat Pembayaran",
+    "digitalReceipts": "Kuitansi Digital",
+    "financialTransparency": "Transparansi Keuangan",
+    "announcements": "Pangumuman",
+    "residentsDirectory": "Data Warga",
+    "emergencyContacts": "Kontak Darurat",
+    "recentActivity": "Aktivitas Pungkasan",
+    "viewAll": "Deleng Kabeh",
+    "cleanlinessReport": "Laporan Kebersihan - RT {rt}",
+    "@cleanlinessReport": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            }
+        }
+    },
+    "needsFollowUp": "Kudu Ditindaklanjuti",
+    "hoursAgo": "{hours} jam kepungkur",
+    "@hoursAgo": {
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "rtCoordinationMeeting": "Rapat Koordinasi RT",
+    "scheduled": "Dijadwalake",
+    "daysAgo": "{days} dina kepungkur",
+    "rwDuesRt": "Urunan RW - RT {rt}",
+    "@rwDuesRt": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            }
+        }
+    },
+    "paid": "Lunas",
+    "residents": "Warga",
+    "addResident": "Tambah Warga",
+    "familyData": "Data Kulawarga",
+    "recordMutation": "Catat Mutasi",
+    "manageDues": "Kelola Urunan",
+    "rtFunds": "Kas RT",
+    "transactionHistory": "Riwayat Transaksi",
+    "manageActivities": "Kelola Kagiyatan",
+    "meetingSchedule": "Jadwal Rapat",
+    "letterSubmissions": "Pengajuan Surat",
+    "rtArea": "Wilayah RT",
+    "rtStatistics": "Statistik RT",
+    "newLetterSubmissions": "{count} Pengajuan Surat Anyar",
+    "@newLetterSubmissions": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "letterRequestsNeedProcessing": "Ana permohonan surat sing kudu diproses",
+    "rtMeetingThisWeek": "Rapat RT Minggu Iki",
+    "fridayDatetime": "Jumat, 26 Januari 2024 • 19:00 WIB",
+    "communityServiceNextWeek": "Kerja Bakti Minggu Ngarep",
+    "sundayJan21": "Minggu, 21 Januari 2024 • 07:00 WIB",
+    "monthlyDuesPersonName": "Urunan Saben Wulan - {name}",
+    "@monthlyDuesPersonName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "minutesAgo": "{minutes} menit kepungkur",
+    "@minutesAgo": {
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "letterSubmissionPersonName": "Pengajuan Surat - {name}",
+    "@letterSubmissionPersonName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "waitingVerification": "Nunggu Verifikasi",
+    "streetLightReport": "Laporan Lampu Dalan Mati",
+    "idrMillions": "Rp {amount} Jt",
+    "@idrMillions": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "secretaryRt": "Sekretaris RT {rt} / RW {rw}",
+    "@secretaryRt": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            },
+            "rw": {
+                "type": "String"
+            }
+        }
+    },
+    "treasurerRt": "Bendahara RT {rt} / RW {rw}",
+    "@treasurerRt": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            },
+            "rw": {
+                "type": "String"
+            }
+        }
+    },
+    "administrationAndLetters": "Administrasi & Surat",
+    "secretaryFunctions": "Fungsi Sekretaris",
+    "manageAdminDocs": "Kelola administrasi & dokumentasi",
+    "incomingMail": "Surat Mlebu",
+    "mailCompleted": "Surat Rampung",
+    "documents": "Dokumen",
+    "lettersNeedProcessing": "{count} Surat Kudu Diproses",
+    "@lettersNeedProcessing": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "letterRequestsToFollow": "Ana permohonan surat sing kudu ditindaklanjuti",
+    "coordinationMeetingThisWeek": "Rapat Koordinasi Minggu Iki",
+    "letters": "Surat",
+    "createLetter": "Gawe Surat",
+    "outgoingMail": "Surat Metu",
+    "letterTemplates": "Template Surat",
+    "meetingSchedule": "Jadwal Rapat",
+    "minutes": "Notulensi",
+    "meetingInvitations": "Undangan Rapat",
+    "monthlyReports": "Laporan Saben Wulan",
+    "letterHistory": "Riwayat Surat",
+    "domicileLetter": "Surat Domisili - {name}",
+    "@domicileLetter": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "approved": "Disetujoni",
+    "letterRequest": "Permohonan Surat - {name}",
+    "@letterRequest": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "treasurerFunctions": "Fungsi Bendahara",
+    "manageRtRwFinance": "Kelola keuangan RT/RW",
+    "cashBalance": "Saldo Kas RT/RW",
+    "income": "Pemasukan",
+    "expense": "Pengeluaran",
+    "paidStatus": "Wis Bayar",
+    "notYetPaid": "Durung Bayar",
+    "transactions": "Transaksi",
+    "duesPaymentDeadline": "Wates Pembayaran Urunan",
+    "deadlineDate": "Tenggat pembayaran: 25 Januari 2024",
+    "scheduleChangeAnnouncement": "Owahan Jadwal Ronda",
+    "nightPatrolScheduleUpdated": "Jadwal ronda wengi wis dianyari",
+    "manageDues": "Kelola Urunan",
+    "createReceipt": "Gawe Kuitansi",
+    "pendingBills": "Tagihan Tertunda",
+    "recordIncome": "Catat Pemasukan",
+    "recordExpense": "Catat Pengeluaran",
+    "financialReport": "Laporan Keuangan",
+    "analysisGraphs": "Analisis & Grafik",
+    "myDues": "Urunan Kulo",
+    "duesFrom": "Urunan RT {rt} - {name}",
+    "@duesFrom": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            },
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "cleaningFee": "Biaya Kebersihan Lingkungan",
+    "incomeLabel": "Mlebu",
+    "expenseLabel": "Metu"
 }

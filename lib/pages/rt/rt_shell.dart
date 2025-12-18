@@ -13,8 +13,7 @@ class RtShell extends StatelessWidget {
     if (location == '/rt') return 0;
     if (location == '/rt/marketplace') return 1;
     if (location == '/rt/activities') return 2;
-    if (location == '/rt/community') return 3;
-    if (location == '/rt/account') return 4;
+    if (location == '/rt/account') return 3;
     return 0;
   }
 
@@ -30,9 +29,6 @@ class RtShell extends StatelessWidget {
         context.go('/rt/activities');
         break;
       case 3:
-        context.go('/rt/community');
-        break;
-      case 4:
         context.go('/rt/account');
         break;
     }
@@ -92,19 +88,10 @@ class RtShell extends StatelessWidget {
                 Expanded(
                   child: _buildNavItem(
                     context,
-                    icon: Icons.groups,
-                    label: l10n.navCommunity,
-                    index: 3,
-                    isSelected: currentIndex == 3,
-                  ),
-                ),
-                Expanded(
-                  child: _buildNavItem(
-                    context,
                     icon: Icons.person_rounded,
                     label: l10n.navAccount,
-                    index: 4,
-                    isSelected: currentIndex == 4,
+                    index: 3,
+                    isSelected: currentIndex == 3,
                   ),
                 ),
               ],

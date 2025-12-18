@@ -13,8 +13,7 @@ class RwShell extends StatelessWidget {
     if (location == '/rw') return 0;
     if (location == '/rw/marketplace') return 1;
     if (location == '/rw/activities') return 2;
-    if (location == '/rw/community') return 3;
-    if (location == '/rw/account') return 4;
+    if (location == '/rw/account') return 3;
     return 0;
   }
 
@@ -30,9 +29,6 @@ class RwShell extends StatelessWidget {
         context.go('/rw/activities');
         break;
       case 3:
-        context.go('/rw/community');
-        break;
-      case 4:
         context.go('/rw/account');
         break;
     }
@@ -93,19 +89,10 @@ class RwShell extends StatelessWidget {
                 Expanded(
                   child: _buildNavItem(
                     context,
-                    icon: Icons.groups,
-                    label: l10n.navCommunity,
-                    index: 3,
-                    isSelected: currentIndex == 3,
-                  ),
-                ),
-                Expanded(
-                  child: _buildNavItem(
-                    context,
                     icon: Icons.person_rounded,
                     label: l10n.navAccount,
-                    index: 4,
-                    isSelected: currentIndex == 4,
+                    index: 3,
+                    isSelected: currentIndex == 3,
                   ),
                 ),
               ],

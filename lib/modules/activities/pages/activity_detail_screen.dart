@@ -8,6 +8,7 @@ import 'package:rukunin/modules/activities/widgets/small_activity_detail_card.da
 import 'package:rukunin/modules/activities/services/activity_service.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/loading_indicator.dart';
+import 'package:rukunin/services/notification_service.dart';
 
 class ActivityDetailScreen extends StatefulWidget {
   final Activity event;
@@ -21,6 +22,7 @@ class ActivityDetailScreen extends StatefulWidget {
 class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
   final ActivityService _activityService = ActivityService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final NotificationService _notificationService = NotificationService();
 
   bool _isJoined = false;
   int _participantCount = 0;
@@ -73,8 +75,16 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
     bool success;
     if (_isJoined) {
       success = await _activityService.leaveEvent(widget.event.id, userId);
+      if (success) {
+        // Cancel notifications when leaving event
+        await _notificationService.cancelEventReminders(widget.event.id);
+      }
     } else {
       success = await _activityService.joinEvent(widget.event.id, userId);
+      if (success) {
+        // Schedule notifications when joining event
+        await _notificationService.scheduleEventReminders(widget.event);
+      }
     }
 
     if (mounted) {
@@ -88,7 +98,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
             content: Text(
               _isJoined
                   ? l10n.registrationCancelled
-                  : l10n.registeredForActivity,
+                  : '${l10n.registeredForActivity}\nPengingat telah diatur!',
             ),
             backgroundColor: _isJoined ? Colors.orange : Colors.green,
             behavior: SnackBarBehavior.floating,

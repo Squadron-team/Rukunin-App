@@ -11,15 +11,10 @@ class SecretaryShell extends StatelessWidget {
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
 
-    // Menggunakan startsWith untuk lebih robust
-    if (location == '/secretary' ||
-        location.startsWith('/secretary/home') == true) {
-      return 0;
-    }
-    if (location.startsWith('/secretary/marketplace') == true) return 1;
-    if (location.startsWith('/secretary/activities') == true) return 2;
-    if (location.startsWith('/secretary/community') == true) return 3;
-    if (location.startsWith('/secretary/account') == true) return 4;
+    if (location == '/secretary/home') return 0;
+    if (location == '/secretary/marketplace') return 1;
+    if (location == '/secretary/activities') return 2;
+    if (location == '/secretary/account') return 3;
 
     return 0;
   }
@@ -36,9 +31,6 @@ class SecretaryShell extends StatelessWidget {
         context.go('/secretary/activities');
         break;
       case 3:
-        context.go('/secretary/community');
-        break;
-      case 4:
         context.go('/secretary/account');
         break;
     }
@@ -92,17 +84,10 @@ class SecretaryShell extends StatelessWidget {
                 ),
                 _buildNavItem(
                   context,
-                  icon: Icons.groups_rounded,
-                  label: l10n.navCommunity,
-                  index: 3,
-                  isSelected: currentIndex == 3,
-                ),
-                _buildNavItem(
-                  context,
                   icon: Icons.person_rounded,
                   label: l10n.navAccount,
-                  index: 4,
-                  isSelected: currentIndex == 4,
+                  index: 3,
+                  isSelected: currentIndex == 3,
                 ),
               ],
             ),

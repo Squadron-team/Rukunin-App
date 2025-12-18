@@ -461,5 +461,286 @@
     "rtRwFinancialReport": "RT/RW financial report",
     "administration": "Administration",
     "letterSubmission": "Letter Submission",
-    "submitLettersAndDocs": "Submit certificates and documents"
+    "submitLettersAndDocs": "Submit certificates and documents",
+    "personal": "Personal",
+    "welcomeBackGreeting": "Welcome back!",
+    "rwChairman": "RW Chairman {number}",
+    "@rwChairman": {
+        "placeholders": {
+            "number": {
+                "type": "String"
+            }
+        }
+    },
+    "rtChairman": "RT Chairman {rt} / RW {rw}",
+    "@rtChairman": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            },
+            "rw": {
+                "type": "String"
+            }
+        }
+    },
+    "rwSummary": "RW {number} Summary",
+    "@rwSummary": {
+        "placeholders": {
+            "number": {
+                "type": "String"
+            }
+        }
+    },
+    "rtSummary": "RT {number} Summary",
+    "@rtSummary": {
+        "placeholders": {
+            "number": {
+                "type": "String"
+            }
+        }
+    },
+    "january2024": "January 2024",
+    "totalRt": "Total RT",
+    "totalResidents": "Total Residents",
+    "rwFunds": "RW Funds",
+    "reports": "Reports",
+    "meetings": "Meetings",
+    "totalKk": "Total KK",
+    "duesPaid": "Dues Paid",
+    "pendingSubmissions": "Pending",
+    "reportsNeedAction": "{count} Reports Need Action",
+    "@reportsNeedAction": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "reportFromResidents": "There are reports from residents that need action",
+    "rwCoordinationMeeting": "RW Coordination Meeting",
+    "rwCommunityService": "RW Community Service",
+    "saturdayDatetime": "Saturday, January 27, 2024 • 7:00 PM",
+    "sundayDatetime": "Sunday, January 28, 2024 • 7:00 AM",
+    "rwChairmanFunctions": "RW Chairman Functions",
+    "manageRwCoordination": "Manage RW coordination & supervision",
+    "residentServices": "Resident Services",
+    "accessResidentFeatures": "Access features as a resident",
+    "rtChairmanFunctions": "RT Chairman Functions",
+    "manageRtAdministration": "Manage RT administration & residents",
+    "manageRt": "Manage RT",
+    "rtList": "RT List",
+    "rtPerformance": "RT Performance",
+    "rwResidentsData": "RW Residents Data",
+    "rwStatistics": "RW Statistics",
+    "activities": "Activities",
+    "rwActivities": "RW Activities",
+    "rwMeetings": "RW Meetings",
+    "createAnnouncement": "Create Announcement",
+    "finance": "Finance",
+    "rwDues": "RW Dues",
+    "rtSummaryFinance": "RT Summary",
+    "financeReport": "Finance Report",
+    "fundTransparency": "Fund Transparency",
+    "manageReports": "Manage Reports",
+    "areaMonitoring": "Area Monitoring",
+    "letterVerification": "Letter Verification",
+    "documentArchive": "Document Archive",
+    "personalData": "Personal Data",
+    "populationInfo": "Population Info",
+    "familyDataKk": "Family Data (KK)",
+    "houseData": "House Data",
+    "paymentHistory": "Payment History",
+    "digitalReceipts": "Digital Receipts",
+    "financialTransparency": "Financial Transparency",
+    "announcements": "Announcements",
+    "residentsDirectory": "Residents Directory",
+    "emergencyContacts": "Emergency Contacts",
+    "recentActivity": "Recent Activity",
+    "viewAll": "View All",
+    "cleanlinessReport": "Cleanliness Report - RT {rt}",
+    "@cleanlinessReport": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            }
+        }
+    },
+    "needsFollowUp": "Needs Follow Up",
+    "hoursAgo": "{hours} hours ago",
+    "@hoursAgo": {
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "rtCoordinationMeeting": "RT Coordination Meeting",
+    "scheduled": "Scheduled",
+    "daysAgo": "{days} days ago",
+    "rwDuesRt": "RW Dues - RT {rt}",
+    "@rwDuesRt": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            }
+        }
+    },
+    "paid": "Paid",
+    "residents": "Residents",
+    "addResident": "Add Resident",
+    "familyData": "Family Data",
+    "recordMutation": "Record Mutation",
+    "manageDues": "Manage Dues",
+    "rtFunds": "RT Funds",
+    "transactionHistory": "Transaction History",
+    "manageActivities": "Manage Activities",
+    "meetingSchedule": "Meeting Schedule",
+    "letterSubmissions": "Letter Submissions",
+    "rtArea": "RT Area",
+    "rtStatistics": "RT Statistics",
+    "newLetterSubmissions": "{count} New Letter Submissions",
+    "@newLetterSubmissions": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "letterRequestsNeedProcessing": "There are letter requests that need to be processed",
+    "rtMeetingThisWeek": "RT Meeting This Week",
+    "fridayDatetime": "Friday, January 26, 2024 • 7:00 PM",
+    "communityServiceNextWeek": "Community Service Next Week",
+    "sundayJan21": "Sunday, January 21, 2024 • 7:00 AM",
+    "monthlyDuesPersonName": "Monthly Dues - {name}",
+    "@monthlyDuesPersonName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "minutesAgo": "{minutes} minutes ago",
+    "@minutesAgo": {
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "letterSubmissionPersonName": "Letter Submission - {name}",
+    "@letterSubmissionPersonName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "waitingVerification": "Waiting Verification",
+    "streetLightReport": "Street Light Report",
+    "idrMillions": "IDR {amount}M",
+    "@idrMillions": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "secretaryRt": "Secretary RT {rt} / RW {rw}",
+    "@secretaryRt": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            },
+            "rw": {
+                "type": "String"
+            }
+        }
+    },
+    "treasurerRt": "Treasurer RT {rt} / RW {rw}",
+    "@treasurerRt": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            },
+            "rw": {
+                "type": "String"
+            }
+        }
+    },
+    "administrationAndLetters": "Administration & Letters",
+    "secretaryFunctions": "Secretary Functions",
+    "manageAdminDocs": "Manage administration & documentation",
+    "incomingMail": "Incoming Mail",
+    "mailCompleted": "Mail Completed",
+    "documents": "Documents",
+    "lettersNeedProcessing": "{count} Letters Need Processing",
+    "@lettersNeedProcessing": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "letterRequestsToFollow": "There are letter requests that need to be followed up",
+    "coordinationMeetingThisWeek": "Coordination Meeting This Week",
+    "letters": "Letters",
+    "createLetter": "Create Letter",
+    "outgoingMail": "Outgoing Mail",
+    "letterTemplates": "Letter Templates",
+    "meetingSchedule": "Meeting Schedule",
+    "minutes": "Minutes",
+    "meetingInvitations": "Meeting Invitations",
+    "monthlyReports": "Monthly Reports",
+    "letterHistory": "Letter History",
+    "domicileLetter": "Domicile Letter - {name}",
+    "@domicileLetter": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "approved": "Approved",
+    "letterRequest": "Letter Request - {name}",
+    "@letterRequest": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "treasurerFunctions": "Treasurer Functions",
+    "manageRtRwFinance": "Manage RT/RW finance",
+    "cashBalance": "Cash Balance RT/RW",
+    "income": "Income",
+    "expense": "Expense",
+    "paidStatus": "Paid",
+    "notYetPaid": "Not Yet Paid",
+    "transactions": "Transactions",
+    "duesPaymentDeadline": "Dues Payment Deadline",
+    "deadlineDate": "Deadline: January 25, 2024",
+    "scheduleChangeAnnouncement": "Schedule change announcement",
+    "nightPatrolScheduleUpdated": "Night patrol schedule has been updated",
+    "manageDues": "Manage Dues",
+    "createReceipt": "Create Receipt",
+    "pendingBills": "Pending Bills",
+    "recordIncome": "Record Income",
+    "recordExpense": "Record Expense",
+    "financialReport": "Financial Report",
+    "analysisGraphs": "Analysis & Graphs",
+    "myDues": "My Dues",
+    "duesFrom": "Dues RT {rt} - {name}",
+    "@duesFrom": {
+        "placeholders": {
+            "rt": {
+                "type": "String"
+            },
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "cleaningFee": "Environmental Cleaning Fee",
+    "incomeLabel": "Income",
+    "expenseLabel": "Expense"
 }

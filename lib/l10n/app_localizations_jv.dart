@@ -36,16 +36,16 @@ class AppLocalizationsJv extends AppLocalizations {
   String get securityScheduleChange => 'Owah-owahan jadwal keamanan wengi';
 
   @override
-  String get duesDeadline => 'Wektu Iuran';
+  String get duesDeadline => 'Wektu Urunan';
 
   @override
-  String get payDuesSoon => 'Enggal bayar iuran sasi iki';
+  String get payDuesSoon => 'Enggal bayar urunan sasi iki';
 
   @override
-  String get dues => 'Iuran';
+  String get dues => 'Urunan';
 
   @override
-  String get payDues => 'Bayar Iuran';
+  String get payDues => 'Bayar Urunan';
 
   @override
   String get paymentHistory => 'Riwayat Pembayaran';
@@ -72,7 +72,7 @@ class AppLocalizationsJv extends AppLocalizations {
   String get community => 'Komunitas';
 
   @override
-  String get eventCalendar => 'Tanggalan Kegiatan';
+  String get eventCalendar => 'Tanggalan Kagiyatan';
 
   @override
   String get announcements => 'Pangumuman';
@@ -81,7 +81,7 @@ class AppLocalizationsJv extends AppLocalizations {
   String get residentsData => 'Data Warga';
 
   @override
-  String get emergencyContacts => 'Kontak Penting';
+  String get emergencyContacts => 'Kontak Darurat';
 
   @override
   String get language => 'Basa';
@@ -415,11 +415,11 @@ class AppLocalizationsJv extends AppLocalizations {
   String get nationalityRequired => 'Kewarganegaraan ora kena kosong';
 
   @override
-  String get kkData => 'Data KK (Kartu Keluarga)';
+  String get kkData => 'Data KK (Kartu Kulawarga)';
 
   @override
   String get kkDataDesc =>
-      'Mangga isi informasi KK (Kartu Keluarga) panjenengan kanthi akurat';
+      'Mangga isi informasi KK (Kartu Kulawarga) panjenengan kanthi akurat';
 
   @override
   String get kkNumber => 'Nomer KK';
@@ -434,16 +434,17 @@ class AppLocalizationsJv extends AppLocalizations {
   String get kkNumberInvalid => 'Nomer KK kudu 16 digit';
 
   @override
-  String get familyHeadName => 'Jeneng Kepala Keluarga';
+  String get familyHeadName => 'Jeneng Kepala Kulawarga';
 
   @override
-  String get enterFamilyHeadName => 'Lebokno jeneng kepala keluarga';
+  String get enterFamilyHeadName => 'Lebokno jeneng kepala kulawarga';
 
   @override
-  String get familyHeadNameRequired => 'Jeneng kepala keluarga ora kena kosong';
+  String get familyHeadNameRequired =>
+      'Jeneng kepala kulawarga ora kena kosong';
 
   @override
-  String get relationshipToHead => 'Hubungan kaliyan Kepala Keluarga';
+  String get relationshipToHead => 'Hubungan kaliyan Kepala Kulawarga';
 
   @override
   String get selectRelationship => 'Pilih hubungan';
@@ -452,7 +453,7 @@ class AppLocalizationsJv extends AppLocalizations {
   String get relationshipRequired => 'Hubungan ora kena kosong';
 
   @override
-  String get head => 'Kepala Keluarga';
+  String get head => 'Kepala Kulawarga';
 
   @override
   String get spouse => 'Garwa';
@@ -498,7 +499,7 @@ class AppLocalizationsJv extends AppLocalizations {
   String get navMarketplace => 'Pasar';
 
   @override
-  String get navActivities => 'Kegiatan';
+  String get navActivities => 'Kagiyatan';
 
   @override
   String get navCommunity => 'Komunitas';
@@ -649,7 +650,7 @@ class AppLocalizationsJv extends AppLocalizations {
   String get notificationTabCommunity => 'Komunitas';
 
   @override
-  String get notificationTabEvent => 'Kegiatan';
+  String get notificationTabEvent => 'Kagiyatan';
 
   @override
   String get noNotifications => 'Ora ana notifikasi';
@@ -1240,11 +1241,11 @@ class AppLocalizationsJv extends AppLocalizations {
   String get viewOrders => 'Deleng Pesanan';
 
   @override
-  String get noActivitiesScheduled => 'Ora ana kegiatan';
+  String get noActivitiesScheduled => 'Ora ana kagiyatan';
 
   @override
   String activitiesScheduled(int count) {
-    return '$count kegiatan dijadwalake';
+    return '$count kagiyatan dijadwalake';
   }
 
   @override
@@ -1259,14 +1260,14 @@ class AppLocalizationsJv extends AppLocalizations {
   String get activityLocation => 'Lokasi';
 
   @override
-  String get activityDescription => 'Deskripsi Kegiatan';
+  String get activityDescription => 'Deskripsi Kagiyatan';
 
   @override
   String get registrationCancelled => 'Pendaftaran dibatalake';
 
   @override
   String get registeredForActivity =>
-      'Sampeyan wis ndaftar kanggo kegiatan iki';
+      'Sampeyan wis ndaftar kanggo kagiyatan iki';
 
   @override
   String get failedToUpdateRegistration => 'Gagal nganyari status pendaftaran';
@@ -1275,23 +1276,24 @@ class AppLocalizationsJv extends AppLocalizations {
   String get alreadyRegistered => 'Wis Kadaftar';
 
   @override
-  String get joinActivity => 'Melu Kegiatan';
+  String get joinActivity => 'Melu Kagiyatan';
 
   @override
   String get viewDetails => 'Deleng Detail';
 
   @override
-  String get noActivitiesTitle => 'Ora Ana Kegiatan';
+  String get noActivitiesTitle => 'Ora Ana Kagiyatan';
 
   @override
   String get noActivitiesDesc =>
-      'Durung ana kegiatan sing dijadwalake\ning tanggal iki.';
+      'Durung ana kagiyatan sing dijadwalake\ning tanggal iki.';
 
   @override
-  String get suggestActivity => 'Usulake Kegiatan';
+  String get suggestActivity => 'Usulake Kagiyatan';
 
   @override
-  String get suggestActivityFeature => 'Fitur usulake kegiatan bakal kasedhiya';
+  String get suggestActivityFeature =>
+      'Fitur usulake kagiyatan bakal kasedhiya';
 
   @override
   String get organizer => 'Penyelenggara';
@@ -1306,10 +1308,10 @@ class AppLocalizationsJv extends AppLocalizations {
   String get viewKtpKkData => 'Deleng data KTP/KK sampeyan';
 
   @override
-  String get familyDataKk => 'Data Keluarga (KK)';
+  String get familyDataKk => 'Data Kulawarga (KK)';
 
   @override
-  String get manageFamilyMembers => 'Kelola informasi anggota keluarga';
+  String get manageFamilyMembers => 'Kelola informasi anggota kulawarga';
 
   @override
   String get houseData => 'Data Omah';
@@ -1318,13 +1320,13 @@ class AppLocalizationsJv extends AppLocalizations {
   String get manageResidenceInfo => 'Kelola informasi papan tinggal sampeyan';
 
   @override
-  String get financeAndDues => 'Keuangan & Iuran';
+  String get financeAndDues => 'Keuangan & Urunan';
 
   @override
-  String get myDues => 'Iuran Kulo';
+  String get myDues => 'Urunan Kulo';
 
   @override
-  String get monthlyDuesHistory => 'Riwayat pembayaran iuran saben wulan';
+  String get monthlyDuesHistory => 'Riwayat pembayaran urunan saben wulan';
 
   @override
   String get financialTransparency => 'Transparansi Keuangan';
@@ -1340,4 +1342,417 @@ class AppLocalizationsJv extends AppLocalizations {
 
   @override
   String get submitLettersAndDocs => 'Ajukno surat keterangan lan dokumen';
+
+  @override
+  String get personal => 'Piyambak';
+
+  @override
+  String get welcomeBackGreeting => 'Sugeng rawuh maneh!';
+
+  @override
+  String rwChairman(String number) {
+    return 'Ketua RW $number';
+  }
+
+  @override
+  String rtChairman(String rt, String rw) {
+    return 'Ketua RT $rt / RW $rw';
+  }
+
+  @override
+  String rwSummary(String number) {
+    return 'Ringkesan RW $number';
+  }
+
+  @override
+  String rtSummary(String number) {
+    return 'Ringkesan RT $number';
+  }
+
+  @override
+  String get january2024 => 'Januari 2024';
+
+  @override
+  String get totalRt => 'Total RT';
+
+  @override
+  String get totalResidents => 'Total Warga';
+
+  @override
+  String get rwFunds => 'Kas RW';
+
+  @override
+  String get reports => 'Laporan';
+
+  @override
+  String get meetings => 'Rapat';
+
+  @override
+  String get totalKk => 'Total KK';
+
+  @override
+  String get duesPaid => 'Urunan Lunas';
+
+  @override
+  String get pendingSubmissions => 'Pending';
+
+  @override
+  String reportsNeedAction(int count) {
+    return '$count Laporan Kudu Ditindak';
+  }
+
+  @override
+  String get reportFromResidents =>
+      'Ana laporan saka warga sing kudu ditindaklanjuti';
+
+  @override
+  String get rwCoordinationMeeting => 'Rapat Koordinasi RW';
+
+  @override
+  String get rwCommunityService => 'Gotong Royong RW';
+
+  @override
+  String get saturdayDatetime => 'Sabtu, 27 Januari 2024 • 19:00 WIB';
+
+  @override
+  String get sundayDatetime => 'Minggu, 28 Januari 2024 • 07:00 WIB';
+
+  @override
+  String get rwChairmanFunctions => 'Fungsi Ketua RW';
+
+  @override
+  String get manageRwCoordination => 'Kelola koordinasi & supervisi RW';
+
+  @override
+  String get residentServices => 'Layanan Warga';
+
+  @override
+  String get accessResidentFeatures => 'Akses fitur minangka warga';
+
+  @override
+  String get rtChairmanFunctions => 'Fungsi Ketua RT';
+
+  @override
+  String get manageRtAdministration => 'Kelola administrasi & warga RT';
+
+  @override
+  String get manageRt => 'Kelola RT';
+
+  @override
+  String get rtList => 'Daftar RT';
+
+  @override
+  String get rtPerformance => 'Kinerja RT';
+
+  @override
+  String get rwResidentsData => 'Data Warga RW';
+
+  @override
+  String get rwStatistics => 'Statistik RW';
+
+  @override
+  String get activities => 'Kagiyatan';
+
+  @override
+  String get rwActivities => 'Kagiyatan RW';
+
+  @override
+  String get rwMeetings => 'Rapat RW';
+
+  @override
+  String get createAnnouncement => 'Gawe Pangumuman';
+
+  @override
+  String get finance => 'Keuangan';
+
+  @override
+  String get rwDues => 'Urunan RW';
+
+  @override
+  String get rtSummaryFinance => 'Ringkesan RT';
+
+  @override
+  String get financeReport => 'Laporan Keuangan';
+
+  @override
+  String get fundTransparency => 'Transparansi Dana';
+
+  @override
+  String get manageReports => 'Kelola Laporan';
+
+  @override
+  String get areaMonitoring => 'Monitoring Wilayah';
+
+  @override
+  String get letterVerification => 'Verifikasi Surat';
+
+  @override
+  String get documentArchive => 'Arsip Dokumen';
+
+  @override
+  String get personalData => 'Data Pribadi';
+
+  @override
+  String get populationInfo => 'Info Kependudukan';
+
+  @override
+  String get residentsDirectory => 'Data Warga';
+
+  @override
+  String get recentActivity => 'Aktivitas Pungkasan';
+
+  @override
+  String cleanlinessReport(String rt) {
+    return 'Laporan Kebersihan - RT $rt';
+  }
+
+  @override
+  String get needsFollowUp => 'Kudu Ditindaklanjuti';
+
+  @override
+  String hoursAgo(int hours) {
+    return '$hours jam kepungkur';
+  }
+
+  @override
+  String get rtCoordinationMeeting => 'Rapat Koordinasi RT';
+
+  @override
+  String get scheduled => 'Dijadwalake';
+
+  @override
+  String rwDuesRt(String rt) {
+    return 'Urunan RW - RT $rt';
+  }
+
+  @override
+  String get paid => 'Lunas';
+
+  @override
+  String get residents => 'Warga';
+
+  @override
+  String get addResident => 'Tambah Warga';
+
+  @override
+  String get familyData => 'Data Kulawarga';
+
+  @override
+  String get recordMutation => 'Catat Mutasi';
+
+  @override
+  String get manageDues => 'Kelola Urunan';
+
+  @override
+  String get rtFunds => 'Kas RT';
+
+  @override
+  String get transactionHistory => 'Riwayat Transaksi';
+
+  @override
+  String get manageActivities => 'Kelola Kagiyatan';
+
+  @override
+  String get meetingSchedule => 'Jadwal Rapat';
+
+  @override
+  String get letterSubmissions => 'Pengajuan Surat';
+
+  @override
+  String get rtArea => 'Wilayah RT';
+
+  @override
+  String get rtStatistics => 'Statistik RT';
+
+  @override
+  String newLetterSubmissions(int count) {
+    return '$count Pengajuan Surat Anyar';
+  }
+
+  @override
+  String get letterRequestsNeedProcessing =>
+      'Ana permohonan surat sing kudu diproses';
+
+  @override
+  String get rtMeetingThisWeek => 'Rapat RT Minggu Iki';
+
+  @override
+  String get fridayDatetime => 'Jumat, 26 Januari 2024 • 19:00 WIB';
+
+  @override
+  String get communityServiceNextWeek => 'Kerja Bakti Minggu Ngarep';
+
+  @override
+  String get sundayJan21 => 'Minggu, 21 Januari 2024 • 07:00 WIB';
+
+  @override
+  String monthlyDuesPersonName(String name) {
+    return 'Urunan Saben Wulan - $name';
+  }
+
+  @override
+  String minutesAgo(int minutes) {
+    return '$minutes menit kepungkur';
+  }
+
+  @override
+  String letterSubmissionPersonName(String name) {
+    return 'Pengajuan Surat - $name';
+  }
+
+  @override
+  String get waitingVerification => 'Nunggu Verifikasi';
+
+  @override
+  String get streetLightReport => 'Laporan Lampu Dalan Mati';
+
+  @override
+  String idrMillions(String amount) {
+    return 'Rp $amount Jt';
+  }
+
+  @override
+  String secretaryRt(String rt, String rw) {
+    return 'Sekretaris RT $rt / RW $rw';
+  }
+
+  @override
+  String treasurerRt(String rt, String rw) {
+    return 'Bendahara RT $rt / RW $rw';
+  }
+
+  @override
+  String get administrationAndLetters => 'Administrasi & Surat';
+
+  @override
+  String get secretaryFunctions => 'Fungsi Sekretaris';
+
+  @override
+  String get manageAdminDocs => 'Kelola administrasi & dokumentasi';
+
+  @override
+  String get incomingMail => 'Surat Mlebu';
+
+  @override
+  String get mailCompleted => 'Surat Rampung';
+
+  @override
+  String get documents => 'Dokumen';
+
+  @override
+  String lettersNeedProcessing(int count) {
+    return '$count Surat Kudu Diproses';
+  }
+
+  @override
+  String get letterRequestsToFollow =>
+      'Ana permohonan surat sing kudu ditindaklanjuti';
+
+  @override
+  String get coordinationMeetingThisWeek => 'Rapat Koordinasi Minggu Iki';
+
+  @override
+  String get letters => 'Surat';
+
+  @override
+  String get createLetter => 'Gawe Surat';
+
+  @override
+  String get outgoingMail => 'Surat Metu';
+
+  @override
+  String get letterTemplates => 'Template Surat';
+
+  @override
+  String get minutes => 'Notulensi';
+
+  @override
+  String get meetingInvitations => 'Undangan Rapat';
+
+  @override
+  String get monthlyReports => 'Laporan Saben Wulan';
+
+  @override
+  String get letterHistory => 'Riwayat Surat';
+
+  @override
+  String domicileLetter(String name) {
+    return 'Surat Domisili - $name';
+  }
+
+  @override
+  String get approved => 'Disetujoni';
+
+  @override
+  String letterRequest(String name) {
+    return 'Permohonan Surat - $name';
+  }
+
+  @override
+  String get treasurerFunctions => 'Fungsi Bendahara';
+
+  @override
+  String get manageRtRwFinance => 'Kelola keuangan RT/RW';
+
+  @override
+  String get cashBalance => 'Saldo Kas RT/RW';
+
+  @override
+  String get income => 'Pemasukan';
+
+  @override
+  String get expense => 'Pengeluaran';
+
+  @override
+  String get paidStatus => 'Wis Bayar';
+
+  @override
+  String get notYetPaid => 'Durung Bayar';
+
+  @override
+  String get transactions => 'Transaksi';
+
+  @override
+  String get duesPaymentDeadline => 'Wates Pembayaran Urunan';
+
+  @override
+  String get deadlineDate => 'Tenggat pembayaran: 25 Januari 2024';
+
+  @override
+  String get scheduleChangeAnnouncement => 'Owahan Jadwal Ronda';
+
+  @override
+  String get nightPatrolScheduleUpdated => 'Jadwal ronda wengi wis dianyari';
+
+  @override
+  String get createReceipt => 'Gawe Kuitansi';
+
+  @override
+  String get pendingBills => 'Tagihan Tertunda';
+
+  @override
+  String get recordIncome => 'Catat Pemasukan';
+
+  @override
+  String get recordExpense => 'Catat Pengeluaran';
+
+  @override
+  String get financialReport => 'Laporan Keuangan';
+
+  @override
+  String get analysisGraphs => 'Analisis & Grafik';
+
+  @override
+  String duesFrom(String rt, String name) {
+    return 'Urunan RT $rt - $name';
+  }
+
+  @override
+  String get cleaningFee => 'Biaya Kebersihan Lingkungan';
+
+  @override
+  String get incomeLabel => 'Mlebu';
+
+  @override
+  String get expenseLabel => 'Metu';
 }
