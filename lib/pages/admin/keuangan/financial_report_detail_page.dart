@@ -113,7 +113,7 @@ class FinancialReportDetailPage extends StatelessWidget {
   Widget _summarySection() {
     return Column(
       children: [
-        _summaryRow('Total Pemasukan', 'Rp 5.000.000', AppColors.success),
+        _summaryRow('Total Pemasukan', 'Rp 5.000.00', AppColors.success),
         _summaryRow('Total Pengeluaran', 'Rp 3.700.000', AppColors.error),
         const Divider(height: 24),
         _summaryRow(
