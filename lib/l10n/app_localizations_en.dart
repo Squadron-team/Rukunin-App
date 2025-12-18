@@ -1340,4 +1340,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get submitLettersAndDocs => 'Submit certificates and documents';
+
+  @override
+  String get personal => 'Personal';
 }

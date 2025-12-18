@@ -438,5 +438,6 @@
     "rtRwFinancialReport": "Laporan keuangan RT/RW",
     "administration": "Administrasi",
     "letterSubmission": "Pengajuan Surat",
-    "submitLettersAndDocs": "Ajukan surat keterangan dan dokumen"
+    "submitLettersAndDocs": "Ajukan surat keterangan dan dokumen",
+    "personal": "Personal"
 }

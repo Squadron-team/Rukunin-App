@@ -1343,4 +1343,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get submitLettersAndDocs => 'Ajukan surat keterangan dan dokumen';
+
+  @override
+  String get personal => 'Personal';
 }

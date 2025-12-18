@@ -69,6 +69,27 @@ class ResidentHomeScreen extends StatelessWidget {
   List<TabData> _getMenuTabs(BuildContext context, AppLocalizations l10n) {
     return [
       TabData(
+        label: l10n.personal,
+        icon: Icons.person,
+        items: [
+          MenuItem(
+            label: l10n.populationInformation,
+            icon: Icons.person_2_outlined,
+            onTap: () => context.push('/resident/community/population'),
+          ),
+          MenuItem(
+            label: l10n.familyDataKk,
+            icon: Icons.family_restroom,
+            onTap: () => context.push('/resident/community/family'),
+          ),
+          MenuItem(
+            label: l10n.houseData,
+            icon: Icons.home,
+            onTap: () => context.push('/resident/community/home'),
+          ),
+        ],
+      ),
+      TabData(
         label: l10n.dues,
         icon: Icons.payments_rounded,
         hasNotification: true,
@@ -88,6 +109,12 @@ class ResidentHomeScreen extends StatelessWidget {
             label: l10n.digitalReceipts,
             icon: Icons.receipt_long_rounded,
             onTap: () => context.push('/resident/digital-receipts'),
+          ),
+          MenuItem(
+            label: l10n.financialTransparency,
+            icon: Icons.trending_up,
+            onTap: () =>
+                context.push('/resident/community/finance-transparency'),
           ),
         ],
       ),

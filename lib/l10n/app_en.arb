@@ -461,5 +461,6 @@
     "rtRwFinancialReport": "RT/RW financial report",
     "administration": "Administration",
     "letterSubmission": "Letter Submission",
-    "submitLettersAndDocs": "Submit certificates and documents"
+    "submitLettersAndDocs": "Submit certificates and documents",
+    "personal": "Personal"
 }

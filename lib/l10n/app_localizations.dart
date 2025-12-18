@@ -2643,6 +2643,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Submit certificates and documents'**
   String get submitLettersAndDocs;
+
+  /// No description provided for @personal.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal'**
+  String get personal;
 }
 
 class _AppLocalizationsDelegate

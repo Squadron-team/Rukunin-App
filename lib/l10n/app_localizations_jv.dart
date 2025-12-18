@@ -415,11 +415,11 @@ class AppLocalizationsJv extends AppLocalizations {
   String get nationalityRequired => 'Kewarganegaraan ora kena kosong';
 
   @override
-  String get kkData => 'Data KK (Kartu Keluarga)';
+  String get kkData => 'Data KK (Kartu Kulawarga)';
 
   @override
   String get kkDataDesc =>
-      'Mangga isi informasi KK (Kartu Keluarga) panjenengan kanthi akurat';
+      'Mangga isi informasi KK (Kartu Kulawarga) panjenengan kanthi akurat';
 
   @override
   String get kkNumber => 'Nomer KK';
@@ -434,16 +434,17 @@ class AppLocalizationsJv extends AppLocalizations {
   String get kkNumberInvalid => 'Nomer KK kudu 16 digit';
 
   @override
-  String get familyHeadName => 'Jeneng Kepala Keluarga';
+  String get familyHeadName => 'Jeneng Kepala Kulawarga';
 
   @override
-  String get enterFamilyHeadName => 'Lebokno jeneng kepala keluarga';
+  String get enterFamilyHeadName => 'Lebokno jeneng kepala kulawarga';
 
   @override
-  String get familyHeadNameRequired => 'Jeneng kepala keluarga ora kena kosong';
+  String get familyHeadNameRequired =>
+      'Jeneng kepala kulawarga ora kena kosong';
 
   @override
-  String get relationshipToHead => 'Hubungan kaliyan Kepala Keluarga';
+  String get relationshipToHead => 'Hubungan kaliyan Kepala Kulawarga';
 
   @override
   String get selectRelationship => 'Pilih hubungan';
@@ -452,7 +453,7 @@ class AppLocalizationsJv extends AppLocalizations {
   String get relationshipRequired => 'Hubungan ora kena kosong';
 
   @override
-  String get head => 'Kepala Keluarga';
+  String get head => 'Kepala Kulawarga';
 
   @override
   String get spouse => 'Garwa';
@@ -1306,10 +1307,10 @@ class AppLocalizationsJv extends AppLocalizations {
   String get viewKtpKkData => 'Deleng data KTP/KK sampeyan';
 
   @override
-  String get familyDataKk => 'Data Keluarga (KK)';
+  String get familyDataKk => 'Data Kulawarga (KK)';
 
   @override
-  String get manageFamilyMembers => 'Kelola informasi anggota keluarga';
+  String get manageFamilyMembers => 'Kelola informasi anggota kulawarga';
 
   @override
   String get houseData => 'Data Omah';
@@ -1340,4 +1341,7 @@ class AppLocalizationsJv extends AppLocalizations {
 
   @override
   String get submitLettersAndDocs => 'Ajukno surat keterangan lan dokumen';
+
+  @override
+  String get personal => 'Piyambak';
 }
