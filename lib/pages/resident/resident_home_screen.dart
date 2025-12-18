@@ -137,11 +137,6 @@ class ResidentHomeScreen extends StatelessWidget {
             icon: Icons.feedback_rounded,
             onTap: () => context.push('/resident/submit-suggestion'),
           ),
-          MenuItem(
-            label: l10n.submissionStatus,
-            icon: Icons.checklist_rounded,
-            onTap: () => context.push('/resident/submission-status'),
-          ),
         ],
       ),
       TabData(

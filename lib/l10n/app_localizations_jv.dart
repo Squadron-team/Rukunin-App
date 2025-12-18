@@ -36,19 +36,19 @@ class AppLocalizationsJv extends AppLocalizations {
   String get securityScheduleChange => 'Owah-owahan jadwal keamanan wengi';
 
   @override
-  String get duesDeadline => 'Wektu Iuran';
+  String get duesDeadline => 'Wektu Urunan';
 
   @override
-  String get payDuesSoon => 'Enggal bayar iuran sasi iki';
+  String get payDuesSoon => 'Enggal bayar urunan sasi iki';
 
   @override
-  String get dues => 'Iuran';
+  String get dues => 'Urunan';
 
   @override
-  String get payDues => 'Bayar Iuran';
+  String get payDues => 'Bayar Urunan';
 
   @override
-  String get paymentHistory => 'Riwayat Pembayaran';
+  String get paymentHistory => 'Cathetan Pembayaran';
 
   @override
   String get digitalReceipts => 'Kuitansi Digital';
@@ -1319,16 +1319,16 @@ class AppLocalizationsJv extends AppLocalizations {
   String get manageResidenceInfo => 'Kelola informasi papan tinggal sampeyan';
 
   @override
-  String get financeAndDues => 'Keuangan & Iuran';
+  String get financeAndDues => 'Keuangan & Urunan';
 
   @override
-  String get myDues => 'Iuran Kulo';
+  String get myDues => 'Urunan Kulo';
 
   @override
-  String get monthlyDuesHistory => 'Riwayat pembayaran iuran saben wulan';
+  String get monthlyDuesHistory => 'Riwayat pembayaran urunan saben wulan';
 
   @override
-  String get financialTransparency => 'Transparansi Keuangan';
+  String get financialTransparency => 'Buka-bukaan Keuangan';
 
   @override
   String get rtRwFinancialReport => 'Laporan keuangan RT/RW';

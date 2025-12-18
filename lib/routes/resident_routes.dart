@@ -22,6 +22,8 @@ import 'package:rukunin/modules/community/pages/family_details_screen.dart';
 import 'package:rukunin/modules/community/pages/documents_screen.dart';
 import 'package:rukunin/modules/community/pages/document_request_form_screen.dart';
 import 'package:rukunin/modules/community/pages/home_details_screen.dart';
+import 'package:rukunin/pages/resident/report_issue_screen.dart';
+import 'package:rukunin/pages/resident/submit_suggestion_screen.dart';
 
 final residentRoutes = [
   // Main routes with bottom navigation
@@ -206,5 +208,15 @@ final residentRoutes = [
       documentIcon: Icons.description_outlined,
       documentColor: Colors.grey,
     ),
+  ),
+  GoRoute(
+    path: '/resident/report-issue',
+    name: 'resident-report-issue',
+    builder: (context, state) => const ReportIssueScreen(),
+  ),
+  GoRoute(
+    path: '/resident/submit-suggestion',
+    name: 'resident-submit-suggestion',
+    builder: (context, state) => const SubmitSuggestionScreen(),
   ),
 ];
