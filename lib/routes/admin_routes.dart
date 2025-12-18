@@ -31,6 +31,17 @@ import 'package:rukunin/pages/admin/kegiatan_warga/kegiatan_detail_page.dart';
 import 'package:rukunin/pages/admin/verifikasi/verifikasi_detail_page.dart';
 import 'package:rukunin/pages/admin/verifikasi/verifikasi_list_page.dart';
 import 'package:rukunin/pages/admin/analitik/analytics_screen.dart';
+import 'package:rukunin/pages/admin/permintaan_akun/permintaan_akun_detail_page.dart';
+import 'package:rukunin/pages/admin/permintaan_akun/permintaan_akun_list_page.dart';
+import 'package:rukunin/pages/admin/peraturan_desa/peraturan_list_page.dart';
+import 'package:rukunin/pages/admin/peraturan_desa/peraturan_detail_page.dart';
+import 'package:rukunin/pages/admin/peraturan_desa/peraturan_add_page.dart';
+import 'package:rukunin/pages/admin/log_aktivitas/log_aktivitas_page.dart';
+import 'package:rukunin/pages/admin/backup_data/admin_backup_data_page.dart';
+import 'package:rukunin/pages/admin/keuangan/treasurer_approvals_page.dart';
+import 'package:rukunin/pages/admin/keuangan/annual_budget_page.dart';
+import 'package:rukunin/pages/admin/keuangan/financial_reports_page.dart';
+import 'package:rukunin/pages/admin/keuangan/financial_report_detail_page.dart';
 
 final adminRoutes = [
   // =====================================================================
@@ -313,6 +324,32 @@ final adminRoutes = [
     builder: (context, state) => const AnalyticsScreen(),
   ),
 
+  // Di dalam routes list GoRouter Anda
+  GoRoute(
+    path: '/admin/account-requests',
+    name: 'admin-account-requests',
+    builder: (context, state) {
+      return const PermintaanAkunListPage();
+    },
+  ),
+
+  GoRoute(
+    path: '/admin/permintaan-akun/detail',
+    name: 'admin-permintaan-akun-detail',
+    builder: (context, state) {
+      final data = state.extra as Map<String, dynamic>;
+      return PermintaanAkunDetailPage(
+        name: data['name'] as String,
+        nik: data['nik'] as String,
+        email: data['email'] as String,
+        phone: data['phone'] as String,
+        alamat: data['alamat'] as String,
+        foto: data['foto'] as String,
+        tanggal: data['tanggal'] as String,
+      );
+    },
+  ),
+
   // =====================================================================
   // Deep-link routes without bottom navigation - ACTIVITIES DETAIL
   // =====================================================================
@@ -323,5 +360,81 @@ final adminRoutes = [
       final activity = state.extra as Map<String, dynamic>;
       return AdminActivityDetailScreen(activity: activity);
     },
+  ),
+
+  // Routes untuk Peraturan Desa
+  GoRoute(
+    path: '/admin/village-rules',
+    name: 'admin-village-rules',
+    builder: (context, state) {
+      return const PeraturanListPage();
+    },
+  ),
+
+  GoRoute(
+    path: '/admin/village-rules/detail',
+    name: 'admin-village-rules-detail',
+    builder: (context, state) {
+      final data = state.extra as Map<String, dynamic>;
+      return PeraturanDetailPage(
+        judul: data['judul'] as String,
+        tanggal: data['tanggal'] as String,
+        kategori: data['kategori'] as String,
+        ringkasan: data['ringkasan'] as String,
+      );
+    },
+  ),
+
+  GoRoute(
+    path: '/admin/village-rules/add',
+    name: 'admin-village-rules-add',
+    builder: (context, state) {
+      return const PeraturanAddPage();
+    },
+  ),
+
+  GoRoute(
+    path: '/admin/activity-logs',
+    name: 'admin-activity-logs',
+    builder: (context, state) {
+      return const ActivityLogPage();
+    },
+  ),
+
+  GoRoute(
+    path: '/admin/backup',
+    name: 'admin-backup',
+    builder: (context, state) {
+      return const BackupDataPage();
+    },
+  ),
+
+  GoRoute(
+    path: '/admin/financial-reports',
+    name: 'admin-financial-reports',
+    builder: (context, state) {
+      return const FinancialReportsPage();
+    },
+  ),
+
+  GoRoute(
+    path: '/admin/treasurer-approvals',
+    name: 'admin-treasurer-approvals',
+    builder: (context, state) {
+      return const TreasurerApprovalsPage();
+    },
+  ),
+
+  GoRoute(
+    path: '/admin/annual-budget',
+    name: 'admin-annual-budget',
+    builder: (context, state) {
+      return const AnnualBudgetPage();
+    },
+  ),
+
+  GoRoute(
+    path: '/admin/financial-reports/detail',
+    builder: (context, state) => const FinancialReportDetailPage(),
   ),
 ];
