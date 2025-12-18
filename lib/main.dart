@@ -1,4 +1,3 @@
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,11 +24,11 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  await FirebaseAppCheck.instance.activate(
-    providerWeb: ReCaptchaV3Provider('recaptcha-v3-site-key'),
-    providerAndroid: const AndroidDebugProvider(),
-    providerApple: const AppleDebugProvider(),
-  );
+  // await FirebaseAppCheck.instance.activate(
+  //   providerWeb: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+  //   providerAndroid: const AndroidDebugProvider(),
+  //   providerApple: const AppleDebugProvider(),
+  // );
 
   // Initialize notification service
   await NotificationService().initialize();
