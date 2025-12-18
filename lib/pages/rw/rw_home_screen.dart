@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 import 'package:rukunin/widgets/welcome_role_card.dart';
@@ -13,17 +14,19 @@ class RwHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: const RukuninAppBar(title: 'Beranda', showNotification: true),
+      appBar: RukuninAppBar(title: l10n.home, showNotification: true),
       body: SingleChildScrollView(
         child: Column(
           children: [
             // Welcome Card
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: WelcomeRoleCard(
-                greeting: 'Selamat datang kembali!',
-                role: 'Ketua RW 12',
+                greeting: l10n.welcomeBackGreeting,
+                role: l10n.rwChairman('12'),
                 icon: Icons.star,
               ),
             ),
@@ -32,48 +35,48 @@ class RwHomeScreen extends StatelessWidget {
             // RW Stats Cards
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _buildRwStats(context),
+              child: _buildRwStats(context, l10n),
             ),
             const SizedBox(height: 24),
 
             // Community Updates Carousel
-            CommunityCarousel(items: _getCarouselItems()),
+            CommunityCarousel(items: _getCarouselItems(l10n)),
             const SizedBox(height: 24),
 
             // Role Indicator - RW Functions
             _buildSectionHeader(
               context,
-              'Fungsi Ketua RW',
-              'Kelola koordinasi & supervisi RW',
+              l10n.rwChairmanFunctions,
+              l10n.manageRwCoordination,
               Icons.star,
               AppColors.primary,
             ),
             const SizedBox(height: 12),
             MenuTabsSection(
-              tabs: _getRwTabs(context),
-              sectionTitle: 'Menu Ketua RW',
+              tabs: _getRwTabs(context, l10n),
+              sectionTitle: l10n.rwChairmanFunctions,
             ),
             const SizedBox(height: 32),
 
             // Role Indicator - Resident Functions
             _buildSectionHeader(
               context,
-              'Layanan Warga',
-              'Akses fitur sebagai warga',
+              l10n.residentServices,
+              l10n.accessResidentFeatures,
               Icons.home,
               Colors.blue,
             ),
             const SizedBox(height: 12),
             MenuTabsSection(
-              tabs: _getResidentTabs(context),
-              sectionTitle: 'Menu Warga',
+              tabs: _getResidentTabs(context, l10n),
+              sectionTitle: l10n.residentServices,
             ),
             const SizedBox(height: 24),
 
             // Recent Activity
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-              child: _recentActivity(context),
+              child: _recentActivity(context, l10n),
             ),
           ],
         ),
@@ -141,7 +144,7 @@ class RwHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRwStats(BuildContext context) {
+  Widget _buildRwStats(BuildContext context, AppLocalizations l10n) {
     return Column(
       children: [
         // Main Stats Card
@@ -168,9 +171,9 @@ class RwHomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Ringkasan RW 12',
-                    style: TextStyle(
+                  Text(
+                    l10n.rwSummary('12'),
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.white70,
                       fontWeight: FontWeight.w600,
@@ -185,9 +188,9 @@ class RwHomeScreen extends StatelessWidget {
                       color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text(
-                      'Januari 2024',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.january2024,
+                      style: const TextStyle(
                         fontSize: 11,
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
@@ -201,7 +204,7 @@ class RwHomeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _buildStatsDetail(
-                      'Total RT',
+                      l10n.totalRt,
                       '10',
                       Icons.apartment_rounded,
                       Colors.cyanAccent,
@@ -210,7 +213,7 @@ class RwHomeScreen extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildStatsDetail(
-                      'Total Warga',
+                      l10n.totalResidents,
                       '1,245',
                       Icons.people_rounded,
                       Colors.lightGreenAccent,
@@ -228,8 +231,8 @@ class RwHomeScreen extends StatelessWidget {
           children: [
             Expanded(
               child: _buildStatCard(
-                'Rp 45.8 Jt',
-                'Kas RW',
+                l10n.idrMillions('45.8'),
+                l10n.rwFunds,
                 Icons.account_balance_wallet_rounded,
                 AppColors.success,
               ),
@@ -238,7 +241,7 @@ class RwHomeScreen extends StatelessWidget {
             Expanded(
               child: _buildStatCard(
                 '3',
-                'Laporan',
+                l10n.reports,
                 Icons.report_rounded,
                 AppColors.error,
               ),
@@ -247,7 +250,7 @@ class RwHomeScreen extends StatelessWidget {
             Expanded(
               child: _buildStatCard(
                 '5',
-                'Rapat',
+                l10n.meetings,
                 Icons.event_rounded,
                 Colors.blue,
               ),
@@ -345,25 +348,25 @@ class RwHomeScreen extends StatelessWidget {
     );
   }
 
-  List<CarouselItem> _getCarouselItems() {
+  List<CarouselItem> _getCarouselItems(AppLocalizations l10n) {
     return [
       CarouselItem(
-        title: '3 Laporan Perlu Ditindak',
-        subtitle: 'Ada laporan dari warga yang memerlukan tindakan',
+        title: l10n.reportsNeedAction(3),
+        subtitle: l10n.reportFromResidents,
         icon: Icons.report_rounded,
         color: AppColors.error,
         type: 'announcement',
       ),
       CarouselItem(
-        title: 'Rapat Koordinasi RW',
-        subtitle: 'Sabtu, 27 Januari 2024 • 19:00 WIB',
+        title: l10n.rwCoordinationMeeting,
+        subtitle: l10n.saturdayDatetime,
         icon: Icons.meeting_room_rounded,
         color: AppColors.primary,
         type: 'event',
       ),
       CarouselItem(
-        title: 'Gotong Royong RW',
-        subtitle: 'Minggu, 28 Januari 2024 • 07:00 WIB',
+        title: l10n.rwCommunityService,
+        subtitle: l10n.sundayDatetime,
         icon: Icons.cleaning_services_rounded,
         color: AppColors.success,
         type: 'event',
@@ -371,107 +374,107 @@ class RwHomeScreen extends StatelessWidget {
     ];
   }
 
-  List<TabData> _getRwTabs(BuildContext context) {
+  List<TabData> _getRwTabs(BuildContext context, AppLocalizations l10n) {
     return [
       TabData(
-        label: 'Kelola RT',
+        label: l10n.manageRt,
         icon: Icons.apartment_rounded,
         items: [
           MenuItem(
-            label: 'Daftar RT',
+            label: l10n.rtList,
             icon: Icons.view_list_rounded,
             onTap: () => context.push('/rw/rt-list'),
           ),
           MenuItem(
-            label: 'Kinerja RT',
+            label: l10n.rtPerformance,
             icon: Icons.analytics_rounded,
             onTap: () => context.push('/rw/rt-performance'),
           ),
           MenuItem(
-            label: 'Data Warga RW',
+            label: l10n.rwResidentsData,
             icon: Icons.people_rounded,
             onTap: () => context.push('/rw/data-warga'),
           ),
           MenuItem(
-            label: 'Statistik RW',
+            label: l10n.rwStatistics,
             icon: Icons.insert_chart_rounded,
             onTap: () => context.push('/rw/statistics'),
           ),
         ],
       ),
       TabData(
-        label: 'Kegiatan',
+        label: l10n.activities,
         icon: Icons.event_note_rounded,
         hasNotification: true,
         items: [
           MenuItem(
-            label: 'Kegiatan RW',
+            label: l10n.rwActivities,
             icon: Icons.event_rounded,
             onTap: () => context.push('/rw/kegiatan'),
             badge: '2',
           ),
           MenuItem(
-            label: 'Rapat RW',
+            label: l10n.rwMeetings,
             icon: Icons.meeting_room_rounded,
             onTap: () => context.push('/rw/rapat'),
             badge: '1',
           ),
           MenuItem(
-            label: 'Buat Pengumuman',
+            label: l10n.createAnnouncement,
             icon: Icons.campaign_rounded,
             onTap: () => context.push('/rw/pengumuman'),
           ),
         ],
       ),
       TabData(
-        label: 'Keuangan',
+        label: l10n.finance,
         icon: Icons.account_balance_rounded,
         items: [
           MenuItem(
-            label: 'Iuran RW',
+            label: l10n.rwDues,
             icon: Icons.payments_rounded,
             onTap: () => context.push('/rw/iuran'),
           ),
           MenuItem(
-            label: 'Ringkasan RT',
+            label: l10n.rtSummaryFinance,
             icon: Icons.summarize_rounded,
             onTap: () => context.push('/rw/finance-summary'),
           ),
           MenuItem(
-            label: 'Laporan Keuangan',
+            label: l10n.financeReport,
             icon: Icons.receipt_long_rounded,
             onTap: () => context.push('/rw/finance-report'),
           ),
           MenuItem(
-            label: 'Transparansi Dana',
+            label: l10n.fundTransparency,
             icon: Icons.visibility_rounded,
             onTap: () => context.push('/rw/transparency'),
           ),
         ],
       ),
       TabData(
-        label: 'Administrasi',
+        label: l10n.administration,
         icon: Icons.folder_rounded,
         hasNotification: true,
         items: [
           MenuItem(
-            label: 'Kelola Laporan',
+            label: l10n.manageReports,
             icon: Icons.report_rounded,
             onTap: () => context.push('/rw/laporan'),
             badge: '3',
           ),
           MenuItem(
-            label: 'Monitoring Wilayah',
+            label: l10n.areaMonitoring,
             icon: Icons.my_location_rounded,
             onTap: () => context.push('/rw/monitoring'),
           ),
           MenuItem(
-            label: 'Verifikasi Surat',
+            label: l10n.letterVerification,
             icon: Icons.description_rounded,
             onTap: () => context.push('/rw/surat'),
           ),
           MenuItem(
-            label: 'Arsip Dokumen',
+            label: l10n.documentArchive,
             icon: Icons.archive_rounded,
             onTap: () => context.push('/rw/archive'),
           ),
@@ -480,52 +483,52 @@ class RwHomeScreen extends StatelessWidget {
     ];
   }
 
-  List<TabData> _getResidentTabs(BuildContext context) {
+  List<TabData> _getResidentTabs(BuildContext context, AppLocalizations l10n) {
     return [
       TabData(
-        label: 'Data Pribadi',
+        label: l10n.personalData,
         icon: Icons.person_rounded,
         items: [
           MenuItem(
-            label: 'Info Kependudukan',
+            label: l10n.populationInfo,
             icon: Icons.person_2_outlined,
             onTap: () => context.push('/resident/community/population'),
           ),
           MenuItem(
-            label: 'Data Keluarga (KK)',
+            label: l10n.familyDataKk,
             icon: Icons.family_restroom,
             onTap: () => context.push('/resident/community/family'),
           ),
           MenuItem(
-            label: 'Data Rumah',
+            label: l10n.houseData,
             icon: Icons.home,
             onTap: () => context.push('/resident/community/home'),
           ),
         ],
       ),
       TabData(
-        label: 'Iuran',
+        label: l10n.dues,
         icon: Icons.payments_rounded,
         hasNotification: true,
         items: [
           MenuItem(
-            label: 'Bayar Iuran',
+            label: l10n.payDues,
             icon: Icons.payment_rounded,
             onTap: () => context.push('/resident/community/dues'),
             badge: '1',
           ),
           MenuItem(
-            label: 'Riwayat Pembayaran',
+            label: l10n.paymentHistory,
             icon: Icons.history_rounded,
             onTap: () => context.push('/resident/payment-history'),
           ),
           MenuItem(
-            label: 'Kwitansi Digital',
+            label: l10n.digitalReceipts,
             icon: Icons.receipt_long_rounded,
             onTap: () => context.push('/resident/digital-receipts'),
           ),
           MenuItem(
-            label: 'Transparansi Keuangan',
+            label: l10n.financialTransparency,
             icon: Icons.trending_up,
             onTap: () =>
                 context.push('/resident/community/finance-transparency'),
@@ -533,42 +536,42 @@ class RwHomeScreen extends StatelessWidget {
         ],
       ),
       TabData(
-        label: 'Layanan',
+        label: l10n.services,
         icon: Icons.description_rounded,
         items: [
           MenuItem(
-            label: 'Ajukan Surat',
+            label: l10n.submitLetter,
             icon: Icons.description_rounded,
             onTap: () => context.push('/resident/community/documents'),
           ),
           MenuItem(
-            label: 'Lapor Masalah',
+            label: l10n.reportIssue,
             icon: Icons.report_problem_rounded,
             onTap: () => context.push('/resident/report-issue'),
           ),
           MenuItem(
-            label: 'Kirim Saran',
+            label: l10n.sendSuggestion,
             icon: Icons.feedback_rounded,
             onTap: () => context.push('/resident/submit-suggestion'),
           ),
         ],
       ),
       TabData(
-        label: 'Komunitas',
+        label: l10n.community,
         icon: Icons.groups_rounded,
         items: [
           MenuItem(
-            label: 'Pengumuman',
+            label: l10n.announcements,
             icon: Icons.campaign_rounded,
             onTap: () => context.push('/resident/announcements'),
           ),
           MenuItem(
-            label: 'Data Warga',
+            label: l10n.residentsDirectory,
             icon: Icons.people_rounded,
             onTap: () => context.push('/resident/residents-directory'),
           ),
           MenuItem(
-            label: 'Kontak Darurat',
+            label: l10n.emergencyContacts,
             icon: Icons.contact_phone_rounded,
             onTap: () => context.push('/resident/emergency-contacts'),
           ),
@@ -577,16 +580,16 @@ class RwHomeScreen extends StatelessWidget {
     ];
   }
 
-  Widget _recentActivity(BuildContext context) {
+  Widget _recentActivity(BuildContext context, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Aktivitas Terbaru',
-              style: TextStyle(
+            Text(
+              l10n.recentActivity,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textPrimary,
@@ -599,34 +602,37 @@ class RwHomeScreen extends StatelessWidget {
                 minimumSize: const Size(50, 30),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              child: const Text(
-                'Lihat Semua',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              child: Text(
+                l10n.viewAll,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],
         ),
         const SizedBox(height: 12),
         _buildActivityItem(
-          'Laporan Kebersihan - RT 03',
-          'Perlu Ditindaklanjuti',
-          '2 jam yang lalu',
+          l10n.cleanlinessReport('03'),
+          l10n.needsFollowUp,
+          l10n.hoursAgo(2),
           Icons.report_rounded,
           AppColors.error,
         ),
         const SizedBox(height: 10),
         _buildActivityItem(
-          'Rapat Koordinasi RT',
-          'Dijadwalkan',
-          '5 jam yang lalu',
+          l10n.rtCoordinationMeeting,
+          l10n.scheduled,
+          l10n.hoursAgo(5),
           Icons.event_rounded,
           AppColors.primary,
         ),
         const SizedBox(height: 10),
         _buildActivityItem(
-          'Iuran RW - RT 07',
-          'Lunas',
-          '1 hari yang lalu',
+          l10n.rwDuesRt('07'),
+          l10n.paid,
+          l10n.daysAgo(1),
           Icons.payments_rounded,
           AppColors.success,
         ),

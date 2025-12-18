@@ -81,7 +81,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get residentsData => 'Data Warga';
 
   @override
-  String get emergencyContacts => 'Kontak Penting';
+  String get emergencyContacts => 'Kontak Darurat';
 
   @override
   String get language => 'Bahasa';
@@ -1346,4 +1346,415 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get personal => 'Personal';
+
+  @override
+  String get welcomeBackGreeting => 'Selamat datang kembali!';
+
+  @override
+  String rwChairman(String number) {
+    return 'Ketua RW $number';
+  }
+
+  @override
+  String rtChairman(String rt, String rw) {
+    return 'Ketua RT $rt / RW $rw';
+  }
+
+  @override
+  String rwSummary(String number) {
+    return 'Ringkasan RW $number';
+  }
+
+  @override
+  String rtSummary(String number) {
+    return 'Ringkasan RT $number';
+  }
+
+  @override
+  String get january2024 => 'Januari 2024';
+
+  @override
+  String get totalRt => 'Total RT';
+
+  @override
+  String get totalResidents => 'Total Warga';
+
+  @override
+  String get rwFunds => 'Kas RW';
+
+  @override
+  String get reports => 'Laporan';
+
+  @override
+  String get meetings => 'Rapat';
+
+  @override
+  String get totalKk => 'Total KK';
+
+  @override
+  String get duesPaid => 'Iuran Lunas';
+
+  @override
+  String get pendingSubmissions => 'Pending';
+
+  @override
+  String reportsNeedAction(int count) {
+    return '$count Laporan Perlu Ditindak';
+  }
+
+  @override
+  String get reportFromResidents =>
+      'Ada laporan dari warga yang memerlukan tindakan';
+
+  @override
+  String get rwCoordinationMeeting => 'Rapat Koordinasi RW';
+
+  @override
+  String get rwCommunityService => 'Gotong Royong RW';
+
+  @override
+  String get saturdayDatetime => 'Sabtu, 27 Januari 2024 • 19:00 WIB';
+
+  @override
+  String get sundayDatetime => 'Minggu, 28 Januari 2024 • 07:00 WIB';
+
+  @override
+  String get rwChairmanFunctions => 'Fungsi Ketua RW';
+
+  @override
+  String get manageRwCoordination => 'Kelola koordinasi & supervisi RW';
+
+  @override
+  String get residentServices => 'Layanan Warga';
+
+  @override
+  String get accessResidentFeatures => 'Akses fitur sebagai warga';
+
+  @override
+  String get rtChairmanFunctions => 'Fungsi Ketua RT';
+
+  @override
+  String get manageRtAdministration => 'Kelola administrasi & warga RT';
+
+  @override
+  String get manageRt => 'Kelola RT';
+
+  @override
+  String get rtList => 'Daftar RT';
+
+  @override
+  String get rtPerformance => 'Kinerja RT';
+
+  @override
+  String get rwResidentsData => 'Data Warga RW';
+
+  @override
+  String get rwStatistics => 'Statistik RW';
+
+  @override
+  String get activities => 'Kegiatan';
+
+  @override
+  String get rwActivities => 'Kegiatan RW';
+
+  @override
+  String get rwMeetings => 'Rapat RW';
+
+  @override
+  String get createAnnouncement => 'Buat Pengumuman';
+
+  @override
+  String get finance => 'Keuangan';
+
+  @override
+  String get rwDues => 'Iuran RW';
+
+  @override
+  String get rtSummaryFinance => 'Ringkasan RT';
+
+  @override
+  String get financeReport => 'Laporan Keuangan';
+
+  @override
+  String get fundTransparency => 'Transparansi Dana';
+
+  @override
+  String get manageReports => 'Kelola Laporan';
+
+  @override
+  String get areaMonitoring => 'Monitoring Wilayah';
+
+  @override
+  String get letterVerification => 'Verifikasi Surat';
+
+  @override
+  String get documentArchive => 'Arsip Dokumen';
+
+  @override
+  String get personalData => 'Data Pribadi';
+
+  @override
+  String get populationInfo => 'Info Kependudukan';
+
+  @override
+  String get residentsDirectory => 'Data Warga';
+
+  @override
+  String get recentActivity => 'Aktivitas Terbaru';
+
+  @override
+  String cleanlinessReport(String rt) {
+    return 'Laporan Kebersihan - RT $rt';
+  }
+
+  @override
+  String get needsFollowUp => 'Perlu Ditindaklanjuti';
+
+  @override
+  String hoursAgo(int hours) {
+    return '$hours jam yang lalu';
+  }
+
+  @override
+  String get rtCoordinationMeeting => 'Rapat Koordinasi RT';
+
+  @override
+  String get scheduled => 'Dijadwalkan';
+
+  @override
+  String rwDuesRt(String rt) {
+    return 'Iuran RW - RT $rt';
+  }
+
+  @override
+  String get paid => 'Lunas';
+
+  @override
+  String get residents => 'Warga';
+
+  @override
+  String get addResident => 'Tambah Warga';
+
+  @override
+  String get familyData => 'Data Keluarga';
+
+  @override
+  String get recordMutation => 'Catat Mutasi';
+
+  @override
+  String get manageDues => 'Kelola Iuran';
+
+  @override
+  String get rtFunds => 'Kas RT';
+
+  @override
+  String get transactionHistory => 'Riwayat Transaksi';
+
+  @override
+  String get manageActivities => 'Kelola Kegiatan';
+
+  @override
+  String get meetingSchedule => 'Jadwal Rapat';
+
+  @override
+  String get letterSubmissions => 'Pengajuan Surat';
+
+  @override
+  String get rtArea => 'Wilayah RT';
+
+  @override
+  String get rtStatistics => 'Statistik RT';
+
+  @override
+  String newLetterSubmissions(int count) {
+    return '$count Pengajuan Surat Baru';
+  }
+
+  @override
+  String get letterRequestsNeedProcessing =>
+      'Ada permohonan surat yang perlu diproses';
+
+  @override
+  String get rtMeetingThisWeek => 'Rapat RT Minggu Ini';
+
+  @override
+  String get fridayDatetime => 'Jumat, 26 Januari 2024 • 19:00 WIB';
+
+  @override
+  String get communityServiceNextWeek => 'Kerja Bakti Minggu Depan';
+
+  @override
+  String get sundayJan21 => 'Minggu, 21 Januari 2024 • 07:00 WIB';
+
+  @override
+  String monthlyDuesPersonName(String name) {
+    return 'Iuran Bulanan - $name';
+  }
+
+  @override
+  String minutesAgo(int minutes) {
+    return '$minutes menit yang lalu';
+  }
+
+  @override
+  String letterSubmissionPersonName(String name) {
+    return 'Pengajuan Surat - $name';
+  }
+
+  @override
+  String get waitingVerification => 'Menunggu Verifikasi';
+
+  @override
+  String get streetLightReport => 'Laporan Lampu Jalan Mati';
+
+  @override
+  String idrMillions(String amount) {
+    return 'Rp $amount Jt';
+  }
+
+  @override
+  String secretaryRt(String rt, String rw) {
+    return 'Sekretaris RT $rt / RW $rw';
+  }
+
+  @override
+  String treasurerRt(String rt, String rw) {
+    return 'Bendahara RT $rt / RW $rw';
+  }
+
+  @override
+  String get administrationAndLetters => 'Administrasi & Surat';
+
+  @override
+  String get secretaryFunctions => 'Fungsi Sekretaris';
+
+  @override
+  String get manageAdminDocs => 'Kelola administrasi & dokumentasi';
+
+  @override
+  String get incomingMail => 'Surat Masuk';
+
+  @override
+  String get mailCompleted => 'Surat Selesai';
+
+  @override
+  String get documents => 'Dokumen';
+
+  @override
+  String lettersNeedProcessing(int count) {
+    return '$count Surat Perlu Diproses';
+  }
+
+  @override
+  String get letterRequestsToFollow =>
+      'Ada permohonan surat yang perlu ditindaklanjuti';
+
+  @override
+  String get coordinationMeetingThisWeek => 'Rapat Koordinasi Minggu Ini';
+
+  @override
+  String get letters => 'Surat';
+
+  @override
+  String get createLetter => 'Buat Surat';
+
+  @override
+  String get outgoingMail => 'Surat Keluar';
+
+  @override
+  String get letterTemplates => 'Template Surat';
+
+  @override
+  String get minutes => 'Notulensi';
+
+  @override
+  String get meetingInvitations => 'Undangan Rapat';
+
+  @override
+  String get monthlyReports => 'Laporan Bulanan';
+
+  @override
+  String get letterHistory => 'Riwayat Surat';
+
+  @override
+  String domicileLetter(String name) {
+    return 'Surat Domisili - $name';
+  }
+
+  @override
+  String get approved => 'Disetujui';
+
+  @override
+  String letterRequest(String name) {
+    return 'Permohonan Surat - $name';
+  }
+
+  @override
+  String get treasurerFunctions => 'Fungsi Bendahara';
+
+  @override
+  String get manageRtRwFinance => 'Kelola keuangan RT/RW';
+
+  @override
+  String get cashBalance => 'Saldo Kas RT/RW';
+
+  @override
+  String get income => 'Pemasukan';
+
+  @override
+  String get expense => 'Pengeluaran';
+
+  @override
+  String get paidStatus => 'Sudah Bayar';
+
+  @override
+  String get notYetPaid => 'Belum Bayar';
+
+  @override
+  String get transactions => 'Transaksi';
+
+  @override
+  String get duesPaymentDeadline => 'Batas Pembayaran Iuran';
+
+  @override
+  String get deadlineDate => 'Tenggat pembayaran: 25 Januari 2024';
+
+  @override
+  String get scheduleChangeAnnouncement => 'Perubahan Jadwal Ronda';
+
+  @override
+  String get nightPatrolScheduleUpdated =>
+      'Jadwal ronda malam telah diperbarui';
+
+  @override
+  String get createReceipt => 'Buat Kwitansi';
+
+  @override
+  String get pendingBills => 'Tagihan Tertunda';
+
+  @override
+  String get recordIncome => 'Catat Pemasukan';
+
+  @override
+  String get recordExpense => 'Catat Pengeluaran';
+
+  @override
+  String get financialReport => 'Laporan Keuangan';
+
+  @override
+  String get analysisGraphs => 'Analisis & Grafik';
+
+  @override
+  String duesFrom(String rt, String name) {
+    return 'Iuran RT $rt - $name';
+  }
+
+  @override
+  String get cleaningFee => 'Biaya Kebersihan Lingkungan';
+
+  @override
+  String get incomeLabel => 'Masuk';
+
+  @override
+  String get expenseLabel => 'Keluar';
 }

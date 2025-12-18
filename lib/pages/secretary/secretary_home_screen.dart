@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 import 'package:rukunin/widgets/welcome_role_card.dart';
@@ -13,17 +14,19 @@ class SecretaryHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: const RukuninAppBar(title: 'Beranda', showNotification: true),
+      appBar: RukuninAppBar(title: l10n.home, showNotification: true),
       body: SingleChildScrollView(
         child: Column(
           children: [
             // Welcome Card
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: WelcomeRoleCard(
-                greeting: 'Selamat datang kembali!',
-                role: 'Sekretaris RT 05 / RW 12',
+                greeting: l10n.welcomeBackGreeting,
+                role: l10n.secretaryRt('05', '12'),
                 icon: Icons.work_outline,
               ),
             ),
@@ -32,48 +35,48 @@ class SecretaryHomeScreen extends StatelessWidget {
             // Secretary Stats Cards
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _buildSecretaryStats(context),
+              child: _buildSecretaryStats(context, l10n),
             ),
             const SizedBox(height: 24),
 
             // Community Updates Carousel
-            CommunityCarousel(items: _getCarouselItems()),
+            CommunityCarousel(items: _getCarouselItems(l10n)),
             const SizedBox(height: 24),
 
             // Role Indicator - Secretary Functions
             _buildSectionHeader(
               context,
-              'Fungsi Sekretaris',
-              'Kelola administrasi & dokumentasi',
+              l10n.secretaryFunctions,
+              l10n.manageAdminDocs,
               Icons.work_outline,
               AppColors.primary,
             ),
             const SizedBox(height: 12),
             MenuTabsSection(
-              tabs: _getSecretaryTabs(context),
-              sectionTitle: 'Menu Sekretaris',
+              tabs: _getSecretaryTabs(context, l10n),
+              sectionTitle: l10n.secretaryFunctions,
             ),
             const SizedBox(height: 32),
 
             // Role Indicator - Resident Functions
             _buildSectionHeader(
               context,
-              'Layanan Warga',
-              'Akses fitur sebagai warga',
+              l10n.residentServices,
+              l10n.accessResidentFeatures,
               Icons.home,
               Colors.blue,
             ),
             const SizedBox(height: 12),
             MenuTabsSection(
-              tabs: _getResidentTabs(context),
-              sectionTitle: 'Menu Warga',
+              tabs: _getResidentTabs(context, l10n),
+              sectionTitle: l10n.residentServices,
             ),
             const SizedBox(height: 24),
 
             // Recent Activity
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-              child: _recentActivity(context),
+              child: _recentActivity(context, l10n),
             ),
           ],
         ),
@@ -141,7 +144,7 @@ class SecretaryHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSecretaryStats(BuildContext context) {
+  Widget _buildSecretaryStats(BuildContext context, AppLocalizations l10n) {
     return Column(
       children: [
         // Main Stats Card
@@ -168,9 +171,9 @@ class SecretaryHomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Administrasi & Surat',
-                    style: TextStyle(
+                  Text(
+                    l10n.administrationAndLetters,
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.white70,
                       fontWeight: FontWeight.w600,
@@ -185,9 +188,9 @@ class SecretaryHomeScreen extends StatelessWidget {
                       color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text(
-                      'Januari 2024',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.january2024,
+                      style: const TextStyle(
                         fontSize: 11,
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
@@ -201,7 +204,7 @@ class SecretaryHomeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _buildStatsDetail(
-                      'Surat Masuk',
+                      l10n.incomingMail,
                       '8',
                       Icons.mail_rounded,
                       Colors.orangeAccent,
@@ -210,7 +213,7 @@ class SecretaryHomeScreen extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildStatsDetail(
-                      'Surat Selesai',
+                      l10n.mailCompleted,
                       '12',
                       Icons.check_circle,
                       Colors.greenAccent,
@@ -229,7 +232,7 @@ class SecretaryHomeScreen extends StatelessWidget {
             Expanded(
               child: _buildStatCard(
                 '8',
-                'Pending',
+                l10n.pendingSubmissions,
                 Icons.pending_actions_rounded,
                 AppColors.warning,
               ),
@@ -238,7 +241,7 @@ class SecretaryHomeScreen extends StatelessWidget {
             Expanded(
               child: _buildStatCard(
                 '3',
-                'Rapat',
+                l10n.meetings,
                 Icons.event_rounded,
                 Colors.blue,
               ),
@@ -247,7 +250,7 @@ class SecretaryHomeScreen extends StatelessWidget {
             Expanded(
               child: _buildStatCard(
                 '45',
-                'Dokumen',
+                l10n.documents,
                 Icons.folder_rounded,
                 Colors.purple,
               ),
@@ -345,25 +348,25 @@ class SecretaryHomeScreen extends StatelessWidget {
     );
   }
 
-  List<CarouselItem> _getCarouselItems() {
+  List<CarouselItem> _getCarouselItems(AppLocalizations l10n) {
     return [
       CarouselItem(
-        title: '5 Surat Perlu Diproses',
-        subtitle: 'Ada permohonan surat yang perlu ditindaklanjuti',
+        title: l10n.lettersNeedProcessing(5),
+        subtitle: l10n.letterRequestsToFollow,
         icon: Icons.mail_rounded,
         color: AppColors.warning,
         type: 'announcement',
       ),
       CarouselItem(
-        title: 'Rapat Koordinasi Minggu Ini',
-        subtitle: 'Jumat, 26 Januari 2024 • 19:00 WIB',
+        title: l10n.coordinationMeetingThisWeek,
+        subtitle: l10n.fridayDatetime,
         icon: Icons.event_rounded,
         color: AppColors.primary,
         type: 'event',
       ),
       CarouselItem(
-        title: 'Kerja Bakti Minggu Depan',
-        subtitle: 'Minggu, 21 Januari 2024 • 07:00 WIB',
+        title: l10n.communityServiceNextWeek,
+        subtitle: l10n.sundayJan21,
         icon: Icons.cleaning_services_rounded,
         color: AppColors.success,
         type: 'event',
@@ -371,78 +374,78 @@ class SecretaryHomeScreen extends StatelessWidget {
     ];
   }
 
-  List<TabData> _getSecretaryTabs(BuildContext context) {
+  List<TabData> _getSecretaryTabs(BuildContext context, AppLocalizations l10n) {
     return [
       TabData(
-        label: 'Surat',
+        label: l10n.letters,
         icon: Icons.description_rounded,
         hasNotification: true,
         items: [
           MenuItem(
-            label: 'Buat Surat',
+            label: l10n.createLetter,
             icon: Icons.edit_document,
             onTap: () => context.push('/secretary/create-letter'),
           ),
           MenuItem(
-            label: 'Surat Masuk',
+            label: l10n.incomingMail,
             icon: Icons.mail_rounded,
             onTap: () => context.push('/secretary/incoming-mail'),
             badge: '5',
           ),
           MenuItem(
-            label: 'Surat Keluar',
+            label: l10n.outgoingMail,
             icon: Icons.send_rounded,
             onTap: () => context.push('/secretary/outgoing-mail'),
           ),
           MenuItem(
-            label: 'Template Surat',
+            label: l10n.letterTemplates,
             icon: Icons.article_rounded,
             onTap: () => context.push('/secretary/letter-templates'),
           ),
         ],
       ),
       TabData(
-        label: 'Rapat',
+        label: l10n.meetings,
         icon: Icons.event_note_rounded,
         items: [
           MenuItem(
-            label: 'Jadwal Rapat',
+            label: l10n.meetingSchedule,
             icon: Icons.calendar_today_rounded,
             onTap: () => context.push('/secretary/meeting-schedule'),
           ),
           MenuItem(
-            label: 'Notulensi',
+            label: l10n.minutes,
             icon: Icons.record_voice_over_rounded,
             onTap: () => context.push('/secretary/minutes'),
           ),
           MenuItem(
-            label: 'Undangan Rapat',
+            label: l10n.meetingInvitations,
             icon: Icons.mail_outline_rounded,
             onTap: () => context.push('/secretary/meeting-invitations'),
           ),
         ],
       ),
       TabData(
-        label: 'Administrasi',
+        label: l10n.administration,
         icon: Icons.folder_rounded,
         items: [
           MenuItem(
-            label: 'Data Warga',
+            label: l10n.residentsData,
             icon: Icons.people_rounded,
             onTap: () => context.push('/secretary/residents-data'),
           ),
           MenuItem(
-            label: 'Arsip Dokumen',
+            label: l10n.documentArchive,
             icon: Icons.folder_shared_rounded,
             onTap: () => context.push('/secretary/archive'),
           ),
           MenuItem(
-            label: 'Laporan Bulanan',
+            label: l10n.monthlyReports,
             icon: Icons.assessment_rounded,
             onTap: () => context.push('/secretary/monthly-reports'),
           ),
           MenuItem(
-            label: 'Riwayat Surat',
+            label: l10n.letterHistory,
             icon: Icons.history_rounded,
             onTap: () => context.push('/secretary/letter-history'),
           ),
@@ -451,52 +454,52 @@ class SecretaryHomeScreen extends StatelessWidget {
     ];
   }
 
-  List<TabData> _getResidentTabs(BuildContext context) {
+  List<TabData> _getResidentTabs(BuildContext context, AppLocalizations l10n) {
     return [
       TabData(
-        label: 'Data Pribadi',
+        label: l10n.personalData,
         icon: Icons.person_rounded,
         items: [
           MenuItem(
-            label: 'Info Kependudukan',
+            label: l10n.populationInfo,
             icon: Icons.person_2_outlined,
             onTap: () => context.push('/resident/community/population'),
           ),
           MenuItem(
-            label: 'Data Keluarga (KK)',
+            label: l10n.familyDataKk,
             icon: Icons.family_restroom,
             onTap: () => context.push('/resident/community/family'),
           ),
           MenuItem(
-            label: 'Data Rumah',
+            label: l10n.houseData,
             icon: Icons.home,
             onTap: () => context.push('/resident/community/home'),
           ),
         ],
       ),
       TabData(
-        label: 'Iuran',
+        label: l10n.dues,
         icon: Icons.payments_rounded,
         hasNotification: true,
         items: [
           MenuItem(
-            label: 'Bayar Iuran',
+            label: l10n.payDues,
             icon: Icons.payment_rounded,
             onTap: () => context.push('/resident/community/dues'),
             badge: '1',
           ),
           MenuItem(
-            label: 'Riwayat Pembayaran',
+            label: l10n.paymentHistory,
             icon: Icons.history_rounded,
             onTap: () => context.push('/resident/payment-history'),
           ),
           MenuItem(
-            label: 'Kwitansi Digital',
+            label: l10n.digitalReceipts,
             icon: Icons.receipt_long_rounded,
             onTap: () => context.push('/resident/digital-receipts'),
           ),
           MenuItem(
-            label: 'Transparansi Keuangan',
+            label: l10n.financialTransparency,
             icon: Icons.trending_up,
             onTap: () =>
                 context.push('/resident/community/finance-transparency'),
@@ -504,42 +507,42 @@ class SecretaryHomeScreen extends StatelessWidget {
         ],
       ),
       TabData(
-        label: 'Layanan',
+        label: l10n.services,
         icon: Icons.description_rounded,
         items: [
           MenuItem(
-            label: 'Ajukan Surat',
+            label: l10n.submitLetter,
             icon: Icons.description_rounded,
             onTap: () => context.push('/resident/community/documents'),
           ),
           MenuItem(
-            label: 'Lapor Masalah',
+            label: l10n.reportIssue,
             icon: Icons.report_problem_rounded,
             onTap: () => context.push('/resident/report-issue'),
           ),
           MenuItem(
-            label: 'Kirim Saran',
+            label: l10n.sendSuggestion,
             icon: Icons.feedback_rounded,
             onTap: () => context.push('/resident/submit-suggestion'),
           ),
         ],
       ),
       TabData(
-        label: 'Komunitas',
+        label: l10n.community,
         icon: Icons.groups_rounded,
         items: [
           MenuItem(
-            label: 'Pengumuman',
+            label: l10n.announcements,
             icon: Icons.campaign_rounded,
             onTap: () => context.push('/resident/announcements'),
           ),
           MenuItem(
-            label: 'Data Warga',
+            label: l10n.residentsDirectory,
             icon: Icons.people_rounded,
             onTap: () => context.push('/resident/residents-directory'),
           ),
           MenuItem(
-            label: 'Kontak Darurat',
+            label: l10n.emergencyContacts,
             icon: Icons.contact_phone_rounded,
             onTap: () => context.push('/resident/emergency-contacts'),
           ),
@@ -548,16 +551,16 @@ class SecretaryHomeScreen extends StatelessWidget {
     ];
   }
 
-  Widget _recentActivity(BuildContext context) {
+  Widget _recentActivity(BuildContext context, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Aktivitas Terbaru',
-              style: TextStyle(
+            Text(
+              l10n.recentActivity,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textPrimary,
@@ -570,34 +573,37 @@ class SecretaryHomeScreen extends StatelessWidget {
                 minimumSize: const Size(50, 30),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              child: const Text(
-                'Lihat Semua',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              child: Text(
+                l10n.viewAll,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],
         ),
         const SizedBox(height: 12),
         _buildActivityItem(
-          'Surat Domisili - Ibu Sari',
-          'Disetujui',
-          '5 menit yang lalu',
+          l10n.domicileLetter('Ibu Sari'),
+          l10n.approved,
+          l10n.minutesAgo(5),
           Icons.check_circle_rounded,
           AppColors.success,
         ),
         const SizedBox(height: 10),
         _buildActivityItem(
-          'Permohonan Surat - Pak Joko',
-          'Menunggu Verifikasi',
-          '30 menit yang lalu',
+          l10n.letterRequest('Pak Joko'),
+          l10n.waitingVerification,
+          l10n.minutesAgo(30),
           Icons.pending_rounded,
           AppColors.warning,
         ),
         const SizedBox(height: 10),
         _buildActivityItem(
-          'Rapat Koordinasi RT',
-          'Dijadwalkan',
-          '1 jam yang lalu',
+          l10n.rtCoordinationMeeting,
+          l10n.scheduled,
+          l10n.hoursAgo(1),
           Icons.event_rounded,
           Colors.blue,
         ),

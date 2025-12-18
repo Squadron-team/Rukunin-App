@@ -2649,6 +2649,744 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Personal'**
   String get personal;
+
+  /// No description provided for @welcomeBackGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back!'**
+  String get welcomeBackGreeting;
+
+  /// No description provided for @rwChairman.
+  ///
+  /// In en, this message translates to:
+  /// **'RW Chairman {number}'**
+  String rwChairman(String number);
+
+  /// No description provided for @rtChairman.
+  ///
+  /// In en, this message translates to:
+  /// **'RT Chairman {rt} / RW {rw}'**
+  String rtChairman(String rt, String rw);
+
+  /// No description provided for @rwSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'RW {number} Summary'**
+  String rwSummary(String number);
+
+  /// No description provided for @rtSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'RT {number} Summary'**
+  String rtSummary(String number);
+
+  /// No description provided for @january2024.
+  ///
+  /// In en, this message translates to:
+  /// **'January 2024'**
+  String get january2024;
+
+  /// No description provided for @totalRt.
+  ///
+  /// In en, this message translates to:
+  /// **'Total RT'**
+  String get totalRt;
+
+  /// No description provided for @totalResidents.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Residents'**
+  String get totalResidents;
+
+  /// No description provided for @rwFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'RW Funds'**
+  String get rwFunds;
+
+  /// No description provided for @reports.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports'**
+  String get reports;
+
+  /// No description provided for @meetings.
+  ///
+  /// In en, this message translates to:
+  /// **'Meetings'**
+  String get meetings;
+
+  /// No description provided for @totalKk.
+  ///
+  /// In en, this message translates to:
+  /// **'Total KK'**
+  String get totalKk;
+
+  /// No description provided for @duesPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Dues Paid'**
+  String get duesPaid;
+
+  /// No description provided for @pendingSubmissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pendingSubmissions;
+
+  /// No description provided for @reportsNeedAction.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Reports Need Action'**
+  String reportsNeedAction(int count);
+
+  /// No description provided for @reportFromResidents.
+  ///
+  /// In en, this message translates to:
+  /// **'There are reports from residents that need action'**
+  String get reportFromResidents;
+
+  /// No description provided for @rwCoordinationMeeting.
+  ///
+  /// In en, this message translates to:
+  /// **'RW Coordination Meeting'**
+  String get rwCoordinationMeeting;
+
+  /// No description provided for @rwCommunityService.
+  ///
+  /// In en, this message translates to:
+  /// **'RW Community Service'**
+  String get rwCommunityService;
+
+  /// No description provided for @saturdayDatetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday, January 27, 2024 • 7:00 PM'**
+  String get saturdayDatetime;
+
+  /// No description provided for @sundayDatetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday, January 28, 2024 • 7:00 AM'**
+  String get sundayDatetime;
+
+  /// No description provided for @rwChairmanFunctions.
+  ///
+  /// In en, this message translates to:
+  /// **'RW Chairman Functions'**
+  String get rwChairmanFunctions;
+
+  /// No description provided for @manageRwCoordination.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage RW coordination & supervision'**
+  String get manageRwCoordination;
+
+  /// No description provided for @residentServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Resident Services'**
+  String get residentServices;
+
+  /// No description provided for @accessResidentFeatures.
+  ///
+  /// In en, this message translates to:
+  /// **'Access features as a resident'**
+  String get accessResidentFeatures;
+
+  /// No description provided for @rtChairmanFunctions.
+  ///
+  /// In en, this message translates to:
+  /// **'RT Chairman Functions'**
+  String get rtChairmanFunctions;
+
+  /// No description provided for @manageRtAdministration.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage RT administration & residents'**
+  String get manageRtAdministration;
+
+  /// No description provided for @manageRt.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage RT'**
+  String get manageRt;
+
+  /// No description provided for @rtList.
+  ///
+  /// In en, this message translates to:
+  /// **'RT List'**
+  String get rtList;
+
+  /// No description provided for @rtPerformance.
+  ///
+  /// In en, this message translates to:
+  /// **'RT Performance'**
+  String get rtPerformance;
+
+  /// No description provided for @rwResidentsData.
+  ///
+  /// In en, this message translates to:
+  /// **'RW Residents Data'**
+  String get rwResidentsData;
+
+  /// No description provided for @rwStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'RW Statistics'**
+  String get rwStatistics;
+
+  /// No description provided for @activities.
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get activities;
+
+  /// No description provided for @rwActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'RW Activities'**
+  String get rwActivities;
+
+  /// No description provided for @rwMeetings.
+  ///
+  /// In en, this message translates to:
+  /// **'RW Meetings'**
+  String get rwMeetings;
+
+  /// No description provided for @createAnnouncement.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Announcement'**
+  String get createAnnouncement;
+
+  /// No description provided for @finance.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance'**
+  String get finance;
+
+  /// No description provided for @rwDues.
+  ///
+  /// In en, this message translates to:
+  /// **'RW Dues'**
+  String get rwDues;
+
+  /// No description provided for @rtSummaryFinance.
+  ///
+  /// In en, this message translates to:
+  /// **'RT Summary'**
+  String get rtSummaryFinance;
+
+  /// No description provided for @financeReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance Report'**
+  String get financeReport;
+
+  /// No description provided for @fundTransparency.
+  ///
+  /// In en, this message translates to:
+  /// **'Fund Transparency'**
+  String get fundTransparency;
+
+  /// No description provided for @manageReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Reports'**
+  String get manageReports;
+
+  /// No description provided for @areaMonitoring.
+  ///
+  /// In en, this message translates to:
+  /// **'Area Monitoring'**
+  String get areaMonitoring;
+
+  /// No description provided for @letterVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Letter Verification'**
+  String get letterVerification;
+
+  /// No description provided for @documentArchive.
+  ///
+  /// In en, this message translates to:
+  /// **'Document Archive'**
+  String get documentArchive;
+
+  /// No description provided for @personalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Data'**
+  String get personalData;
+
+  /// No description provided for @populationInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Population Info'**
+  String get populationInfo;
+
+  /// No description provided for @residentsDirectory.
+  ///
+  /// In en, this message translates to:
+  /// **'Residents Directory'**
+  String get residentsDirectory;
+
+  /// No description provided for @recentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activity'**
+  String get recentActivity;
+
+  /// No description provided for @cleanlinessReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleanliness Report - RT {rt}'**
+  String cleanlinessReport(String rt);
+
+  /// No description provided for @needsFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs Follow Up'**
+  String get needsFollowUp;
+
+  /// No description provided for @hoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours ago'**
+  String hoursAgo(int hours);
+
+  /// No description provided for @rtCoordinationMeeting.
+  ///
+  /// In en, this message translates to:
+  /// **'RT Coordination Meeting'**
+  String get rtCoordinationMeeting;
+
+  /// No description provided for @scheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get scheduled;
+
+  /// No description provided for @rwDuesRt.
+  ///
+  /// In en, this message translates to:
+  /// **'RW Dues - RT {rt}'**
+  String rwDuesRt(String rt);
+
+  /// No description provided for @paid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paid;
+
+  /// No description provided for @residents.
+  ///
+  /// In en, this message translates to:
+  /// **'Residents'**
+  String get residents;
+
+  /// No description provided for @addResident.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Resident'**
+  String get addResident;
+
+  /// No description provided for @familyData.
+  ///
+  /// In en, this message translates to:
+  /// **'Family Data'**
+  String get familyData;
+
+  /// No description provided for @recordMutation.
+  ///
+  /// In en, this message translates to:
+  /// **'Record Mutation'**
+  String get recordMutation;
+
+  /// No description provided for @manageDues.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Dues'**
+  String get manageDues;
+
+  /// No description provided for @rtFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'RT Funds'**
+  String get rtFunds;
+
+  /// No description provided for @transactionHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction History'**
+  String get transactionHistory;
+
+  /// No description provided for @manageActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Activities'**
+  String get manageActivities;
+
+  /// No description provided for @meetingSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting Schedule'**
+  String get meetingSchedule;
+
+  /// No description provided for @letterSubmissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Letter Submissions'**
+  String get letterSubmissions;
+
+  /// No description provided for @rtArea.
+  ///
+  /// In en, this message translates to:
+  /// **'RT Area'**
+  String get rtArea;
+
+  /// No description provided for @rtStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'RT Statistics'**
+  String get rtStatistics;
+
+  /// No description provided for @newLetterSubmissions.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} New Letter Submissions'**
+  String newLetterSubmissions(int count);
+
+  /// No description provided for @letterRequestsNeedProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'There are letter requests that need to be processed'**
+  String get letterRequestsNeedProcessing;
+
+  /// No description provided for @rtMeetingThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'RT Meeting This Week'**
+  String get rtMeetingThisWeek;
+
+  /// No description provided for @fridayDatetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday, January 26, 2024 • 7:00 PM'**
+  String get fridayDatetime;
+
+  /// No description provided for @communityServiceNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Service Next Week'**
+  String get communityServiceNextWeek;
+
+  /// No description provided for @sundayJan21.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday, January 21, 2024 • 7:00 AM'**
+  String get sundayJan21;
+
+  /// No description provided for @monthlyDuesPersonName.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Dues - {name}'**
+  String monthlyDuesPersonName(String name);
+
+  /// No description provided for @minutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes ago'**
+  String minutesAgo(int minutes);
+
+  /// No description provided for @letterSubmissionPersonName.
+  ///
+  /// In en, this message translates to:
+  /// **'Letter Submission - {name}'**
+  String letterSubmissionPersonName(String name);
+
+  /// No description provided for @waitingVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting Verification'**
+  String get waitingVerification;
+
+  /// No description provided for @streetLightReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Street Light Report'**
+  String get streetLightReport;
+
+  /// No description provided for @idrMillions.
+  ///
+  /// In en, this message translates to:
+  /// **'IDR {amount}M'**
+  String idrMillions(String amount);
+
+  /// No description provided for @secretaryRt.
+  ///
+  /// In en, this message translates to:
+  /// **'Secretary RT {rt} / RW {rw}'**
+  String secretaryRt(String rt, String rw);
+
+  /// No description provided for @treasurerRt.
+  ///
+  /// In en, this message translates to:
+  /// **'Treasurer RT {rt} / RW {rw}'**
+  String treasurerRt(String rt, String rw);
+
+  /// No description provided for @administrationAndLetters.
+  ///
+  /// In en, this message translates to:
+  /// **'Administration & Letters'**
+  String get administrationAndLetters;
+
+  /// No description provided for @secretaryFunctions.
+  ///
+  /// In en, this message translates to:
+  /// **'Secretary Functions'**
+  String get secretaryFunctions;
+
+  /// No description provided for @manageAdminDocs.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage administration & documentation'**
+  String get manageAdminDocs;
+
+  /// No description provided for @incomingMail.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming Mail'**
+  String get incomingMail;
+
+  /// No description provided for @mailCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Mail Completed'**
+  String get mailCompleted;
+
+  /// No description provided for @documents.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get documents;
+
+  /// No description provided for @lettersNeedProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Letters Need Processing'**
+  String lettersNeedProcessing(int count);
+
+  /// No description provided for @letterRequestsToFollow.
+  ///
+  /// In en, this message translates to:
+  /// **'There are letter requests that need to be followed up'**
+  String get letterRequestsToFollow;
+
+  /// No description provided for @coordinationMeetingThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Coordination Meeting This Week'**
+  String get coordinationMeetingThisWeek;
+
+  /// No description provided for @letters.
+  ///
+  /// In en, this message translates to:
+  /// **'Letters'**
+  String get letters;
+
+  /// No description provided for @createLetter.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Letter'**
+  String get createLetter;
+
+  /// No description provided for @outgoingMail.
+  ///
+  /// In en, this message translates to:
+  /// **'Outgoing Mail'**
+  String get outgoingMail;
+
+  /// No description provided for @letterTemplates.
+  ///
+  /// In en, this message translates to:
+  /// **'Letter Templates'**
+  String get letterTemplates;
+
+  /// No description provided for @minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes'**
+  String get minutes;
+
+  /// No description provided for @meetingInvitations.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting Invitations'**
+  String get meetingInvitations;
+
+  /// No description provided for @monthlyReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Reports'**
+  String get monthlyReports;
+
+  /// No description provided for @letterHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Letter History'**
+  String get letterHistory;
+
+  /// No description provided for @domicileLetter.
+  ///
+  /// In en, this message translates to:
+  /// **'Domicile Letter - {name}'**
+  String domicileLetter(String name);
+
+  /// No description provided for @approved.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get approved;
+
+  /// No description provided for @letterRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Letter Request - {name}'**
+  String letterRequest(String name);
+
+  /// No description provided for @treasurerFunctions.
+  ///
+  /// In en, this message translates to:
+  /// **'Treasurer Functions'**
+  String get treasurerFunctions;
+
+  /// No description provided for @manageRtRwFinance.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage RT/RW finance'**
+  String get manageRtRwFinance;
+
+  /// No description provided for @cashBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash Balance RT/RW'**
+  String get cashBalance;
+
+  /// No description provided for @income.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get income;
+
+  /// No description provided for @expense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get expense;
+
+  /// No description provided for @paidStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paidStatus;
+
+  /// No description provided for @notYetPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Yet Paid'**
+  String get notYetPaid;
+
+  /// No description provided for @transactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Transactions'**
+  String get transactions;
+
+  /// No description provided for @duesPaymentDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Dues Payment Deadline'**
+  String get duesPaymentDeadline;
+
+  /// No description provided for @deadlineDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Deadline: January 25, 2024'**
+  String get deadlineDate;
+
+  /// No description provided for @scheduleChangeAnnouncement.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule change announcement'**
+  String get scheduleChangeAnnouncement;
+
+  /// No description provided for @nightPatrolScheduleUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Night patrol schedule has been updated'**
+  String get nightPatrolScheduleUpdated;
+
+  /// No description provided for @createReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Receipt'**
+  String get createReceipt;
+
+  /// No description provided for @pendingBills.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Bills'**
+  String get pendingBills;
+
+  /// No description provided for @recordIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Record Income'**
+  String get recordIncome;
+
+  /// No description provided for @recordExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Record Expense'**
+  String get recordExpense;
+
+  /// No description provided for @financialReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Report'**
+  String get financialReport;
+
+  /// No description provided for @analysisGraphs.
+  ///
+  /// In en, this message translates to:
+  /// **'Analysis & Graphs'**
+  String get analysisGraphs;
+
+  /// No description provided for @duesFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Dues RT {rt} - {name}'**
+  String duesFrom(String rt, String name);
+
+  /// No description provided for @cleaningFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Environmental Cleaning Fee'**
+  String get cleaningFee;
+
+  /// No description provided for @incomeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get incomeLabel;
+
+  /// No description provided for @expenseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get expenseLabel;
 }
 
 class _AppLocalizationsDelegate

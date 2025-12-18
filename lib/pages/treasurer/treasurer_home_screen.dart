@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rukunin/l10n/app_localizations.dart';
 import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/widgets/rukunin_app_bar.dart';
 import 'package:rukunin/widgets/welcome_role_card.dart';
@@ -13,17 +14,19 @@ class TreasurerHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: const RukuninAppBar(title: 'Beranda', showNotification: true),
+      appBar: RukuninAppBar(title: l10n.home, showNotification: true),
       body: SingleChildScrollView(
         child: Column(
           children: [
             // Welcome Card
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: WelcomeRoleCard(
-                greeting: 'Selamat datang kembali!',
-                role: 'Bendahara RT 05 / RW 12',
+                greeting: l10n.welcomeBackGreeting,
+                role: l10n.treasurerRt('05', '12'),
                 icon: Icons.account_balance_wallet,
               ),
             ),
@@ -32,48 +35,48 @@ class TreasurerHomeScreen extends StatelessWidget {
             // Financial Stats Cards
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _buildFinancialStats(context),
+              child: _buildFinancialStats(context, l10n),
             ),
             const SizedBox(height: 24),
 
             // Community Updates Carousel
-            CommunityCarousel(items: _getCarouselItems()),
+            CommunityCarousel(items: _getCarouselItems(l10n)),
             const SizedBox(height: 24),
 
             // Role Indicator - Treasurer Functions
             _buildSectionHeader(
               context,
-              'Fungsi Bendahara',
-              'Kelola keuangan RT/RW',
+              l10n.treasurerFunctions,
+              l10n.manageRtRwFinance,
               Icons.account_balance_wallet,
               AppColors.primary,
             ),
             const SizedBox(height: 12),
             MenuTabsSection(
-              tabs: _getTreasurerTabs(context),
-              sectionTitle: 'Menu Bendahara',
+              tabs: _getTreasurerTabs(context, l10n),
+              sectionTitle: l10n.treasurerFunctions,
             ),
             const SizedBox(height: 32),
 
             // Role Indicator - Resident Functions
             _buildSectionHeader(
               context,
-              'Layanan Warga',
-              'Akses fitur sebagai warga',
+              l10n.residentServices,
+              l10n.accessResidentFeatures,
               Icons.home,
               Colors.blue,
             ),
             const SizedBox(height: 12),
             MenuTabsSection(
-              tabs: _getResidentTabs(context),
-              sectionTitle: 'Menu Warga',
+              tabs: _getResidentTabs(context, l10n),
+              sectionTitle: l10n.residentServices,
             ),
             const SizedBox(height: 24),
 
             // Recent Activity
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-              child: _buildRecentActivity(context),
+              child: _buildRecentActivity(context, l10n),
             ),
           ],
         ),
@@ -141,7 +144,7 @@ class TreasurerHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFinancialStats(BuildContext context) {
+  Widget _buildFinancialStats(BuildContext context, AppLocalizations l10n) {
     return Column(
       children: [
         // Main Balance Card
@@ -168,9 +171,9 @@ class TreasurerHomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Saldo Kas RT/RW',
-                    style: TextStyle(
+                  Text(
+                    l10n.cashBalance,
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.white70,
                       fontWeight: FontWeight.w600,
@@ -185,9 +188,9 @@ class TreasurerHomeScreen extends StatelessWidget {
                       color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text(
-                      'Januari 2024',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.january2024,
+                      style: const TextStyle(
                         fontSize: 11,
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
@@ -211,7 +214,7 @@ class TreasurerHomeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _buildBalanceDetail(
-                      'Pemasukan',
+                      l10n.income,
                       'Rp 25.5 Jt',
                       Icons.arrow_downward,
                       Colors.greenAccent,
@@ -220,7 +223,7 @@ class TreasurerHomeScreen extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildBalanceDetail(
-                      'Pengeluaran',
+                      l10n.expense,
                       'Rp 12.3 Jt',
                       Icons.arrow_upward,
                       Colors.redAccent,
@@ -239,7 +242,7 @@ class TreasurerHomeScreen extends StatelessWidget {
             Expanded(
               child: _buildStatCard(
                 '8/10 RT',
-                'Sudah Bayar',
+                l10n.paidStatus,
                 Icons.check_circle_rounded,
                 AppColors.success,
               ),
@@ -248,7 +251,7 @@ class TreasurerHomeScreen extends StatelessWidget {
             Expanded(
               child: _buildStatCard(
                 '2 RT',
-                'Belum Bayar',
+                l10n.notYetPaid,
                 Icons.pending_rounded,
                 AppColors.warning,
               ),
@@ -257,7 +260,7 @@ class TreasurerHomeScreen extends StatelessWidget {
             Expanded(
               child: _buildStatCard(
                 '145',
-                'Transaksi',
+                l10n.transactions,
                 Icons.receipt_long_rounded,
                 Colors.blue,
               ),
@@ -355,25 +358,25 @@ class TreasurerHomeScreen extends StatelessWidget {
     );
   }
 
-  List<CarouselItem> _getCarouselItems() {
+  List<CarouselItem> _getCarouselItems(AppLocalizations l10n) {
     return [
       CarouselItem(
-        title: 'Batas Pembayaran Iuran',
-        subtitle: 'Tenggat pembayaran: 25 Januari 2024',
+        title: l10n.duesPaymentDeadline,
+        subtitle: l10n.deadlineDate,
         icon: Icons.payments_rounded,
         color: AppColors.error,
         type: 'payment',
       ),
       CarouselItem(
-        title: 'Kerja Bakti Minggu Ini',
-        subtitle: 'Minggu, 21 Januari 2024 • 07:00 WIB',
+        title: l10n.communityWorkThisWeek,
+        subtitle: l10n.sundayJan21,
         icon: Icons.cleaning_services_rounded,
         color: AppColors.success,
         type: 'event',
       ),
       CarouselItem(
-        title: 'Perubahan Jadwal Ronda',
-        subtitle: 'Jadwal ronda malam telah diperbarui',
+        title: l10n.scheduleChangeAnnouncement,
+        subtitle: l10n.nightPatrolScheduleUpdated,
         icon: Icons.campaign_rounded,
         color: AppColors.warning,
         type: 'announcement',
@@ -381,68 +384,68 @@ class TreasurerHomeScreen extends StatelessWidget {
     ];
   }
 
-  List<TabData> _getTreasurerTabs(BuildContext context) {
+  List<TabData> _getTreasurerTabs(BuildContext context, AppLocalizations l10n) {
     return [
       TabData(
-        label: 'Iuran',
+        label: l10n.dues,
         icon: Icons.payments_rounded,
         hasNotification: true,
         items: [
           MenuItem(
-            label: 'Kelola Iuran',
+            label: l10n.manageDues,
             icon: Icons.payments_rounded,
             onTap: () => context.push('/treasurer/dues'),
             badge: '2',
           ),
           MenuItem(
-            label: 'Buat Kwitansi',
+            label: l10n.createReceipt,
             icon: Icons.receipt_rounded,
             onTap: () => context.push('/treasurer/create-receipt'),
           ),
           MenuItem(
-            label: 'Tagihan Tertunda',
+            label: l10n.pendingBills,
             icon: Icons.pending_actions_rounded,
             onTap: () => context.push('/treasurer/pending-bills'),
           ),
         ],
       ),
       TabData(
-        label: 'Transaksi',
+        label: l10n.transactions,
         icon: Icons.receipt_long_rounded,
         items: [
           MenuItem(
-            label: 'Riwayat Transaksi',
+            label: l10n.transactionHistory,
             icon: Icons.receipt_long_rounded,
             onTap: () => context.push('/treasurer/transaction/history'),
           ),
           MenuItem(
-            label: 'Catat Pemasukan',
+            label: l10n.recordIncome,
             icon: Icons.add_circle_outline,
             onTap: () => context.push('/treasurer/incomes'),
           ),
           MenuItem(
-            label: 'Catat Pengeluaran',
+            label: l10n.recordExpense,
             icon: Icons.remove_circle_outline,
             onTap: () => context.push('/treasurer/expenses'),
           ),
         ],
       ),
       TabData(
-        label: 'Laporan',
+        label: l10n.reports,
         icon: Icons.analytics_rounded,
         items: [
           MenuItem(
-            label: 'Laporan Keuangan',
+            label: l10n.financialReport,
             icon: Icons.description_rounded,
             onTap: () => context.push('/treasurer/financial-report'),
           ),
           MenuItem(
-            label: 'Analisis & Grafik',
+            label: l10n.analysisGraphs,
             icon: Icons.analytics_rounded,
             onTap: () => context.push('/treasurer/analisis'),
           ),
           MenuItem(
-            label: 'Transparansi Dana',
+            label: l10n.fundTransparency,
             icon: Icons.visibility_rounded,
             onTap: () => context.push('/treasurer/transparency'),
           ),
@@ -451,52 +454,52 @@ class TreasurerHomeScreen extends StatelessWidget {
     ];
   }
 
-  List<TabData> _getResidentTabs(BuildContext context) {
+  List<TabData> _getResidentTabs(BuildContext context, AppLocalizations l10n) {
     return [
       TabData(
-        label: 'Data Pribadi',
+        label: l10n.personalData,
         icon: Icons.person_rounded,
         items: [
           MenuItem(
-            label: 'Info Kependudukan',
+            label: l10n.populationInfo,
             icon: Icons.person_2_outlined,
             onTap: () => context.push('/resident/community/population'),
           ),
           MenuItem(
-            label: 'Data Keluarga (KK)',
+            label: l10n.familyDataKk,
             icon: Icons.family_restroom,
             onTap: () => context.push('/resident/community/family'),
           ),
           MenuItem(
-            label: 'Data Rumah',
+            label: l10n.houseData,
             icon: Icons.home,
             onTap: () => context.push('/resident/community/home'),
           ),
         ],
       ),
       TabData(
-        label: 'Iuran Saya',
+        label: l10n.myDues,
         icon: Icons.payments_rounded,
         hasNotification: true,
         items: [
           MenuItem(
-            label: 'Bayar Iuran',
+            label: l10n.payDues,
             icon: Icons.payment_rounded,
             onTap: () => context.push('/resident/community/dues'),
             badge: '1',
           ),
           MenuItem(
-            label: 'Riwayat Pembayaran',
+            label: l10n.paymentHistory,
             icon: Icons.history_rounded,
             onTap: () => context.push('/resident/payment-history'),
           ),
           MenuItem(
-            label: 'Kwitansi Digital',
+            label: l10n.digitalReceipts,
             icon: Icons.receipt_long_rounded,
             onTap: () => context.push('/resident/digital-receipts'),
           ),
           MenuItem(
-            label: 'Transparansi Keuangan',
+            label: l10n.financialTransparency,
             icon: Icons.trending_up,
             onTap: () =>
                 context.push('/resident/community/finance-transparency'),
@@ -504,42 +507,42 @@ class TreasurerHomeScreen extends StatelessWidget {
         ],
       ),
       TabData(
-        label: 'Layanan',
+        label: l10n.services,
         icon: Icons.description_rounded,
         items: [
           MenuItem(
-            label: 'Ajukan Surat',
+            label: l10n.submitLetter,
             icon: Icons.description_rounded,
             onTap: () => context.push('/resident/community/documents'),
           ),
           MenuItem(
-            label: 'Lapor Masalah',
+            label: l10n.reportIssue,
             icon: Icons.report_problem_rounded,
             onTap: () => context.push('/resident/report-issue'),
           ),
           MenuItem(
-            label: 'Kirim Saran',
+            label: l10n.sendSuggestion,
             icon: Icons.feedback_rounded,
             onTap: () => context.push('/resident/submit-suggestion'),
           ),
         ],
       ),
       TabData(
-        label: 'Komunitas',
+        label: l10n.community,
         icon: Icons.groups_rounded,
         items: [
           MenuItem(
-            label: 'Pengumuman',
+            label: l10n.announcements,
             icon: Icons.campaign_rounded,
             onTap: () => context.push('/resident/announcements'),
           ),
           MenuItem(
-            label: 'Data Warga',
+            label: l10n.residentsDirectory,
             icon: Icons.people_rounded,
             onTap: () => context.push('/resident/residents-directory'),
           ),
           MenuItem(
-            label: 'Kontak Darurat',
+            label: l10n.emergencyContacts,
             icon: Icons.contact_phone_rounded,
             onTap: () => context.push('/resident/emergency-contacts'),
           ),
@@ -548,16 +551,16 @@ class TreasurerHomeScreen extends StatelessWidget {
     ];
   }
 
-  Widget _buildRecentActivity(BuildContext context) {
+  Widget _buildRecentActivity(BuildContext context, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Aktivitas Terbaru',
-              style: TextStyle(
+            Text(
+              l10n.recentActivity,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textPrimary,
@@ -570,39 +573,45 @@ class TreasurerHomeScreen extends StatelessWidget {
                 minimumSize: const Size(50, 30),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              child: const Text(
-                'Lihat Semua',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              child: Text(
+                l10n.viewAll,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],
         ),
         const SizedBox(height: 12),
         _buildActivityItem(
-          'Iuran RT 03 - Bpk. Ahmad',
+          l10n.duesFrom('03', 'Bpk. Ahmad'),
           'Rp 500.000',
-          '10 menit yang lalu',
+          l10n.minutesAgo(10),
           Icons.arrow_downward_rounded,
           AppColors.success,
           true,
+          l10n,
         ),
         const SizedBox(height: 10),
         _buildActivityItem(
-          'Biaya Kebersihan Lingkungan',
+          l10n.cleaningFee,
           'Rp 300.000',
-          '1 jam yang lalu',
+          l10n.hoursAgo(1),
           Icons.arrow_upward_rounded,
           AppColors.error,
           false,
+          l10n,
         ),
         const SizedBox(height: 10),
         _buildActivityItem(
-          'Iuran RT 07 - Ibu Siti',
+          l10n.duesFrom('07', 'Ibu Siti'),
           'Rp 500.000',
-          '2 jam yang lalu',
+          l10n.hoursAgo(2),
           Icons.arrow_downward_rounded,
           AppColors.success,
           true,
+          l10n,
         ),
       ],
     );
@@ -615,6 +624,7 @@ class TreasurerHomeScreen extends StatelessWidget {
     IconData icon,
     Color color,
     bool isIncome,
+    AppLocalizations l10n,
   ) {
     return Container(
       padding: const EdgeInsets.all(14),
@@ -682,7 +692,7 @@ class TreasurerHomeScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  isIncome ? 'Masuk' : 'Keluar',
+                  isIncome ? l10n.incomeLabel : l10n.expenseLabel,
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,

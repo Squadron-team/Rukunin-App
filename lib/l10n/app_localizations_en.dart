@@ -1343,4 +1343,415 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get personal => 'Personal';
+
+  @override
+  String get welcomeBackGreeting => 'Welcome back!';
+
+  @override
+  String rwChairman(String number) {
+    return 'RW Chairman $number';
+  }
+
+  @override
+  String rtChairman(String rt, String rw) {
+    return 'RT Chairman $rt / RW $rw';
+  }
+
+  @override
+  String rwSummary(String number) {
+    return 'RW $number Summary';
+  }
+
+  @override
+  String rtSummary(String number) {
+    return 'RT $number Summary';
+  }
+
+  @override
+  String get january2024 => 'January 2024';
+
+  @override
+  String get totalRt => 'Total RT';
+
+  @override
+  String get totalResidents => 'Total Residents';
+
+  @override
+  String get rwFunds => 'RW Funds';
+
+  @override
+  String get reports => 'Reports';
+
+  @override
+  String get meetings => 'Meetings';
+
+  @override
+  String get totalKk => 'Total KK';
+
+  @override
+  String get duesPaid => 'Dues Paid';
+
+  @override
+  String get pendingSubmissions => 'Pending';
+
+  @override
+  String reportsNeedAction(int count) {
+    return '$count Reports Need Action';
+  }
+
+  @override
+  String get reportFromResidents =>
+      'There are reports from residents that need action';
+
+  @override
+  String get rwCoordinationMeeting => 'RW Coordination Meeting';
+
+  @override
+  String get rwCommunityService => 'RW Community Service';
+
+  @override
+  String get saturdayDatetime => 'Saturday, January 27, 2024 • 7:00 PM';
+
+  @override
+  String get sundayDatetime => 'Sunday, January 28, 2024 • 7:00 AM';
+
+  @override
+  String get rwChairmanFunctions => 'RW Chairman Functions';
+
+  @override
+  String get manageRwCoordination => 'Manage RW coordination & supervision';
+
+  @override
+  String get residentServices => 'Resident Services';
+
+  @override
+  String get accessResidentFeatures => 'Access features as a resident';
+
+  @override
+  String get rtChairmanFunctions => 'RT Chairman Functions';
+
+  @override
+  String get manageRtAdministration => 'Manage RT administration & residents';
+
+  @override
+  String get manageRt => 'Manage RT';
+
+  @override
+  String get rtList => 'RT List';
+
+  @override
+  String get rtPerformance => 'RT Performance';
+
+  @override
+  String get rwResidentsData => 'RW Residents Data';
+
+  @override
+  String get rwStatistics => 'RW Statistics';
+
+  @override
+  String get activities => 'Activities';
+
+  @override
+  String get rwActivities => 'RW Activities';
+
+  @override
+  String get rwMeetings => 'RW Meetings';
+
+  @override
+  String get createAnnouncement => 'Create Announcement';
+
+  @override
+  String get finance => 'Finance';
+
+  @override
+  String get rwDues => 'RW Dues';
+
+  @override
+  String get rtSummaryFinance => 'RT Summary';
+
+  @override
+  String get financeReport => 'Finance Report';
+
+  @override
+  String get fundTransparency => 'Fund Transparency';
+
+  @override
+  String get manageReports => 'Manage Reports';
+
+  @override
+  String get areaMonitoring => 'Area Monitoring';
+
+  @override
+  String get letterVerification => 'Letter Verification';
+
+  @override
+  String get documentArchive => 'Document Archive';
+
+  @override
+  String get personalData => 'Personal Data';
+
+  @override
+  String get populationInfo => 'Population Info';
+
+  @override
+  String get residentsDirectory => 'Residents Directory';
+
+  @override
+  String get recentActivity => 'Recent Activity';
+
+  @override
+  String cleanlinessReport(String rt) {
+    return 'Cleanliness Report - RT $rt';
+  }
+
+  @override
+  String get needsFollowUp => 'Needs Follow Up';
+
+  @override
+  String hoursAgo(int hours) {
+    return '$hours hours ago';
+  }
+
+  @override
+  String get rtCoordinationMeeting => 'RT Coordination Meeting';
+
+  @override
+  String get scheduled => 'Scheduled';
+
+  @override
+  String rwDuesRt(String rt) {
+    return 'RW Dues - RT $rt';
+  }
+
+  @override
+  String get paid => 'Paid';
+
+  @override
+  String get residents => 'Residents';
+
+  @override
+  String get addResident => 'Add Resident';
+
+  @override
+  String get familyData => 'Family Data';
+
+  @override
+  String get recordMutation => 'Record Mutation';
+
+  @override
+  String get manageDues => 'Manage Dues';
+
+  @override
+  String get rtFunds => 'RT Funds';
+
+  @override
+  String get transactionHistory => 'Transaction History';
+
+  @override
+  String get manageActivities => 'Manage Activities';
+
+  @override
+  String get meetingSchedule => 'Meeting Schedule';
+
+  @override
+  String get letterSubmissions => 'Letter Submissions';
+
+  @override
+  String get rtArea => 'RT Area';
+
+  @override
+  String get rtStatistics => 'RT Statistics';
+
+  @override
+  String newLetterSubmissions(int count) {
+    return '$count New Letter Submissions';
+  }
+
+  @override
+  String get letterRequestsNeedProcessing =>
+      'There are letter requests that need to be processed';
+
+  @override
+  String get rtMeetingThisWeek => 'RT Meeting This Week';
+
+  @override
+  String get fridayDatetime => 'Friday, January 26, 2024 • 7:00 PM';
+
+  @override
+  String get communityServiceNextWeek => 'Community Service Next Week';
+
+  @override
+  String get sundayJan21 => 'Sunday, January 21, 2024 • 7:00 AM';
+
+  @override
+  String monthlyDuesPersonName(String name) {
+    return 'Monthly Dues - $name';
+  }
+
+  @override
+  String minutesAgo(int minutes) {
+    return '$minutes minutes ago';
+  }
+
+  @override
+  String letterSubmissionPersonName(String name) {
+    return 'Letter Submission - $name';
+  }
+
+  @override
+  String get waitingVerification => 'Waiting Verification';
+
+  @override
+  String get streetLightReport => 'Street Light Report';
+
+  @override
+  String idrMillions(String amount) {
+    return 'IDR ${amount}M';
+  }
+
+  @override
+  String secretaryRt(String rt, String rw) {
+    return 'Secretary RT $rt / RW $rw';
+  }
+
+  @override
+  String treasurerRt(String rt, String rw) {
+    return 'Treasurer RT $rt / RW $rw';
+  }
+
+  @override
+  String get administrationAndLetters => 'Administration & Letters';
+
+  @override
+  String get secretaryFunctions => 'Secretary Functions';
+
+  @override
+  String get manageAdminDocs => 'Manage administration & documentation';
+
+  @override
+  String get incomingMail => 'Incoming Mail';
+
+  @override
+  String get mailCompleted => 'Mail Completed';
+
+  @override
+  String get documents => 'Documents';
+
+  @override
+  String lettersNeedProcessing(int count) {
+    return '$count Letters Need Processing';
+  }
+
+  @override
+  String get letterRequestsToFollow =>
+      'There are letter requests that need to be followed up';
+
+  @override
+  String get coordinationMeetingThisWeek => 'Coordination Meeting This Week';
+
+  @override
+  String get letters => 'Letters';
+
+  @override
+  String get createLetter => 'Create Letter';
+
+  @override
+  String get outgoingMail => 'Outgoing Mail';
+
+  @override
+  String get letterTemplates => 'Letter Templates';
+
+  @override
+  String get minutes => 'Minutes';
+
+  @override
+  String get meetingInvitations => 'Meeting Invitations';
+
+  @override
+  String get monthlyReports => 'Monthly Reports';
+
+  @override
+  String get letterHistory => 'Letter History';
+
+  @override
+  String domicileLetter(String name) {
+    return 'Domicile Letter - $name';
+  }
+
+  @override
+  String get approved => 'Approved';
+
+  @override
+  String letterRequest(String name) {
+    return 'Letter Request - $name';
+  }
+
+  @override
+  String get treasurerFunctions => 'Treasurer Functions';
+
+  @override
+  String get manageRtRwFinance => 'Manage RT/RW finance';
+
+  @override
+  String get cashBalance => 'Cash Balance RT/RW';
+
+  @override
+  String get income => 'Income';
+
+  @override
+  String get expense => 'Expense';
+
+  @override
+  String get paidStatus => 'Paid';
+
+  @override
+  String get notYetPaid => 'Not Yet Paid';
+
+  @override
+  String get transactions => 'Transactions';
+
+  @override
+  String get duesPaymentDeadline => 'Dues Payment Deadline';
+
+  @override
+  String get deadlineDate => 'Deadline: January 25, 2024';
+
+  @override
+  String get scheduleChangeAnnouncement => 'Schedule change announcement';
+
+  @override
+  String get nightPatrolScheduleUpdated =>
+      'Night patrol schedule has been updated';
+
+  @override
+  String get createReceipt => 'Create Receipt';
+
+  @override
+  String get pendingBills => 'Pending Bills';
+
+  @override
+  String get recordIncome => 'Record Income';
+
+  @override
+  String get recordExpense => 'Record Expense';
+
+  @override
+  String get financialReport => 'Financial Report';
+
+  @override
+  String get analysisGraphs => 'Analysis & Graphs';
+
+  @override
+  String duesFrom(String rt, String name) {
+    return 'Dues RT $rt - $name';
+  }
+
+  @override
+  String get cleaningFee => 'Environmental Cleaning Fee';
+
+  @override
+  String get incomeLabel => 'Income';
+
+  @override
+  String get expenseLabel => 'Expense';
 }
