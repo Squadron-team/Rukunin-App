@@ -343,13 +343,64 @@ class _DataIuranDetailState extends State<DataIuranDetail> {
           child: Stack(
             children: [
               Center(
-                child: Container(
-                  constraints: const BoxConstraints(maxHeight: 600),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: BuktiPembayaranCard(
-                      proofUrl: widget.payment.receiptImageUrl,
-                      height: 600,
+                child: InteractiveViewer(
+                  minScale: 0.5,
+                  maxScale: 4.0,
+                  child: Container(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width - 32,
+                      maxHeight: MediaQuery.of(context).size.height - 100,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(
+                        widget.payment.receiptImageUrl,
+                        fit: BoxFit.contain,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
+                            width: 200,
+                            height: 200,
+                            color: Colors.grey[200],
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                value:
+                                    loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: 200,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.error_outline,
+                                    size: 48,
+                                    color: Colors.red[400],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  const Text(
+                                    'Gagal memuat gambar',
+                                    style: TextStyle(color: Colors.black87),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),

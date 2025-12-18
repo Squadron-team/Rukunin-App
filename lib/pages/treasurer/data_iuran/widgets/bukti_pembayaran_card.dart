@@ -45,22 +45,8 @@ class BuktiPembayaranCard extends StatelessWidget {
               height: height,
               width: double.infinity,
               fit: BoxFit.cover,
-              headers: const {'Access-Control-Allow-Origin': '*'},
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Container(
-                  height: height,
-                  color: Colors.grey[200],
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                          : null,
-                    ),
-                  ),
-                );
-              },
+              cacheWidth: 800,
+              cacheHeight: 800,
               errorBuilder: (context, error, stackTrace) {
                 print('Image load error: $error');
                 return Container(
@@ -120,6 +106,21 @@ class BuktiPembayaranCard extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                );
+              },
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Container(
+                  height: height,
+                  color: Colors.grey[200],
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                          : null,
                     ),
                   ),
                 );
