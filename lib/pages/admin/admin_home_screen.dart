@@ -140,7 +140,7 @@ class AdminHomeScreen extends StatelessWidget {
           MenuItem(
             label: 'Pengaturan Sistem',
             icon: Icons.settings_rounded,
-            onTap: () => context.push('/admin/system-settings'),
+            onTap: () => context.pushNamed('admin-system-settings'),
           ),
           MenuItem(
             label: 'Analitik',
