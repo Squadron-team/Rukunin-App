@@ -144,11 +144,6 @@ class ResidentHomeScreen extends StatelessWidget {
         icon: Icons.groups_rounded,
         items: [
           MenuItem(
-            label: l10n.eventCalendar,
-            icon: Icons.event_rounded,
-            onTap: () => context.push('/resident/event-calendar'),
-          ),
-          MenuItem(
             label: l10n.announcements,
             icon: Icons.campaign_rounded,
             onTap: () => context.push('/resident/announcements'),
