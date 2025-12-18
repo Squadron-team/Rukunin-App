@@ -3,9 +3,14 @@ import 'package:rukunin/theme/app_colors.dart';
 import 'package:rukunin/models/menu_item.dart';
 
 class MenuTabsSection extends StatefulWidget {
+  final String sectionTitle;
   final List<TabData> tabs;
 
-  const MenuTabsSection({required this.tabs, super.key});
+  const MenuTabsSection({
+    required this.sectionTitle,
+    required this.tabs,
+    super.key,
+  });
 
   @override
   State<MenuTabsSection> createState() => _MenuTabsSectionState();
@@ -32,11 +37,11 @@ class _MenuTabsSectionState extends State<MenuTabsSection>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            'Menu Warga',
-            style: TextStyle(
+            widget.sectionTitle,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,

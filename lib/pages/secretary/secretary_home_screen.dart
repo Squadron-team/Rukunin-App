@@ -31,7 +31,10 @@ class SecretaryHomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            MenuTabsSection(tabs: _getMenuTabs(context)),
+            MenuTabsSection(
+              tabs: _getMenuTabs(context),
+              sectionTitle: 'Menu Sekretaris',
+            ),
             const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),

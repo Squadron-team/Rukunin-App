@@ -32,7 +32,10 @@ class ResidentHomeScreen extends StatelessWidget {
             const SizedBox(height: 24),
             CommunityCarousel(items: _getCarouselItems(l10n)),
             const SizedBox(height: 24),
-            MenuTabsSection(tabs: _getMenuTabs(context, l10n)),
+            MenuTabsSection(
+              tabs: _getMenuTabs(context, l10n),
+              sectionTitle: 'Menu Warga',
+            ),
             const SizedBox(height: 24),
           ],
         ),
