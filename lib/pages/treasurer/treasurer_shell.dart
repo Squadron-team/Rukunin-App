@@ -13,8 +13,7 @@ class TreasurerShell extends StatelessWidget {
     if (location == '/treasurer') return 0;
     if (location == '/treasurer/marketplace') return 1;
     if (location == '/treasurer/activities') return 2;
-    if (location == '/treasurer/community') return 3;
-    if (location == '/treasurer/account') return 4;
+    if (location == '/treasurer/account') return 3;
     return 0;
   }
 
@@ -30,9 +29,6 @@ class TreasurerShell extends StatelessWidget {
         context.go('/treasurer/activities');
         break;
       case 3:
-        context.go('/treasurer/community');
-        break;
-      case 4:
         context.go('/treasurer/account');
         break;
     }
@@ -93,19 +89,10 @@ class TreasurerShell extends StatelessWidget {
                 Expanded(
                   child: _buildNavItem(
                     context,
-                    icon: Icons.groups,
-                    label: l10n.navCommunity,
-                    index: 3,
-                    isSelected: currentIndex == 3,
-                  ),
-                ),
-                Expanded(
-                  child: _buildNavItem(
-                    context,
                     icon: Icons.person_rounded,
                     label: l10n.navAccount,
-                    index: 4,
-                    isSelected: currentIndex == 4,
+                    index: 3,
+                    isSelected: currentIndex == 3,
                   ),
                 ),
               ],
